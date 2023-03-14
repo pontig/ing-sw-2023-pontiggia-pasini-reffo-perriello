@@ -7,10 +7,8 @@ import java.util.Collection;
 public class Player {
     private String nickname;
     private PersonalGoal personalGoal;
-    private int personalScore;
     private int firstCommonScore;
     private int secondCommonScore;
-    private int adjacencyScore;
     private Collection<Item> chosenItems;
     private Shelf shelf;
 
@@ -20,19 +18,25 @@ public class Player {
     public String getNickname() {
         return this.nickname;
     }
-    private int computePrivateScore() throws ExecutionControl.NotImplementedException {
+    private int computePersonalScore() throws ExecutionControl.NotImplementedException {
+        throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
+    }
+    private int computeAdjacencyScore() throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
     public int computeFinalScore() {
         return this.firstCommonScore +
                 this.secondCommonScore +
-                this.adjacencyScore +
-                this.computePrivateScore(); // let's keep this unhandled exception for now
+                this.computeAdjacencyScore() + // let's keep this unhandled exception for now
+                this.computePersonalScore(); // let's keep this unhandled exception for now
     }
-    public void checkCommonGoal() throws ExecutionControl.NotImplementedException {
+    public boolean checkCommonGoal() throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
-    public int checkFullShelfOnFreeSpace() throws ExecutionControl.NotImplementedException {
+    public void orderedInsertion(Collection<Item> items, int column) throws ExecutionControl.NotImplementedException {
+        throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
+    }
+    public boolean checkFullShelf() throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
     public Shelf getShelf() {
