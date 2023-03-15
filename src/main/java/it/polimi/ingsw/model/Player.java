@@ -7,39 +7,48 @@ import java.util.Collection;
 public class Player {
     private String nickname;
     private PersonalGoal personalGoal;
+    private Shelf shelf;
     private int firstCommonScore;
     private int secondCommonScore;
-    private Collection<Item> chosenItems;
-    private Shelf shelf;
+    private int endGameToken;
 
-    public Player() throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Class not Implemented yet");
+    public Player(String nickname) {
+        this.nickname = nickname;
+        this.personalGoal = null;
+        this.shelf = new Shelf();
+        this.firstCommonScore = 0;
+        this.secondCommonScore = 0;
+        this.endGameToken = 0;
     }
     public String getNickname() {
         return this.nickname;
     }
-    private int computePersonalScore() throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
+    public PersonalGoal getPersonalGoal() {
+        return this.personalGoal;
     }
-    private int computeAdjacencyScore() throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
-    }
-    public int computeFinalScore() {
-        return this.firstCommonScore +
-                this.secondCommonScore +
-                this.computeAdjacencyScore() + // let's keep this unhandled exception for now
-                this.computePersonalScore(); // let's keep this unhandled exception for now
-    }
-    public boolean checkCommonGoal() throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
-    }
-    public void orderedInsertion(Collection<Item> items, int column) throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
-    }
-    public boolean checkFullShelf() throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
+    public void setPersonalGoal(PersonalGoal personalGoal) {
+        this.personalGoal = personalGoal;
     }
     public Shelf getShelf() {
         return this.shelf;
     }
+    public int getFirstCommonScore() {
+        return this.firstCommonScore;
+    }
+    public void setFirstCommonScore(int firstCommonScore) {
+        this.firstCommonScore = firstCommonScore;
+    }
+    public int getSecondCommonScore() {
+        return this.secondCommonScore;
+    }
+    public void setSecondCommonScore(int secondCommonScore) {
+        this.secondCommonScore = secondCommonScore;
+    }
+    public int getEndGameToken() {
+        return this.endGameToken;
+    }
+    public void setEndGameToken(int endGameToken) {
+        this.endGameToken = endGameToken;
+    }
+
 }

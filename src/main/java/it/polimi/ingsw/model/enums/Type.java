@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.enums;
 
 public enum Type {
-    CATS,
-    BOOKS,
-    GAMES,
-    FRAMES,
-    TROPHIES,
+    CAT,
+    BOOK,
+    GAME,
+    FRAME,
+    TROPHY,
     PLANTS
 }
