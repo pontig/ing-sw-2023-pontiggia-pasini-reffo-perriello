@@ -4,7 +4,7 @@ import jdk.jshell.spi.ExecutionControl;
 
 public class Bag {
 
-    private Collection<Integer> items;
+    private Map<Type, Integer> items;
 
     public Bag() throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Class not Implemented yet");
