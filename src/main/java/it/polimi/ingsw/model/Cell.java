@@ -16,8 +16,7 @@ public class Cell {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
 
-    public void setItem(Type item) throws ExecutionControl.NotImplementedException{
+   public void setItem(Type item) throws ExecutionControl.NotImplementedException{
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
-
 }
