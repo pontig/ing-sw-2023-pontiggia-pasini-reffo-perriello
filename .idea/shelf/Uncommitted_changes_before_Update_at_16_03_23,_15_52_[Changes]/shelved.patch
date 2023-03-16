@@ -1,0 +1,101 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"9d2391c5-12c0-4d94-951f-96b9195afc90\" name=\"Changes\" comment=\"packages setup\">\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Item.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Player.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Round.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Shelf.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Turn.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/enums/StateTurn.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Session.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Session.java\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Class\" />\n        <option value=\"Enum\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">\n    <option name=\"selectedUrlAndAccountId\">\n      <UrlAndAccount>\n        <option name=\"accountId\" value=\"fd17fa43-5299-4b7a-8430-1f6ea8d51406\" />\n        <option name=\"url\" value=\"https://github.com/pontig/ing-sw-2023-pontiggia-pasini-reffo-perriello.git\" />\n      </UrlAndAccount>\n    </option>\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"MavenImportPreferences\">\n    <option name=\"importingSettings\">\n      <MavenImportingSettings>\n        <option name=\"workspaceImportEnabled\" value=\"true\" />\n      </MavenImportingSettings>\n    </option>\n  </component>\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2MobizHveR6lNFUd5nrEzD0wyi7\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\n  }\n}</component>\n  <component name=\"RunManager\">\n    <configuration name=\"Unnamed\" type=\"Application\" factoryName=\"Application\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.example.App\" />\n      <module name=\"ing-sw-2023-pontiggia-pasini-reffo-perriello\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"9d2391c5-12c0-4d94-951f-96b9195afc90\" name=\"Changes\" comment=\"\" />\n      <created>1678437016331</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1678437016331</updated>\n      <workItem from=\"1678437017394\" duration=\"1256000\" />\n      <workItem from=\"1678438290345\" duration=\"624000\" />\n      <workItem from=\"1678439175149\" duration=\"650000\" />\n      <workItem from=\"1678460652444\" duration=\"2726000\" />\n      <workItem from=\"1678721844753\" duration=\"2395000\" />\n      <workItem from=\"1678724631714\" duration=\"3270000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"packages setup\">\n      <created>1678723502092</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1678723502092</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"2\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State>\n              <option name=\"FILTERS\">\n                <map>\n                  <entry key=\"branch\">\n                    <value>\n                      <list>\n                        <option value=\"master\" />\n                      </list>\n                    </value>\n                  </entry>\n                </map>\n              </option>\n            </State>\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"first commit\" />\n    <MESSAGE value=\"packages setup\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"packages setup\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 4459a4337edf0b15959d6558daf85d2cbbb3c67e)
++++ b/.idea/workspace.xml	(date 1678978226619)
+@@ -5,14 +5,8 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="9d2391c5-12c0-4d94-951f-96b9195afc90" name="Changes" comment="packages setup">
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Item.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Player.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Round.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Shelf.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Turn.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/enums/StateTurn.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Match.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Session.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Session.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -22,8 +16,8 @@
+   <component name="FileTemplateManagerImpl">
+     <option name="RECENT_TEMPLATES">
+       <list>
+-        <option value="Class" />
+         <option value="Enum" />
++        <option value="Class" />
+       </list>
+     </option>
+   </component>
+@@ -101,6 +95,9 @@
+       <workItem from="1678460652444" duration="2726000" />
+       <workItem from="1678721844753" duration="2395000" />
+       <workItem from="1678724631714" duration="3270000" />
++      <workItem from="1678790326761" duration="99000" />
++      <workItem from="1678815646204" duration="6000" />
++      <workItem from="1678976404871" duration="1822000" />
+     </task>
+     <task id="LOCAL-00001" summary="packages setup">
+       <created>1678723502092</created>
+Index: src/main/java/it/polimi/ingsw/model/Match.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/model/Match.java b/src/main/java/it/polimi/ingsw/model/Match.java
+new file mode 100644
+--- /dev/null	(date 1678978296199)
++++ b/src/main/java/it/polimi/ingsw/model/Match.java	(date 1678978296199)
+@@ -0,0 +1,45 @@
++package it.polimi.ingsw.model;
++
++import it.polimi.ingsw.model.enums.StateTurn;
++
++import java.util.ArrayList;
++import java.util.List;
++
++public class Match {
++    private List<Player> playerList = new ArrayList<Player>();
++    private Player currentPlayer;
++    private StateTurn playerState;
++    private boolean endGame;
++    private Board board;
++    private CommonGoal fistCommonGoal;
++    private CommonGoal secondCommonGoal;
++
++    public Match(){
++        //imposta i player in gioco
++        //definisce il player corrente
++        //definisce lo stato del turno del player
++        //imposto endGame a 0
++        //fill della board in base al numero di giocatori
++        //selezione dei personal goal e li assegno ai player
++        //assegno ad ogni player una shelf vuota
++        //selezione dei common goal e settaggio dei punti contenuti
++    }
++
++    public void setPlayerList(List<Player> playerList){
++        this.addAll(playerList);
++    }
++    public List<Player> getPlayers(){
++        return playerList;
++    }
++
++    public void setCurrentPlayer(Player currentPlayer){
++
++    }
++    public List<Player> getPlayers(){
++        return playerList;
++    }
++
++
++
++
++}
