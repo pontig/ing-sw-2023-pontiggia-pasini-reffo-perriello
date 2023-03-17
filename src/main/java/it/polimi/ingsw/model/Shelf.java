@@ -28,7 +28,10 @@ public class Shelf {
     private Collection<Integer> decreaseFreeSpace(Collection<Integer>, int column) throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
-    public void putItems(Collection<Item> items, int column) throws ExecutionControl.NotImplementedException {
+    public void insertItem(Item item, int column) throws ExecutionControl.NotImplementedException {
+        throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
+    }
+    public int[] getInsertableColumns(int numItems) throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
 }
