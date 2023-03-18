@@ -6,5 +6,5 @@ public enum Type {
     GAME,
     FRAME,
     TROPHY,
-    PLANTS,
+    PLANT
 }

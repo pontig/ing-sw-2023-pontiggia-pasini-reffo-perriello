@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="148473b8-bfc2-47f1-a5fd-bb936e571909" name="Changes" comment=".idea/workspace.xml gives some problem with git fetching">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_03_2023_12_48__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_03_2023_12_48__Changes_.xml" afterDir="false" />
+    <list default="true" id="148473b8-bfc2-47f1-a5fd-bb936e571909" name="Changes" comment="I just implemented this classes: Bag, Board, Cell and the enum: Type">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Shelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Shelf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Board.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/enums/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/enums/Type.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,7 +63,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -79,7 +79,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="148473b8-bfc2-47f1-a5fd-bb936e571909" name="Changes" comment=".idea/workspace.xml gives some problem with git fetching" />
+      <changelist id="148473b8-bfc2-47f1-a5fd-bb936e571909" name="Changes" comment="I just implemented this classes: Bag, Board, Cell and the enum: Type" />
       <created>1678437016331</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -92,9 +92,8 @@
       <workItem from="1678724631714" duration="3270000" />
       <workItem from="1678789512585" duration="2769000" />
       <workItem from="1678877682756" duration="911000" />
-      <workItem from="1678978512903" duration="136000" />
-      <workItem from="1678978679288" duration="1256000" />
-      <workItem from="1678987011594" duration="1590000" />
+      <workItem from="1678955435452" duration="149000" />
+      <workItem from="1679134378427" duration="617000" />
     </task>
     <task id="LOCAL-00001" summary="packages setup">
       <created>1678723502092</created>
@@ -110,12 +109,12 @@
       <option name="project" value="LOCAL" />
       <updated>1678792195235</updated>
     </task>
-    <task id="LOCAL-00003" summary=".idea/workspace.xml gives some problem with git fetching">
-      <created>1678893118457</created>
+    <task id="LOCAL-00003" summary="I just implemented this classes: Bag, Board, Cell and the enum: Type">
+      <created>1678883774819</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1678893118457</updated>
+      <updated>1678883774819</updated>
     </task>
     <option name="localTasksCounter" value="4" />
     <servers />
@@ -150,7 +149,6 @@
     <MESSAGE value="first commit" />
     <MESSAGE value="packages setup" />
     <MESSAGE value="I just implemented this classes: Bag, Board, Cell and the enum: Type" />
-    <MESSAGE value=".idea/workspace.xml gives some problem with git fetching" />
-    <option name="LAST_COMMIT_MESSAGE" value=".idea/workspace.xml gives some problem with git fetching" />
+    <option name="LAST_COMMIT_MESSAGE" value="I just implemented this classes: Bag, Board, Cell and the enum: Type" />
   </component>
 </project>
