@@ -13,22 +13,21 @@ public class Shelf {
       [0][4] [1][4] [2][4] [3][4] [4][4]
       [0][5] [1][5] [2][5] [3][5] [4][5] ]
     ======================================= */
-    private Collection<Item> items;
-    private Collection<Integer> freeSpace;
+    private Item[][] items;
 
     public Shelf() throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Class not Implemented yet");
     }
-    public Collection<Item> getShelf() throws ExecutionControl.NotImplementedException {
+    public void printShelf() throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
-    public Collection<Integer> getFirstFreePos(int column) throws ExecutionControl.NotImplementedException {
+    public void insertItem(Item item, int column) throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
-    private Collection<Integer> decreaseFreeSpace(Collection<Integer>, int column) throws ExecutionControl.NotImplementedException {
+    public int[] getInsertableColumns(int numItems) throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
-    public void putItems(Collection<Item> items, int column) throws ExecutionControl.NotImplementedException {
+    public int getMaxFreeSpace() throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
 }

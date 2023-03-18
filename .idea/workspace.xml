@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="148473b8-bfc2-47f1-a5fd-bb936e571909" name="Changes" comment=".idea/workspace.xml gives some problem with git fetching">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_03_2023_12_48__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_03_2023_12_48__Changes_.xml" afterDir="false" />
+    <list default="true" id="148473b8-bfc2-47f1-a5fd-bb936e571909" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/enums/Circumnstance.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Shelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Shelf.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/enums/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/enums/Type.java" afterDir="false" />
@@ -18,8 +18,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -34,8 +34,8 @@
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
-        <option name="accountId" value="fd17fa43-5299-4b7a-8430-1f6ea8d51406" />
-        <option name="url" value="https://github.com/pontig/ing-sw-2023-pontiggia-pasini-reffo-perriello.git" />
+        <option name="accountId" value="ae32008c-c6b1-4766-bad5-370385428f1f" />
+        <option name="url" value="https://github.com/pontig/ing-sw-2023-pontiggia-pasini-reffo-perriello" />
       </UrlAndAccount>
     </option>
   </component>
@@ -94,7 +94,14 @@
       <workItem from="1678877682756" duration="911000" />
       <workItem from="1678978512903" duration="136000" />
       <workItem from="1678978679288" duration="1256000" />
-      <workItem from="1678987011594" duration="1590000" />
+      <workItem from="1678987011594" duration="3433000" />
+      <workItem from="1678998350297" duration="1050000" />
+      <workItem from="1678999448833" duration="904000" />
+      <workItem from="1679000618581" duration="329000" />
+      <workItem from="1679044624690" duration="1090000" />
+      <workItem from="1679064490629" duration="1476000" />
+      <workItem from="1679132783136" duration="29000" />
+      <workItem from="1679139798869" duration="1259000" />
     </task>
     <task id="LOCAL-00001" summary="packages setup">
       <created>1678723502092</created>
@@ -117,7 +124,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678893118457</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="adjusted &quot;Shelf&quot; Class of the new UML model file">
+      <created>1678995637294</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1678995637294</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -151,6 +165,7 @@
     <MESSAGE value="packages setup" />
     <MESSAGE value="I just implemented this classes: Bag, Board, Cell and the enum: Type" />
     <MESSAGE value=".idea/workspace.xml gives some problem with git fetching" />
-    <option name="LAST_COMMIT_MESSAGE" value=".idea/workspace.xml gives some problem with git fetching" />
+    <MESSAGE value="adjusted &quot;Shelf&quot; Class of the new UML model file" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjusted &quot;Shelf&quot; Class of the new UML model file" />
   </component>
 </project>
