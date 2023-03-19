@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.commongoal.CommonGoalAbstract;
 import it.polimi.ingsw.model.enums.StateTurn;
 
 import java.util.ArrayList;
@@ -11,8 +12,8 @@ public class Match {
     private StateTurn playerState;
     private boolean endGame;
     private Board board;
-    private CommonGoal fistCommonGoal;
-    private CommonGoal secondCommonGoal;
+    private CommonGoalAbstract firstCommonGoal;
+    private CommonGoalAbstract secondCommonGoal;
 
     public Match(){
         //imposta i player in gioco
@@ -25,20 +26,37 @@ public class Match {
         //selezione dei common goal e settaggio dei punti contenuti
     }
 
+    public List<Player> getPlayers(){
+        return playerList;
+    }
+    public Player getCurrentPlayer() { return currentPlayer; }
+    public StateTurn getPlayerState() { return playerState;}
+    public boolean getEndGame() { return endGame; }
+    public Board getBoard() { return board;}
+    public CommonGoalAbstract getFirstCommonGoal() { return firstCommonGoal; }
+    public CommonGoalAbstract getSecondCommonGoal() { return secondCommonGoal; }
     public void setPlayerList(List<Player> playerList){
-        this.addAll(playerList);
+        this.playerList.addAll(playerList);
     }
-    public List<Player> getPlayers(){
-        return playerList;
-    }
-
     public void setCurrentPlayer(Player currentPlayer){
-
+        this.currentPlayer = currentPlayer;
     }
-    public List<Player> getPlayers(){
-        return playerList;
+    public void setPlayerState(StateTurn playerState) {
+        this.playerState = playerState;
     }
-
+    public void setEndGame(boolean endGame) {
+        this.endGame = endGame;
+    }
+    public void setBoard() {
+        board.fill(getPlayers().size());
+    }
+    // Per i common goal forse meglio fare una lista di due elementi CommonGoal
+    public void setFirstCommonGoal(CommonGoalAbstract firstCommonGoal) {
+        //Selezione randomica id uno dei common goal;
+    }
+    public void getSecondCommonGoal(CommonGoalAbstract secondCommonGoal) {
+        // Selezione randomica di uno dei common goal diverso dal primo
+    }
 
 
 

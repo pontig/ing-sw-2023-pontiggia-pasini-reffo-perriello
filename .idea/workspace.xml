@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="148473b8-bfc2-47f1-a5fd-bb936e571909" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/enums/Circumnstance.java" afterDir="false" />
+    <list default="true" id="148473b8-bfc2-47f1-a5fd-bb936e571909" name="Changes" comment=".idea/workspace.xml gives some problem with git fetching">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commongoal/CommonGoalAbstract.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Shelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Shelf.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/enums/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/enums/Type.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Match.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +18,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -34,8 +34,8 @@
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
-        <option name="accountId" value="ae32008c-c6b1-4766-bad5-370385428f1f" />
-        <option name="url" value="https://github.com/pontig/ing-sw-2023-pontiggia-pasini-reffo-perriello" />
+        <option name="accountId" value="fd17fa43-5299-4b7a-8430-1f6ea8d51406" />
+        <option name="url" value="https://github.com/pontig/ing-sw-2023-pontiggia-pasini-reffo-perriello.git" />
       </UrlAndAccount>
     </option>
   </component>
@@ -63,7 +63,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -79,7 +79,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="148473b8-bfc2-47f1-a5fd-bb936e571909" name="Changes" comment=".idea/workspace.xml gives some problem with git fetching" />
+      <changelist id="9d2391c5-12c0-4d94-951f-96b9195afc90" name="Changes" comment="" />
       <created>1678437016331</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -92,16 +92,6 @@
       <workItem from="1678724631714" duration="3270000" />
       <workItem from="1678789512585" duration="2769000" />
       <workItem from="1678877682756" duration="911000" />
-      <workItem from="1678978512903" duration="136000" />
-      <workItem from="1678978679288" duration="1256000" />
-      <workItem from="1678987011594" duration="3433000" />
-      <workItem from="1678998350297" duration="1050000" />
-      <workItem from="1678999448833" duration="904000" />
-      <workItem from="1679000618581" duration="329000" />
-      <workItem from="1679044624690" duration="1090000" />
-      <workItem from="1679064490629" duration="1476000" />
-      <workItem from="1679132783136" duration="29000" />
-      <workItem from="1679139798869" duration="1259000" />
     </task>
     <task id="LOCAL-00001" summary="packages setup">
       <created>1678723502092</created>
@@ -124,14 +114,7 @@
       <option name="project" value="LOCAL" />
       <updated>1678893118457</updated>
     </task>
-    <task id="LOCAL-00004" summary="adjusted &quot;Shelf&quot; Class of the new UML model file">
-      <created>1678995637294</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1678995637294</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,19 +125,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="master" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -165,7 +136,6 @@
     <MESSAGE value="packages setup" />
     <MESSAGE value="I just implemented this classes: Bag, Board, Cell and the enum: Type" />
     <MESSAGE value=".idea/workspace.xml gives some problem with git fetching" />
-    <MESSAGE value="adjusted &quot;Shelf&quot; Class of the new UML model file" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjusted &quot;Shelf&quot; Class of the new UML model file" />
+    <option name="LAST_COMMIT_MESSAGE" value=".idea/workspace.xml gives some problem with git fetching" />
   </component>
 </project>
