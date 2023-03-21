@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.enums;
 
-public enum Circumnstance {
+public enum Circumstance {
     TWOPLAYERS,
 
     THREEPLAYERS,

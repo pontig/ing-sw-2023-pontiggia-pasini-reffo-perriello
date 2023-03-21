@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Shelf;
 
 import java.util.Stack;
 
@@ -31,6 +32,6 @@ public abstract class CommonGoalAbstract {
         return points.pop();
     }
 
-    public abstract boolean specificGoal(Board board);
+    public abstract boolean specificGoal(Shelf shelf);
 
 }

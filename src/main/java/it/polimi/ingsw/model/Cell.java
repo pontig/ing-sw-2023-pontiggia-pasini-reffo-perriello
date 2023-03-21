@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.enums.Circumnstance;
+import it.polimi.ingsw.model.enums.Circumstance;
 import jdk.jshell.spi.ExecutionControl;
 
 public class Cell {
