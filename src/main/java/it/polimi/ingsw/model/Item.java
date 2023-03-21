@@ -8,4 +8,9 @@ public class Item {
     public Item() throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Class not Implemented yet");
     }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+    public Type getType(){return this.type;}
 }

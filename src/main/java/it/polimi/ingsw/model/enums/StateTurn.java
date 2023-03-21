@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model.enums;
 
 public enum StateTurn {
-    SELECTING,
-    ENDED
+    SELECTION_DONE,
+
+    INSERTION_DONE
 }
 
