@@ -16,11 +16,11 @@ public class Shelf {
     ======================================= */
     private Item[][] items;
     private List<Integer> insertableColumns;
-    private List<items> orderedItems;
+    private List<Item> orderedItems;
     private int columnChosen;
 
-    public Shelf(items) {
-        this.items = new int[5][6];
+    public  Shelf() {
+        this.items= new Item[5][6];
 
         for(int i = 0; i < 6; i++) {
             for(int j = 0; j < 5; j++) {
@@ -28,7 +28,7 @@ public class Shelf {
             }
         }
         for(int k = 0; k < 6; k++) {
-            this.insertableColumns = new ArrayList<>();            //inizialmente posso inserire in tutte le colonne
+            this.insertableColumns = new ArrayList<>();
             this.insertableColumns.add(k);
         }
         this.orderedItems = null;
@@ -40,21 +40,23 @@ public class Shelf {
     public void insertItem(Item item, int column) throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
+    public void setInsertableColumns(int numItems) { this.numItems = numItems; }
 
-    public void setInsertableColumns(int numItems) { this.numItems = numItems;}
-
-    public List<items> getInsertableColumns() {
+    public List<Integer> getInsertableColumns() {
         return this.insertableColumns;
     }
     public int getMaxFreeSpace() throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
-    public void setOrderItem(int posList) { this.posList = posList; }
+    public List<Item> getOrderedItems() {return this.orderedItems; }
+    public void setOrderItem(int posList) { this.orderedItems = posList; }
 
-    public Item[][] getItems(){return this.items;}
 
-    public void setItems(Item[][] items) {
-        this.items = items;
-    }
+    public int getcolumnChosen() { return this.columnChosen; }
+
+    public void setcolumnChosen(int columnChosen) { this.columnChosen = columnChosen; }
+
+    public Item[][] getItems() { return this.items; }
+
+    public void setItems(Item[][] items) { this.items = items; }
 }
-
