@@ -28,35 +28,33 @@ public class Shelf {
             }
         }
         for(int k = 0; k < 6; k++) {
-            this.insertableColumns = new ArrayList<>();
+            this.insertableColumns = new ArrayList<>();            //inizialmente posso inserire in tutte le colonne
             this.insertableColumns.add(k);
         }
         this.orderedItems = null;
         this.columnChosen = -1;
     }
     public void printShelf() throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Method not Implemented yet"),
+        throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
     public void insertItem(Item item, int column) throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
-    public void setInsertableColumns(int numItems) { this.numItems = numItems; }
 
-    public List<Integer> getInsertableColumns() {
+    public void setInsertableColumns(int numItems) { this.numItems = numItems;}
+
+    public List<items> getInsertableColumns() {
         return this.insertableColumns;
     }
     public int getMaxFreeSpace() throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
-    public List<items> getOrderedItems() {return this.orderedItems; }
     public void setOrderItem(int posList) { this.posList = posList; }
 
+    public Item[][] getItems(){return this.items;}
 
-    public int getcolumnChosen() { return this.columnChosen; }
-
-    public void setcolumnChosen(int columnChosen) { this.columnChosen = columnChosen; }
-
-    public Item[][] getItems() { return this.items; }
-
-    public void setItems(Item[][] items) { this.items = items; }
+    public void setItems(Item[][] items) {
+        this.items = items;
+    }
 }
+
