@@ -3,10 +3,9 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.commongoal.CommonGoalAbstract;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 public class ClientApp {
     private Board board;
@@ -71,6 +70,22 @@ public class ClientApp {
             int chosenColumn = 0; // arrivato dalla view
             orderedItems.forEach(e -> player.getShelf().insertItem(e, chosenColumn));
             board.extractPending();
+        }
+    }
+
+    private void initializePersonalGoals() {
+        String data = "";
+        try {
+            File myObj = new File("assets/personalGoals.json");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                System.out.println(data);
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
     }
 }

@@ -10,7 +10,7 @@ import java.util.HashSet;
 
 public class AdjacentDifferentItemsGoal extends CommonGoalAbstract{
     private char direction; // h for horizontal, v for vertical
-    private int variety; // number of didfferent items in a row or column
+    private int variety; // number of dfferent items in a row or column
     private int quantity; // minimum number of rows or columns with the correct variety
     public AdjacentDifferentItemsGoal(int numberPlayers, char direction, int variety, int quantity){
         super(numberPlayers);

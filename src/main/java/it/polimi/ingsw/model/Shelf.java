@@ -16,7 +16,7 @@ public class Shelf {
     ======================================= */
     private Item[][] items;
     private List<Integer> insertableColumns;
-    private List<items> orderedItems;
+    private List<Item> orderedItems;
     private int columnChosen;
 
     public Shelf(items) {
@@ -59,4 +59,26 @@ public class Shelf {
     public Item[][] getItems() { return this.items; }
 
     public void setItems(Item[][] items) { this.items = items; }
+    public ArrayList<ArrayList<Item>> getColumns() {
+        ArrayList<ArrayList<Item>> columns = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            ArrayList<Item> column = new ArrayList<>();
+            for (int j = 0; j < 6; j++) {
+                column.add(items[j][i]);
+            }
+            columns.add(column);
+        }
+        return columns;
+    }
+    public ArrayList<ArrayList<Item>> getRows() {
+        ArrayList<ArrayList<Item>> rows = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            ArrayList<Item> row = new ArrayList<>();
+            for (int j = 0; j < 5; j++) {
+                row.add(items[i][j]);
+            }
+            rows.add(row);
+        }
+        return rows;
+    }
 }

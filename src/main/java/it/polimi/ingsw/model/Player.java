@@ -5,7 +5,7 @@ import jdk.jshell.spi.ExecutionControl;
 import java.util.Collection;
 
 public class Player {
-    private String nickname;
+    private final String nickname;
     private PersonalGoal personalGoal;
     private Shelf shelf;
     private int firstCommonScore;

@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.enums.Type;
 
 import java.util.Set;
 
-public class PersonalGoal {
+final class PersonalGoal {
     private final Set<PG<Integer, Integer, Type>> pg;
     public PersonalGoal(Set<PG<Integer, Integer, Type>> pg) {
         this.pg = pg;
