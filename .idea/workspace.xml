@@ -4,15 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="148473b8-bfc2-47f1-a5fd-bb936e571909" name="Changes" comment="Added attribute &quot;pending&quot; to class Board and methods:selectCell and extractPending">
+    <list default="true" id="cfa1c5ff-22fe-4225-a723-e705fc85ed8f" name="Changes" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;src/main/java/it/polimi/ingsw/model/enums/Type.java">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_03_2023_13_34__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_03_2023_13_34__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_03_2023_09_30__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_03_2023_09_30__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_03_23__15_52__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_03_23__15_52__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_03_2023_11_13__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_03_2023_11_13__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_03_23__13_05__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_03_23__13_05__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Bag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Bag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Cell.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/enums/StateTurn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/enums/StateTurn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Shelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Shelf.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +82,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="148473b8-bfc2-47f1-a5fd-bb936e571909" name="Changes" comment="I just implemented this classes: Bag, Board, Cell and the enum: Type" />
+      <changelist id="cfa1c5ff-22fe-4225-a723-e705fc85ed8f" name="Changes" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;src/main/java/it/polimi/ingsw/model/enums/Type.java" />
       <created>1678437016331</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -96,12 +95,10 @@
       <workItem from="1678724631714" duration="3270000" />
       <workItem from="1678789512585" duration="2769000" />
       <workItem from="1678877682756" duration="911000" />
-      <workItem from="1678955435452" duration="149000" />
-      <workItem from="1679134378427" duration="871000" />
-      <workItem from="1679135409854" duration="132000" />
-      <workItem from="1679149415185" duration="85000" />
-      <workItem from="1679235088383" duration="1162000" />
-      <workItem from="1679400957613" duration="2824000" />
+      <workItem from="1679393763562" duration="1728000" />
+      <workItem from="1679396231899" duration="306000" />
+      <workItem from="1679396561099" duration="3000000" />
+      <workItem from="1679400349065" duration="3531000" />
     </task>
     <task id="LOCAL-00001" summary="packages setup">
       <created>1678723502092</created>
@@ -117,21 +114,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678792195235</updated>
     </task>
-    <task id="LOCAL-00003" summary="I just implemented this classes: Bag, Board, Cell and the enum: Type">
-      <created>1678883774819</created>
+    <task id="LOCAL-00003" summary=".idea/workspace.xml gives some problem with git fetching">
+      <created>1678893118457</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1678883774819</updated>
+      <updated>1678893118457</updated>
     </task>
-    <task id="LOCAL-00004" summary="Added attribute &quot;pending&quot; to class Board and methods:selectCell and extractPending">
-      <created>1679135234657</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1679135234657</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,19 +132,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="master" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -164,7 +142,7 @@
     <MESSAGE value="first commit" />
     <MESSAGE value="packages setup" />
     <MESSAGE value="I just implemented this classes: Bag, Board, Cell and the enum: Type" />
-    <MESSAGE value="Added attribute &quot;pending&quot; to class Board and methods:selectCell and extractPending" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added attribute &quot;pending&quot; to class Board and methods:selectCell and extractPending" />
+    <MESSAGE value=".idea/workspace.xml gives some problem with git fetching" />
+    <option name="LAST_COMMIT_MESSAGE" value=".idea/workspace.xml gives some problem with git fetching" />
   </component>
 </project>
