@@ -22,6 +22,9 @@ public class Board {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
 
+    public Cell selectCell(int x, int y) throws ExecutionControl.NotImplementedException{
+        throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
+    }
     private boolean needToRefill() throws ExecutionControl.NotImplementedException{
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
@@ -30,12 +33,14 @@ public class Board {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
 
+
     public void extractPending() {
         pending.forEach(c -> c.setItem(null)));
         pending.clear();
     }
 
     private boolean freeSide(Cell c) throws ExecutionControl.NotImplementedException{
+
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
     private boolean isInLine(Cell c) throws ExecutionControl.NotImplementedException{
