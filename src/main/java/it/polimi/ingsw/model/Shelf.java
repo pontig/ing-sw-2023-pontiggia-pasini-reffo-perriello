@@ -3,8 +3,6 @@ package it.polimi.ingsw.model;
 import jdk.jshell.spi.ExecutionControl;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.*;
 
 public class Shelf {
@@ -30,7 +28,7 @@ public class Shelf {
             }
         }
         for(int k = 0; k < 6; k++) {
-            this.insertableColumns = new ArrayList<>();            //inizialmente posso inserire in tutte le colonne
+            this.insertableColumns = new ArrayList<>();
             this.insertableColumns.add(k);
         }
         this.orderedItems = null;
@@ -42,35 +40,23 @@ public class Shelf {
     public void insertItem(Item item, int column) throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
-    public int[] setInsertableColumns(int numItems) { this.numItems = numItems; }
+    public void setInsertableColumns(int numItems) { this.numItems = numItems; }
 
-    public List<items> getInsertableColumns() {
-        return insertableColumns;
+    public List<Integer> getInsertableColumns() {
+        return this.insertableColumns;
     }
     public int getMaxFreeSpace() throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
-    public ArrayList<ArrayList<Item>> getColumns() {
-        ArrayList<ArrayList<Item>> columns = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            ArrayList<Item> column = new ArrayList<>();
-            for (int j = 0; j < 6; j++) {
-                column.add(items[j][i]);
-            }
-            columns.add(column);
-        }
-        return columns;
-    }
-    public ArrayList<ArrayList<Item>> getRows() {
-        ArrayList<ArrayList<Item>> rows = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            ArrayList<Item> row = new ArrayList<>();
-            for (int j = 0; j < 5; j++) {
-                row.add(items[i][j]);
-            }
-            rows.add(row);
-        }
-        return rows;
-    }
+    public List<items> getOrderedItems() {return this.orderedItems; }
     public void setOrderItem(int posList) { this.posList = posList; }
+
+
+    public int getcolumnChosen() { return this.columnChosen; }
+
+    public void setcolumnChosen(int columnChosen) { this.columnChosen = columnChosen; }
+
+    public Item[][] getItems() { return this.items; }
+
+    public void setItems(Item[][] items) { this.items = items; }
 }

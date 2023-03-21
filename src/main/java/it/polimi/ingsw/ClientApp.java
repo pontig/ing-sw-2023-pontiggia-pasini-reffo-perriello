@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.commongoal.CommonGoalAbstract;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,7 +12,7 @@ public class ClientApp {
     private Board board;
     private List<Player> players;
     private boolean isMatchOver;
-    private CommonGoal firstCommonGoal, secondCommonGoal;
+    private CommonGoalAbstract firstCommonGoal, secondCommonGoal;
 
     public ClientApp() {
         // iscrizione giocatori
