@@ -19,8 +19,8 @@ public class Shelf {
     private List<Item> orderedItems;
     private int columnChosen;
 
-    public Shelf(items) {
-        this.items = new int[5][6];
+    public  Shelf() {
+        this.items= new Item[5][6];
 
         for(int i = 0; i < 6; i++) {
             for(int j = 0; j < 5; j++) {
@@ -35,7 +35,7 @@ public class Shelf {
         this.columnChosen = -1;
     }
     public void printShelf() throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Method not Implemented yet"),
+        throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
     public void insertItem(Item item, int column) throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
@@ -48,8 +48,8 @@ public class Shelf {
     public int getMaxFreeSpace() throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
-    public List<items> getOrderedItems() {return this.orderedItems; }
-    public void setOrderItem(int posList) { this.posList = posList; }
+    public List<Item> getOrderedItems() {return this.orderedItems; }
+    public void setOrderItem(int posList) { this.orderedItems = posList; }
 
 
     public int getcolumnChosen() { return this.columnChosen; }
