@@ -27,7 +27,12 @@ public class Shelf {
     public int[] getInsertableColumns(int numItems) throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
-    public int getMaxFreeSpace() throws ExecutionControl.NotImplementedException {
+
+    public void insertItem(Item item, int column) throws ExecutionControl.NotImplementedException {
+        throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
+    }
+    public int[] getInsertableColumns(int numItems) throws ExecutionControl.NotImplementedException {
+
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
 }
