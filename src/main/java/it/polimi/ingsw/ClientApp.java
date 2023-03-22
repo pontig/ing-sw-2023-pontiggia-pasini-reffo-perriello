@@ -1,10 +1,13 @@
 package it.polimi.ingsw;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.commongoal.CommonGoalAbstract;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 public class ClientApp {
@@ -73,19 +76,33 @@ public class ClientApp {
         }
     }
 
+    // Initialization of the deck of personal goals
+    private Set<Set<PG>> personalGoals;
     private void initializePersonalGoals() {
-        String data = "";
+        ObjectMapper mapper = new ObjectMapper();
+
+        // Read the json file
+        List<List<PG>> pgList = null;
         try {
-            File myObj = new File("assets/personalGoals.json");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                data += myReader.nextLine();
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+            pgList = mapper.readValue(new File("assets/personalGoals.json"), new TypeReference<List<List<PG>>>() {});
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        System.out.println(data);
+
+        // Convert the list of lists to a set of sets
+        Set<Set<PG>> pgSet = new HashSet<Set<PG>>();
+        for(List<PG> list : pgList) {
+            Set<PG> set = new HashSet<PG>(list);
+            pgSet.add(set);
+        }
+        this.personalGoals = pgSet;
+    }
+
+    // Initialization of the board
+    private void initializeBoard() {
+        objectMapper mapper = new ObjectMapper();
+
+        int[][] board = mapper.readValue(new File("assets/livingroom.json"), int[][].class);
+        this.board = new Board(board);
     }
 }

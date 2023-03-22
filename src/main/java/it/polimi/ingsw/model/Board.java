@@ -11,7 +11,10 @@ public class Board {
 
     private Set<Cell> selectable;
 
-    public Board() throws ExecutionControl.NotImplementedException {
+    public Board(int[][] matrix) throws ExecutionControl.NotImplementedException {
+        // TODO: check if matrix in json is coherent with the board of the actual game
+        // matrix represent the board: for every cell, the value represent the circumstanc (0 for unusable, 2 for two
+        // players etc.)
         throw new ExecutionControl.NotImplementedException("Class not Implemented yet");
     }
 
@@ -38,9 +41,9 @@ public class Board {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
 
-   private void removePendingCellFromBoard() throws ExecutionControl.NotImplementedException{
+    private void removePendingCellFromBoard() throws ExecutionControl.NotImplementedException{
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
-   }
+    }
 
     private boolean needToRefill() throws ExecutionControl.NotImplementedException{
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
