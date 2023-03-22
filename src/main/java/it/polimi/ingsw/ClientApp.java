@@ -79,13 +79,13 @@ public class ClientApp {
             File myObj = new File("assets/personalGoals.json");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                System.out.println(data);
+                data += myReader.nextLine();
             }
             myReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        System.out.println(data);
     }
 }

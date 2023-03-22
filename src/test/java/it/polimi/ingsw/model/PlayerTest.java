@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enums.Type;
-import org.jetbrains.annotations.TestOnly;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -65,6 +64,4 @@ public class PlayerTest {
         player.setEndGameToken(2);
         assert player.getEndGameToken() == 2;
     }
-
-
 }
