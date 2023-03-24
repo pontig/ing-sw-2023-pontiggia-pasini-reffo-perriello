@@ -77,7 +77,7 @@ public class ClientApp {
 
 
     private Set<Set<PG>> personalGoals;
-    private Set<>
+
     private Board board;
     private Set<CommonGoalAbstract> commonGoals;
 
@@ -116,11 +116,12 @@ public class ClientApp {
 
     }
 
-    // Initialization of the deck of common goals
-    private void initializeCommonGoals() {
-
-    }
+    // Initialization of the deck of common goals: it has to be done every match because the score of the
+    // common goals changes on how many players are playing
 
     // Initialization of the bag
+    private void initializeBag() {
+
+    }
 
 }
