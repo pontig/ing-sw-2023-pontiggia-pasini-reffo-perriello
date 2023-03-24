@@ -4,6 +4,9 @@ import jdk.jshell.spi.ExecutionControl;
 
 public class Item {
 
+    // https://www.geeksforgeeks.org/create-immutable-class-java/
+    // questa classe qui sarà immutabile. segui le istruzioni di questo link per capire come funziona
+
     public Type type; //Read only
     public Item() throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Class not Implemented yet");

@@ -12,8 +12,7 @@ public class Board {
     private Set<Cell> selectable;
 
     public Board(int[][] matrix) throws ExecutionControl.NotImplementedException {
-        // TODO: check if matrix in json is coherent with the board of the actual game
-        // matrix represent the board: for every cell, the value represent the circumstanc (0 for unusable, 2 for two
+        // matrix represents the board: for every cell, the value represent the circumstance (0 for unusable, 2 for two
         // players etc.)
         throw new ExecutionControl.NotImplementedException("Class not Implemented yet");
     }

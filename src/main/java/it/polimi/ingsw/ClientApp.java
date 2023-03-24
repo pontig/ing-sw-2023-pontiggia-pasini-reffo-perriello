@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.*;
 
 public class ClientApp {
-    private Board board;
     private List<Player> players;
     private boolean isMatchOver;
     private CommonGoalAbstract firstCommonGoal, secondCommonGoal;
@@ -76,8 +75,13 @@ public class ClientApp {
         }
     }
 
-    // Initialization of the deck of personal goals
+
     private Set<Set<PG>> personalGoals;
+    private Set<>
+    private Board board;
+    private Set<CommonGoalAbstract> commonGoals;
+
+    // Initialization of the deck of personal goals
     private void initializePersonalGoals() {
         ObjectMapper mapper = new ObjectMapper();
 
@@ -100,9 +104,23 @@ public class ClientApp {
 
     // Initialization of the board
     private void initializeBoard() {
-        objectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
 
-        int[][] board = mapper.readValue(new File("assets/livingroom.json"), int[][].class);
+        int[][] board = new int[0][];
+        try {
+            board = mapper.readValue(new File("assets/livingroom.json"), int[][].class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         this.board = new Board(board);
+
     }
+
+    // Initialization of the deck of common goals
+    private void initializeCommonGoals() {
+
+    }
+
+    // Initialization of the bag
+
 }

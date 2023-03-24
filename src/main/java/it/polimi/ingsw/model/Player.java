@@ -5,6 +5,7 @@ import jdk.jshell.spi.ExecutionControl;
 import java.util.Collection;
 
 public class Player {
+    // qui molte cose vanno final: occhio
     private final String nickname;
     private PersonalGoal personalGoal;
     private Shelf shelf;
