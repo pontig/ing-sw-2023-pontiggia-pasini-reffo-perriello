@@ -44,7 +44,7 @@ public class Board {
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
 
-    private boolean needToRefill() throws ExecutionControl.NotImplementedException{
+    public boolean needToRefill() throws ExecutionControl.NotImplementedException{
         throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
     }
 
