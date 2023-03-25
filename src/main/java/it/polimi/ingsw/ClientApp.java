@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.commongoal.CommonGoalAbstract;
+import it.polimi.ingsw.tuples.Triplet;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -76,7 +76,7 @@ public class ClientApp {
     }
 
 
-    private Set<Set<PG>> personalGoals;
+    private Set<Set<Triplet>> personalGoals;
 
     private Board board;
     private Set<CommonGoalAbstract> commonGoals;
@@ -86,17 +86,17 @@ public class ClientApp {
         ObjectMapper mapper = new ObjectMapper();
 
         // Read the json file
-        List<List<PG>> pgList = null;
+        List<List<Triplet>> pgList = null;
         try {
-            pgList = mapper.readValue(new File("assets/personalGoals.json"), new TypeReference<List<List<PG>>>() {});
+            pgList = mapper.readValue(new File("assets/personalGoals.json"), new TypeReference<List<List<Triplet>>>() {});
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         // Convert the list of lists to a set of sets
-        Set<Set<PG>> pgSet = new HashSet<Set<PG>>();
-        for(List<PG> list : pgList) {
-            Set<PG> set = new HashSet<PG>(list);
+        Set<Set<Triplet>> pgSet = new HashSet<Set<Triplet>>();
+        for(List<Triplet> list : pgList) {
+            Set<Triplet> set = new HashSet<Triplet>(list);
             pgSet.add(set);
         }
         this.personalGoals = pgSet;

@@ -81,4 +81,10 @@ public class Shelf {
         }
         return rows;
     }
+    public void setItem(int x, int y, Item item) {
+        this.items[x][y] = item;
+    }
+    public Item getItem(int x, int y) {
+        return this.items[x][y];
+    }
 }

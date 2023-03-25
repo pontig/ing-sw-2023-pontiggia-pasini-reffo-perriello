@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.enums.Type;
 import jdk.jshell.spi.ExecutionControl;
 
 public class Item {
