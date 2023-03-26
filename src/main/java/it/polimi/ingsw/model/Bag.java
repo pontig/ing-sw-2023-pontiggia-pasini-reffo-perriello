@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.enums.Type;
 import jdk.jshell.spi.ExecutionControl;
+
+import java.util.Map;
 
 public class Bag {
 

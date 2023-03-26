@@ -9,7 +9,7 @@ import jdk.jshell.spi.ExecutionControl;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game {
+public class Game{              //extends Observable
     private List<Player> playerList;
     private StateTurn playerState;
     private Player currentPlayer;
@@ -129,12 +129,12 @@ public class Game {
     private void commonGoalCheck() {
         if(getCurrentPlayer().getFirstCommonScore() == 0){
             if(getFirstCommonGoal().specificGoal(getCurrentPlayer().getShelf()))
-                getCurrentPlayer().setFirstCommonScore(getFirstCommonGoal().removePoints());        //=> cambiare takePoints con removepoint e goalObtained con specificGOal
+                getCurrentPlayer().setFirstCommonScore(getFirstCommonGoal().removePoint());        //=> cambiare takePoints con removepoint e goalObtained con specificGOal
         }
 
         if(getCurrentPlayer().getSecondCommonScore() == 0){
             if(getSecondCommonGoal().specificGoal(getCurrentPlayer().getShelf()))
-                getCurrentPlayer().setSecondCommonScore(getSecondCommonGoal().removePoints());        //=> cambiare takePoints con removepoint e goalObtained con specificGOal
+                getCurrentPlayer().setSecondCommonScore(getSecondCommonGoal().removePoint());        //=> cambiare takePoints con removepoint e goalObtained con specificGOal
         }
     }
     private boolean endGameCheck() {                //=> sistemare su UML che ritorna boolean

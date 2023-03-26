@@ -7,31 +7,38 @@ import java.util.Stack;
 
 public abstract class CommonGoalAbstract {
     private Stack<Integer> points;
-
     public CommonGoalAbstract(int numberPlayers){
         points = new Stack<>();
-        switch (numberPlayers){     //si puo fare una lista con i punti e per ogni case un ciclo in modulo che seleziona solo i punti giusti
+        switch (numberPlayers){
             case 2:
-                points.push();
+                points.push(4);
+                points.push(8);
+                break;
 
             case 3:
-                points.push();
+                points.push(4);
+                points.push(6);
+                points.push(8);
+                break;
 
             case 4:
-                points.push();
+                points.push(2);
+                points.push(4);
+                points.push(6);
+                points.push(8);
+                break;
 
             default:
-                //impossibile
+
+                break;
         }
     }
-
-    public Stack<Integer> getPointsLeft(){
+    public Stack<Integer> getPoints(){
         return points;
     }
-    public int removePoints(){
+    public void setPoint(int point) { this.points.push(point); }
+    public int removePoint(){
         return points.pop();
     }
-
     public abstract boolean specificGoal(Shelf shelf);
-
 }
