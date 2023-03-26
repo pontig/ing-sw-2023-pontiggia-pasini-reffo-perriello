@@ -9,8 +9,8 @@ public class Bag {
 
     private Map<Type, Integer> items;
 
-    public Bag() throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Class not Implemented yet");
+    public Bag(Map<Type, Integer> items){
+        this.items = items;
     }
 
     public void setItems(Map<Type, Integer> items) {

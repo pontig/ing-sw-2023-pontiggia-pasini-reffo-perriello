@@ -1,20 +1,19 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enums.Type;
-import jdk.jshell.spi.ExecutionControl;
-
-public class Item {
+final class Item {
 
     // https://www.geeksforgeeks.org/create-immutable-class-java/
     // questa classe qui sarà immutabile. segui le istruzioni di questo link per capire come funziona
 
-    public Type type; //Read only
-    public Item() throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Class not Implemented yet");
+    private final Type type; //Read only
+    private final int variant ;
+
+    public Item(Type type, int variant)  {
+        this.type = type;
+        this.variant = variant;
     }
 
-    public void setType(Type type) {
-        this.type = type;
-    }
     public Type getType(){return this.type;}
+    public int getVariant(){return this.variant;}
 }
