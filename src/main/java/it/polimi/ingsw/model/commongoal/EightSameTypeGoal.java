@@ -16,10 +16,10 @@ import it.polimi.ingsw.model.Shelf;
         public boolean specificGoal(Shelf shelf) throws IllegalArgumentException {
             for (int i = 0; i < 6; i++) {
                 for (int j = 0; j < 5; j++) {
-                    Item itemtest = item[i][j];
+                    Item itemtest = shelf.getItem(i,j);
                     for (int k = 0; k < 6; k++) {
                         for (int h = 0; h < 5; h++) {
-                            if (shelf.item[k][h].equals(shelf.itemtest) && k != i && h != j) {
+                            if (shelf.getItem(k,h).equals(itemtest) && k != i && h != j) {
                                 count++;
                             }
                         }

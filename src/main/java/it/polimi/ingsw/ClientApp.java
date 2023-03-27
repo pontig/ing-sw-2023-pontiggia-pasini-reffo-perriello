@@ -65,12 +65,12 @@ public class ClientApp {
 
         private void secondToc() {
             Set<Item> selected = new HashSet<Item>(); // arrivato dalla view
-            int[] columns = player.getShelf().getInsertableColumns(selected.size());
+            List<Integer> columns = player.getShelf().getInsertableColumns();
             // notifica alla view le colonne selezionabili
             // Observer: ordine degli item e colonna
             List<Item> orderedItems = new ArrayList<Item>(); // arrivato dalla view
             int chosenColumn = 0; // arrivato dalla view
-            orderedItems.forEach(e -> player.getShelf().insertItem(e, chosenColumn));
+            orderedItems.forEach(e -> player.getShelf().insertItems(e, chosenColumn));
             board.extractPending();
         }
     }

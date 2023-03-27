@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.custumclasses;
+package it.polimi.ingsw.tuples;
 
 public class Pair <X, Y>{
     private X x;

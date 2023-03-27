@@ -137,7 +137,7 @@ public class Game{              //extends Observable
                 getCurrentPlayer().setSecondCommonScore(getSecondCommonGoal().removePoint());
         }
     }
-    private boolean endGameCheck() {                /
+    private boolean endGameCheck() {
         if(!getEndGame()){
             if(getCurrentPlayer().getShelf().getMaxFreeSpace() == 0)           //shelf pieno se non ho spazi liberi per le tessere
                 getCurrentPlayer().setEndGameToken(1);

@@ -1,5 +1,4 @@
 package it.polimi.ingsw.model;
-import jdk.jshell.spi.ExecutionControl;
 
 
 import java.util.*;
@@ -16,85 +15,87 @@ public class Shelf {
     private Item[][] items;
     private List<Integer> insertableColumns;
 
-    private List<Item> insertableItems;
-
-
-    public List<Integer> Shelf(Item[][] items, List<Integer> insertableColumns) {
+    public Shelf() {
         this.items = new Item[5][6];
-
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
                 items[i][j] = null;
             }
         }
+        this.insertableColumns = new ArrayList<>();
+    }
 
-        for (int k = 0; k < 6; k++) {
-            this.insertableColumns = new ArrayList<>();
-            this.insertableColumns.add(k);
-        }
+    public Item[][] getItems() {
+        return this.items;
+    }
 
-        public Item[][] getItems () {
-            return this.items;
-        }
+    public void setItems(Item[][] items) {
+        // WARNING: Must be used only for testing purposes
+        this.items = items;
+    }
 
-        public void setItems (Item[][]items){
-            this.items = items;
-        }
-
-        public void insertItem (List < Item > insertableItems,int Column){
-            for (int r = 6; r > 0; r--) {
-                if (items[Column][r] == null) {
-                    int index = 0;
-                    for (int j = r; j > r - insertableItems.size(); j--) {
-                        items[Column][j] = insertableItems.get(index);
-                        index++;
-                    }
+    public void insertItems(List<Item> insertableItems, int Column) {
+        for (int r = 6; r > 0; r--) {
+            if (items[Column][r] == null) {
+                int index = 0;
+                for (int j = r; j > r - insertableItems.size(); j--) {
+                    items[Column][j] = insertableItems.get(index);
+                    index++;
                 }
+            }
+        }
+        this.insertableColumns.clear();
+    }
+
+    public void insertItems(Item item, int column) {
+        for (int r = 6; r > 0; r--) {
+            if (items[column][r] == null) {
+                items[column][r] = item;
+                break;
             }
         }
     }
-        public void setInsertableColumns(int numItems) {
-            int counter = 0;
-            for (Integer i = 0; i < 5; i++) {
-                for (Integer j = 0; j < 6; j++) {
-                    if (items[i][j] == null) {
-                        counter++;
-                    }
-                }
-                if (counter == numItems) {
-                    insertableColumns.add(i);
+
+    public void setInsertableColumns(int numItems) {
+        ArrayList<ArrayList<Item>> columns = this.getColumns();
+        this.insertableColumns = columns.stream().mapToInt(column -> {
+            int count = 0;
+            for (Item item : column) {
+                if (item == null) {
+                    count++;
                 }
             }
-
-
-            public List<Integer> getInsertableColumns (List < Integer > items) {
-                return this.insertableColumns;
-            }
-
-            public Integer getMaxFreeSpace () {
-                Integer countFreeSpace = 0;
-                Integer maxFreeColumn = 0;
-                for (int c = 0; c < 5; c++) {
-                    for (int r = 0; r < 6; r++) {
-                        if (items[c][r] == null) {
-                            countFreeSpace++;
-                        }
-                    }
-                    if (countFreeSpace > maxFreeColumn) {
-                        maxFreeColumn = countFreeSpace;
-                    }
-                }
-                Integer maxFreeSpace = Math.max(Integer maxFreeColumn, Integer 3);
-                return maxFreeSpace;
-            }
+            return count;
+        }).filter(count -> count >= numItems).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
     }
 
-        public void setItem(int x, int y, Item item) {
-            this.items[x][y] = item;
+    public List<Integer> getInsertableColumns() {
+        return this.insertableColumns;
+    }
+
+    public int getMaxFreeSpace() {
+        int countFreeSpace = 0;
+        int maxFreeColumn = 0;
+        for (int c = 0; c < 5; c++) {
+            for (int r = 0; r < 6; r++) {
+                if (items[c][r] == null) {
+                    countFreeSpace++;
+                }
+            }
+            if (countFreeSpace > maxFreeColumn) {
+                maxFreeColumn = countFreeSpace;
+            }
         }
-        public Item getItem(int x, int y) {
-            return this.items[x][y];
-        }
+        return Math.max(maxFreeColumn, 3);
+    }
+
+    public void setItem(int x, int y, Item item) {
+        this.items[x][y] = item;
+    }
+
+    public Item getItem(int x, int y) {
+        return this.items[x][y];
+    }
 
     public ArrayList<ArrayList<Item>> getColumns() {
         ArrayList<ArrayList<Item>> columns = new ArrayList<>();
@@ -107,13 +108,11 @@ public class Shelf {
         }
         return columns;
     }
+
     public ArrayList<ArrayList<Item>> getRows() {
         ArrayList<ArrayList<Item>> rows = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
-            ArrayList<Item> row = new ArrayList<>();
-            for (int j = 0; j < 5; j++) {
-                row.add(items[i][j]);
-            }
+            ArrayList<Item> row = new ArrayList<>(Arrays.asList(items[i]).subList(0, 5));
             rows.add(row);
         }
         return rows;
