@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
-
 import jdk.jshell.spi.ExecutionControl;
+
 
 import java.util.*;
 
@@ -15,49 +15,87 @@ public class Shelf {
     ======================================= */
     private Item[][] items;
     private List<Integer> insertableColumns;
-    private List<Item> orderedItems;
-    private int columnChosen;
 
-    public  Shelf() {
-        this.items= new Item[5][6];
+    private List<Item> insertableItems;
 
-        for(int i = 0; i < 6; i++) {
-            for(int j = 0; j < 5; j++) {
+
+    public List<Integer> Shelf(Item[][] items, List<Integer> insertableColumns) {
+        this.items = new Item[5][6];
+
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
                 items[i][j] = null;
             }
         }
-        for(int k = 0; k < 6; k++) {
+
+        for (int k = 0; k < 6; k++) {
             this.insertableColumns = new ArrayList<>();
             this.insertableColumns.add(k);
         }
-        this.orderedItems = null;
-        this.columnChosen = -1;
+
+        public Item[][] getItems () {
+            return this.items;
+        }
+
+        public void setItems (Item[][]items){
+            this.items = items;
+        }
+
+        public void insertItem (List < Item > insertableItems,int Column){
+            for (int r = 6; r > 0; r--) {
+                if (items[Column][r] == null) {
+                    int index = 0;
+                    for (int j = r; j > r - insertableItems.size(); j--) {
+                        items[Column][j] = insertableItems.get(index);
+                        index++;
+                    }
+                }
+            }
+        }
     }
-    public void printShelf() throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
+        public void setInsertableColumns(int numItems) {
+            int counter = 0;
+            for (Integer i = 0; i < 5; i++) {
+                for (Integer j = 0; j < 6; j++) {
+                    if (items[i][j] == null) {
+                        counter++;
+                    }
+                }
+                if (counter == numItems) {
+                    insertableColumns.add(i);
+                }
+            }
+
+
+            public List<Integer> getInsertableColumns (List < Integer > items) {
+                return this.insertableColumns;
+            }
+
+            public Integer getMaxFreeSpace () {
+                Integer countFreeSpace = 0;
+                Integer maxFreeColumn = 0;
+                for (int c = 0; c < 5; c++) {
+                    for (int r = 0; r < 6; r++) {
+                        if (items[c][r] == null) {
+                            countFreeSpace++;
+                        }
+                    }
+                    if (countFreeSpace > maxFreeColumn) {
+                        maxFreeColumn = countFreeSpace;
+                    }
+                }
+                Integer maxFreeSpace = Math.max(Integer maxFreeColumn, Integer 3);
+                return maxFreeSpace;
+            }
     }
-    public void insertItem(Item item, int column) throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
-    }
-    public void setInsertableColumns(int numItems) { this.numItems = numItems; }
 
-    public List<Integer> getInsertableColumns() {
-        return this.insertableColumns;
-    }
-    public int getMaxFreeSpace() throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
-    }
-    public List<Item> getOrderedItems() {return this.orderedItems; }
-    public void setOrderItem(int posList) { this.orderedItems = posList; }
+        public void setItem(int x, int y, Item item) {
+            this.items[x][y] = item;
+        }
+        public Item getItem(int x, int y) {
+            return this.items[x][y];
+        }
 
-
-    public int getcolumnChosen() { return this.columnChosen; }
-
-    public void setcolumnChosen(int columnChosen) { this.columnChosen = columnChosen; }
-
-    public Item[][] getItems(int i, int j) { return this.items; }
-
-    public void setItems(Item[][] items) { this.items = items; }
     public ArrayList<ArrayList<Item>> getColumns() {
         ArrayList<ArrayList<Item>> columns = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
@@ -80,10 +118,5 @@ public class Shelf {
         }
         return rows;
     }
-    public void setItem(int x, int y, Item item) {
-        this.items[x][y] = item;
-    }
-    public Item getItem(int x, int y) {
-        return this.items[x][y];
-    }
+
 }
