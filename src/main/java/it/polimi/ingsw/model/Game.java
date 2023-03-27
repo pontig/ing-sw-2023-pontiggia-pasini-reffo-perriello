@@ -24,7 +24,7 @@ public class Game{              //extends Observable
     private List<Item> confirmedItems;
     private List<Item> tmpOrderedItems;
     private int columnChosen;
-    private List<Pair<String, Integer>> gameResult;        // da controllare come si usa pair
+    private List<Pair<String, Integer>> gameResult;
     /**
      * costruttore
      **/
@@ -92,8 +92,8 @@ public class Game{              //extends Observable
         //Aggiornamento del player state
     }
 
-    public void orderSelectedItem(int position, int action){        // 0 - deseleziono da tmpOrderedItems, 1 - seleziono da confirmedItems => aggiungere sull'UML l'action
-        Item tmpItem = new Item();
+    public void orderSelectedItem(int position, int action){        // 0 - deseleziono da tmpOrderedItems, 1 - seleziono da confirmedItems
+        Item tmpItem;
 
         if(action == 0){                                            // deselezione
             tmpItem = getTmpOrderedItems().remove(position);             //rimuove e ritorna l'elemento in posizione "position", fa scalare di una posizione tutti gli elementi successivi
@@ -106,7 +106,7 @@ public class Game{              //extends Observable
         setOrderOK(getConfirmedItems().size() == 0 && getTmpOrderedItems().size() == getNumPendingItems());
     }
 
-    public void selectColumn(int column) {                          // => aggiungere int column come argomento
+    public void selectColumn(int column) {
         setColumnChosen(column);
         setColumnOK(getColumnChosen() > -1);
     }
@@ -129,15 +129,15 @@ public class Game{              //extends Observable
     private void commonGoalCheck() {
         if(getCurrentPlayer().getFirstCommonScore() == 0){
             if(getFirstCommonGoal().specificGoal(getCurrentPlayer().getShelf()))
-                getCurrentPlayer().setFirstCommonScore(getFirstCommonGoal().removePoint());        //=> cambiare takePoints con removepoint e goalObtained con specificGOal
+                getCurrentPlayer().setFirstCommonScore(getFirstCommonGoal().removePoint());
         }
 
         if(getCurrentPlayer().getSecondCommonScore() == 0){
             if(getSecondCommonGoal().specificGoal(getCurrentPlayer().getShelf()))
-                getCurrentPlayer().setSecondCommonScore(getSecondCommonGoal().removePoint());        //=> cambiare takePoints con removepoint e goalObtained con specificGOal
+                getCurrentPlayer().setSecondCommonScore(getSecondCommonGoal().removePoint());
         }
     }
-    private boolean endGameCheck() {                //=> sistemare su UML che ritorna boolean
+    private boolean endGameCheck() {                /
         if(!getEndGame()){
             if(getCurrentPlayer().getShelf().getMaxFreeSpace() == 0)           //shelf pieno se non ho spazi liberi per le tessere
                 getCurrentPlayer().setEndGameToken(1);
@@ -163,7 +163,7 @@ public class Game{              //extends Observable
         Pair<String, Integer> partecipant;
         Pair<String, Integer> tmp;
         for(Player p : getPlayerList()){
-            partecipant = new Pair<>(p.getNickname(), p.computeFinalScore());           //=> da cambiare su UML
+            partecipant = new Pair<>(p.getNickname(), p.computeFinalScore());
             if(getGameResult().size() == 0){
                 getGameResult().add(partecipant);
             } else {
