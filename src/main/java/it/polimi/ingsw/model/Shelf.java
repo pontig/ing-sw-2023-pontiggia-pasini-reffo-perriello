@@ -55,7 +55,7 @@ public class Shelf {
 
     public void setcolumnChosen(int columnChosen) { this.columnChosen = columnChosen; }
 
-    public Item[][] getItems(int i, int j) { return this.items; }
+    public Item[][] getItems() { return this.items; }
 
     public void setItems(Item[][] items) { this.items = items; }
     public ArrayList<ArrayList<Item>> getColumns() {

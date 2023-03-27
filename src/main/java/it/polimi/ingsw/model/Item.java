@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enums.Type;
-final class Item {
+public final class Item {
 
     // https://www.geeksforgeeks.org/create-immutable-class-java/
     // questa classe qui sarà immutabile. segui le istruzioni di questo link per capire come funziona

@@ -22,12 +22,11 @@ public class FiveDiagonalGoal extends CommonGoalAbstract {
 
     @Override
     public boolean specificGoal(Shelf shelf) {
-        Item[][] playerShelf = new Item[5][6];
         int counter = 1;
+        Item[][] playerShelf = shelf.getItems();
 
-        playerShelf = shelf.getItems();
         for(int i = 1; i < 5; i++){
-            if(playerShelf[i][i].equals(playerShelf[i-1][i-1]))
+            if(playerShelf[i][i].equals(playerShelf[i-1][i-1]) && playerShelf[i][i] != null)
                 counter++;
         }
         if(counter == 5)
@@ -36,7 +35,7 @@ public class FiveDiagonalGoal extends CommonGoalAbstract {
         counter = 1;
 
         for(int i = 1; i < 5; i++){
-            if(playerShelf[i+1][i].equals(playerShelf[i][i-1]))
+            if(playerShelf[i+1][i].equals(playerShelf[i][i-1]) && playerShelf[i][i] != null)
                 counter++;
         }
         if(counter == 5)
