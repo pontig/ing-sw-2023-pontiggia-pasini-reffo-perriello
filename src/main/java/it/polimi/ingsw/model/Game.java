@@ -2,19 +2,19 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.commongoal.CommonGoalAbstract;
 
-import it.polimi.ingsw.model.custumclasses.Pair;
 import it.polimi.ingsw.model.enums.StateTurn;
+import it.polimi.ingsw.tuples.Pair;
 import jdk.jshell.spi.ExecutionControl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Game{              //extends Observable
-    private List<Player> playerList;
+    private final List<Player> playerList;
     private StateTurn playerState;
     private Player currentPlayer;
-    private CommonGoalAbstract firstCommonGoal;
-    private CommonGoalAbstract secondCommonGoal;
+    private final CommonGoalAbstract firstCommonGoal;
+    private final CommonGoalAbstract secondCommonGoal;
     private Board board;
     private boolean endGame;
     private boolean canConfirmItem;
