@@ -3,7 +3,13 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.enums.Type;
 import jdk.jshell.spi.ExecutionControl;
 
+import java.util.ArrayList;
+
 import java.util.Map;
+
+import java.util.Random;
+
+import java.util.Set;
 
 public class Bag {
 
@@ -19,7 +25,7 @@ public class Bag {
 
     public Map<Type, Integer> getItems(){return this.items;}
 
-    public Item draw() throws ExecutionControl.NotImplementedException{
-        throw new ExecutionControl.NotImplementedException("Method not Implemented yet");
+    public static Item draw(Map<Type, Integer> items) throws ExecutionControl.NotImplementedException{
+        throw new ExecutionControl.NotImplementedException("Method not implemented yet");
     }
 }

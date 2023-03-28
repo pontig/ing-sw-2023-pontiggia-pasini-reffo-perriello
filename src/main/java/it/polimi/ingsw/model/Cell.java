@@ -1,13 +1,12 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enums.Circumstance;
-import jdk.jshell.spi.ExecutionControl;
 
 public class Cell {
     private Item content;
     private Circumstance circumstance;
 
-    public Cell(Item content, Circumstance circumstance){
+    public Cell(Circumstance circumstance){
         this.content = content;
         this.circumstance = circumstance;
     }

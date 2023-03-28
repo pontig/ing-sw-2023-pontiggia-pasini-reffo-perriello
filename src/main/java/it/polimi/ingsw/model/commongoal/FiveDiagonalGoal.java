@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Item;
+
 import it.polimi.ingsw.model.Shelf;
 
 public class FiveDiagonalGoal extends CommonGoalAbstract {
