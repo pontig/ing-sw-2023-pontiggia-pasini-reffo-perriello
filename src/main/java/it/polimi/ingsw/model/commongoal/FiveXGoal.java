@@ -42,9 +42,9 @@ public class FiveXGoal extends CommonGoalAbstract {
         for(Type item: types) {
             for (int r = 0; r < 6; r++) {
                 for (int c = 0; c < 5; c++) {
-                    if (item.equals(playerShelf[r][c].getType()) && item.equals(playerShelf[r][c + 2].getType())
-                            && item.equals(playerShelf[r - 2][c + 2].getType()) && item.equals(playerShelf[r - 2][c].getType())
-                            && item.equals(playerShelf[r + 1][c + 1].getType())) {
+                    if (item.equals(playerShelf[c][r].getType()) && item.equals(playerShelf[c+2][r].getType())
+                            && item.equals(playerShelf[c+2][r-2].getType()) && item.equals(playerShelf[c][r-2].getType())
+                            && item.equals(playerShelf[c + 1][r + 1].getType())) {
                         return true;
                     }
                 }
