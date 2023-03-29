@@ -9,9 +9,8 @@ public class SixCouplesGoal extends CommonGoalAbstract {
     }
 
     public boolean specificGoal(Shelf shelf) throws IllegalArgumentException {
-        int numCouples = 0;
-        Shelf copy = shelf.clone();
-        
+
+
     }
 
 }

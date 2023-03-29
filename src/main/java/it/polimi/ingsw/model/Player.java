@@ -1,9 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.enums.Type;
-
-import java.util.Objects;
-
 public class Player {
     // qui molte cose vanno final: occhio
     private final String nickname;

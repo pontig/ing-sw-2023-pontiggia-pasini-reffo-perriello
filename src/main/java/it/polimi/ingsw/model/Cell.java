@@ -4,10 +4,10 @@ import it.polimi.ingsw.model.enums.Circumstance;
 
 public class Cell {
     private Item content;
-    private Circumstance circumstance;
+    private int circumstance;
 
-    public Cell(Circumstance circumstance){
-        this.content = content;
+    public Cell(int circumstance){
+        this.content = null;
         this.circumstance = circumstance;
     }
 
@@ -15,9 +15,9 @@ public class Cell {
         this.content = content;
     }
     public Item getContent(){return this.content;}
-    public void setCircumstance(Circumstance circumstance) {
+    public void setCircumstance(int circumstance) {
         this.circumstance = circumstance;
     }
-    public Circumstance getCircumstance(){return this.circumstance;}
+    public int getCircumstance(){return this.circumstance;}
 }
 

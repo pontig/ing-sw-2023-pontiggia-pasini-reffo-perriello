@@ -146,7 +146,7 @@ public class Game{              //extends Observable
     }
     private void refillBoard() {
         if(getBoard().needToRefill()){
-            getBoard().fill(getPlayerList().size());
+            getBoard().fill(getPlayerList().size(), bag);
         }
     }
 
