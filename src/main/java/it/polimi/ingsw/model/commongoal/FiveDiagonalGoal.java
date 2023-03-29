@@ -8,24 +8,23 @@ public class FiveDiagonalGoal extends CommonGoalAbstract {
     public FiveDiagonalGoal(int numberPlayers){ super(numberPlayers); }
 
     /*
-         0 1 2 3 4
-       0 b x x x x
-       1 a b x x x
-       2 x a b x x
-       3 x x a b x
-       4 x x x a b
-       5 x x x x a
+         0 1 2 3 4           0 1 2 3 4
+       0 b x x x x         0 x x x x b
+       1 a b x x x         1 x x x b a
+       2 x a b x x         2 x x b a x
+       3 x x a b x         3 x b a x x
+       4 x x x a b         4 b a x x x
+       5 x x x x a         5 a x x x x
 
-        [column, row]
-       {[0,0], [1,1], [2,2], [3,3], [4,4]}
-       {[0,1], [1,2], [2,3], [3,4], [4,5]}
     */
 
     @Override
     public boolean specificGoal(Shelf shelf) {
         int counter = 1;
+        int j;
         Item[][] playerShelf = shelf.getItems();
 
+        //b diagonal left to right
         for(int i = 1; i < 5; i++){
             if(playerShelf[i][i].equals(playerShelf[i-1][i-1]) && playerShelf[i][i] != null)
                 counter++;
@@ -34,10 +33,32 @@ public class FiveDiagonalGoal extends CommonGoalAbstract {
             return true;
 
         counter = 1;
-
+        //a diagonal from left to right
         for(int i = 1; i < 5; i++){
             if(playerShelf[i+1][i].equals(playerShelf[i][i-1]) && playerShelf[i][i] != null)
                 counter++;
+        }
+        if(counter == 5)
+            return true;
+
+        counter = 1;
+        j = 3;
+        // b diagola right to left -> (0,4) (1,3) (2,2) (3,1) (4,0)
+        for(int i = 1; i < 5; i++){
+            if(playerShelf[i][j].equals(playerShelf[i-1][j+1]) && playerShelf[i][i] != null)
+                counter++;
+            j--;
+        }
+        if(counter == 5)
+            return true;
+
+        counter = 1;
+        j = 3;
+        // a diagonal right to left -> (1,4) (2,3) (3,2) (4,1) (5,0)
+        for(int i = 1; i < 5; i++){
+            if(playerShelf[i+1][j].equals(playerShelf[i][j+1]) && playerShelf[i][i] != null)
+                counter++;
+            j--;
         }
         if(counter == 5)
             return true;

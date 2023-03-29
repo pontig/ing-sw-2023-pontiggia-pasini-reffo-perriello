@@ -74,8 +74,6 @@ public class Game{              //extends Observable
     public void setColumnChosen (int columnChosen) { this.columnChosen = columnChosen; }
     public void setGameResult(List<Pair<String, Integer>> gameResult) { this.gameResult = gameResult; }     //=> rimuovere name e score e lasciare string e int UML
     public void setBag(Bag bag) { this.bag = bag; }
-
-    set
     /**
      * metodi
      **/
