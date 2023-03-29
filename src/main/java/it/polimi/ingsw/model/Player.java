@@ -77,17 +77,12 @@ public class Player {
 
     private int adjacentScore() {
         // create a copy of the shelf
-        Shelf copy = new Shelf();
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 4; j++) {
-                copy.setItem(i, j, shelf.getItem(i, j));
-            }
-        }
+        Shelf copy = shelf.clone();
         int res = 0;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 4; j++) {
                 if (copy.getItem(i, j) != null) {
-                    int adj = adjacent(i, j, copy.getItem(i, j).getType(), copy);
+                    int adj = copy.adjacent(i, j, copy.getItem(i, j).getType());
                     if (adj == 3) res += 2;
                     else if (adj == 4) res += 3;
                     else if (adj == 5) res += 5;
@@ -96,19 +91,6 @@ public class Player {
             }
         }
         return res;
-    }
-
-    private int adjacent(int x, int y, Type type, Shelf shelf) {
-        if (x < 0 || x > 4 || y < 0 || y > 3 || shelf.getItem(x, y) == null ||
-                !Objects.equals(shelf.getItem(x, y).getType(), type)) {
-            return 0;
-        } else {
-            shelf.setItem(x, y, null);
-            return 1 + adjacent(x - 1, y, type, shelf)
-                    + adjacent(x + 1, y, type, shelf)
-                    + adjacent(x, y - 1, type, shelf)
-                    + adjacent(x, y + 1, type, shelf);
-        }
     }
 
 }

@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 import jdk.jshell.spi.ExecutionControl;
 
 
+import it.polimi.ingsw.model.enums.Type;
+
 import java.util.*;
 
 public class Shelf {
@@ -24,6 +26,16 @@ public class Shelf {
             }
         }
         this.insertableColumns = new ArrayList<>();
+    }
+
+    public Shelf clone() {
+        Shelf clone = new Shelf();
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 6; j++) {
+                clone.setItem(i, j, this.getItem(i, j));
+            }
+        }
+        return clone;
     }
 
     public Item[][] getItems() {
@@ -117,6 +129,19 @@ public class Shelf {
             rows.add(row);
         }
         return rows;
+    }
+
+    public int adjacent(int x, int y, Type type) {
+        if (x < 0 || x > 4 || y < 0 || y > 3 || this.getItem(x, y) == null ||
+                !Objects.equals(this.getItem(x, y).getType(), type)) {
+            return 0;
+        } else {
+            this.setItem(x, y, null);
+            return 1 + adjacent(x - 1, y, type)
+                    + adjacent(x + 1, y, type)
+                    + adjacent(x, y - 1, type)
+                    + adjacent(x, y + 1, type);
+        }
     }
 
 }

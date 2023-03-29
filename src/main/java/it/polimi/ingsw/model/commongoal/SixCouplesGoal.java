@@ -4,11 +4,14 @@ import it.polimi.ingsw.model.Shelf;
 
 public class SixCouplesGoal extends CommonGoalAbstract {
 
-    public SixCouplesGoal(int numbPlayers) {
-        super(numbPlayers);
+    public SixCouplesGoal(int numberPlayers) {
+        super(numberPlayers);
     }
 
-    public boolean specificGoal(Shelf shelf) throws IllegalArgumentException{
-
+    public boolean specificGoal(Shelf shelf) throws IllegalArgumentException {
+        int numCouples = 0;
+        Shelf copy = shelf.clone();
+        
     }
+
 }
