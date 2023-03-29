@@ -50,6 +50,7 @@ public class Game{              //extends Observable
     public List<Item> getTmpOrderedItems() { return tmpOrderedItems; }
     public int getColumnChosen() { return columnChosen; }
     public List<Pair<String, Integer>> getGameResult() { return gameResult;}
+    public Bag getBag() { return this.bag; }
     /**
      * setter
      **/
@@ -72,6 +73,9 @@ public class Game{              //extends Observable
     public void setTmpOrderedItems(List<Item> tmpOrderedItems) { this.tmpOrderedItems = tmpOrderedItems; }
     public void setColumnChosen (int columnChosen) { this.columnChosen = columnChosen; }
     public void setGameResult(List<Pair<String, Integer>> gameResult) { this.gameResult = gameResult; }     //=> rimuovere name e score e lasciare string e int UML
+    public void setBag(Bag bag) { this.bag = bag; }
+
+    set
     /**
      * metodi
      **/
