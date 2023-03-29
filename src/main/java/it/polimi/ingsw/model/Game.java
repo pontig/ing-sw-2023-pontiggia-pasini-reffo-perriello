@@ -25,6 +25,7 @@ public class Game{              //extends Observable
     private List<Item> tmpOrderedItems;
     private int columnChosen;
     private List<Pair<String, Integer>> gameResult;
+    private Bag bag;
     /**
      * costruttore
      **/

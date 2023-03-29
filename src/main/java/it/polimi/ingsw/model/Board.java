@@ -44,7 +44,7 @@ public class Board {
         return this.pendingCells;
     }
 
-    public void select(int x, int y) {
+    public int select(int x, int y) {
         boolean sameLineOrColumn = false;
         Pair<Integer, Integer> selectedPair = new Pair<>(x, y);
         int sizePending = pendingCells.size();
@@ -64,13 +64,15 @@ public class Board {
                 }
             }
         }
+        return pendingCells.size();
     }
 
-    public void deselect(int x, int y) {
+    public int deselect(int x, int y) {
         Pair<Integer, Integer> pair = new Pair<>(x, y);
         if (pendingCells.contains(pair)) {
             pendingCells.remove(pair);
         }
+        return pendingCells.size();
     }
 
     public void fill(int numPlayer, Bag bag) {
