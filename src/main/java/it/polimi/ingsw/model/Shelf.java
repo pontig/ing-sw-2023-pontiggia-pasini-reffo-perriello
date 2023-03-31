@@ -48,20 +48,21 @@ public class Shelf {
     }
 
     public void insertItems(List<Item> insertableItems, int Column) {
-        for (int r = 6; r > 0; r--) {
+        for (int r = 5; r >= 0; r--) {
             if (items[Column][r] == null) {
                 int index = 0;
                 for (int j = r; j > r - insertableItems.size(); j--) {
                     items[Column][j] = insertableItems.get(index);
                     index++;
                 }
+                break;
             }
         }
         this.insertableColumns.clear();
     }
 
-    public void insertItems(Item item, int column) {
-        for (int r = 6; r > 0; r--) {
+    public void insertItems2(Item item, int column) {
+        for (int r = 5; r >= 0; r--) {
             if (items[column][r] == null) {
                 items[column][r] = item;
                 break;
@@ -70,17 +71,20 @@ public class Shelf {
     }
 
     public void setInsertableColumns(int numItems) {
-        ArrayList<ArrayList<Item>> columns = this.getColumns();
-        this.insertableColumns = columns.stream().mapToInt(column -> {
-            int count = 0;
-            for (Item item : column) {
-                if (item == null) {
-                    count++;
-                }
+        int count = 0;
+        for(int i = 0; i < 5; i++) {
+            for(int j = 0; j < 6; j++) {
+               if(items[i][j] == null) {
+                   count++;
+               }
+               if(count >= numItems) {
+                   this.insertableColumns.add(i);
+               }
             }
-            return count;
-        }).filter(count -> count >= numItems).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+        }
     }
+
+
 
     public List<Integer> getInsertableColumns() {
         return this.insertableColumns;
@@ -98,8 +102,9 @@ public class Shelf {
             if (countFreeSpace > maxFreeColumn) {
                 maxFreeColumn = countFreeSpace;
             }
+            countFreeSpace = 0;
         }
-        return Math.max(maxFreeColumn, 3);
+        return Math.min(maxFreeColumn, 3);
     }
 
     public void setItem(int x, int y, Item item) {
@@ -115,7 +120,7 @@ public class Shelf {
         for (int i = 0; i < 5; i++) {
             ArrayList<Item> column = new ArrayList<>();
             for (int j = 0; j < 6; j++) {
-                column.add(items[j][i]);
+                column.add(items[i][j]);
             }
             columns.add(column);
         }
