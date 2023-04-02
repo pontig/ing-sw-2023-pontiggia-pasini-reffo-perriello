@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game{              //extends Observable
-    private final List<Player> playerList;
+    private List<Player> playerList;
     private StateTurn playerState;
     private Player currentPlayer;
-    private final CommonGoalAbstract firstCommonGoal;
-    private final CommonGoalAbstract secondCommonGoal;
+    private CommonGoalAbstract firstCommonGoal;
+    private CommonGoalAbstract secondCommonGoal;
     private Board board;
     private boolean endGame;
     private boolean canConfirmItem;
@@ -29,8 +29,17 @@ public class Game{              //extends Observable
     /**
      * costruttore
      **/
-    public Game() throws ExecutionControl.NotImplementedException{
-        throw new ExecutionControl.NotImplementedException("Class not Implemented yet");
+    public Game() {
+        endGame = false;
+        canConfirmItem = false;
+        orderOK = false;
+        columnOK = false;
+        numPendingItems = 0;
+        confirmedItems = new ArrayList<>();
+        tmpOrderedItems = new ArrayList<>();
+        columnChosen = 0;
+        gameResult = new ArrayList<>();
+        bag = new Bag();
     }
     /**
      * getter

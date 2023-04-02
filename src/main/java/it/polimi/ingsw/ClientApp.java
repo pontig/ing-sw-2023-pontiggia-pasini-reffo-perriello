@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class ClientApp {
-    private List<Player> players;
+  /*  private List<Player> players;
     private boolean isMatchOver;
     private CommonGoalAbstract firstCommonGoal, secondCommonGoal;
 
@@ -122,6 +122,6 @@ public class ClientApp {
     // Initialization of the bag
     private void initializeBag() {
 
-    }
+    } */
 
 }
