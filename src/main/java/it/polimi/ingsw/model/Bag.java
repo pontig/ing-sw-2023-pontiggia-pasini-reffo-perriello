@@ -3,7 +3,9 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.enums.Type;
 
 import java.util.HashMap;
+
 import java.util.Map;
+
 import java.util.Random;
 
 
@@ -31,8 +33,8 @@ public class Bag {
         Random generator = new Random();
         Object[] values;
         values = items.keySet().toArray();
-        Item rendomItem = (Item) values[generator.nextInt(values.length)];
-        items.put(rendomItem, items.get(rendomItem) - 1);
-        return rendomItem;
+        Item randomItem = (Item) values[generator.nextInt(values.length)];
+        items.put(randomItem, items.get(randomItem) - 1);
+        return randomItem;
     }
 }
