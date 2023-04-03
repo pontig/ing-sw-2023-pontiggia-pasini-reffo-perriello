@@ -25,6 +25,9 @@ public class FiveDiagonalGoal extends CommonGoalAbstract {
 
         //b diagonal left to right
         for(int i = 1; i < 5; i++){
+            if(playerShelf[i-1][i-1] == null || playerShelf[i][i] == null)
+                break;
+
             if(playerShelf[i][i].getType().equals(playerShelf[i-1][i-1].getType()))
                 counter++;
         }
@@ -34,6 +37,9 @@ public class FiveDiagonalGoal extends CommonGoalAbstract {
         counter = 1;
         //a diagonal from left to right
         for(int i = 1; i < 5; i++){
+            if(playerShelf[i][i-1] == null || playerShelf[i+1][i] == null)
+                break;
+
             if(playerShelf[i+1][i].getType().equals(playerShelf[i][i-1].getType()))
                 counter++;
         }
@@ -44,6 +50,9 @@ public class FiveDiagonalGoal extends CommonGoalAbstract {
         j = 3;
         // b diagola right to left -> (0,4) (1,3) (2,2) (3,1) (4,0)
         for(int i = 1; i < 5; i++){
+            if(playerShelf[i-1][j+1] == null || playerShelf[i][j] == null)
+                break;
+
             if(playerShelf[i][j].getType().equals(playerShelf[i-1][j+1].getType()))
                 counter++;
             j--;
@@ -55,6 +64,9 @@ public class FiveDiagonalGoal extends CommonGoalAbstract {
         j = 3;
         // a diagonal right to left -> (1,4) (2,3) (3,2) (4,1) (5,0)
         for(int i = 1; i < 5; i++){
+            if(playerShelf[i][j+1] == null || playerShelf[i+1][j] == null)
+                break;
+
             if(playerShelf[i+1][j].getType().equals(playerShelf[i][j+1].getType()))
                 counter++;
             j--;
