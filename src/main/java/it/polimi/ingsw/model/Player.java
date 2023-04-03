@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 public class Player {
-    // qui molte cose vanno final: occhio
     private final String nickname;
     private Shelf shelf;
     private final PersonalGoal personalGoal;

@@ -8,17 +8,19 @@ import it.polimi.ingsw.model.enums.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class AdjacentDifferentItemsGoal extends CommonGoalAbstract{
+public class AdjacentDifferentItemsGoal extends CommonGoalAbstract {
     private char direction; // h for horizontal, v for vertical
     private int variety; // number of different items in a row or column
     private int quantity; // minimum number of rows or columns with the correct variety
-    public AdjacentDifferentItemsGoal(int numberPlayers, char direction, int variety, int quantity){
+
+    public AdjacentDifferentItemsGoal(int numberPlayers, char direction, int variety, int quantity) {
         super(numberPlayers);
         this.direction = direction;
         this.variety = variety;
         this.quantity = quantity;
     }
-    private boolean checkVariety(Item i, HashSet<Item> set) {
+
+    private boolean checkVariety(Type i, HashSet<Type> set) {
         switch (variety) {
             case 3:
                 if (set.contains(i))
@@ -32,6 +34,7 @@ public class AdjacentDifferentItemsGoal extends CommonGoalAbstract{
                 return true;
         }
     }
+
     @Override
     public boolean specificGoal(Shelf shelf) throws IllegalArgumentException {
         ArrayList<ArrayList<Item>> set; // set of rows or columns to cycle through
@@ -46,20 +49,20 @@ public class AdjacentDifferentItemsGoal extends CommonGoalAbstract{
             default:
                 throw new IllegalArgumentException("Direction must be 'h' or 'v'");
         }
-        for (ArrayList<Item> l: set) {
+        for (ArrayList<Item> l : set) {
             boolean isCorrectForNow = true;
-            HashSet<Item> uniqueItems = new HashSet<>();
-            for (Item i: l) {
+            HashSet<Type> uniqueItems = new HashSet<>();
+            for (Item i : l) {
                 if (i == null) {
+                    isCorrectForNow = false;
                     break;
                 }
-                isCorrectForNow = checkVariety(i, uniqueItems);
-                if (isCorrectForNow) {
-                    count++;
-                } else {
+                isCorrectForNow = checkVariety(i.getType(), uniqueItems);
+                if (!isCorrectForNow) {
                     break;
                 }
             }
+            if (isCorrectForNow) count++;
         }
         return count >= quantity;
     }
