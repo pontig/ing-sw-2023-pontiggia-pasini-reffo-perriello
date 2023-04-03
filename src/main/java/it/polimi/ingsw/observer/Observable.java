@@ -1,8 +1,6 @@
 package it.polimi.ingsw.observer;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/*
 public class Observable {
     private final List<Observer> observers = new ArrayList<>();
 
@@ -17,4 +15,4 @@ public class Observable {
             observer.update(message);
         }
     }
-}
+}*/

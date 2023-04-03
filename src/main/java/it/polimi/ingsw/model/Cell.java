@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.enums.Circumstance;
-
 public class Cell {
     private Item content;
     private int circumstance;
