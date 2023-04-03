@@ -55,10 +55,11 @@ public class Player {
     }
 
     public int computeFinalScore() {
+        int pg = this.personalGoalCheck();
         return this.firstCommonScore
                 + this.secondCommonScore
                 + this.endGameToken
-                + this.personalGoalCheck()
+                + pg
                 + this.adjacentScore();
     }
 
@@ -66,7 +67,7 @@ public class Player {
         int[] pointGrid = new int[]{0, 1, 2, 4, 6, 9, 12};
         int obtained = personalGoal.pg
                 .stream()
-                .mapToInt(a -> shelf.getItem(a._x, a._y).getType() == a._z ? 1 : 0)
+                .mapToInt(a -> (shelf.getItem(a._x, a._y) != null && shelf.getItem(a._x, a._y).getType() == a._z) ? 1 : 0)
                 .sum();
         return pointGrid[obtained];
     }
@@ -76,7 +77,7 @@ public class Player {
         Shelf copy = shelf.clone();
         int res = 0;
         for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 4; j++) {
+            for (int j = 0; j < 6; j++) {
                 if (copy.getItem(i, j) != null) {
                     int adj = copy.adjacent(i, j, copy.getItem(i, j).getType());
                     if (adj == 3) res += 2;

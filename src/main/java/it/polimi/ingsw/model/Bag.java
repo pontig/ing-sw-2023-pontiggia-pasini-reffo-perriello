@@ -31,8 +31,8 @@ public class Bag {
         Random generator = new Random();
         Object[] values;
         values = items.keySet().toArray();
-        Item rendomItem = (Item) values[generator.nextInt(values.length)];
-        items.put(rendomItem, items.get(rendomItem) - 1);
-        return rendomItem;
+        Item randomItem = (Item) values[generator.nextInt(values.length)];
+        items.put(randomItem, items.get(randomItem) - 1);
+        return randomItem;
     }
 }

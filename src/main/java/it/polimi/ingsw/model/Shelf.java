@@ -20,8 +20,8 @@ public class Shelf {
 
     public Shelf() {
         this.items = new Item[5][6];
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 6; j++) {
                 items[i][j] = null;
             }
         }
@@ -132,15 +132,16 @@ public class Shelf {
     }
 
     public int adjacent(int x, int y, Type type) {
-        if (x < 0 || x > 4 || y < 0 || y > 3 || this.getItem(x, y) == null ||
+        if (x < 0 || x > 4 || y < 0 || y > 5 || this.getItem(x, y) == null ||
                 !Objects.equals(this.getItem(x, y).getType(), type)) {
             return 0;
         } else {
             this.setItem(x, y, null);
-            return 1 + adjacent(x - 1, y, type)
-                    + adjacent(x + 1, y, type)
-                    + adjacent(x, y - 1, type)
-                    + adjacent(x, y + 1, type);
+            int up = adjacent(x, y - 1, type);
+            int down = adjacent(x, y + 1, type);
+            int left = adjacent(x - 1, y, type);
+            int right = adjacent(x + 1, y, type);
+            return 1 + up + down + left + right;
         }
     }
 
