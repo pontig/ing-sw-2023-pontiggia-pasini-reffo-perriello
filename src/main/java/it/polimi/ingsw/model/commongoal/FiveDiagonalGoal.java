@@ -48,7 +48,7 @@ public class FiveDiagonalGoal extends CommonGoalAbstract {
 
         counter = 1;
         j = 3;
-        // b diagola right to left -> (0,4) (1,3) (2,2) (3,1) (4,0)
+        // b diagola right to left
         for(int i = 1; i < 5; i++){
             if(playerShelf[i-1][j+1] == null || playerShelf[i][j] == null)
                 break;
@@ -62,7 +62,7 @@ public class FiveDiagonalGoal extends CommonGoalAbstract {
 
         counter = 1;
         j = 3;
-        // a diagonal right to left -> (1,4) (2,3) (3,2) (4,1) (5,0)
+        // a diagonal right to left
         for(int i = 1; i < 5; i++){
             if(playerShelf[i][j+1] == null || playerShelf[i+1][j] == null)
                 break;

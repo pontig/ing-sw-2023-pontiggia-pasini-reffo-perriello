@@ -12,46 +12,6 @@ class FiveDiagonalGoalTest {
     CommonGoalAbstract threePlayers = new FiveDiagonalGoal(3);
     CommonGoalAbstract fourPlayers = new FiveDiagonalGoal(4);
     Shelf playerShelf = new Shelf();
-    /*
-        playerShelf.setItem(0, 0, new Item());
-        playerShelf.setItem(0, 1, new Item());
-        playerShelf.setItem(0, 2, new Item());
-        playerShelf.setItem(0, 3, new Item());
-        playerShelf.setItem(0, 4, new Item());
-        playerShelf.setItem(1, 0, new Item());
-        playerShelf.setItem(1, 1, new Item());
-        playerShelf.setItem(1, 2, new Item());
-        playerShelf.setItem(1, 3, new Item());
-        playerShelf.setItem(1, 4, new Item());
-        playerShelf.setItem(2, 0, new Item());
-        playerShelf.setItem(2, 1, new Item());
-        playerShelf.setItem(2, 2, new Item());
-        playerShelf.setItem(2, 3, new Item());
-        playerShelf.setItem(2, 4, new Item());
-        playerShelf.setItem(3, 0, new Item());
-        playerShelf.setItem(3, 1, new Item());
-        playerShelf.setItem(3, 2, new Item());
-        playerShelf.setItem(3, 3, new Item());
-        playerShelf.setItem(3, 4, new Item());
-        playerShelf.setItem(4, 0, new Item());
-        playerShelf.setItem(4, 1, new Item());
-        playerShelf.setItem(4, 2, new Item());
-        playerShelf.setItem(4, 3, new Item());
-        playerShelf.setItem(4, 4, new Item());
-        playerShelf.setItem(5, 0, new Item());
-        playerShelf.setItem(5, 1, new Item());
-        playerShelf.setItem(5, 2, new Item());
-        playerShelf.setItem(5, 3, new Item());
-        playerShelf.setItem(5, 4, new Item());
-
-         0 1 2 3 4
-       0 b x x x b
-       1 a b x b x
-       2 x a x a x
-       3 x x a b x
-       4 x a x a x
-       5 a x x x x
-     */
 
     @Test
     void specificGoal() {
@@ -214,10 +174,6 @@ class FiveDiagonalGoalTest {
         assertEquals(false, twoPlayers.specificGoal(playerShelf));
         assertEquals(false, threePlayers.specificGoal(playerShelf));
         assertEquals(false, fourPlayers.specificGoal(playerShelf));
-
-
-
-
 
         /*generic shelf true
           0 1 2 3 4
