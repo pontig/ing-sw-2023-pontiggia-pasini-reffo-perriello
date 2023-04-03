@@ -65,7 +65,6 @@ public class SixCouplesGoal extends CommonGoalAbstract {
                     }
                 }
             }
-            System.out.println("Coppie row " + rowFirst);
 
             if(rowFirst >= 6)
                 return true;
@@ -90,7 +89,6 @@ public class SixCouplesGoal extends CommonGoalAbstract {
                     }
                 }
             }
-            System.out.println("Coppie column " + columnFirst);
 
             if(columnFirst >= 6)
                 return true;

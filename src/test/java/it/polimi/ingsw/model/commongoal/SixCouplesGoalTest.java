@@ -19,7 +19,7 @@ class SixCouplesGoalTest {
         assertEquals(false, threePlayers.specificGoal(playerShelf));
         assertEquals(false, fourPlayers.specificGoal(playerShelf));
 
-        System.out.println("  ");
+
         //full shelf one item type (TROPHY)
         playerShelf.clear();
         for(int i = 0; i < 6; i++){
@@ -31,7 +31,7 @@ class SixCouplesGoalTest {
         assertEquals(true, threePlayers.specificGoal(playerShelf));
         assertEquals(true, fourPlayers.specificGoal(playerShelf));
 
-        System.out.println("  ");
+
         //rowFirst less than columnFirst -> Column return true (BOOK)
         playerShelf.clear();
         playerShelf.setItem(0, 0, new Item(BOOK, 1));
@@ -51,7 +51,7 @@ class SixCouplesGoalTest {
         assertEquals(true, threePlayers.specificGoal(playerShelf));
         assertEquals(true, fourPlayers.specificGoal(playerShelf));
 
-        System.out.println("  ");
+
         //rowFirst more than columnFirst -> Row return true (CAT)
         playerShelf.clear();
         playerShelf.setItem(0, 3, new Item(CAT, 1));
@@ -73,8 +73,16 @@ class SixCouplesGoalTest {
         assertEquals(true, threePlayers.specificGoal(playerShelf));
         assertEquals(true, fourPlayers.specificGoal(playerShelf));
 
-        System.out.println("  ");
-        //condition and path coverage (BOOK)
+
+        /* condition and path coverage (BOOK)
+         0 1 2 3 4
+       0 x x x x x
+       1 x x x x x
+       2 x x x x x
+       3 x x x x x
+       4 x x x x x
+       5 x x x x x
+         */
         playerShelf.clear();
         playerShelf.setItem(0, 1, new Item(CAT, 1));
         playerShelf.setItem(0, 2, new Item(BOOK, 1));
