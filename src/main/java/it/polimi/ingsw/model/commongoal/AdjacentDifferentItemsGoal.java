@@ -13,6 +13,13 @@ public class AdjacentDifferentItemsGoal extends CommonGoalAbstract {
     private int variety; // number of different items in a row or column
     private int quantity; // minimum number of rows or columns with the correct variety
 
+    /**
+     * Constructor of AdjacentDifferentItemsGoal
+     * @param numberPlayers number of players
+     * @param direction direction of the rows or columns to check
+     * @param variety number of different items in a row or column
+     * @param quantity minimum number of rows or columns with the correct variety
+     */
     public AdjacentDifferentItemsGoal(int numberPlayers, char direction, int variety, int quantity) {
         super(numberPlayers);
         this.direction = direction;
@@ -20,6 +27,12 @@ public class AdjacentDifferentItemsGoal extends CommonGoalAbstract {
         this.quantity = quantity;
     }
 
+    /**
+     * Checks if the item is already in the set and adds it if it isn't
+     * @param i item to check
+     * @param set set of items to check against
+     * @return if the variety is correct
+     */
     private boolean checkVariety(Type i, HashSet<Type> set) {
         switch (variety) {
             case 3:
@@ -35,6 +48,12 @@ public class AdjacentDifferentItemsGoal extends CommonGoalAbstract {
         }
     }
 
+    /**
+     * Checks if the shelf has the correct number of rows or columns with the correct variety
+     * @param shelf shelf to check
+     * @return if the shelf has the correct number of rows or columns with the correct variety
+     * @throws IllegalArgumentException if the direction is not 'h' or 'v'
+     */
     @Override
     public boolean specificGoal(Shelf shelf) throws IllegalArgumentException {
         ArrayList<ArrayList<Item>> set; // set of rows or columns to cycle through
