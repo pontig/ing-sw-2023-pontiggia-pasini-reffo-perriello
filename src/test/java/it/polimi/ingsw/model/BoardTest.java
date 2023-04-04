@@ -115,7 +115,25 @@ class BoardTest {
 
     @Test
     void removePendingItems() {
+        Board testBoard = new Board();
+        // create a copy of testBoard
+        Board testBoardCopy = new Board();
+        testBoardCopy.setDisposition(testBoard.getDisposition());
+        testBoard.fill(4, new Bag());
+        testBoard.select(0, 4);
+        testBoard.select(0, 5);
 
+        testBoard.removePendingItems();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (i == 0 && (j == 4 || j == 5)) {
+                    assertNull(testBoard.getDisposition()[i][j]);
+                } else {
+                    assertEquals(testBoardCopy.getDisposition()[i][j], testBoard.getDisposition()[i][j]);
+                }
+            }
+        }
+        assertNull(testBoard.getPendingCells());
     }
 
     @Test
@@ -215,42 +233,7 @@ class BoardTest {
     }
 
     @Test
-    void testSetDisposition() {
-    }
-
-    @Test
-    void testGetDisposition() {
-    }
-
-    @Test
     void setCell() {
     }
 
-    @Test
-    void testSetPendingCells() {
-    }
-
-    @Test
-    void testGetPendingCells() {
-    }
-
-    @Test
-    void testSelect() {
-    }
-
-    @Test
-    void testDeselect() {
-    }
-
-    @Test
-    void testFill() {
-    }
-
-    @Test
-    void testRemovePendingItems() {
-    }
-
-    @Test
-    void testNeedToRefill() {
-    }
 }
