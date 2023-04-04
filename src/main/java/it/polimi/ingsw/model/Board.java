@@ -1,12 +1,9 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.tuples.Pair;
-import jdk.jshell.spi.ExecutionControl;
 
 import java.util.ArrayList;
-
 import java.util.List;
-
 import java.util.Set;
 
 
@@ -14,16 +11,27 @@ public class Board {
 
     private Cell[][] disposition;
 
+    private static Cell[][] emptyBoard = new Cell[9][9];
     private Set<Pair<Integer, Integer>> pendingCells;
 
     public Board(int[][] matrix) {
         // matrix represents the board: for every cell, the value represent the circumstance (0 for unusable, 2 for two
         // players etc.)
-        this.disposition = new Cell[9][9];
+        emptyBoard = new Cell[9][9];
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                this.disposition[i][j] = new Cell(matrix[i][j]);
+                emptyBoard[i][j] = new Cell(matrix[i][j]);
+            }
+        }
+    }
+    public Board() {
+        // matrix represents the board: for every cell, the value represent the circumstance (0 for unusable, 2 for two
+        // players etc.)
+        disposition = new Cell[9][9];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                disposition[i][j] = emptyBoard[i][j];
             }
         }
     }

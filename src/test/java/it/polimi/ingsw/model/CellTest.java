@@ -60,9 +60,6 @@ class CellTest {
             }
         }
     }
-
-
-
     @Test
     void getContent(){
         Random rand = new Random();            //Random case

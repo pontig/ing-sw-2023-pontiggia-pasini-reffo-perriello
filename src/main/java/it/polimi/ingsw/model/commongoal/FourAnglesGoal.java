@@ -10,8 +10,14 @@ public class FourAnglesGoal extends CommonGoalAbstract {
         super(numberPlayers);
     }
     public boolean specificGoal(Shelf shelf){
-
-        return(shelf.getItem(0, 0).getType().equals(shelf.getItem(4, 0))) && (shelf.getItem(0, 0).equals(shelf.getItem(4, 5))) && (shelf.getItem(0, 0).equals(shelf.getItem(0, 5)));
-
+        if(shelf.getItem(0, 0) == null || shelf.getItem(4, 0) == null ||  shelf.getItem(4, 5) == null || shelf.getItem(0, 5) == null){
+            return false;
+        }
+        else{
+            if((shelf.getItem(0, 0).getType().equals(shelf.getItem(4, 0).getType())) && (shelf.getItem(0, 0).getType().equals(shelf.getItem(4, 5).getType())) && (shelf.getItem(0, 0).getType().equals(shelf.getItem(0, 5).getType()))){
+                return true;
+            }
+        }
+        return false;
     }
 }

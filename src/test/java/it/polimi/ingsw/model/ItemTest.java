@@ -13,7 +13,7 @@ class ItemTest {
 
     @Test
     void getType() {
-        Random rand = new Random();
+        Random rand = new Random();                         //Random case
         List<Type> types = new ArrayList<>();
         types.add(Type.BOOK);
         types.add(Type.CAT);
@@ -26,7 +26,7 @@ class ItemTest {
         Type randomType = types.get(randomIndex);
         Item randomItem = new Item(randomType, randomVariant);
         assertEquals(randomType, randomItem.getType());
-        for(Type type : types){
+        for(Type type : types){                                   //All cases
             for(int variant = 0; variant < 3; variant++){
                 Item testItem = new Item(type, variant);
                 assertEquals(type, testItem.getType());
@@ -36,7 +36,7 @@ class ItemTest {
 
     @Test
     void getVariant() {
-        Random rand = new Random();
+        Random rand = new Random();                               //Random case
         List<Type> types = new ArrayList<>();
         types.add(Type.BOOK);
         types.add(Type.CAT);
@@ -49,7 +49,7 @@ class ItemTest {
         Type randomType = types.get(randomIndex);
         Item randomItem = new Item(randomType, randomVariant);
         assertEquals(randomVariant, randomItem.getVariant());
-        for(Type type : types){
+        for(Type type : types){                                   //All cases
             for(int variant = 0; variant < 3; variant++){
                 Item testItem = new Item(type, variant);
                 assertEquals(variant, testItem.getVariant());

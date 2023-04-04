@@ -29,8 +29,8 @@ public class FiveDecreasingGoal extends CommonGoalAbstract{
             i = 5;
             for(int count = 5; count > 0; count--){
                 j = 5 - i;
-                if(shelf.getItem(i, j) == null){
-                    if(shelf.getItem(5,0) == null || shelf.getItem(4,1) == null || shelf.getItem(3,2) == null){
+                if(shelf.getItem(j, i) == null){
+                    if(shelf.getItem(0,5) == null || shelf.getItem(1,4) == null || shelf.getItem(2,3) == null){
                         return false;
                     }
                     else{
@@ -44,7 +44,7 @@ public class FiveDecreasingGoal extends CommonGoalAbstract{
             if(leftToRight){
                 for(i = 0; i < 5; i++){
                     for(j = 4 - i; j > -1; j--){
-                        if(shelf.getItem(i, j) != null){
+                        if(shelf.getItem(j, i) != null){
                             return false;
                         }
                     }
@@ -55,7 +55,7 @@ public class FiveDecreasingGoal extends CommonGoalAbstract{
                 j = 0;
                 i = 1;
                 for(int count = 5; count > 0; count--){
-                    if(shelf.getItem(i, j) == null){
+                    if(shelf.getItem(j, i) == null){
                         return false;
                     }
                     else{
@@ -64,8 +64,8 @@ public class FiveDecreasingGoal extends CommonGoalAbstract{
                     }
                 }
                 for(i = 0; i < 5; i++){
-                    for(j = i; j < 5 ; j--){
-                        if(shelf.getItem(i, j) != null){
+                    for(j =i; j < 5 ; j++){
+                        if(shelf.getItem(j, i) != null){
                             return false;
                         }
                     }
@@ -77,8 +77,8 @@ public class FiveDecreasingGoal extends CommonGoalAbstract{
             i = 4;                                         //CASE 3
             for(int count = 5; count > 0; count--){
                 j = 4 - i;
-                if(shelf.getItem(i, j) == null){
-                    if(shelf.getItem(4,0) == null || shelf.getItem(1,3) == null || shelf.getItem(2,2) == null){
+                if(shelf.getItem(j, i) == null){
+                    if(shelf.getItem(0,4) == null || shelf.getItem(3,1) == null || shelf.getItem(2,2) == null){
                         return false;
                     }
                     else{
@@ -92,7 +92,7 @@ public class FiveDecreasingGoal extends CommonGoalAbstract{
             if(leftToRight) {
                 for (i = 0; i < 4; i++) {
                     for (j = 3 - i; j > -1; j--) {
-                        if (shelf.getItem(i, j) != null) {
+                        if (shelf.getItem(j, i) != null) {
                             return false;
                         }
                     }
@@ -103,7 +103,7 @@ public class FiveDecreasingGoal extends CommonGoalAbstract{
                 i = 0;
                 for(int count = 5; count > 0; count--){
                     j = i;
-                    if(shelf.getItem(i, j) == null){
+                    if(shelf.getItem(j, i) == null){
                         return false;
                     }
                     else{
@@ -111,8 +111,8 @@ public class FiveDecreasingGoal extends CommonGoalAbstract{
                     }
                 }
                 for(i = 0; i < 4; i++){
-                    for(j = i + 1; j < 5 ; j--){
-                        if(shelf.getItem(i, j) != null){
+                    for(j = i + 1; j < 5 ; j++){
+                        if(shelf.getItem(j, i) != null){
                             return false;
                         }
                     }
