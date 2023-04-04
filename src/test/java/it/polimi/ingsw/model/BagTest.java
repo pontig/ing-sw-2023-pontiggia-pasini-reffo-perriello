@@ -75,10 +75,10 @@ class BagTest {
         testBag.setItems(itemsInBag);
         Item randomItem = testBag.draw();
         if(randomItem.getVariant() == 0 || randomItem.getVariant() == 1){
-            assertEquals(6, itemsInBag.get(randomItem) - 1);   //CHECK!
+            assertEquals(6, itemsInBag.get(randomItem));   //CHECK!
         }
         else{
-            assertEquals(7, itemsInBag.get(randomItem) - 1);   //CHECK!
+            assertEquals(7, itemsInBag.get(randomItem)-1);   //CHECK!
         }
         for(Item item : items){
             if(randomItem == item){

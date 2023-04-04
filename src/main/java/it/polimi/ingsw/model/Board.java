@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-
-
 public class Board {
 
     private Cell[][] disposition;
@@ -44,8 +42,9 @@ public class Board {
         return this.disposition;
     }
 
-    public void setCell(int x, int y, Item item){
-        this.disposition[y][x].setContent(item);
+    public void setCell(int x, int y, Item item, int cirumstance){
+        this.disposition[y][x] = new Cell(cirumstance);
+        disposition[y][x].setContent(item);
     }
 
     public void setPendingCells(Set<Pair<Integer, Integer>> pendingCells) {
@@ -110,34 +109,39 @@ public class Board {
     }
 
     public boolean needToRefill() {
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                if (disposition[i][j] != null) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (disposition[j][i].getContent() != null) {
                     switch (i) {
                         case 0:
-                            if (disposition[i + 1][j] == null && disposition[i][j - 1] == null && disposition[i][j + 1] == null) {
+                            if (disposition[j + 1][i].getContent() == null && disposition[j][i + 1].getContent() == null && disposition[j - 1][i].getContent() == null) {
                                 return true;
                             }
-                        case 9:
-                            if (disposition[i - 1][j] == null && disposition[i][j - 1] == null && disposition[i][j + 1] == null) {
+                            break;
+                        case 8:
+                            if (disposition[j][i - 1].getContent() == null && disposition[j + 1][i].getContent() == null && disposition[j - 1][i].getContent() == null) {
                                 return true;
                             }
+                            break;
                         default:
                             switch (j) {
                                 case 0:
-                                    if (disposition[i + 1][j] == null && disposition[i - 1][j] == null && disposition[i][j + 1] == null) {
+                                    if (disposition[j][i + 1].getContent() == null && disposition[j][i - 1].getContent() == null && disposition[j + 1][i].getContent() == null) {
                                         return true;
                                     }
-                                case 9:
-                                    if (disposition[i + 1][j] == null && disposition[i - 1][j] == null && disposition[i][j - 1] == null) {
+                                    break;
+                                case 8:
+                                    if (disposition[j][i + 1].getContent() == null && disposition[j][i - 1].getContent() == null && disposition[j - 1][i].getContent() == null) {
                                         return true;
                                     }
+                                    break;
                                 default:
-                                    if (disposition[i + 1][j] == null && disposition[i - 1][j] == null && disposition[i][j + 1] == null && disposition[i][j - 1] == null) {
+                                    if (disposition[j][i + 1].getContent() == null && disposition[j][i - 1].getContent() == null && disposition[j + 1][i].getContent() == null && disposition[j - 1][i].getContent() == null) {
                                         return true;
                                     }
+                                    break;
                             }
-
+                        break;
                     }
                 }
             }
@@ -149,12 +153,12 @@ public class Board {
         if (disposition[x][y] != null) {
             switch (x) {
                 case 0:
-                case 9:
+                case 8:
                     return true;
                 default:
                     switch (y) {
                         case 0:
-                        case 9:
+                        case 8:
                             return true;
                         default:
                             if (disposition[x + 1][y] == null || disposition[x - 1][y] == null || disposition[x][y + 1] == null && disposition[x][y - 1] == null) {
