@@ -83,9 +83,6 @@ public class Shelf {
             }
         }
     }
-
-
-
     public List<Integer> getInsertableColumns() {
         return this.insertableColumns;
     }

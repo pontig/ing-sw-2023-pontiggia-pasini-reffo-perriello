@@ -155,10 +155,34 @@ class ShelfTest {
     void getInsertableColumns() {
         Shelf shelf = new Shelf();
         Random generator = new Random();
-
-
-
+        List<Integer> insertableColumns = new ArrayList<>();
+        for(int i = 0; i < 5; i++) {                                //create Random Shelf
+            int columnLength = generator.nextInt(5);
+            for(int j = 5; j >= columnLength; j--) {
+                shelf.setItem(i, j, new Item(Type.values()[generator.nextInt(Type.values().length)], generator.nextInt(3)));
+            }
+            for(int k = columnLength - 1; k >= 0; k--) {
+                shelf.setItem(i, k, null);
+            }
+          }
+        int numItems = 3;
+        shelf.setInsertableColumns(numItems);
+        insertableColumns = shelf.getInsertableColumns();
+        int counter = 0;
+        for(int i = 0; i < 5; i++) {
+            for(int j = 0; j < 6; j++) {
+                if(shelf.getItem(i, j) == null) {
+                    counter++;
+                }
+            }
+            if(counter >= numItems) {
+                assertTrue(insertableColumns.contains(i));
+            }
         }
+    }
+
+
+
 
     @Test
     void getMaxFreeSpace() {
