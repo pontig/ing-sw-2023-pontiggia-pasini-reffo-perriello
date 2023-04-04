@@ -19,9 +19,9 @@ public class Shelf {
     private List<Integer> insertableColumns;
 
     public Shelf() {
-        this.items = new Item[6][5];
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
+        this.items = new Item[5][6];
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 6; j++) {
                 items[i][j] = null;
             }
         }
@@ -30,8 +30,8 @@ public class Shelf {
 
     public Shelf clone() {
         Shelf clone = new Shelf();
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 6; j++) {
                 clone.setItem(i, j, this.getItem(i, j));
             }
         }
@@ -39,8 +39,8 @@ public class Shelf {
     }
 
     public void clear(){
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 6; j++) {
                 setItem(i, j,null);
             }
         }

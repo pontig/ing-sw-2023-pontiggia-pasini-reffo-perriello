@@ -20,24 +20,6 @@ public class SixCouplesGoal extends CommonGoalAbstract {
         types.add(Type.TROPHY);
     }
 
-    /*
-         0 1 2 3 4                   0 1 2 3 4
-       0 B B x B x    5 rowFirst   0 B B x B x    6 columnFirst
-       1 x x x B b                 1 x x x B b
-       2 x B B x x                 2 x B B x x
-       3 x x B B b                 3 x x B B B
-       4 x x B x x                 4 x x B x x
-       5 x x B b x                 5 x x B B x
-
-         0 1 2 3 4                   0 1 2 3 4
-       0 x x x d d    6 rowFirst   0 x x x d d    5 columnFirst
-       1 x x d d x                 1 x x d d x
-       2 d d x d x                 2 d d x d x
-       3 x d x x d                 3 x d x x d
-       4 x d d d x                 4 x d d d x
-       5 d d x d x                 5 d d x d x
-
-    */
     public boolean specificGoal(Shelf shelf) throws IllegalArgumentException {
         Shelf shelfClone;
         Item[][] playerShelf;
@@ -50,15 +32,15 @@ public class SixCouplesGoal extends CommonGoalAbstract {
             //rowfirst
             for(int i = 0; i < 6; i++){
                 for(int j = 0; j < 5; j++){
-                    if(playerShelf[i][j] != null && playerShelf[i][j].getType().equals(color)){
-                        playerShelf[i][j] = null;
-                        if(j < 4 && playerShelf[i][j+1] != null && playerShelf[i][j+1].getType().equals(color)){
-                            playerShelf[i][j+1] = null;
+                    if(playerShelf[j][i] != null && playerShelf[j][i].getType().equals(color)){
+                        playerShelf[j][i] = null;
+                        if(j < 4 && playerShelf[j+1][i] != null && playerShelf[j+1][i].getType().equals(color)){
+                            playerShelf[j+1][i] = null;
                             rowFirst++;
                             continue;
                         }
-                        else if(i < 5 && playerShelf[i+1][j] != null && playerShelf[i+1][j].getType().equals(color)){
-                            playerShelf[i+1][j] = null;
+                        else if(i < 5 && playerShelf[j][i+1] != null && playerShelf[j][i+1].getType().equals(color)){
+                            playerShelf[j][i+1] = null;
                             rowFirst++;
                             continue;
                         }
@@ -74,15 +56,15 @@ public class SixCouplesGoal extends CommonGoalAbstract {
             //columnfirst
             for(int i = 0; i < 6; i++){
                 for(int j = 0; j < 5; j++){
-                    if(playerShelf[i][j] != null && playerShelf[i][j].getType().equals(color)){
-                        playerShelf[i][j] = null;
-                        if(i < 5 && playerShelf[i+1][j] != null && playerShelf[i+1][j].getType().equals(color)){
-                            playerShelf[i+1][j] = null;
+                    if(playerShelf[j][i] != null && playerShelf[j][i].getType().equals(color)){
+                        playerShelf[j][i] = null;
+                        if(i < 5 && playerShelf[j][i+1] != null && playerShelf[j][i+1].getType().equals(color)){
+                            playerShelf[j][i+1] = null;
                             columnFirst++;
                             continue;
                         }
-                        else if(j < 4 && playerShelf[i][j+1] != null && playerShelf[i][j+1].getType().equals(color)){
-                            playerShelf[i][j+1] = null;
+                        else if(j < 4 && playerShelf[j+1][i] != null && playerShelf[j+1][i].getType().equals(color)){
+                            playerShelf[j+1][i] = null;
                             columnFirst++;
                             continue;
                         }
