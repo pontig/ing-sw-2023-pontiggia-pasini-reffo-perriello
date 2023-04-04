@@ -1,26 +1,23 @@
 package it.polimi.ingsw.model;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+/*import com.fasterxml.jackson.databind.ObjectMapper;*/
+
+import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.tuples.Pair;
 import org.junit.jupiter.api.BeforeAll;
-import it.polimi.ingsw.model.enums.Type;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
 class BoardTest {
     static Board boardToTest;
 
     @BeforeAll
     static void init() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
+        /*ObjectMapper mapper = new ObjectMapper();
         //InputStream inputStream = BoardTest.class.getClassLoader().getResourceAsStream("../assets/livingroom.json");
         int[][] board = new int[0][];
         try {
@@ -28,7 +25,7 @@ class BoardTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        boardToTest = new Board(board);
+        boardToTest = new Board(board);*/
 
     }
 
@@ -139,35 +136,35 @@ class BoardTest {
     @Test
     void needToRefill() {
         Board testBoard =new Board();
-        testBoard.setCell(0,0, new Item(null, 0),0);
-        testBoard.setCell(1,0, new Item(null, 0),0);
-        testBoard.setCell(2,0, new Item(null, 0),0);
-        testBoard.setCell(3,0, new Item(null, 0),0);
+        testBoard.setCell(0,0, null,0);
+        testBoard.setCell(1,0, null,0);
+        testBoard.setCell(2,0, null,0);
+        testBoard.setCell(3,0, null,0);
         testBoard.setCell(4,0, new Item(Type.BOOK, 0),4);
         testBoard.setCell(5,0, new Item(Type.TROPHY, 0),3);
-        testBoard.setCell(6,0, new Item(null, 0),0);
-        testBoard.setCell(7,0, new Item(null, 0),0);
-        testBoard.setCell(8,0, new Item(null, 0),0);
+        testBoard.setCell(6,0, null,0);
+        testBoard.setCell(7,0, null,0);
+        testBoard.setCell(8,0, null,0);
 
-        testBoard.setCell(0,1, new Item(null, 0),0);
-        testBoard.setCell(1,1, new Item(null, 0),0);
-        testBoard.setCell(2,1, new Item(null, 0),0);
+        testBoard.setCell(0,1, null,0);
+        testBoard.setCell(1,1, null,0);
+        testBoard.setCell(2,1, null,0);
         testBoard.setCell(3,1, new Item(Type.PLANTS, 0),4);
         testBoard.setCell(4,1, new Item(Type.CAT, 0),2);
         testBoard.setCell(5,1, new Item(Type.BOOK, 0),2);
-        testBoard.setCell(6,1, new Item(null, 0),0);
-        testBoard.setCell(7,1, new Item(null, 0),0);
-        testBoard.setCell(8,1, new Item(null, 0),0);
+        testBoard.setCell(6,1, null,0);
+        testBoard.setCell(7,1, null,0);
+        testBoard.setCell(8,1, null,0);
 
-        testBoard.setCell(0,2, new Item(null, 0),0);
-        testBoard.setCell(1,2, new Item(null, 0),0);
+        testBoard.setCell(0,2, null,0);
+        testBoard.setCell(1,2, null,0);
         testBoard.setCell(2,2, new Item(Type.PLANTS, 0),3);
         testBoard.setCell(3,2, new Item(Type.CAT, 0),2);
         testBoard.setCell(4,2, new Item(Type.PLANTS, 0),2);
         testBoard.setCell(5,2, new Item(Type.CAT, 0),2);
         testBoard.setCell(6,2, new Item(Type.BOOK, 0),3);
-        testBoard.setCell(7,2, new Item(null, 0),0);
-        testBoard.setCell(8,2, new Item(null, 0),0);
+        testBoard.setCell(7,2, null,0);
+        testBoard.setCell(8,2, null,0);
 
         testBoard.setCell(0,3, new Item(Type.GAME, 0),3);
         testBoard.setCell(1,3, new Item(Type.CAT, 0),2);
@@ -177,7 +174,7 @@ class BoardTest {
         testBoard.setCell(5,3, new Item(Type.PLANTS, 0),2);
         testBoard.setCell(6,3, new Item(Type.CAT, 0),2);
         testBoard.setCell(7,3, new Item(Type.BOOK, 0),4);
-        testBoard.setCell(8,3, new Item(null, 0),0);
+        testBoard.setCell(8,3, null,0);
 
         testBoard.setCell(0,4, new Item(Type.GAME, 0),4);
         testBoard.setCell(1,4, new Item(Type.CAT, 0),2);
@@ -189,7 +186,7 @@ class BoardTest {
         testBoard.setCell(7,4, new Item(Type.BOOK, 0),2);
         testBoard.setCell(8,4, new Item(Type.BOOK, 0),4);
 
-        testBoard.setCell(0,5, new Item(null, 0),0);
+        testBoard.setCell(0,5, null,0);
         testBoard.setCell(1,5, new Item(Type.GAME, 0),4);
         testBoard.setCell(2,5, new Item(Type.BOOK, 0),2);
         testBoard.setCell(3,5, new Item(Type.TROPHY, 0),2);
@@ -199,35 +196,35 @@ class BoardTest {
         testBoard.setCell(7,5, new Item(Type.BOOK, 0),2);
         testBoard.setCell(8,5, new Item(Type.BOOK, 0),3);
 
-        testBoard.setCell(0,6, new Item(null, 0),0);
-        testBoard.setCell(1,6, new Item(null, 0),0);
+        testBoard.setCell(0,6, null,0);
+        testBoard.setCell(1,6, null,0);
         testBoard.setCell(2,6, new Item(Type.BOOK, 0),3);
         testBoard.setCell(3,6, new Item(Type.GAME, 0),2);
         testBoard.setCell(4,6, new Item(Type.CAT, 0),2);
         testBoard.setCell(5,6, new Item(Type.PLANTS, 0),2);
         testBoard.setCell(6,6, new Item(Type.CAT, 0),3);
-        testBoard.setCell(7,6, new Item(null, 0),0);
-        testBoard.setCell(8,6, new Item(null, 0),0);
+        testBoard.setCell(7,6, null,0);
+        testBoard.setCell(8,6, null,0);
 
-        testBoard.setCell(0,7, new Item(null, 0),0);
-        testBoard.setCell(1,7, new Item(null, 0),0);
-        testBoard.setCell(2,7, new Item(null, 0),0);
+        testBoard.setCell(0,7, null,0);
+        testBoard.setCell(1,7, null,0);
+        testBoard.setCell(2,7, null,0);
         testBoard.setCell(3,7, new Item(Type.GAME, 0),2);
         testBoard.setCell(4,7, new Item(Type.CAT, 0),2);
         testBoard.setCell(5,7, new Item(Type.PLANTS, 0),4);
-        testBoard.setCell(6,7, new Item(null, 0),0);
-        testBoard.setCell(7,7, new Item(null, 0),0);
-        testBoard.setCell(8,7, new Item(null, 0),0);
+        testBoard.setCell(6,7, null,0);
+        testBoard.setCell(7,7, null,0);
+        testBoard.setCell(8,7, null,0);
 
-        testBoard.setCell(0,8, new Item(null, 0),0);
-        testBoard.setCell(1,8, new Item(null, 0),0);
-        testBoard.setCell(2,8, new Item(null, 0),0);
+        testBoard.setCell(0,8, null,0);
+        testBoard.setCell(1,8, null,0);
+        testBoard.setCell(2,8, null,0);
         testBoard.setCell(3,8, new Item(Type.GAME, 0),3);
         testBoard.setCell(4,8, new Item(Type.CAT, 0),4);
-        testBoard.setCell(5,8, new Item(null, 0),0);
-        testBoard.setCell(6,8, new Item(null, 0),0);
-        testBoard.setCell(7,8, new Item(null, 0),0);
-        testBoard.setCell(8,8, new Item(null, 0),0);
+        testBoard.setCell(5,8, null,0);
+        testBoard.setCell(6,8, null,0);
+        testBoard.setCell(7,8, null,0);
+        testBoard.setCell(8,8, null,0);
 
         assertFalse(testBoard.needToRefill());
     }

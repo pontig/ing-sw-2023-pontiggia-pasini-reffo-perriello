@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.tuples.Pair;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +33,7 @@ public class Board {
                 disposition[i][j] = emptyBoard[i][j];
             }
         }
+        pendingCells = new HashSet<>();
     }
 
     public void setDisposition(Cell[][] disposition) {
