@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Set;
 
 
+
 public class Board {
 
     private Cell[][] disposition;
-
     private static Cell[][] emptyBoard = new Cell[9][9];
     private Set<Pair<Integer, Integer>> pendingCells;
 
@@ -42,6 +42,10 @@ public class Board {
 
     public Cell[][] getDisposition() {
         return this.disposition;
+    }
+
+    public void setCell(int x, int y, Item item){
+        this.disposition[y][x].setContent(item);
     }
 
     public void setPendingCells(Set<Pair<Integer, Integer>> pendingCells) {

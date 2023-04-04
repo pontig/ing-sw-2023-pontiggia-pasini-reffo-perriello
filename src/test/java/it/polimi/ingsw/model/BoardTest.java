@@ -2,14 +2,11 @@ package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Random;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class BoardTest {
 
     @Test
     void setDisposition() {
+
     }
 
     @Test
@@ -42,12 +39,7 @@ class BoardTest {
 
     @Test
     void needToRefill() {
-    }
-
-    @Test
-    void adjacencyCheck() {
-        Random ran = new Random();
-        Cell[][] testDisposition = new Cell[9][9];
-
+        Board testBoard =new Board();
+        testBoard.setCell(0,0, new Item(null, 0));
     }
 }
