@@ -8,10 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EightSameTypeGoal extends CommonGoalAbstract {
+
+    /** Constructor EightSameTypeGoal
+     * @param numberPlayers
+     * this CommonGoal returns true if there are 8 tiles of the same type
+     */
+
     //Eight tiles of the same type. There are no restrictions on the locations of these tiles
     List<Type> types;
 
     public EightSameTypeGoal(int numberPlayers) {
+        /* creates a list of all the types of tiles
+         * and calls the constructor of the superclass
+         */
         super(numberPlayers);
         types = new ArrayList<>();
         types.add(Type.BOOK);
@@ -31,10 +40,26 @@ public class EightSameTypeGoal extends CommonGoalAbstract {
        5 a x x x x
     */
 
+
+    /**
+     * this method creates a clone of the shelf and a matrix of items
+     * then it checks if there are 8 tiles of the same type
+     * if there are it returns true
+     * otherwise it returns false
+     *
+     * @param shelf
+     * @return
+     * @throws IllegalArgumentException
+     */
+    @Override
     public boolean specificGoal(Shelf shelf) throws IllegalArgumentException {
+
         int counter = 0;
+
         Shelf shelfClone;
+
         Item[][] playerShelf;
+
 
         for (Type item : types) {
             shelfClone = shelf.clone();

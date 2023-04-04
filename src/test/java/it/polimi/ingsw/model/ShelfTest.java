@@ -106,7 +106,7 @@ class ShelfTest {
             }
         }
         Item item = new Item(Type.values()[generator.nextInt(Type.values().length)], generator.nextInt(3));
-        shelf.insertItems2(item, column);
+        shelf.insertItem(item, column);
         for(int i = 0; i < 5; i++) {
             if(shelf.getItem(column, i) != null) {
                 assertEquals(shelf.getItem(column, i), item);
