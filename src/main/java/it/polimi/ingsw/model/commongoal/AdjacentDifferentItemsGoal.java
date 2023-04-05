@@ -8,17 +8,32 @@ import it.polimi.ingsw.model.enums.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class AdjacentDifferentItemsGoal extends CommonGoalAbstract{
+public class AdjacentDifferentItemsGoal extends CommonGoalAbstract {
     private char direction; // h for horizontal, v for vertical
     private int variety; // number of different items in a row or column
     private int quantity; // minimum number of rows or columns with the correct variety
-    public AdjacentDifferentItemsGoal(int numberPlayers, char direction, int variety, int quantity){
+
+    /**
+     * Constructor of AdjacentDifferentItemsGoal
+     * @param numberPlayers number of players
+     * @param direction direction of the rows or columns to check
+     * @param variety number of different items in a row or column
+     * @param quantity minimum number of rows or columns with the correct variety
+     */
+    public AdjacentDifferentItemsGoal(int numberPlayers, char direction, int variety, int quantity) {
         super(numberPlayers);
         this.direction = direction;
         this.variety = variety;
         this.quantity = quantity;
     }
-    private boolean checkVariety(Item i, HashSet<Item> set) {
+
+    /**
+     * Checks if the item is already in the set and adds it if it isn't
+     * @param i item to check
+     * @param set set of items to check against
+     * @return if the variety is correct
+     */
+    private boolean checkVariety(Type i, HashSet<Type> set) {
         switch (variety) {
             case 3:
                 if (set.contains(i))
@@ -32,6 +47,13 @@ public class AdjacentDifferentItemsGoal extends CommonGoalAbstract{
                 return true;
         }
     }
+
+    /**
+     * Checks if the shelf has the correct number of rows or columns with the correct variety
+     * @param shelf shelf to check
+     * @return if the shelf has the correct number of rows or columns with the correct variety
+     * @throws IllegalArgumentException if the direction is not 'h' or 'v'
+     */
     @Override
     public boolean specificGoal(Shelf shelf) throws IllegalArgumentException {
         ArrayList<ArrayList<Item>> set; // set of rows or columns to cycle through
@@ -46,20 +68,20 @@ public class AdjacentDifferentItemsGoal extends CommonGoalAbstract{
             default:
                 throw new IllegalArgumentException("Direction must be 'h' or 'v'");
         }
-        for (ArrayList<Item> l: set) {
+        for (ArrayList<Item> l : set) {
             boolean isCorrectForNow = true;
-            HashSet<Item> uniqueItems = new HashSet<>();
-            for (Item i: l) {
+            HashSet<Type> uniqueItems = new HashSet<>();
+            for (Item i : l) {
                 if (i == null) {
+                    isCorrectForNow = false;
                     break;
                 }
-                isCorrectForNow = checkVariety(i, uniqueItems);
-                if (isCorrectForNow) {
-                    count++;
-                } else {
+                isCorrectForNow = checkVariety(i.getType(), uniqueItems);
+                if (!isCorrectForNow) {
                     break;
                 }
             }
+            if (isCorrectForNow) count++;
         }
         return count >= quantity;
     }
