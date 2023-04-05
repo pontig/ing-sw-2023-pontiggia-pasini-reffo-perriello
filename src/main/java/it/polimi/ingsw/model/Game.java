@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game{              //extends Observable
-    private final List<Player> playerList;
+    private List<Player> playerList;
     private StateTurn playerState;
     private Player currentPlayer;
-    private final CommonGoalAbstract firstCommonGoal;
-    private final CommonGoalAbstract secondCommonGoal;
+    private CommonGoalAbstract firstCommonGoal;
+    private CommonGoalAbstract secondCommonGoal;
     private Board board;
     private boolean endGame;
     private boolean canConfirmItem;
@@ -29,8 +29,17 @@ public class Game{              //extends Observable
     /**
      * costruttore
      **/
-    public Game() throws ExecutionControl.NotImplementedException{
-        throw new ExecutionControl.NotImplementedException("Class not Implemented yet");
+    public Game() {
+        endGame = false;
+        canConfirmItem = false;
+        orderOK = false;
+        columnOK = false;
+        numPendingItems = 0;
+        confirmedItems = new ArrayList<>();
+        tmpOrderedItems = new ArrayList<>();
+        columnChosen = 0;
+        gameResult = new ArrayList<>();
+        bag = new Bag();
     }
     /**
      * getter
@@ -50,6 +59,7 @@ public class Game{              //extends Observable
     public List<Item> getTmpOrderedItems() { return tmpOrderedItems; }
     public int getColumnChosen() { return columnChosen; }
     public List<Pair<String, Integer>> getGameResult() { return gameResult;}
+    public Bag getBag() { return this.bag; }
     /**
      * setter
      **/
@@ -72,6 +82,7 @@ public class Game{              //extends Observable
     public void setTmpOrderedItems(List<Item> tmpOrderedItems) { this.tmpOrderedItems = tmpOrderedItems; }
     public void setColumnChosen (int columnChosen) { this.columnChosen = columnChosen; }
     public void setGameResult(List<Pair<String, Integer>> gameResult) { this.gameResult = gameResult; }     //=> rimuovere name e score e lasciare string e int UML
+    public void setBag(Bag bag) { this.bag = bag; }
     /**
      * metodi
      **/

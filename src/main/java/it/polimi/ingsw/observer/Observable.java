@@ -15,10 +15,10 @@ public class Observable {
     }
 
 
+
     // void notifyObserver(Message message) {
     //   for (Observer observer : observers) {
     //     observer.update(message);
     //}
     // }
 }
-

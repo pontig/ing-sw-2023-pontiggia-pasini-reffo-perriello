@@ -44,10 +44,20 @@ public class Shelf {
         return clone;
     }
 
+
+    public void clear(){
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 6; j++) {
+                setItem(i, j,null);
+            }
+        }
+    }
+
     /**
      * getItems is used to get a group of items from the shelf
      * @return a matrix of items
      */
+
     public Item[][] getItems() {
         return this.items;
     }
@@ -80,6 +90,7 @@ public class Shelf {
         }
         this.insertableColumns.clear();
     }
+
 
     /**
      * insertItem is the same as the previous one, but it inserts only one item(used for testing)

@@ -141,8 +141,8 @@ public class ClientApp {
             }
         }
 
-        System.out.println(testShelf.toString());
 
-    }*/
+    } */
+
 
 }*/
