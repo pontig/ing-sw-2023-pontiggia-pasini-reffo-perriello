@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model.commongoal;
 
+
 /*
 public class SixCouplesGoal extends CommonGoalAbstract {
+
 
     public SixCouplesGoal(int numberPlayers) {
         super(numberPlayers);

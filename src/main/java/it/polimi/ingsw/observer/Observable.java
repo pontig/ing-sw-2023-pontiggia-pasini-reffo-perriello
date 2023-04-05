@@ -1,7 +1,9 @@
 package it.polimi.ingsw.observer;
 
+
 /*
 public class Observable {
+
     private final List<Observer> observers = new ArrayList<>();
 
     public void addObserver(Observer obs) {
@@ -12,9 +14,11 @@ public class Observable {
         observers.remove(obs);
     }
 
+
     // void notifyObserver(Message message) {
     //   for (Observer observer : observers) {
     //     observer.update(message);
     //}
     // }
 }
+

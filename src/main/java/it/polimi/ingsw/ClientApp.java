@@ -11,8 +11,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+
 public class ClientApp {
   /*  private List<Player> players;
+
     private boolean isMatchOver;
     private CommonGoalAbstract firstCommonGoal, secondCommonGoal;
 
@@ -25,7 +27,7 @@ public class ClientApp {
     }
 
     private void playMatch() {
-        while (!isMatchOver()) {
+       // while (!isMatchOver()) {
             players.forEach(e -> {
                 new Turn(e);
                 // Check common goals
@@ -77,20 +79,22 @@ public class ClientApp {
     }
 
 
-    private Set<Set<Triplet>> personalGoals;
+    //private Set<Set<Triplet>> personalGoals;
 
-    private Board board;
-    private Set<CommonGoalAbstract> commonGoals;
+    //private Board board;
+    //private Set<CommonGoalAbstract> commonGoals;
 
     // Initialization of the deck of personal goals
-    private void initializePersonalGoals() {
-        ObjectMapper mapper = new ObjectMapper();
+    //private void initializePersonalGoals() {
+       // ObjectMapper mapper = new ObjectMapper();
 
         // Read the json file
+
         List<List<Triplet>> pgList = null;
         try {
             pgList = mapper.readValue(new File("assets/personalGoals.json"), new TypeReference<List<List<Triplet>>>() {
             });
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
