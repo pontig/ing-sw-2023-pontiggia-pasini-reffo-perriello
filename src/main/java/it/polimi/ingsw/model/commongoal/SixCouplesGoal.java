@@ -10,7 +10,7 @@ public class SixCouplesGoal extends CommonGoalAbstract {
 
     public boolean specificGoal(Shelf shelf) throws IllegalArgumentException {
 
-
+    return true;
     }
 
 }
