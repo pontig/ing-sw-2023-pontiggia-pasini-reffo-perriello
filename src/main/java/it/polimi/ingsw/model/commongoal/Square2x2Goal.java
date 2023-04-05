@@ -21,26 +21,36 @@ public class Square2x2Goal extends CommonGoalAbstract{
     }
 
     /*
-         0 1 2 3 4
-       0 x x x a a
-       1 b b x a a
-       2 b b x x x
-       3 x x x x b
-       4 a a x x b
-       5 a a x x x
+      0 1 2 3 4 5   r
+    0 x x x x x x
+    1 x x x x x x
+    2 x x x x x x
+    3 x x x x x x
+    4 x x x x x x
+
+    c
     */
 
     public boolean specificGoal(Shelf shelf){
         int counter = 0;
-        Item[][] playerShelf = shelf.getItems();
+        Shelf shelfClone;
+        Item[][] playerShelf;
 
         for(Type item: types) {
+            shelfClone = shelf.clone();
+            playerShelf = shelfClone.getItems();
             for(int r = 5; r > 0; r--) {
                 for(int c = 0; c < 4; c++) {
-                    if(item.equals(playerShelf[r][c].getType()) && item.equals(playerShelf[r][c+1].getType())
-                            && item.equals(playerShelf[r-1][c].getType()) && item.equals(playerShelf[r-1][c+1].getType())) {
+                    if(playerShelf[c][r] == null || playerShelf[c+1][r] == null || playerShelf[c][r-1] == null || playerShelf[c+1][r-1] == null)
+                        continue;
+
+                    if(item.equals(playerShelf[c][r].getType()) && item.equals(playerShelf[c+1][r].getType())
+                            && item.equals(playerShelf[c][r-1].getType()) && item.equals(playerShelf[c+1][r-1].getType())) {
                         counter++;
-                        c++;
+                        playerShelf[c][r] = null;
+                        playerShelf[c+1][r] = null;
+                        playerShelf[c][r-1] = null;
+                        playerShelf[c+1][r-1] = null;
                         if(counter == 2)
                             return true;
                     }

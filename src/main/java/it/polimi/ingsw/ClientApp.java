@@ -4,14 +4,17 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.commongoal.CommonGoalAbstract;
+import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.tuples.Triplet;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+
 public class ClientApp {
-    private List<Player> players;
+  /*  private List<Player> players;
+
     private boolean isMatchOver;
     private CommonGoalAbstract firstCommonGoal, secondCommonGoal;
 
@@ -24,7 +27,7 @@ public class ClientApp {
     }
 
     private void playMatch() {
-        while (!isMatchOver()) {
+       // while (!isMatchOver()) {
             players.forEach(e -> {
                 new Turn(e);
                 // Check common goals
@@ -76,26 +79,29 @@ public class ClientApp {
     }
 
 
-    private Set<Set<Triplet>> personalGoals;
+    //private Set<Set<Triplet>> personalGoals;
 
-    private Board board;
-    private Set<CommonGoalAbstract> commonGoals;
+    //private Board board;
+    //private Set<CommonGoalAbstract> commonGoals;
 
     // Initialization of the deck of personal goals
-    private void initializePersonalGoals() {
-        ObjectMapper mapper = new ObjectMapper();
+    //private void initializePersonalGoals() {
+       // ObjectMapper mapper = new ObjectMapper();
 
         // Read the json file
+
         List<List<Triplet>> pgList = null;
         try {
-            pgList = mapper.readValue(new File("assets/personalGoals.json"), new TypeReference<List<List<Triplet>>>() {});
+            pgList = mapper.readValue(new File("assets/personalGoals.json"), new TypeReference<List<List<Triplet>>>() {
+            });
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         // Convert the list of lists to a set of sets
         Set<Set<Triplet>> pgSet = new HashSet<Set<Triplet>>();
-        for(List<Triplet> list : pgList) {
+        for (List<Triplet> list : pgList) {
             Set<Triplet> set = new HashSet<Triplet>(list);
             pgSet.add(set);
         }
@@ -120,8 +126,23 @@ public class ClientApp {
     // common goals changes on how many players are playing
 
     // Initialization of the bag
-    private void initializeBag() {
+    public static void main(String args[]) {
+        Shelf testShelf = new Shelf();
 
-    }
+        Random howManyInTheColumn = new Random();
+        Random itemGen = new Random();
+
+        for (int i = 0; i < 5; i++) {
+            int n = howManyInTheColumn.nextInt(5);
+            for (int j = 5; j >= n; j--) {
+                // pick a random item type from the enum Type
+                Type type = Type.values()[itemGen.nextInt(Type.values().length)];
+                testShelf.setItem(i, j, new Item(type, 0));
+            }
+        }
+
+
+    } */
+
 
 }
