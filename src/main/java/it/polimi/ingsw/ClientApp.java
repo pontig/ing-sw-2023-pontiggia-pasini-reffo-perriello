@@ -1,5 +1,5 @@
 package it.polimi.ingsw;
-/*
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.*;
@@ -145,4 +145,4 @@ public class ClientApp {
     } */
 
 
-}*/
+}

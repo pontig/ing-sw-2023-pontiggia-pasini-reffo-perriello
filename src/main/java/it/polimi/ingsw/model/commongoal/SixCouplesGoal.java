@@ -85,4 +85,4 @@ public class SixCouplesGoal extends CommonGoalAbstract {
         return false;
     }
 }
-*/
+

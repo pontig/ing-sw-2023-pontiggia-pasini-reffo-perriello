@@ -1,10 +1,10 @@
 package it.polimi.ingsw.observer;
 
 
-/*
+
 public class Observable {
 
-    private final List<Observer> observers = new ArrayList<>();
+   /* private final List<Observer> observers = new ArrayList<>();
 
     public void addObserver(Observer obs) {
         observers.add(obs);
@@ -20,5 +20,5 @@ public class Observable {
     //   for (Observer observer : observers) {
     //     observer.update(message);
     //}
-    // }
+    // }*/
 }
