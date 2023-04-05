@@ -2,11 +2,13 @@ package it.polimi.ingsw.model;
 
 /*import com.fasterxml.jackson.databind.ObjectMapper;*/
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.tuples.Pair;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +19,7 @@ class BoardTest {
 
     @BeforeAll
     static void init() throws IOException {
-        /*ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         //InputStream inputStream = BoardTest.class.getClassLoader().getResourceAsStream("../assets/livingroom.json");
         int[][] board = new int[0][];
         try {
@@ -25,7 +27,7 @@ class BoardTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        boardToTest = new Board(board);*/
+        boardToTest = new Board(board);
 
     }
 
@@ -86,25 +88,26 @@ class BoardTest {
                 // Since the disposition is the same for every board, we can use the same switch on b2
                 switch (b2.getDisposition()[i][j].getCircumstance()) {
                     case 0:
-                        assertNull(b2.getDisposition()[i][j]);
-                        assertNull(b3.getDisposition()[i][j]);
-                        assertNull(b4.getDisposition()[i][j]);
+                        assertNull(b2.getDisposition()[i][j].getContent());
+                        assertNull(b3.getDisposition()[i][j].getContent());
+                        assertNull(b4.getDisposition()[i][j].getContent());
                         break;
                     case 2:
-                        assertNotNull(b2.getDisposition()[i][j]);
-                        assertNull(b3.getDisposition()[i][j]);
-                        assertNull(b4.getDisposition()[i][j]);
+                        assertNotNull(b2.getDisposition()[i][j].getContent());
+                        assertNotNull(b3.getDisposition()[i][j].getContent());
+                        assertNotNull(b4.getDisposition()[i][j].getContent());
                         break;
                     case 3:
-                        assertNotNull(b2.getDisposition()[i][j]);
-                        assertNotNull(b3.getDisposition()[i][j]);
-                        assertNull(b4.getDisposition()[i][j]);
+                        assertNull(b2.getDisposition()[i][j].getContent());
+                        assertNotNull(b3.getDisposition()[i][j].getContent());
+                        assertNotNull(b4.getDisposition()[i][j].getContent());
                         break;
                     case 4:
-                        assertNotNull(b2.getDisposition()[i][j]);
-                        assertNotNull(b3.getDisposition()[i][j]);
-                        assertNotNull(b4.getDisposition()[i][j]);
+                        assertNull(b2.getDisposition()[i][j].getContent());
+                        assertNull(b3.getDisposition()[i][j].getContent());
+                        assertNotNull(b4.getDisposition()[i][j].getContent());
                         break;
+
                 }
             }
         }

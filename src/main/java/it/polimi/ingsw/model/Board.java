@@ -24,13 +24,14 @@ public class Board {
             }
         }
     }
+
     public Board() {
         // matrix represents the board: for every cell, the value represent the circumstance (0 for unusable, 2 for two
         // players etc.)
-        disposition = new Cell[9][9];
+        this.disposition = new Cell[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                disposition[i][j] = emptyBoard[i][j];
+                disposition[i][j] = new Cell(emptyBoard[i][j].getCircumstance());
             }
         }
         pendingCells = new HashSet<>();
@@ -44,7 +45,7 @@ public class Board {
         return this.disposition;
     }
 
-    public void setCell(int x, int y, Item item, int cirumstance){
+    public void setCell(int x, int y, Item item, int cirumstance) {
         this.disposition[y][x] = new Cell(cirumstance);
         disposition[y][x].setContent(item);
     }
@@ -91,8 +92,10 @@ public class Board {
     public void fill(int numPlayer, Bag bag) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (disposition[i][j].getContent() == null && numPlayer <= disposition[i][j].getCircumstance()) {
-                    disposition[i][j].setContent(bag.draw());
+                if (this.disposition[i][j].getContent() == null
+                        && this.disposition[i][j].getCircumstance() != 0
+                        && numPlayer >= this.disposition[i][j].getCircumstance()) {
+                    this.disposition[i][j].setContent(bag.draw());
                 }
             }
         }
@@ -143,7 +146,7 @@ public class Board {
                                     }
                                     break;
                             }
-                        break;
+                            break;
                     }
                 }
             }
