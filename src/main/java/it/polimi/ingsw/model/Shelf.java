@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model;
-import jdk.jshell.spi.ExecutionControl;
-
 
 import it.polimi.ingsw.model.enums.Type;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class Shelf {
     /* ============ SHELF: ============

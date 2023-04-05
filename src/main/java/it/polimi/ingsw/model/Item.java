@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.enums.Type;
 public final class Item {
 
     private final Type type;
+
     private final int variant ;
 
     public Item(Type type, int variant)  {

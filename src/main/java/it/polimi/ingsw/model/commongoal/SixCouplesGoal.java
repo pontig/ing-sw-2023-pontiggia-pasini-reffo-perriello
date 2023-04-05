@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.commongoal;
 
-import it.polimi.ingsw.model.Shelf;
-
+/*
 public class SixCouplesGoal extends CommonGoalAbstract {
 
     public SixCouplesGoal(int numberPlayers) {
@@ -14,3 +13,4 @@ public class SixCouplesGoal extends CommonGoalAbstract {
     }
 
 }
+*/
