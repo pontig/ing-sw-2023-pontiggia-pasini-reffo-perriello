@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.commongoal;
 
+
 import it.polimi.ingsw.model.Item;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.enums.Type;
@@ -9,6 +10,7 @@ import java.util.List;
 
 public class SixCouplesGoal extends CommonGoalAbstract {
     List<Type> types;
+
     public SixCouplesGoal(int numberPlayers) {
         super(numberPlayers);
         types = new ArrayList<>();
@@ -25,6 +27,7 @@ public class SixCouplesGoal extends CommonGoalAbstract {
         Item[][] playerShelf;
         int rowFirst = 0;
         int columnFirst = 0;
+
 
         for(Type color: types){
             shelfClone = shelf.clone();
@@ -50,6 +53,7 @@ public class SixCouplesGoal extends CommonGoalAbstract {
 
             if(rowFirst >= 6)
                 return true;
+
 
             shelfClone = shelf.clone();
             playerShelf = shelfClone.getItems();
@@ -81,3 +85,4 @@ public class SixCouplesGoal extends CommonGoalAbstract {
         return false;
     }
 }
+*/
