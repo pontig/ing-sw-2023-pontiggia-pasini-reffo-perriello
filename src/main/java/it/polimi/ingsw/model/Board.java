@@ -82,9 +82,9 @@ public class Board {
     }
 
     public int deselect(int x, int y) {
-        Pair<Integer, Integer> pair = new Pair<>(x, y);
-        if (pendingCells.contains(pair)) {
-            pendingCells.remove(pair);
+        Pair<Integer, Integer> selectedPair = new Pair<>(x, y);
+        if (pendingCells.contains(selectedPair)) {
+            pendingCells.remove(selectedPair);
         }
         return pendingCells.size();
     }
@@ -114,6 +114,7 @@ public class Board {
     }
 
     public boolean needToRefill() {
+
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (disposition[j][i].getContent() != null) {
@@ -125,23 +126,28 @@ public class Board {
                             break;
                         case 8:
                             if (disposition[j][i - 1].getContent() == null && disposition[j + 1][i].getContent() == null && disposition[j - 1][i].getContent() == null) {
+
                                 return true;
                             }
                             break;
                         default:
                             switch (j) {
                                 case 0:
+
                                     if (disposition[j][i + 1].getContent() == null && disposition[j][i - 1].getContent() == null && disposition[j + 1][i].getContent() == null) {
                                         return true;
                                     }
                                     break;
                                 case 8:
                                     if (disposition[j][i + 1].getContent() == null && disposition[j][i - 1].getContent() == null && disposition[j - 1][i].getContent() == null) {
+
                                         return true;
                                     }
                                     break;
                                 default:
+
                                     if (disposition[j][i + 1].getContent() == null && disposition[j][i - 1].getContent() == null && disposition[j + 1][i].getContent() == null && disposition[j - 1][i].getContent() == null) {
+
                                         return true;
                                     }
                                     break;
@@ -155,7 +161,7 @@ public class Board {
     }
 
     private boolean adjacencyCheck(int x, int y) {
-        if (disposition[x][y] != null) {
+        if (disposition[x][y].getContent() != null) {
             switch (x) {
                 case 0:
                 case 8:
@@ -166,7 +172,7 @@ public class Board {
                         case 8:
                             return true;
                         default:
-                            if (disposition[x + 1][y] == null || disposition[x - 1][y] == null || disposition[x][y + 1] == null && disposition[x][y - 1] == null) {
+                            if (disposition[x + 1][y].getContent() == null || disposition[x - 1][y].getContent() == null || disposition[x][y + 1].getContent() == null && disposition[x][y - 1].getContent() == null) {
                                 return true;
                             }
                     }

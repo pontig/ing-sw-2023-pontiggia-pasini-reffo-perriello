@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Shelf;
+import it.polimi.ingsw.model.enums.Type;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //4 tiles of the same type in the four corners of the shelf
 
@@ -10,6 +14,7 @@ public class FourAnglesGoal extends CommonGoalAbstract {
         super(numberPlayers);
     }
     public boolean specificGoal(Shelf shelf){
+
         if(shelf.getItem(0, 0) == null || shelf.getItem(4, 0) == null ||  shelf.getItem(4, 5) == null || shelf.getItem(0, 5) == null){
             return false;
         }

@@ -7,12 +7,14 @@ public class Observable {
     public void addObserver(Observer obs) {
         observers.add(obs);
     }
+
     public void removeObserver(Observer obs) {
         observers.remove(obs);
     }
-    void notifyObserver(Message message) {
-        for (Observer observer : observers) {
-            observer.update(message);
-        }
-    }
-}*/
+
+    // void notifyObserver(Message message) {
+    //   for (Observer observer : observers) {
+    //     observer.update(message);
+    //}
+    // }
+}

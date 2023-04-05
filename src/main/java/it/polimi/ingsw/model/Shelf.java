@@ -116,7 +116,7 @@ public class Shelf {
         for (int i = 0; i < 5; i++) {
             ArrayList<Item> column = new ArrayList<>();
             for (int j = 0; j < 6; j++) {
-                column.add(items[j][i]);
+                column.add(items[i][j]);
             }
             columns.add(column);
         }
@@ -125,23 +125,27 @@ public class Shelf {
 
     public ArrayList<ArrayList<Item>> getRows() {
         ArrayList<ArrayList<Item>> rows = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            ArrayList<Item> row = new ArrayList<>(Arrays.asList(items[i]).subList(0, 5));
+        for (int r = 0; r < 6; r++) {
+            ArrayList<Item> row = new ArrayList<>();
+            for (int c = 0; c < 5; c++) {
+                row.add(items[c][r]);
+            }
             rows.add(row);
         }
         return rows;
     }
 
     public int adjacent(int x, int y, Type type) {
-        if (x < 0 || x > 4 || y < 0 || y > 3 || this.getItem(x, y) == null ||
+        if (x < 0 || x > 4 || y < 0 || y > 5 || this.getItem(x, y) == null ||
                 !Objects.equals(this.getItem(x, y).getType(), type)) {
             return 0;
         } else {
             this.setItem(x, y, null);
-            return 1 + adjacent(x - 1, y, type)
-                    + adjacent(x + 1, y, type)
-                    + adjacent(x, y - 1, type)
-                    + adjacent(x, y + 1, type);
+            int up = adjacent(x, y - 1, type);
+            int down = adjacent(x, y + 1, type);
+            int left = adjacent(x - 1, y, type);
+            int right = adjacent(x + 1, y, type);
+            return 1 + up + down + left + right;
         }
     }
 
