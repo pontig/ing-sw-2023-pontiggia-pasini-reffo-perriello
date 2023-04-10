@@ -108,8 +108,8 @@ public class Board {
             int y = pair.getY();
             offPending.add(disposition[x][y].getContent());
             disposition[x][y].setContent(null);
-            pendingCells.remove(pair);
         }
+        pendingCells.clear();
         return offPending;
     }
 
@@ -180,4 +180,31 @@ public class Board {
         }
         return false;
     }
+
+    public void printBoard() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (disposition[i][j].getContent() != null) {
+                    System.out.print(disposition[i][j].getContent().getType().toString().charAt(0) + " ");
+                } else {
+                    System.out.print(disposition[i][j].getCircumstance() + " ");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public Board clone() {
+        Board clone = new Board();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                clone.disposition[i][j] = new Cell(this.disposition[i][j].getCircumstance());
+                if (this.disposition[i][j].getContent() != null) {
+                    clone.disposition[i][j].setContent(this.disposition[i][j].getContent());
+                }
+            }
+        }
+        return clone;
+    }
+
 }
