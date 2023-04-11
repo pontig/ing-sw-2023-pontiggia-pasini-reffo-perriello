@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.enums.Type;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -201,6 +202,7 @@ class ShelfTest {
                 MaxFreeSpace = maxcolumn;
             }
         }
+        MaxFreeSpace = Math.min(MaxFreeSpace, 3);
         assertEquals(MaxFreeSpace, shelf.getMaxFreeSpace());
     }
 
