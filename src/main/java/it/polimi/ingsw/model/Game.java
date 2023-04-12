@@ -1,18 +1,25 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.commongoal.CommonGoalAbstract;
+import it.polimi.ingsw.model.commongoal.*;
 
+import it.polimi.ingsw.model.enums.CommonGoalName;
 import it.polimi.ingsw.model.enums.StateTurn;
+import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.tuples.Pair;
+import it.polimi.ingsw.tuples.Triplet;
 import jdk.jshell.spi.ExecutionControl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import static it.polimi.ingsw.model.enums.Type.*;
 
 public class Game{              //extends Observable
-    private List<Player> playerList;
+    private final List<Player> playerList;
+    private int numberOfPlayers;
+    private List<PersonalGoal> personalGoals;
     private StateTurn playerState;
     private Player currentPlayer;
+    private List<CommonGoalName> commonGoals;
     private CommonGoalAbstract firstCommonGoal;
     private CommonGoalAbstract secondCommonGoal;
     private Board board;
@@ -29,23 +36,123 @@ public class Game{              //extends Observable
     /**
      * costruttore
      **/
-    public Game() {
-        endGame = false;
-        canConfirmItem = false;
-        orderOK = false;
-        columnOK = false;
-        numPendingItems = 0;
-        confirmedItems = new ArrayList<>();
-        tmpOrderedItems = new ArrayList<>();
-        columnChosen = 0;
-        gameResult = new ArrayList<>();
-        bag = new Bag();
+    public Game(String nickName, int numberOfPlayer, Board board, List<PersonalGoal> personalGoals, List<CommonGoalName> commonGoals) {
+        this.playerList = new ArrayList<>();
+        this.numberOfPlayers = numberOfPlayer;
+        this.personalGoals = personalGoals;
+        this.currentPlayer = new Player(nickName, assignPersonalGoal());
+        this.playerList.add(this.currentPlayer);
+        this.board = board;
+        this.bag = new Bag();
+        this.board.fill(this.numberOfPlayers, this.bag);
+
+        this.commonGoals = commonGoals;
+        this.firstCommonGoal = assignCommonGoal();
+        this.secondCommonGoal = assignCommonGoal();
+
+        this.endGame = false;
+        this.canConfirmItem = false;
+        this.orderOK = false;
+        this.columnOK = false;
+        this.numPendingItems = 0;
+        this.confirmedItems = new ArrayList<>();
+        this.tmpOrderedItems = new ArrayList<>();
+        this.columnChosen = 0;
+        this.gameResult = new ArrayList<>();
     }
+
+    public Game(String nickName, int numberOfPlayer, Board board, List<CommonGoalName> commonGoals) {
+        this.playerList = new ArrayList<>();
+        this.numberOfPlayers = numberOfPlayer;
+        //Da sistemare il passaggio di asset
+        Set<Triplet<Integer, Integer, Type>> pG = new HashSet<Triplet<Integer, Integer, Type>>();
+        pG.add(new Triplet<>(4,1,CAT));
+        pG.add(new Triplet<>(4,1,BOOK));
+        pG.add(new Triplet<>(4,1,GAME));
+        pG.add(new Triplet<>(2,0,FRAME));
+        pG.add(new Triplet<>(2,5,TROPHY));
+        pG.add(new Triplet<>(0,0,PLANTS));
+
+        this.currentPlayer = new Player(nickName, new PersonalGoal(pG));
+        this.playerList.add(this.currentPlayer);
+        this.board = board;
+        this.bag = new Bag();
+        this.board.fill(this.numberOfPlayers, this.bag);
+
+        this.commonGoals = commonGoals;
+        this.firstCommonGoal = assignCommonGoal();
+        this.secondCommonGoal = assignCommonGoal();
+
+        this.endGame = false;
+        this.canConfirmItem = false;
+        this.orderOK = false;
+        this.columnOK = false;
+        this.numPendingItems = 0;
+        this.confirmedItems = new ArrayList<>();
+        this.tmpOrderedItems = new ArrayList<>();
+        this.columnChosen = 0;
+        this.gameResult = new ArrayList<>();
+    }
+
+    private PersonalGoal assignPersonalGoal(){
+        Random random = new Random();
+        int randomInt = random.nextInt(this.personalGoals.size());
+        return personalGoals.remove(randomInt);
+    }
+
+    private CommonGoalAbstract assignCommonGoal() {
+        Random random = new Random();
+        int randomInt = random.nextInt(this.commonGoals.size());
+        CommonGoalName goal = commonGoals.remove(randomInt);
+        switch(goal){
+            case FIVEX:
+                return new FiveXGoal(this.numberOfPlayers);
+
+            case FOURANGLES:
+                return new FourAnglesGoal(this.numberOfPlayers);
+
+            case SIXCOUPLES:
+                return new SixCouplesGoal(this.numberOfPlayers);
+
+            case FIVEDIAGONAL:
+                return new FiveDiagonalGoal(this.numberOfPlayers);
+
+            case SQUARE2X2:
+                return new Square2x2Goal(this.numberOfPlayers);
+
+            case FOURADJACENT:
+                return new FourAdjacentGoal(this.numberOfPlayers);
+
+            case EIGHTSAMETYPE:
+                return new EightSameTypeGoal(this.numberOfPlayers);
+
+            case FIVEDECRESING:
+                return new FiveDecreasingGoal(this.numberOfPlayers);
+
+            case ROW4ITEMS5:
+                return new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'h', 5, 4);
+
+            case COLUMNS3ITEMS6:
+                return new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'v',6, 3);
+
+            case ROW2ITEMS5DIFFERENT:
+                return new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'h',5,2);
+
+            /*case COLUMNS2ITEMS6DIFFERENT:
+                return new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'v',6,2);
+                break;*/
+        }
+        return new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'v',6,2);
+    }
+
     /**
      * getter
      **/
     public List<Player> getPlayerList(){ return playerList; }
     public StateTurn getPlayerState() { return playerState; }
+    public int getNumberOfPlayers(){ return numberOfPlayers; };
+    public List<PersonalGoal> getPersonalGoals() {return personalGoals; };
+    public List<CommonGoalName> getCommonGoals() { return commonGoals;}
     public Player getCurrentPlayer() { return currentPlayer; }
     public CommonGoalAbstract getFirstCommonGoal() { return firstCommonGoal; }
     public CommonGoalAbstract getSecondCommonGoal() { return secondCommonGoal; }
@@ -64,16 +171,13 @@ public class Game{              //extends Observable
      * setter
      **/
     public void setPlayerList(List<Player> playerList) { this.playerList.addAll(playerList); }
-    public void setPlayerState(StateTurn playerState) {
-        this.playerState = playerState;
-    }
-    public void setCurrentPlayer(Player currentPlayer){
-        this.currentPlayer = currentPlayer;
-    }
+    public void setPlayerState(StateTurn playerState) { this.playerState = playerState; }
+    public void setNumberOfPlayers(int numberOfPlayers) { this.numberOfPlayers = numberOfPlayers; }
+    public void setPersonalGoals(List<PersonalGoal> personalGoals){ this.personalGoals = personalGoals; };
+    public void setCommonGoals(List<CommonGoalName> commonGoals) { this.commonGoals = commonGoals; }
+    public void setCurrentPlayer(Player currentPlayer){ this.currentPlayer = currentPlayer; }
     public void setBoard(Board board) { this.board = board; }
-    public void setEndGame(boolean endGame) {
-        this.endGame = endGame;
-    }
+    public void setEndGame(boolean endGame) { this.endGame = endGame; }
     public void setCanConfirmItem(boolean canConfirmItem) { this.canConfirmItem = canConfirmItem; }
     public void setOrderOK(boolean orderOK) { this.orderOK = orderOK; }
     public void setColumnOK(boolean columnOK) { this.columnOK = columnOK; }
@@ -88,16 +192,26 @@ public class Game{              //extends Observable
      **/
     public void itemClick(int x, int y) {
         Pair<Integer, Integer> cell = new Pair<>(x, y);
-        if(!getBoard().getPendingCells().contains(cell)) {
-            if(getCurrentPlayer().getShelf().getMaxFreeSpace() > getNumPendingItems())
-                setNumPendingItems(getBoard().select(x, y));
-        } else
-            setNumPendingItems(getBoard().deselect(x, y));
+        boolean contains = false;
+        for(Pair<Integer, Integer> tmp : getBoard().getPendingCells()){
+            if(tmp.getX().equals(cell.getX()) && tmp.getY().equals(cell.getY())){
+                contains = true;
+                break;
+            }
+        }
+        if(getBoard().getDisposition()[x][y].getContent() != null) {
+            if (!contains) {
+                if (getCurrentPlayer().getShelf().getMaxFreeSpace() > getNumPendingItems())
+                    setNumPendingItems(getBoard().select(x, y));
+            } else
+                setNumPendingItems(getBoard().deselect(x, y));
 
-        setCanConfirmItem(getNumPendingItems() > 0);
+            setCanConfirmItem(getNumPendingItems() > 0);
+        }
     }
 
     public void confirmItems() {
+        setCanConfirmItem(false);
         setConfirmedItems(getBoard().removePendingItems());
         setNumPendingItems(getConfirmedItems().size());
         getCurrentPlayer().getShelf().setInsertableColumns(getNumPendingItems());
@@ -108,7 +222,7 @@ public class Game{              //extends Observable
         Item tmpItem;
 
         if(action == 0){                                            // deselezione
-            tmpItem = getTmpOrderedItems().remove(position);             //rimuove e ritorna l'elemento in posizione "position", fa scalare di una posizione tutti gli elementi successivi
+            tmpItem = getTmpOrderedItems().remove(position);        //rimuove e ritorna l'elemento in posizione "position", fa scalare di una posizione tutti gli elementi successivi
             getConfirmedItems().add(tmpItem);
         } else if (action == 1) {                                   // selezione
             tmpItem = getConfirmedItems().remove(position);
@@ -129,6 +243,7 @@ public class Game{              //extends Observable
 
     public boolean endTurnCheck() {
         boolean closeGame = false;
+        getTmpOrderedItems().clear();
         commonGoalCheck();
         closeGame = endGameCheck();
         if(closeGame)

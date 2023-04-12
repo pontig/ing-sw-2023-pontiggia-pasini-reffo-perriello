@@ -1,11 +1,66 @@
 package it.polimi.ingsw.model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.model.enums.CommonGoalName;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static it.polimi.ingsw.model.enums.Type.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
-    Game game = new Game();
+    //Board from assets
+    private Board initializeBoard() {
+        ObjectMapper mapper = new ObjectMapper();
+
+        int[][] board = new int[0][];
+        try {
+            board = mapper.readValue(new File("src/main/java/it/polimi/ingsw/assets/livingroom.json"), int[][].class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Board assetBoard = new Board(board);
+        Board boardGame = new Board();
+        return boardGame;
+    }
+
+    /*PersonalGoal from assets
+    private List<PersonalGoal> initializePersonalGoals() {
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            List<List<Triplet<Integer, Integer, Type>>> personalGoalList = mapper.readValue(new File("src/main/java/it/polimi/ingsw/assets/personalGoals.json"), new TypeReference<List<List<Triplet<Integer, Integer, Type>>>>() {});
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        List<PersonalGoal> pGList = null;
+        return pGList;
+    }*/
+
+    //CommonGoal
+    private List<CommonGoalName> initializeCommonGoals() {
+        List<CommonGoalName> commonGoals = new ArrayList<>();
+        commonGoals.add(CommonGoalName.SIXCOUPLES);
+        commonGoals.add(CommonGoalName.SQUARE2X2);
+        commonGoals.add(CommonGoalName.FOURANGLES);
+        commonGoals.add(CommonGoalName.FOURADJACENT);
+        commonGoals.add(CommonGoalName.FIVEX);
+        commonGoals.add(CommonGoalName.FIVEDIAGONAL);
+        commonGoals.add(CommonGoalName.FIVEDECRESING);
+        commonGoals.add(CommonGoalName.EIGHTSAMETYPE);
+        commonGoals.add(CommonGoalName.COLUMNS3ITEMS6);
+        commonGoals.add(CommonGoalName.ROW4ITEMS5);
+        commonGoals.add(CommonGoalName.COLUMNS2ITEMS6DIFFERENT);
+        commonGoals.add(CommonGoalName.ROW2ITEMS5DIFFERENT);
+        return commonGoals;
+    }
+    Game gameTwoPlayers = new Game("Tommi", 2, initializeBoard(), initializeCommonGoals());
+    Game gameThreePlayers = new Game("Eli", 3, initializeBoard(), initializeCommonGoals());
+    Game gameFourPlayers = new Game("Mauri", 4, initializeBoard(), initializeCommonGoals());
 
     @Test
     void getPlayerList() {
@@ -37,34 +92,18 @@ class GameTest {
 
     @Test
     void getCanConfirmItems() {
-        assertEquals(false, game.getCanConfirmItems());
-        game.setCanConfirmItem(true);
-        assertEquals(true, game.getCanConfirmItems());
     }
 
     @Test
     void getOrderOK() {
-        assertEquals(false, game.getOrderOK());
-        game.setOrderOK(true);
-        assertEquals(true, game.getOrderOK());
     }
 
     @Test
     void getColumnOK() {
-        assertEquals(false, game.getColumnOK());
-        game.setColumnOK(true);
-        assertEquals(true, game.getColumnOK());
     }
 
     @Test
     void getNumPendingItems() {
-        assertEquals(0, game.getNumPendingItems());
-        game.setNumPendingItems(1);
-        assertEquals(1, game.getNumPendingItems());
-        game.setNumPendingItems(2);
-        assertEquals(2, game.getNumPendingItems());
-        game.setNumPendingItems(3);
-        assertEquals(3, game.getNumPendingItems());
     }
 
     @Test
@@ -89,22 +128,266 @@ class GameTest {
 
     @Test
     void itemClick() {
+        assertEquals(0, gameTwoPlayers.getNumPendingItems());
+        assertEquals(false, gameTwoPlayers.getCanConfirmItems());
+        gameTwoPlayers.itemClick(0,0);
+        assertEquals(0, gameTwoPlayers.getNumPendingItems());
+        assertEquals(false, gameTwoPlayers.getCanConfirmItems());
+        gameTwoPlayers.itemClick(4,0);
+        assertEquals(0, gameTwoPlayers.getNumPendingItems());
+        assertEquals(false, gameTwoPlayers.getCanConfirmItems());
+        gameTwoPlayers.itemClick(5,0);
+        assertEquals(0, gameTwoPlayers.getNumPendingItems());
+        assertEquals(false, gameTwoPlayers.getCanConfirmItems());
+        gameTwoPlayers.itemClick(4,4);
+        assertEquals(0, gameTwoPlayers.getNumPendingItems());
+        assertEquals(false, gameTwoPlayers.getCanConfirmItems());
+
+        //select cell
+        gameTwoPlayers.itemClick(4,1);
+        assertEquals(1, gameTwoPlayers.getNumPendingItems());
+        gameTwoPlayers.itemClick(3,1);
+        assertEquals(2, gameTwoPlayers.getNumPendingItems());
+        assertEquals(true, gameTwoPlayers.getCanConfirmItems());
+
+        //deselect cell
+        gameTwoPlayers.itemClick(4,1);
+        assertEquals(1, gameTwoPlayers.getNumPendingItems());
+        assertEquals(true, gameTwoPlayers.getCanConfirmItems());
+        gameTwoPlayers.itemClick(3,1);
+        assertEquals(0, gameTwoPlayers.getNumPendingItems());
+        assertEquals(false, gameTwoPlayers.getCanConfirmItems());
+
+        //limited selection
+        gameTwoPlayers.getCurrentPlayer().getShelf().clear();
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(0, 1, new Item(BOOK, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(0, 2, new Item(BOOK, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(0, 3, new Item(CAT, 2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(0, 4, new Item(GAME, 3));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(0, 5, new Item(BOOK, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(1, 0, new Item(CAT, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(1, 1, new Item(PLANTS, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(1, 2, new Item(BOOK, 2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(1, 3, new Item(BOOK, 3));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(1, 4, new Item(CAT, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(1, 5, new Item(CAT, 2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(2, 0, new Item(BOOK, 3));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(2, 1, new Item(TROPHY, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(2, 2, new Item(BOOK, 2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(2, 3, new Item(TROPHY, 2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(2, 4, new Item(GAME, 2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(2, 5, new Item(BOOK,1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(3, 1, new Item(BOOK,2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(3, 2, new Item(BOOK, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(3, 3, new Item(PLANTS, 3));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(3, 4, new Item(BOOK, 2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(3, 5, new Item(BOOK, 3));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(4, 0, new Item(BOOK,3));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(4, 1, new Item(BOOK, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(4, 2, new Item(BOOK, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(4, 3, new Item(PLANTS, 2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(4, 4, new Item(GAME, 3));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(4, 5, new Item(BOOK, 1));
+        gameTwoPlayers.itemClick(4,1);
+        assertEquals(1, gameTwoPlayers.getNumPendingItems());
+        assertEquals(true, gameTwoPlayers.getCanConfirmItems());
+        gameTwoPlayers.itemClick(3,1);
+        assertEquals(1, gameTwoPlayers.getNumPendingItems());
+        assertEquals(true, gameTwoPlayers.getCanConfirmItems());
     }
 
     @Test
     void confirmItems() {
+        //select item on board
+        gameTwoPlayers.itemClick(4,1);
+        assertEquals(1, gameTwoPlayers.getNumPendingItems());
+        gameTwoPlayers.itemClick(3,1);
+        assertEquals(2, gameTwoPlayers.getNumPendingItems());
+
+        //get the item and check where to put them
+        gameTwoPlayers.confirmItems();
+        assertEquals(2, gameTwoPlayers.getNumPendingItems());
+        assertEquals(0, gameTwoPlayers.getCurrentPlayer().getShelf().getInsertableColumns().get(0));
+        assertEquals(1, gameTwoPlayers.getCurrentPlayer().getShelf().getInsertableColumns().get(1));
+        assertEquals(2, gameTwoPlayers.getCurrentPlayer().getShelf().getInsertableColumns().get(2));
+        assertEquals(3, gameTwoPlayers.getCurrentPlayer().getShelf().getInsertableColumns().get(3));
+        assertEquals(4, gameTwoPlayers.getCurrentPlayer().getShelf().getInsertableColumns().get(4));
+
+        //select items with constrains
+        gameTwoPlayers.setNumPendingItems(0);
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(0, 1, new Item(BOOK, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(0, 2, new Item(BOOK, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(0, 3, new Item(CAT, 2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(0, 4, new Item(GAME, 3));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(0, 5, new Item(BOOK, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(1, 0, new Item(CAT, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(1, 1, new Item(PLANTS, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(1, 2, new Item(BOOK, 2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(1, 3, new Item(BOOK, 3));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(1, 4, new Item(CAT, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(1, 5, new Item(CAT, 2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(2, 0, new Item(BOOK, 3));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(2, 1, new Item(TROPHY, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(2, 2, new Item(BOOK, 2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(2, 3, new Item(TROPHY, 2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(2, 4, new Item(GAME, 2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(2, 5, new Item(BOOK,1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(3, 1, new Item(BOOK,2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(3, 2, new Item(BOOK, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(3, 3, new Item(PLANTS, 3));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(3, 4, new Item(BOOK, 2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(3, 5, new Item(BOOK, 3));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(4, 0, new Item(BOOK,3));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(4, 1, new Item(BOOK, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(4, 2, new Item(BOOK, 1));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(4, 3, new Item(PLANTS, 2));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(4, 4, new Item(GAME, 3));
+        gameTwoPlayers.getCurrentPlayer().getShelf().setItem(4, 5, new Item(BOOK, 1));
+        gameTwoPlayers.itemClick(4,1);
+        assertEquals(0, gameTwoPlayers.getNumPendingItems());
+        gameTwoPlayers.itemClick(3,1);
+        assertEquals(0, gameTwoPlayers.getNumPendingItems());
+        gameTwoPlayers.itemClick(5,2);
+        assertEquals(1, gameTwoPlayers.getNumPendingItems());
+        gameTwoPlayers.itemClick(6,2);
+        assertEquals(1, gameTwoPlayers.getNumPendingItems());
+        gameTwoPlayers.itemClick(7,2);
+        assertEquals(1, gameTwoPlayers.getNumPendingItems());
+
+        //get items and check valid columns on constrains
+        gameTwoPlayers.confirmItems();
+        assertEquals(1, gameTwoPlayers.getNumPendingItems());
+        assertEquals(0, gameTwoPlayers.getCurrentPlayer().getShelf().getInsertableColumns().get(0));
+        assertEquals(3, gameTwoPlayers.getCurrentPlayer().getShelf().getInsertableColumns().get(1));
     }
 
     @Test
     void orderSelectedItem() {
+        gameTwoPlayers.itemClick(4,1);
+        assertEquals(1, gameTwoPlayers.getNumPendingItems());
+        gameTwoPlayers.itemClick(3,1);
+        assertEquals(2, gameTwoPlayers.getNumPendingItems());
+        gameTwoPlayers.confirmItems();
+        assertEquals(2, gameTwoPlayers.getNumPendingItems());
+        //select from confirmed to tmp
+        Item item = gameTwoPlayers.getConfirmedItems().get(1);
+        gameTwoPlayers.orderSelectedItem(1,1);
+        assertEquals(gameTwoPlayers.getTmpOrderedItems().get(0), item);
+        assertEquals(false, gameTwoPlayers.getOrderOK());
+        item = gameTwoPlayers.getConfirmedItems().get(0);
+        gameTwoPlayers.orderSelectedItem(0,1);
+        assertEquals(gameTwoPlayers.getTmpOrderedItems().get(1), item);
+        assertEquals(true, gameTwoPlayers.getOrderOK());
+        // deselect from tmp to confirmed
+        item = gameTwoPlayers.getTmpOrderedItems().get(1);
+        gameTwoPlayers.orderSelectedItem(1,0);
+        assertEquals(gameTwoPlayers.getConfirmedItems().get(0), item);
+        assertEquals(false, gameTwoPlayers.getOrderOK());
+        item = gameTwoPlayers.getTmpOrderedItems().get(0);
+        gameTwoPlayers.orderSelectedItem(0,0);
+        assertEquals(gameTwoPlayers.getConfirmedItems().get(1), item);
+        assertEquals(false, gameTwoPlayers.getOrderOK());
+
+        gameTwoPlayers.setNumPendingItems(0);
+        gameTwoPlayers.itemClick(4,1);
+        assertEquals(0, gameTwoPlayers.getNumPendingItems());
+        gameTwoPlayers.itemClick(3,1);
+        assertEquals(0, gameTwoPlayers.getNumPendingItems());
+        gameTwoPlayers.itemClick(5,2);
+        assertEquals(1, gameTwoPlayers.getNumPendingItems());
+        gameTwoPlayers.itemClick(4,2);
+        assertEquals(2, gameTwoPlayers.getNumPendingItems());
+        gameTwoPlayers.itemClick(3,2);
+        assertEquals(3, gameTwoPlayers.getNumPendingItems());
+        gameTwoPlayers.confirmItems();
+        assertEquals(3, gameTwoPlayers.getNumPendingItems());
+        //select from confirmed to tmp
+        item = gameTwoPlayers.getConfirmedItems().get(2);
+        gameTwoPlayers.orderSelectedItem(2,1);
+        assertEquals(gameTwoPlayers.getTmpOrderedItems().get(0), item);
+        assertEquals(false, gameTwoPlayers.getOrderOK());
+        item = gameTwoPlayers.getConfirmedItems().get(0);
+        gameTwoPlayers.orderSelectedItem(0,1);
+        assertEquals(gameTwoPlayers.getTmpOrderedItems().get(1), item);
+        assertEquals(false, gameTwoPlayers.getOrderOK());
+        item = gameTwoPlayers.getConfirmedItems().get(0);
+        gameTwoPlayers.orderSelectedItem(0,1);
+        assertEquals(gameTwoPlayers.getTmpOrderedItems().get(2), item);
+        assertEquals(true, gameTwoPlayers.getOrderOK());
+        // deselect from tmp to confirmed
+        item = gameTwoPlayers.getTmpOrderedItems().get(0);
+        gameTwoPlayers.orderSelectedItem(0,0);
+        assertEquals(gameTwoPlayers.getConfirmedItems().get(0), item);
+        assertEquals(false, gameTwoPlayers.getOrderOK());
+        item = gameTwoPlayers.getTmpOrderedItems().get(0);
+        gameTwoPlayers.orderSelectedItem(0,0);
+        assertEquals(gameTwoPlayers.getConfirmedItems().get(1), item);
+        assertEquals(false, gameTwoPlayers.getOrderOK());
+        item = gameTwoPlayers.getTmpOrderedItems().get(0);
+        gameTwoPlayers.orderSelectedItem(0,0);
+        assertEquals(gameTwoPlayers.getConfirmedItems().get(2), item);
+        assertEquals(false, gameTwoPlayers.getOrderOK());
+
+        //selection check not about the method itself
+        gameTwoPlayers.setNumPendingItems(0);
+        gameTwoPlayers.itemClick(7,3);
+        assertEquals(1, gameTwoPlayers.getNumPendingItems());
+        gameTwoPlayers.itemClick(6,3);
+        assertEquals(2, gameTwoPlayers.getNumPendingItems());
+        gameTwoPlayers.itemClick(5,3);
+        assertEquals(3, gameTwoPlayers.getNumPendingItems());
+        gameTwoPlayers.itemClick(4,3);
+        assertEquals(3, gameTwoPlayers.getNumPendingItems());
+        gameTwoPlayers.confirmItems();
+        assertEquals(3, gameTwoPlayers.getNumPendingItems());
     }
 
     @Test
     void selectColumn() {
+        assertEquals(false, gameTwoPlayers.getColumnOK());
+        gameTwoPlayers.selectColumn(0);
+        assertEquals(true, gameTwoPlayers.getColumnOK());
     }
 
     @Test
     void confirmInsertion() {
+        gameTwoPlayers.itemClick(4,1);
+        gameTwoPlayers.itemClick(3,1);
+        gameTwoPlayers.confirmItems();
+
+        Item item = gameTwoPlayers.getConfirmedItems().get(1);
+        gameTwoPlayers.orderSelectedItem(1,1);
+        assertEquals(gameTwoPlayers.getTmpOrderedItems().get(0), item);
+        assertEquals(false, gameTwoPlayers.getOrderOK());
+        item = gameTwoPlayers.getConfirmedItems().get(0);
+        gameTwoPlayers.orderSelectedItem(0,1);
+        assertEquals(gameTwoPlayers.getTmpOrderedItems().get(1), item);
+        assertEquals(true, gameTwoPlayers.getOrderOK());
+
+        gameTwoPlayers.selectColumn(3);
+        assertEquals(true, gameTwoPlayers.getColumnOK());
+
+        gameTwoPlayers.confirmInsertion();
+        assertEquals(gameTwoPlayers.getTmpOrderedItems().get(0), gameTwoPlayers.getCurrentPlayer().getShelf().getItem(3,5));
+        assertEquals(gameTwoPlayers.getTmpOrderedItems().get(1), gameTwoPlayers.getCurrentPlayer().getShelf().getItem(3,4));
+
+        gameTwoPlayers.setNumPendingItems(0);
+        gameTwoPlayers.getTmpOrderedItems().clear();
+        gameTwoPlayers.itemClick(5,2);
+        gameTwoPlayers.itemClick(4,2);
+        gameTwoPlayers.itemClick(3,2);
+        assertEquals(true, gameTwoPlayers.getCanConfirmItems());
+        gameTwoPlayers.confirmItems();
+        gameTwoPlayers.orderSelectedItem(2,1);
+        gameTwoPlayers.orderSelectedItem(0,1);
+        gameTwoPlayers.orderSelectedItem(0,1);
+        assertEquals(true, gameTwoPlayers.getOrderOK());
+        gameTwoPlayers.selectColumn(1);
+        assertEquals(true, gameTwoPlayers.getColumnOK());
+        gameTwoPlayers.confirmInsertion();
+        assertEquals(gameTwoPlayers.getTmpOrderedItems().get(0), gameTwoPlayers.getCurrentPlayer().getShelf().getItem(1,5));
+        assertEquals(gameTwoPlayers.getTmpOrderedItems().get(1), gameTwoPlayers.getCurrentPlayer().getShelf().getItem(1,4));
+        assertEquals(gameTwoPlayers.getTmpOrderedItems().get(2), gameTwoPlayers.getCurrentPlayer().getShelf().getItem(1,3));
     }
 
     @Test

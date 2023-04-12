@@ -113,6 +113,7 @@ public class Shelf {
      */
     public void setInsertableColumns(int numItems) {
         int count = 0;
+        this.insertableColumns.clear();
         for(int i = 0; i < 5; i++) {
             for(int j = 0; j < 6; j++) {
                if(items[i][j] == null) {
@@ -120,6 +121,8 @@ public class Shelf {
                }
                if(count >= numItems) {
                    this.insertableColumns.add(i);
+                   count = 0;
+                   break;
                }
             }
         }

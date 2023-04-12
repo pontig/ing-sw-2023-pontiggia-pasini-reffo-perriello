@@ -1,0 +1,16 @@
+package it.polimi.ingsw.model.enums;
+
+public enum CommonGoalName {
+    SIXCOUPLES,
+    SQUARE2X2,
+    FOURANGLES,
+    FOURADJACENT,
+    FIVEX,
+    FIVEDIAGONAL,
+    FIVEDECRESING,
+    EIGHTSAMETYPE,
+    COLUMNS3ITEMS6,
+    ROW4ITEMS5,
+    COLUMNS2ITEMS6DIFFERENT,
+    ROW2ITEMS5DIFFERENT
+}

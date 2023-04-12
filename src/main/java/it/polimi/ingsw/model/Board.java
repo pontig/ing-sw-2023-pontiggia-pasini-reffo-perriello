@@ -83,8 +83,28 @@ public class Board {
 
     public int deselect(int x, int y) {
         Pair<Integer, Integer> selectedPair = new Pair<>(x, y);
-        if (pendingCells.contains(selectedPair)) {
-            pendingCells.remove(selectedPair);
+        boolean contains = false;
+        for(Pair<Integer, Integer> tmp : getPendingCells()){
+            if(tmp.getX().equals(selectedPair.getX()) && tmp.getY().equals(selectedPair.getY())){
+                contains = true;
+                break;
+            }
+        }
+        if (contains) {
+            int size = getPendingCells().size();
+            List<Pair<Integer, Integer>> newList = new ArrayList<>();
+            for(Pair<Integer, Integer> tmp : getPendingCells())
+                newList.add(tmp);
+
+            for(int i = 0; i < size; i++){
+                if(newList.get(i).getX() == x && newList.get(i).getY() == y){
+                    newList.remove(i);
+                    break;
+                }
+            }
+            Set<Pair<Integer, Integer>> pC = new HashSet<>();
+            pC.addAll(newList);
+            setPendingCells(pC);
         }
         return pendingCells.size();
     }
@@ -172,7 +192,7 @@ public class Board {
                         case 8:
                             return true;
                         default:
-                            if (disposition[x + 1][y].getContent() == null || disposition[x - 1][y].getContent() == null || disposition[x][y + 1].getContent() == null && disposition[x][y - 1].getContent() == null) {
+                            if (disposition[x + 1][y].getContent() == null || disposition[x - 1][y].getContent() == null || disposition[x][y + 1].getContent() == null || disposition[x][y - 1].getContent() == null) {
                                 return true;
                             }
                     }
