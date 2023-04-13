@@ -273,7 +273,7 @@ public class Game{              //extends Observable
     }
     private void refillBoard() {
         if(getBoard().needToRefill()){
-            getBoard().fill(getPlayerList().size(), bag);
+            getBoard().fill(getPlayerList().size(), getBag());
         }
     }
 
@@ -288,20 +288,30 @@ public class Game{              //extends Observable
 
     public void endGame(){
         Pair<String, Integer> partecipant;
-        Pair<String, Integer> tmp;
+        List<Pair<String, Integer>> tempResult = new ArrayList<>();
+        int candidatePos;
         for(Player p : getPlayerList()){
+            candidatePos = getGameResult().size();
             partecipant = new Pair<>(p.getNickname(), p.computeFinalScore());
             if(getGameResult().size() == 0){
                 getGameResult().add(partecipant);
             } else {
                 for (int i = 0; i < getGameResult().size(); i++) {
                     if (getGameResult().get(i).getY() < partecipant.getY()) {
-                        tmp = getGameResult().get(i);
-                        getGameResult().add(i, partecipant);
-                        getGameResult().add(i + 1, tmp);
+                        candidatePos = i;
                         break;
                     }
                 }
+                for(int i = 0; i < candidatePos; i++)
+                    tempResult.add(getGameResult().get(i));
+
+                tempResult.add(candidatePos, partecipant);
+
+                for(int i = candidatePos; i < getGameResult().size(); i++)
+                    tempResult.add(getGameResult().get(i));
+
+                setGameResult(tempResult);
+                tempResult = new ArrayList<>();
             }
         }
     }

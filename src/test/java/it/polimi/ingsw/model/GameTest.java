@@ -396,9 +396,44 @@ class GameTest {
 
     @Test
     void nextPlayer() {
+        gameTwoPlayers.getPlayerList().clear();
+        List<Player> players = new ArrayList<>();
+        players.add(gameTwoPlayers.getCurrentPlayer());
+        players.add(new Player("Ale", gameTwoPlayers.getCurrentPlayer().getPersonalGoal()));
+
+        gameTwoPlayers.setPlayerList(players);
+        assertEquals("Tommi", gameTwoPlayers.getCurrentPlayer().getNickname());
+        gameTwoPlayers.nextPlayer();
+        assertEquals("Ale", gameTwoPlayers.getCurrentPlayer().getNickname());
+        gameTwoPlayers.nextPlayer();
+        assertEquals("Tommi", gameTwoPlayers.getCurrentPlayer().getNickname());
     }
 
     @Test
     void endGame() {
+        gameTwoPlayers.getPlayerList().clear();
+        List<Player> players = new ArrayList<>();
+        gameTwoPlayers.getCurrentPlayer().setEndGameToken(1);
+        players.add(new Player("Ale", gameTwoPlayers.getCurrentPlayer().getPersonalGoal()));
+        players.add(gameTwoPlayers.getCurrentPlayer());
+        gameTwoPlayers.setPlayerList(players);
+        gameTwoPlayers.endGame();
+        assertEquals("Tommi", gameTwoPlayers.getGameResult().get(0).getX());
+        assertEquals("Ale", gameTwoPlayers.getGameResult().get(1).getX());
+
+        gameTwoPlayers.getPlayerList().clear();
+        players.clear();
+        gameTwoPlayers.getGameResult().clear();
+        gameTwoPlayers.getCurrentPlayer().setEndGameToken(5);
+        players.add(gameTwoPlayers.getCurrentPlayer());
+        players.add(new Player("Ale", gameTwoPlayers.getCurrentPlayer().getPersonalGoal()));
+        Player newPlayer = new Player("Eli", gameTwoPlayers.getCurrentPlayer().getPersonalGoal());
+        newPlayer.setEndGameToken(2);
+        players.add(newPlayer);
+        gameTwoPlayers.setPlayerList(players);
+        gameTwoPlayers.endGame();
+        assertEquals("Tommi", gameTwoPlayers.getGameResult().get(0).getX());
+        assertEquals("Eli", gameTwoPlayers.getGameResult().get(1).getX());
+        assertEquals("Ale", gameTwoPlayers.getGameResult().get(2).getX());
     }
 }
