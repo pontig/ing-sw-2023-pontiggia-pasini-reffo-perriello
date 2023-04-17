@@ -78,7 +78,7 @@ public class FiveDecreasingGoal extends CommonGoalAbstract{
             for(int count = 5; count > 0; count--){
                 j = 4 - i;
                 if(shelf.getItem(j, i) == null){
-                    if(shelf.getItem(0,4) == null || shelf.getItem(3,1) == null || shelf.getItem(2,2) == null){
+                    if(shelf.getItem(0,4) == null || shelf.getItem(1,3) == null){
                         return false;
                     }
                     else{

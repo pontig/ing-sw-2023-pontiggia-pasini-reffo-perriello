@@ -37,27 +37,45 @@ public class Board {
         pendingCells = new HashSet<>();
     }
 
+    /** setDisposition is used to set, in every cell of the board, an item
+     * @param disposition: a matrix of Cell that need to be filled
+     */
     public void setDisposition(Cell[][] disposition) {
         this.disposition = disposition;
     }
 
+    /** getDisposition is used to get the disposition of a certain cell from the board
+     * @return a matrix of cell
+     */
     public Cell[][] getDisposition() {
         return this.disposition;
     }
 
-    public void setCell(int x, int y, Item item, int cirumstance) {
-        this.disposition[y][x] = new Cell(cirumstance);
+    public void setCell(int x, int y, Item item, int circumstance) {
+        // WARNING: Must be used only for testing purposes
+        this.disposition[y][x] = new Cell(circumstance);
         disposition[y][x].setContent(item);
     }
 
+    /** setPendingCells is used to set, in pendingCells, max 3 items
+     * @param pendingCells: a set of pair(items) that need to be set in pendingCells
+     */
     public void setPendingCells(Set<Pair<Integer, Integer>> pendingCells) {
         this.pendingCells = pendingCells;
     }
 
+    /** getPendingCells is used to get a set of pair (x and y of a certain item) which are currently pending
+     * @return a set of pair(items)
+     */
     public Set<Pair<Integer, Integer>> getPendingCells() {
         return this.pendingCells;
     }
 
+    /** select is used to add in pendingCells an item
+     * @param x: row of the selected cell
+     * @param y: column of the selected cell
+     * @return the current size (after select) of the set of items (pendingCells)
+     */
     public int select(int x, int y) {
         boolean sameLineOrColumn = false;
         Pair<Integer, Integer> selectedPair = new Pair<>(x, y);
@@ -67,7 +85,7 @@ public class Board {
                 pendingCells.add(selectedPair);
             } else {
                 for (Pair<Integer, Integer> pair : pendingCells) {
-                    if (pair.getX() == x || pair.getY() == y) {
+                    if (pair.getX().equals(selectedPair.getX()) || pair.getY().equals(selectedPair.getY())) {
                         sameLineOrColumn = true;
                     } else {
                         sameLineOrColumn = false;
@@ -81,6 +99,11 @@ public class Board {
         return pendingCells.size();
     }
 
+    /** deselect is used to eliminate an item from pendingCells
+     * @param x: row of the selected item
+     * @param y: column of the selected item
+     * @return the current size (after deselect) of the set of items (pendingCells)
+     */
     public int deselect(int x, int y) {
         Pair<Integer, Integer> selectedPair = new Pair<>(x, y);
         boolean contains = false;
@@ -109,6 +132,10 @@ public class Board {
         return pendingCells.size();
     }
 
+    /** fill is used to fill, at the start of any game, all cells on the board
+     * @param numPlayer: indicates how many players play the game
+     * @param bag: bag from where the items to be inserted in the cells of the board will be taken
+     */
     public void fill(int numPlayer, Bag bag) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -121,18 +148,25 @@ public class Board {
         }
     }
 
+    /** removePendingItems is used to clear the list of items which are currently pending
+     * @return a list of items that will be set in the shelf
+     */
     public List<Item> removePendingItems() {
         List<Item> offPending = new ArrayList<>();
         for (Pair<Integer, Integer> pair : pendingCells) {
             int x = pair.getX();
             int y = pair.getY();
-            offPending.add(disposition[x][y].getContent());
-            disposition[x][y].setContent(null);
+            offPending.add(disposition[y][x].getContent());
+            disposition[y][x].setContent(null);
+            pendingCells.remove(pair);
         }
         pendingCells.clear();
         return offPending;
     }
 
+    /** needToRefill is used to check if the board needs a refill
+     * @return true if at least one element of the board has 4 free sides, false if not
+     */
     public boolean needToRefill() {
 
         for (int i = 0; i < 9; i++) {
@@ -180,8 +214,13 @@ public class Board {
         return false;
     }
 
+    /** adjacencyCheck is used to check if  a certain item can be taken from a cell on the board
+     * @param x: row of the cell you want to check
+     * @param y: column of the cell you want to check
+     * @return true if the selected cell has at least one free side, false if not
+     */
     private boolean adjacencyCheck(int x, int y) {
-        if (disposition[x][y].getContent() != null) {
+        if (disposition[y][x].getContent() != null) {
             switch (x) {
                 case 0:
                 case 8:
@@ -192,7 +231,7 @@ public class Board {
                         case 8:
                             return true;
                         default:
-                            if (disposition[x + 1][y].getContent() == null || disposition[x - 1][y].getContent() == null || disposition[x][y + 1].getContent() == null || disposition[x][y - 1].getContent() == null) {
+                            if (disposition[y][x + 1].getContent() == null || disposition[y][x - 1].getContent() == null || disposition[y + 1][x].getContent() == null && disposition[y - 1][x].getContent() == null) {
                                 return true;
                             }
                     }
@@ -201,6 +240,8 @@ public class Board {
         return false;
     }
 
+    /** printBoard is used to print the board at any time
+     */
     public void printBoard() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -226,5 +267,4 @@ public class Board {
         }
         return clone;
     }
-
 }

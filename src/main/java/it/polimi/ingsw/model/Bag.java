@@ -23,12 +23,21 @@ public class Bag {
         }
     }
 
+    /** setItems is used to fill the bag with all the items at the start of the game
+     * @param items: map of items that will be put in the bag (Integer indicates how many items of a certain variant will be contained in the bag)
+     */
     public void setItems(Map<Item, Integer> items) {
         this.items = items;
     }
 
+    /** getItems is used to get all the items contained in the bag
+     * @return a Map of items
+     */
     public Map<Item, Integer> getItems(){return this.items;}
 
+    /** draw is used to draw a random element from the bag
+     * @return a certain item drawn from the bag
+     */
     public Item draw() {
         Random generator = new Random();
         Object[] values;
