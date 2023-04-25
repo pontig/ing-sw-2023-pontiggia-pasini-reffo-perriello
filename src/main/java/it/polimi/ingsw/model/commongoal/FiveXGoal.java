@@ -1,12 +1,7 @@
 package it.polimi.ingsw.model.commongoal;
 
 
-import it.polimi.ingsw.model.Item;
 import it.polimi.ingsw.model.Shelf;
-import it.polimi.ingsw.model.enums.Type;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class FiveXGoal extends CommonGoalAbstract {

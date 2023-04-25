@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.model.enums.CommonGoalName;
+import it.polimi.ingsw.enums.CommonGoalName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.model.enums.Type.*;
+import static it.polimi.ingsw.enums.Type.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {

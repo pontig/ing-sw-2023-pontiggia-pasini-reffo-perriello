@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Item;
 import it.polimi.ingsw.model.Shelf;
-import it.polimi.ingsw.model.enums.Type;
+import it.polimi.ingsw.enums.Type;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

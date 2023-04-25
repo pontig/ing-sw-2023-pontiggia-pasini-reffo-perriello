@@ -1,19 +1,19 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.enums.*;
 import it.polimi.ingsw.model.commongoal.*;
 
-import it.polimi.ingsw.model.enums.CommonGoalName;
-import it.polimi.ingsw.model.enums.StateTurn;
-import it.polimi.ingsw.model.enums.Type;
+import it.polimi.ingsw.network.messages.*;
+import it.polimi.ingsw.observer.ObservableModel;
 import it.polimi.ingsw.tuples.Pair;
 import it.polimi.ingsw.tuples.Triplet;
-import jdk.jshell.spi.ExecutionControl;
 
 import java.util.*;
 
-import static it.polimi.ingsw.model.enums.Type.*;
+import static it.polimi.ingsw.enums.State.*;
+import static it.polimi.ingsw.enums.Type.*;
 
-public class Game{              //extends Observable
+public class Game extends ObservableModel<Message> {              //extends Observable
     private final List<Player> playerList;
     private int numberOfPlayers;
     private List<PersonalGoal> personalGoals;
@@ -36,6 +36,22 @@ public class Game{              //extends Observable
     /**
      * costruttore
      **/
+    public Game(Board board, List<CommonGoalName> commonGoals) { //mancano bisongna sistemare l'asset List<PersonalGoal> personalGoals,
+        this.playerList = new ArrayList<>();
+        this.board = board;
+        this.bag = new Bag();
+        this.commonGoals = commonGoals;
+        this.endGame = false;
+        this.canConfirmItem = false;
+        this.orderOK = false;
+        this.columnOK = false;
+        this.numberOfPlayers = 0;
+        this.numPendingItems = 0;
+        this.confirmedItems = new ArrayList<>();
+        this.tmpOrderedItems = new ArrayList<>();
+        this.columnChosen = 0;
+        this.gameResult = new ArrayList<>();
+    }
     public Game(String nickName, int numberOfPlayer, Board board, List<PersonalGoal> personalGoals, List<CommonGoalName> commonGoals) {
         this.playerList = new ArrayList<>();
         this.numberOfPlayers = numberOfPlayer;
@@ -172,7 +188,11 @@ public class Game{              //extends Observable
      **/
     public void setPlayerList(List<Player> playerList) { this.playerList.addAll(playerList); }
     public void setPlayerState(StateTurn playerState) { this.playerState = playerState; }
-    public void setNumberOfPlayers(int numberOfPlayers) { this.numberOfPlayers = numberOfPlayers; }
+    public void setNumberOfPlayers(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
+        Message msg = new PlayersAk(PLAYERS_AK, getNumberOfPlayers());
+        setChangedAndNotifyObservers(msg);
+    }
     public void setPersonalGoals(List<PersonalGoal> personalGoals){ this.personalGoals = personalGoals; };
     public void setCommonGoals(List<CommonGoalName> commonGoals) { this.commonGoals = commonGoals; }
     public void setCurrentPlayer(Player currentPlayer){ this.currentPlayer = currentPlayer; }
@@ -190,6 +210,25 @@ public class Game{              //extends Observable
     /**
      * metodi
      **/
+    public void insertPlayer(String nickname) {
+        if(getNumberOfPlayers() == 0 || getPlayerList().size() < getNumberOfPlayers()) {
+            Set<Triplet<Integer, Integer, Type>> pG = new HashSet<Triplet<Integer, Integer, Type>>();
+            pG.add(new Triplet<>(4,1,CAT));
+            pG.add(new Triplet<>(4,1,BOOK));
+            pG.add(new Triplet<>(4,1,GAME));
+            pG.add(new Triplet<>(2,0,FRAME));
+            pG.add(new Triplet<>(2,5,TROPHY));
+            pG.add(new Triplet<>(0,0,PLANTS));
+
+            Player p = new Player(nickname, new PersonalGoal(pG)); //da sostituire con assignPersonal()
+            getPlayerList().add(p);
+            Message msg = new NicknameAk(NICKNAME_AK, getNumberOfPlayers());
+            setChangedAndNotifyObservers(msg);
+        } else {
+            Message msg = new NicknameAk(NICKNAME_NAK, getNumberOfPlayers());
+            setChangedAndNotifyObservers(msg);
+        }
+    }
     public void itemClick(int x, int y) {
         Pair<Integer, Integer> cell = new Pair<>(x, y);
         boolean contains = false;
@@ -316,4 +355,8 @@ public class Game{              //extends Observable
         }
     }
 
+    private void setChangedAndNotifyObservers(Message arg) {
+        setChangedModel();
+        notifyObserversModel(arg);
+    }
 }

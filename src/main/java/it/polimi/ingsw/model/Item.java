@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.enums.Type;
+import it.polimi.ingsw.enums.Type;
 public final class Item {
 
     private final Type type;

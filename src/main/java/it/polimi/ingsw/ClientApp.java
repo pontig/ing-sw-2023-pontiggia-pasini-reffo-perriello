@@ -1,148 +1,62 @@
 package it.polimi.ingsw;
-/*
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.commongoal.CommonGoalAbstract;
-import it.polimi.ingsw.model.enums.Type;
-import it.polimi.ingsw.tuples.Triplet;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import it.polimi.ingsw.network.client.ClientImpl;
+import it.polimi.ingsw.network.client.ServerStub;
+import it.polimi.ingsw.network.server.Server;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.Scanner;
 
 public class ClientApp {
-    private List<Player> players;
+    public static void main( String[] args ) throws RemoteException, NotBoundException {
+        Scanner terminal = new Scanner(System.in);
+        int networkClient;
+        int typeView;
+        int port;
 
-    private boolean isMatchOver;
-    private CommonGoalAbstract firstCommonGoal, secondCommonGoal;
+        do{
+            System.out.println("\nWelcome to MyShelfy");
+            System.out.println("Please choose if you want RMI or Socket client (0 is RMI / 1 is Socket):");
+            networkClient = terminal.nextInt();
+        } while(networkClient != 0 && networkClient != 1);
 
-    public ClientApp() {
-        // iscrizione giocatori
-        // [...]
-        // inizializzazione match
-        // [...]
-        playMatch();
+        do{
+            System.out.println("\nPlease choose if you wanna play from CLI or GUI (0 is CLI / 1 is GUI):");
+            typeView = terminal.nextInt();
+        } while(typeView != 0 && typeView != 1);
+
+        System.out.println("\nPlease enter Server port number:");
+        port = terminal.nextInt();
+
+        if(networkClient == 0){
+            Registry registry = LocateRegistry.getRegistry("localhost", port);
+            ServerAbst server = (ServerAbst) registry.lookup("server");
+            ClientImpl client = new ClientImpl(server.connect(), typeView);
+            client.run();
+        }
+ /*       else if(networkClient == 1){
+            ServerStub serverStub = new ServerStub(URL, port);              //da modifiare per ermettere di metterlo in rete
+            ClientImpl client = new ClientImpl(serverStub, typeView);
+            new Thread(() -> {
+                while(true) {
+                    try {
+                        serverStub.receive(client);
+                    } catch (RemoteException e) {
+                        System.err.println("Cannot receive from server. Stopping...");
+                        try {
+                            serverStub.close();
+                        } catch (RemoteException ex) {
+                            System.err.println("Cannot close connection with server. Halting...");
+                        }
+                        System.exit(1);
+                    }
+                }
+            }).start();
+            client.run();
+        }
+*/
     }
-
-    private void playMatch() {
-       // while (!isMatchOver()) {
-            players.forEach(e -> {
-                new Turn(e);
-                // Check common goals
-
-                // Check for empty board
-                // Check for full shelf
-            });
-        }
-    }
-
-    private class Turn {
-        private Player player;
-
-        public Turn(Player player) {
-            this.player = player;
-            play();
-        }
-
-        public void play() {
-            firstToc();
-            secondToc();
-        }
-
-        private void firstToc() {
-
-            // Get the max number of items that can be selected
-            Shelf currentShelf = player.getShelf();
-            int maxSelectable = currentShelf.getMaxFreeSpace();
-            maxSelectable = Math.min(maxSelectable, 3);
-
-            Set<Item> items = new HashSet<Item>();
-            while (items.size() < maxSelectable) {
-                // Observer: 1 select item
-                // Observer: 2 end selection
-            }
-            // Show to user the selected items
-        }
-
-        private void secondToc() {
-            Set<Item> selected = new HashSet<Item>(); // arrivato dalla view
-            List<Integer> columns = player.getShelf().getInsertableColumns();
-            // notifica alla view le colonne selezionabili
-            // Observer: ordine degli item e colonna
-            List<Item> orderedItems = new ArrayList<Item>(); // arrivato dalla view
-            int chosenColumn = 0; // arrivato dalla view
-            orderedItems.forEach(e -> player.getShelf().insertItems(e, chosenColumn));
-            board.extractPending();
-        }
-    }
-
-
-    //private Set<Set<Triplet>> personalGoals;
-
-    //private Board board;
-    //private Set<CommonGoalAbstract> commonGoals;
-
-    // Initialization of the deck of personal goals
-    //private void initializePersonalGoals() {
-       // ObjectMapper mapper = new ObjectMapper();
-
-        // Read the json file
-
-        List<List<Triplet>> pgList = null;
-        try {
-            pgList = mapper.readValue(new File("assets/personalGoals.json"), new TypeReference<List<List<Triplet>>>() {
-            });
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        // Convert the list of lists to a set of sets
-        Set<Set<Triplet>> pgSet = new HashSet<Set<Triplet>>();
-        for (List<Triplet> list : pgList) {
-            Set<Triplet> set = new HashSet<Triplet>(list);
-            pgSet.add(set);
-        }
-        this.personalGoals = pgSet;
-    }
-
-    // Initialization of the board
-    private void initializeBoard() {
-        ObjectMapper mapper = new ObjectMapper();
-
-        int[][] board = new int[0][];
-        try {
-            board = mapper.readValue(new File("assets/livingroom.json"), int[][].class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        this.board = new Board(board);
-
-    }
-
-    // Initialization of the deck of common goals: it has to be done every match because the score of the
-    // common goals changes on how many players are playing
-
-    // Initialization of the bag
-    public static void main(String args[]) {
-        Shelf testShelf = new Shelf();
-
-        Random howManyInTheColumn = new Random();
-        Random itemGen = new Random();
-
-        for (int i = 0; i < 5; i++) {
-            int n = howManyInTheColumn.nextInt(5);
-            for (int j = 5; j >= n; j--) {
-                // pick a random item type from the enum Type
-                Type type = Type.values()[itemGen.nextInt(Type.values().length)];
-                testShelf.setItem(i, j, new Item(type, 0));
-            }
-        }
-
-
-    }
-
-
-}*/
+}
