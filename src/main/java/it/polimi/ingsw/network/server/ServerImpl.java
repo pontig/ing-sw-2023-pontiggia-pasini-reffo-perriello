@@ -30,16 +30,16 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     public void register(Client client) throws RemoteException {
         if(match == null){
             this.match = new Game(getBoard(), getCommons());                            //da modificare il costruttore di game -> asset board, personal e common
-            this.match.addObserverModel((o, arg) -> {
-                try {
-                    client.updateView(this, arg);                          //creo init connecting to server
-                } catch (RemoteException e) {
-                    System.err.println("Unable to update the client: " + e.getMessage() + ". Skipping the update...");
-                }
-            });
             this.controller = new GameController(match, client);
             System.out.println("Game e controller creati");//da creare sistemare con più client
         }
+        this.match.addObserverModel((o, arg) -> {
+            try {
+                client.updateView(this, arg);                          //creo init connecting to server
+            } catch (RemoteException e) {
+                System.err.println("Unable to update the client: " + e.getMessage() + ". Skipping the update...");
+            }
+        });
     }
 
     private Board getBoard(){

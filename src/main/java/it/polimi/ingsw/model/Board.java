@@ -267,4 +267,40 @@ public class Board {
         }
         return clone;
     }
+
+    public String toString(){
+        StringBuilder board = new StringBuilder(" ");
+        for(int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (getDisposition()[i][j].getContent() != null) {
+                    switch (getDisposition()[i][j].getContent().getType()) {
+                        case BOOK:
+                            board.append("W").append(getDisposition()[i][j].getContent().getVariant()).append(" ");
+                            break;
+                        case CAT:
+                            board.append("G").append(getDisposition()[i][j].getContent().getVariant()).append(" ");
+                            break;
+                        case FRAME:
+                            board.append("B").append(getDisposition()[i][j].getContent().getVariant()).append(" ");
+                            break;
+                        case GAME:
+                            board.append("Y").append(getDisposition()[i][j].getContent().getVariant()).append(" ");
+                            break;
+                        case PLANTS:
+                            board.append("P").append(getDisposition()[i][j].getContent().getVariant()).append(" ");
+                            break;
+                        case TROPHY:
+                            board.append("L").append(getDisposition()[i][j].getContent().getVariant()).append(" ");
+                            break;
+                        default:
+                            System.out.println("Error");
+                            break;
+                    }
+                } else
+                    board.append('■').append(" ").append(" ");
+            }
+            board.append("\n ");
+        }
+        return board.toString();
+    }
 }

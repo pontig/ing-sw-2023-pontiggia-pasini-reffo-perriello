@@ -36,7 +36,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     /**
      * costruttore
      **/
-    public Game(Board board, List<CommonGoalName> commonGoals) { //mancano bisongna sistemare l'asset List<PersonalGoal> personalGoals,
+    public Game(Board board, List<CommonGoalName> commonGoals) {        //mancano bisongna sistemare l'asset List<PersonalGoal> personalGoals,
         this.playerList = new ArrayList<>();
         this.board = board;
         this.bag = new Bag();
@@ -46,30 +46,6 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         this.orderOK = false;
         this.columnOK = false;
         this.numberOfPlayers = 0;
-        this.numPendingItems = 0;
-        this.confirmedItems = new ArrayList<>();
-        this.tmpOrderedItems = new ArrayList<>();
-        this.columnChosen = 0;
-        this.gameResult = new ArrayList<>();
-    }
-    public Game(String nickName, int numberOfPlayer, Board board, List<PersonalGoal> personalGoals, List<CommonGoalName> commonGoals) {
-        this.playerList = new ArrayList<>();
-        this.numberOfPlayers = numberOfPlayer;
-        this.personalGoals = personalGoals;
-        this.currentPlayer = new Player(nickName, assignPersonalGoal());
-        this.playerList.add(this.currentPlayer);
-        this.board = board;
-        this.bag = new Bag();
-        this.board.fill(this.numberOfPlayers, this.bag);
-
-        this.commonGoals = commonGoals;
-        this.firstCommonGoal = assignCommonGoal();
-        this.secondCommonGoal = assignCommonGoal();
-
-        this.endGame = false;
-        this.canConfirmItem = false;
-        this.orderOK = false;
-        this.columnOK = false;
         this.numPendingItems = 0;
         this.confirmedItems = new ArrayList<>();
         this.tmpOrderedItems = new ArrayList<>();
@@ -120,43 +96,67 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         Random random = new Random();
         int randomInt = random.nextInt(this.commonGoals.size());
         CommonGoalName goal = commonGoals.remove(randomInt);
+        CommonGoalAbstract c;
         switch(goal){
             case FIVEX:
-                return new FiveXGoal(this.numberOfPlayers);
+                c = new FiveXGoal(this.numberOfPlayers);
+                c.setDescription(goal.toString());
+                return c;
 
             case FOURANGLES:
-                return new FourAnglesGoal(this.numberOfPlayers);
+                c = new FourAnglesGoal(this.numberOfPlayers);
+                c.setDescription(goal.toString());
+                return c;
 
             case SIXCOUPLES:
-                return new SixCouplesGoal(this.numberOfPlayers);
+                c = new SixCouplesGoal(this.numberOfPlayers);
+                c.setDescription(goal.toString());
+                return c;
 
             case FIVEDIAGONAL:
-                return new FiveDiagonalGoal(this.numberOfPlayers);
+                c = new FiveDiagonalGoal(this.numberOfPlayers);
+                c.setDescription(goal.toString());
+                return c;
 
             case SQUARE2X2:
-                return new Square2x2Goal(this.numberOfPlayers);
+                c = new Square2x2Goal(this.numberOfPlayers);
+                c.setDescription(goal.toString());
+                return c;
 
             case FOURADJACENT:
-                return new FourAdjacentGoal(this.numberOfPlayers);
+                c = new FourAdjacentGoal(this.numberOfPlayers);
+                c.setDescription(goal.toString());
+                return c;
 
             case EIGHTSAMETYPE:
-                return new EightSameTypeGoal(this.numberOfPlayers);
+                c = new EightSameTypeGoal(this.numberOfPlayers);
+                c.setDescription(goal.toString());
+                return c;
 
             case FIVEDECRESING:
-                return new FiveDecreasingGoal(this.numberOfPlayers);
+                c = new FiveDecreasingGoal(this.numberOfPlayers);
+                c.setDescription(goal.toString());
+                return c;
 
             case ROW4ITEMS5:
-                return new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'h', 5, 4);
+                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'h', 5, 4);
+                c.setDescription(goal.toString());
+                return c;
 
             case COLUMNS3ITEMS6:
-                return new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'v',6, 3);
+                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'v',6, 3);
+                c.setDescription(goal.toString());
+                return c;
 
             case ROW2ITEMS5DIFFERENT:
-                return new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'h',5,2);
+                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'h',5,2);
+                c.setDescription(goal.toString());
+                return c;
 
-            /*case COLUMNS2ITEMS6DIFFERENT:
-                return new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'v',6,2);
-                break;*/
+            case COLUMNS2ITEMS6DIFFERENT:
+                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'v',6,2);
+                c.setDescription(goal.toString());
+                return c;
         }
         return new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'v',6,2);
     }
@@ -188,11 +188,6 @@ public class Game extends ObservableModel<Message> {              //extends Obse
      **/
     public void setPlayerList(List<Player> playerList) { this.playerList.addAll(playerList); }
     public void setPlayerState(StateTurn playerState) { this.playerState = playerState; }
-    public void setNumberOfPlayers(int numberOfPlayers) {
-        this.numberOfPlayers = numberOfPlayers;
-        Message msg = new PlayersAk(PLAYERS_AK, getNumberOfPlayers());
-        setChangedAndNotifyObservers(msg);
-    }
     public void setPersonalGoals(List<PersonalGoal> personalGoals){ this.personalGoals = personalGoals; };
     public void setCommonGoals(List<CommonGoalName> commonGoals) { this.commonGoals = commonGoals; }
     public void setCurrentPlayer(Player currentPlayer){ this.currentPlayer = currentPlayer; }
@@ -211,23 +206,37 @@ public class Game extends ObservableModel<Message> {              //extends Obse
      * metodi
      **/
     public void insertPlayer(String nickname) {
-        if(getNumberOfPlayers() == 0 || getPlayerList().size() < getNumberOfPlayers()) {
-            Set<Triplet<Integer, Integer, Type>> pG = new HashSet<Triplet<Integer, Integer, Type>>();
-            pG.add(new Triplet<>(4,1,CAT));
-            pG.add(new Triplet<>(4,1,BOOK));
-            pG.add(new Triplet<>(4,1,GAME));
-            pG.add(new Triplet<>(2,0,FRAME));
-            pG.add(new Triplet<>(2,5,TROPHY));
-            pG.add(new Triplet<>(0,0,PLANTS));
-
+        Set<Triplet<Integer, Integer, Type>> pG = new HashSet<Triplet<Integer, Integer, Type>>();
+        pG.add(new Triplet<>(4,1,CAT));
+        pG.add(new Triplet<>(3,2,BOOK));
+        pG.add(new Triplet<>(1,3,GAME));
+        pG.add(new Triplet<>(2,0,FRAME));
+        pG.add(new Triplet<>(2,5,TROPHY));
+        pG.add(new Triplet<>(0,0,PLANTS));
+        if(getNumberOfPlayers() == 0 || getPlayerList() == null) {
             Player p = new Player(nickname, new PersonalGoal(pG)); //da sostituire con assignPersonal()
             getPlayerList().add(p);
-            Message msg = new NicknameAk(NICKNAME_AK, getNumberOfPlayers());
+            Message msg = new SendDataToClient(ASK_NUMPLAYERS, null, null, null, null, null, null, false, null, null, null);
             setChangedAndNotifyObservers(msg);
         } else {
-            Message msg = new NicknameAk(NICKNAME_NAK, getNumberOfPlayers());
-            setChangedAndNotifyObservers(msg);
+            System.out.println("Bisogna gestire tutte le possibilità");
         }
+    }
+
+    public void setNumberOfPlayers(int numberOfPlayers) {
+        Message msg;
+        if (numberOfPlayers < 5 && numberOfPlayers > 1){
+            this.numberOfPlayers = numberOfPlayers;
+            getBoard().fill(numberOfPlayers, getBag());
+            this.firstCommonGoal = assignCommonGoal();
+            this.secondCommonGoal = assignCommonGoal();
+            setCurrentPlayer(getPlayerList().get(0));
+            //msg = new SendDataToClient(ACK_NUMPLAYERS, null, null, null, null, null, null, false, null, null, null); da inviare e attendere che si inviato a tutti il messaggio send_model
+            msg = new SendDataToClient(SEND_MODEL, getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), null, firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null, null);
+        } else {
+            msg = new SendDataToClient(OUT_BOUND_NUMPLAYERS, null, null, null, null, null, null, false, null, null, null);
+        }
+        setChangedAndNotifyObservers(msg);
     }
     public void itemClick(int x, int y) {
         Pair<Integer, Integer> cell = new Pair<>(x, y);

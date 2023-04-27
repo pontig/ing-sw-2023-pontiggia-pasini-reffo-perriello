@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Shelf;
 import java.util.Stack;
 
 public abstract class CommonGoalAbstract {
+    String description = null;
     private Stack<Integer> points;
     public CommonGoalAbstract(int numberPlayers){
         points = new Stack<>();
@@ -37,8 +38,18 @@ public abstract class CommonGoalAbstract {
         return points;
     }
     public void setPoint(int point) { this.points.push(point); }
+    public void setDescription(String description){ this.description = description; }
     public int removePoint(){
         return points.pop();
+    }
+    public String toString(){
+        StringBuilder commonGoal = new StringBuilder(" ");
+        Object[] pointsArray = getPoints().toArray();
+        commonGoal.append(description).append("\n").append("The points left are: ");
+        for(int i=0; i<getPoints().size(); i++)
+            commonGoal.append(pointsArray[i]).append(" ");
+        commonGoal.append("\n");
+        return commonGoal.toString();
     }
     public abstract boolean specificGoal(Shelf shelf);
 }

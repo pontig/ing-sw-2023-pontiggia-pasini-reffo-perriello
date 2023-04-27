@@ -18,6 +18,7 @@ import java.util.concurrent.Executors;
 
 public class ServerApp extends UnicastRemoteObject implements ServerAbst {
     private static ServerApp instance = null;
+    Server s = null;
     private final ExecutorService executorService = Executors.newCachedThreadPool();
     protected ServerApp() throws RemoteException {}
     public static ServerApp getInstance() throws RemoteException {
@@ -102,7 +103,10 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
     }
 //Crea un server implementato
     public Server connect() throws RemoteException {
-        return new ServerImpl();
+        if(s == null)
+            s = new ServerImpl();
+
+        return s;
     }
 }
 

@@ -64,13 +64,17 @@ public class GameController {                                                   
     private void play(Message arg) {
         State msg = arg.getInfo();
         switch(msg){
-            case SET_NAME:
+            case SET_NICKNAME:
                 arg.printMsg();
                 setPlayer(arg.getNickname());
                 break;
             case SET_NUMPLAYERS:
                 arg.printMsg();
-                setNumPlayers(arg.getNumPlayers());
+                setNumPlayers(arg.getNumRowAction());
+                break;
+            case SELECT_ITEM:
+                arg.printMsg();
+                onItemClick(arg.getNumRowAction(), arg.getColumnPos());
                 break;
             default:
                 System.err.println("Ignoring event from " + msg + ": " + arg);
