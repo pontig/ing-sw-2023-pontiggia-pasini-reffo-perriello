@@ -64,4 +64,24 @@ public class SendDataToServer implements Message{
     }
     @Override
     public String getPersonal() {return null;}
+
+    @Override
+    public String getSelected() {
+        return null;
+    }
+
+    @Override
+    public String getShelf() {
+        return null;
+    }
+
+    @Override
+    public String getOrdered() {
+        return null;
+    }
+
+    @Override
+    public String getColumns() {
+        return null;
+    }
 }

@@ -16,7 +16,6 @@ public class ClientAppSecond {
         int port;
 
         do{
-            System.out.println("\nWelcome to MyShelfy");
             System.out.println("Please choose if you want RMI or Socket client (0 is RMI / 1 is Socket):");
             networkClient = terminal.nextInt();
         } while(networkClient != 0 && networkClient != 1);

@@ -4,6 +4,7 @@ import it.polimi.ingsw.enums.State;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.tuples.Pair;
 
 public class GameController {                                                                   //extends Observer
     private Game game;
@@ -54,10 +55,10 @@ public class GameController {                                                   
     }
 
     public void update(Client o, Message arg) {
-        if (!o.equals(currentClient)) {
+       /* if (!o.equals(currentClient)) {
             System.err.println("Discarding notification from " + o);
             return;
-        }
+        }*/
         play(arg);
     }
 
@@ -74,8 +75,11 @@ public class GameController {                                                   
                 break;
             case SELECT_ITEM:
                 arg.printMsg();
-                onItemClick(arg.getNumRowAction(), arg.getColumnPos());
+                onItemClick(arg.getColumnPos(), arg.getNumRowAction());
                 break;
+            case CONFIRM_ITEMS:
+                arg.printMsg();
+                onConfirmItems();
             default:
                 System.err.println("Ignoring event from " + msg + ": " + arg);
                 break;

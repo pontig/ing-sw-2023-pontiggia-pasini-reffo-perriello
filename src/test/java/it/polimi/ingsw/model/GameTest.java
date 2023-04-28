@@ -59,8 +59,8 @@ class GameTest {
         return commonGoals;
     }
     Game gameTwoPlayers = new Game("Tommi", 2, initializeBoard(), initializeCommonGoals());
-    Game gameThreePlayers = new Game("Eli", 3, initializeBoard(), initializeCommonGoals());
-    Game gameFourPlayers = new Game("Mauri", 4, initializeBoard(), initializeCommonGoals());
+  //  Game gameThreePlayers = new Game("Eli", 3, initializeBoard(), initializeCommonGoals());
+   // Game gameFourPlayers = new Game("Mauri", 4, initializeBoard(), initializeCommonGoals());
 
     @Test
     void getPlayerList() {
@@ -244,9 +244,9 @@ class GameTest {
         gameTwoPlayers.getCurrentPlayer().getShelf().setItem(4, 4, new Item(GAME, 3));
         gameTwoPlayers.getCurrentPlayer().getShelf().setItem(4, 5, new Item(BOOK, 1));
         gameTwoPlayers.itemClick(4,1);
-        assertEquals(0, gameTwoPlayers.getNumPendingItems());
+        assertEquals(1, gameTwoPlayers.getNumPendingItems());
         gameTwoPlayers.itemClick(3,1);
-        assertEquals(0, gameTwoPlayers.getNumPendingItems());
+        assertEquals(1, gameTwoPlayers.getNumPendingItems());
         gameTwoPlayers.itemClick(5,2);
         assertEquals(1, gameTwoPlayers.getNumPendingItems());
         gameTwoPlayers.itemClick(6,2);

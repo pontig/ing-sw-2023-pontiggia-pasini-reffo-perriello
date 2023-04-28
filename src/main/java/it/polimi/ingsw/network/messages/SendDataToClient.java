@@ -9,20 +9,21 @@ import java.util.List;
 
 public class SendDataToClient implements Message{
     State info = null;
+    String nickname = null;
     String board = null;
     String personalGoal = null;
-    Item[][] shelf = null;
+    String shelf = null;
     String c1 = null;
     String c2 = null;
-    List<Pair<Integer, Integer>> selected = null;
+    String selected = null;
     boolean confirm = false;
-    List<Item> ordered = null;
-    List<Item> unordered = null;
-    List<Integer> columns = null;
+    String ordered = null;
+    String columns = null;
 
-    public SendDataToClient(State info, String board, String personalGoal, Item[][] shelf, String c1, String c2,
-                            List<Pair<Integer, Integer>> selected, boolean confirm, List<Item> ordered, List<Item> unordered, List<Integer> columns){
+    public SendDataToClient(State info, String nickname, String board, String personalGoal, String shelf, String c1, String c2,
+                            String selected, boolean confirm, String ordered, String columns){
         this.info = info;
+        this.nickname = nickname;
         this.board = board;
         this.personalGoal = personalGoal;
         this.shelf = shelf;
@@ -31,7 +32,6 @@ public class SendDataToClient implements Message{
         this.selected = selected;
         this.confirm = confirm;
         this.ordered = ordered;
-        this.unordered = unordered;
         this.columns = columns;
     }
     @Override
@@ -57,16 +57,23 @@ public class SendDataToClient implements Message{
     }
     @Override
     public String getPersonal() { return personalGoal; }
-
-
+    @Override
+    public String getSelected() { return selected; }
+    @Override
+    public String getShelf() { return shelf; }
+    @Override
+    public String getOrdered() { return ordered; }
+    @Override
+    public String getColumns() { return columns; }
     @Override
     public String getNickname() {
-        return null;
+        return nickname;
     }
+    @Override
+    public boolean getConfirm() {return confirm;}
+
     @Override
     public int getNumRowAction() {return 0;}
     @Override
     public int getColumnPos() {return 0;}
-    @Override
-    public boolean getConfirm() {return false;}
 }

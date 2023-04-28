@@ -23,10 +23,10 @@ final class PersonalGoal {
         StringBuilder personalGoal = new StringBuilder(" ");
         Triplet<Integer, Integer, Type>[] array = new Triplet[pg.size()];
         pg.toArray(array);
-        for(int i=0; i<5; i++){
-            for(int j=0; j<6; j++){
+        for(int i=0; i<6; i++){
+            for(int j=0; j<5; j++){
                 for(Triplet<Integer, Integer, Type> p: array){
-                    if(p.get_x() == i && p.get_y() == j) {
+                    if(p.get_x() == j && p.get_y() == i) {
                         item = true;
                         switch (p.get_z()) {
                             case BOOK:

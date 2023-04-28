@@ -19,4 +19,8 @@ public interface Message extends Serializable {
     String getFirstCommon();
     String getSecondCommon();
     String getPersonal();
+    String getSelected();
+    String getShelf();
+    String getOrdered();
+    String getColumns();
 }

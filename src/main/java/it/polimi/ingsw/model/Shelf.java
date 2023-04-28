@@ -230,4 +230,57 @@ public class Shelf {
         }
     }
 
+    public String toString(){
+        StringBuilder shelf = new StringBuilder(" ");
+        for(int i=0; i<6; i++){
+            for(int j=0; j<5; j++){
+                if(getItems()[j][i] != null){
+                    switch (getItems()[j][i].getType()) {
+                        case BOOK:
+                            shelf.append("W").append(getItems()[j][i].getVariant());
+                            break;
+                        case CAT:
+                            shelf.append("G").append(getItems()[j][i].getVariant());
+                            break;
+                        case FRAME:
+                            shelf.append("B").append(getItems()[j][i].getVariant());
+                            break;
+                        case GAME:
+                            shelf.append("Y").append(getItems()[j][i].getVariant());
+                            break;
+                        case PLANTS:
+                            shelf.append("P").append(getItems()[j][i].getVariant());
+                            break;
+                        case TROPHY:
+                            shelf.append("L").append(getItems()[j][i].getVariant());
+                            break;
+                        default:
+                            System.out.println("Error");
+                            break;
+                    }
+                } else
+                    shelf.append('■').append(" ");
+            }
+            if(i!=5) shelf.append("\n ");
+            else shelf.append("\n");
+        }
+        return shelf.toString();
+    }
+
+    public String columnsToString(){
+        StringBuilder columns = new StringBuilder(" ");
+        boolean equals = false;
+        for(int i=0; i<5; i++){
+            for(int c:getInsertableColumns()){
+                if(c == i) {
+                    columns.append("▲").append(" ");
+                    equals = true;
+                    break;
+                }
+            }
+            if(!equals) columns.append("  ");
+            equals = false;
+        }
+        return columns.toString();
+    }
 }

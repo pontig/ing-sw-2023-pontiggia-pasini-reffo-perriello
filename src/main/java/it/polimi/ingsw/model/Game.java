@@ -206,6 +206,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
      * metodi
      **/
     public void insertPlayer(String nickname) {
+        Message msg = null;
         Set<Triplet<Integer, Integer, Type>> pG = new HashSet<Triplet<Integer, Integer, Type>>();
         pG.add(new Triplet<>(4,1,CAT));
         pG.add(new Triplet<>(3,2,BOOK));
@@ -213,14 +214,25 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         pG.add(new Triplet<>(2,0,FRAME));
         pG.add(new Triplet<>(2,5,TROPHY));
         pG.add(new Triplet<>(0,0,PLANTS));
+
         if(getNumberOfPlayers() == 0 || getPlayerList() == null) {
             Player p = new Player(nickname, new PersonalGoal(pG)); //da sostituire con assignPersonal()
             getPlayerList().add(p);
-            Message msg = new SendDataToClient(ASK_NUMPLAYERS, null, null, null, null, null, null, false, null, null, null);
-            setChangedAndNotifyObservers(msg);
+            msg = new SendDataToClient(ASK_NUMPLAYERS, null,null, null, null, null, null, null, false, null, null);
         } else {
-            System.out.println("Bisogna gestire tutte le possibilità");
+            if(getNumberOfPlayers() == getPlayerList().size()) {
+                msg = new SendDataToClient(NACK_NICKNAME, null,null, null, null, null, null, null, false, null, null);
+            } else if(getNumberOfPlayers() > getPlayerList().size()) {
+                //devo controllare se il nickname va bene in caso messaggio SAME_NICKNAME
+                Player p = new Player(nickname, new PersonalGoal(pG)); //da sostituire con assignPersonal()
+                getPlayerList().add(p);
+                if(getNumberOfPlayers() == getPlayerList().size())
+                    msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), null, firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
+                else
+                    msg = new SendDataToClient(ACK_NICKNAME, null,null, null, null, null, null, null, false, null, null);
+            }
         }
+        setChangedAndNotifyObservers(msg);
     }
 
     public void setNumberOfPlayers(int numberOfPlayers) {
@@ -231,10 +243,9 @@ public class Game extends ObservableModel<Message> {              //extends Obse
             this.firstCommonGoal = assignCommonGoal();
             this.secondCommonGoal = assignCommonGoal();
             setCurrentPlayer(getPlayerList().get(0));
-            //msg = new SendDataToClient(ACK_NUMPLAYERS, null, null, null, null, null, null, false, null, null, null); da inviare e attendere che si inviato a tutti il messaggio send_model
-            msg = new SendDataToClient(SEND_MODEL, getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), null, firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null, null);
+            msg = new SendDataToClient(ACK_NUMPLAYERS, null, null, null, null, null, null, null, false, null, null);
         } else {
-            msg = new SendDataToClient(OUT_BOUND_NUMPLAYERS, null, null, null, null, null, null, false, null, null, null);
+            msg = new SendDataToClient(OUT_BOUND_NUMPLAYERS, null,null, null, null, null, null, null, false, null, null);
         }
         setChangedAndNotifyObservers(msg);
     }
@@ -256,6 +267,12 @@ public class Game extends ObservableModel<Message> {              //extends Obse
 
             setCanConfirmItem(getNumPendingItems() > 0);
         }
+        System.out.println(getNumPendingItems());
+        for(Pair<Integer, Integer> p: getBoard().getPendingCells()){
+            System.out.println(getBoard().getDisposition()[p.getX()][p.getY()].getContent().getType().toString());
+        }
+        Message msg = new SendDataToClient(SELECTED, getCurrentPlayer().getNickname(), getBoard().toString(), null, null, null, null, getBoard().pendingToString(), getCanConfirmItems(), null, null);
+        setChangedAndNotifyObservers(msg);
     }
 
     public void confirmItems() {
@@ -263,7 +280,8 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         setConfirmedItems(getBoard().removePendingItems());
         setNumPendingItems(getConfirmedItems().size());
         getCurrentPlayer().getShelf().setInsertableColumns(getNumPendingItems());
-        //Aggiornamento del player state
+        Message msg = new SendDataToClient(ORDER_n_COLUMN, getCurrentPlayer().getNickname(), getBoard().toString(), null, getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), false, orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString());
+        setChangedAndNotifyObservers(msg);
     }
 
     public void orderSelectedItem(int position, int action){        // 0 - deseleziono da tmpOrderedItems, 1 - seleziono da confirmedItems
@@ -367,5 +385,40 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     private void setChangedAndNotifyObservers(Message arg) {
         setChangedModel();
         notifyObserversModel(arg);
+    }
+
+    private String confirmedItemsToString(){
+        StringBuilder unordered = new StringBuilder(" ");
+        for(int i=0; i<getConfirmedItems().size(); i++){
+            switch (getConfirmedItems().get(i).getType()) {
+                case BOOK:
+                    unordered.append("W").append(getConfirmedItems().get(i).getVariant());
+                    break;
+                case CAT:
+                    unordered.append("G").append(getConfirmedItems().get(i).getVariant());
+                    break;
+                case FRAME:
+                    unordered.append("B").append(getConfirmedItems().get(i).getVariant());
+                    break;
+                case GAME:
+                    unordered.append("Y").append(getConfirmedItems().get(i).getVariant());
+                    break;
+                case PLANTS:
+                    unordered.append("P").append(getConfirmedItems().get(i).getVariant());
+                    break;
+                case TROPHY:
+                    unordered.append("L").append(getConfirmedItems().get(i).getVariant());
+                    break;
+                default:
+                    System.out.println("Error");
+                    break;
+            }
+        }
+        return unordered.toString();
+    }
+
+    private String orderedItemsToString(){
+        StringBuilder ordered = new StringBuilder(" ");
+        return ordered.toString();
     }
 }

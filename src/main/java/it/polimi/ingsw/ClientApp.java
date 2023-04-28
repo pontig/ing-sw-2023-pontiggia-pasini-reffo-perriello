@@ -10,6 +10,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
 
+import static it.polimi.ingsw.view.CLI.*;
+
 public class ClientApp {
     public static void main( String[] args ) throws RemoteException, NotBoundException {
         Scanner terminal = new Scanner(System.in);
@@ -18,7 +20,6 @@ public class ClientApp {
         int port;
 
         do{
-            System.out.println("\nWelcome to MyShelfy");
             System.out.println("Please choose if you want RMI or Socket client (0 is RMI / 1 is Socket):");
             networkClient = terminal.nextInt();
         } while(networkClient != 0 && networkClient != 1);

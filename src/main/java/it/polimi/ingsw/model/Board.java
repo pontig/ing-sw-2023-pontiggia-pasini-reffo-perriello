@@ -156,9 +156,8 @@ public class Board {
         for (Pair<Integer, Integer> pair : pendingCells) {
             int x = pair.getX();
             int y = pair.getY();
-            offPending.add(disposition[y][x].getContent());
-            disposition[y][x].setContent(null);
-            pendingCells.remove(pair);
+            offPending.add(disposition[x][y].getContent());
+            disposition[x][y].setContent(null);
         }
         pendingCells.clear();
         return offPending;
@@ -220,7 +219,7 @@ public class Board {
      * @return true if the selected cell has at least one free side, false if not
      */
     private boolean adjacencyCheck(int x, int y) {
-        if (disposition[y][x].getContent() != null) {
+        if (disposition[x][y].getContent() != null) {
             switch (x) {
                 case 0:
                 case 8:
@@ -231,7 +230,7 @@ public class Board {
                         case 8:
                             return true;
                         default:
-                            if (disposition[y][x + 1].getContent() == null || disposition[y][x - 1].getContent() == null || disposition[y + 1][x].getContent() == null && disposition[y - 1][x].getContent() == null) {
+                            if (disposition[y][x + 1].getContent() == null || disposition[y][x - 1].getContent() == null || disposition[y + 1][x].getContent() == null || disposition[y - 1][x].getContent() == null) {
                                 return true;
                             }
                     }
@@ -270,37 +269,79 @@ public class Board {
 
     public String toString(){
         StringBuilder board = new StringBuilder(" ");
+        boolean selected = false;
         for(int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (getDisposition()[i][j].getContent() != null) {
-                    switch (getDisposition()[i][j].getContent().getType()) {
-                        case BOOK:
-                            board.append("W").append(getDisposition()[i][j].getContent().getVariant()).append(" ");
+                if (getDisposition()[j][i].getContent() != null) {
+                    for(Pair<Integer, Integer> item: getPendingCells()){
+                        if(item.getX() == j && item.getY() == i) {
+                            board.append("#").append(getDisposition()[j][i].getContent().getVariant()).append(" ");
+                            selected = true;
                             break;
-                        case CAT:
-                            board.append("G").append(getDisposition()[i][j].getContent().getVariant()).append(" ");
-                            break;
-                        case FRAME:
-                            board.append("B").append(getDisposition()[i][j].getContent().getVariant()).append(" ");
-                            break;
-                        case GAME:
-                            board.append("Y").append(getDisposition()[i][j].getContent().getVariant()).append(" ");
-                            break;
-                        case PLANTS:
-                            board.append("P").append(getDisposition()[i][j].getContent().getVariant()).append(" ");
-                            break;
-                        case TROPHY:
-                            board.append("L").append(getDisposition()[i][j].getContent().getVariant()).append(" ");
-                            break;
-                        default:
-                            System.out.println("Error");
-                            break;
+                        }
+                    }
+                    if(!selected) {
+                        switch (getDisposition()[j][i].getContent().getType()) {
+                            case BOOK:
+                                board.append("W").append(getDisposition()[j][i].getContent().getVariant()).append(" ");
+                                break;
+                            case CAT:
+                                board.append("G").append(getDisposition()[j][i].getContent().getVariant()).append(" ");
+                                break;
+                            case FRAME:
+                                board.append("B").append(getDisposition()[j][i].getContent().getVariant()).append(" ");
+                                break;
+                            case GAME:
+                                board.append("Y").append(getDisposition()[j][i].getContent().getVariant()).append(" ");
+                                break;
+                            case PLANTS:
+                                board.append("P").append(getDisposition()[j][i].getContent().getVariant()).append(" ");
+                                break;
+                            case TROPHY:
+                                board.append("L").append(getDisposition()[j][i].getContent().getVariant()).append(" ");
+                                break;
+                            default:
+                                System.out.println("Error");
+                                break;
+                        }
                     }
                 } else
                     board.append('■').append(" ").append(" ");
+
+                selected = false;
             }
             board.append("\n ");
         }
         return board.toString();
+    }
+
+    public String pendingToString(){
+        StringBuilder pendingStr = new StringBuilder(" ");
+        for(Pair<Integer, Integer> p: getPendingCells()){
+            switch (getDisposition()[p.getX()][p.getY()].getContent().getType()) {
+                case BOOK:
+                    pendingStr.append("W").append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(" ");
+                    break;
+                case CAT:
+                    pendingStr.append("G").append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(" ");
+                    break;
+                case FRAME:
+                    pendingStr.append("B").append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(" ");
+                    break;
+                case GAME:
+                    pendingStr.append("Y").append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(" ");
+                    break;
+                case PLANTS:
+                    pendingStr.append("P").append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(" ");
+                    break;
+                case TROPHY:
+                    pendingStr.append("L").append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(" ");
+                    break;
+                default:
+                    System.out.println("Error");
+                    break;
+            }
+        }
+        return pendingStr.toString();
     }
 }
