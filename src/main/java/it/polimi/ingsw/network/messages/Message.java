@@ -21,6 +21,6 @@ public interface Message extends Serializable {
     String getPersonal();
     String getSelected();
     String getShelf();
-    String getOrdered();
+    String getOrderedRanking();
     String getColumns();
 }

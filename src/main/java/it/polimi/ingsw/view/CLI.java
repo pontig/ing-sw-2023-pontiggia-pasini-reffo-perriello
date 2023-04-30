@@ -114,29 +114,30 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                     break;
                 //Selecting an items from board by typing its coordinated ros first followed by the column
                 case 4:
-                    boolean okCoordinates = false;
-                    int row = 0;
-                    int column = 0;
+                    int row = -1;
+                    int column = -1;
                     System.out.println("\nEnter the coordinates of the item you wanna select: ");
                     System.out.print("Row: ");
                     do{
                         try{
                             row = Integer.parseInt(terminal.next());
-                            okCoordinates = true;
                         } catch (NumberFormatException e) {
-                            System.out.print("You entered an invalid character, please enter a number for the row: ");
+                            System.out.println("It is not a valid number!!");
                         }
-                    } while(!okCoordinates);
-                    okCoordinates = false;
+                        if(row < 0 || row > 8)
+                            System.out.print("Enter a valid number for row: ");
+                    } while(row < 0 || row > 8);
+
                     System.out.print("Column: ");
                     do{
                         try{
                             column = Integer.parseInt(terminal.next());
-                            okCoordinates = true;
                         } catch (NumberFormatException e) {
-                            System.out.print("You entered an invalid character, please enter a number for the column: ");
+                            System.out.println("It is not a valid number!!");
                         }
-                    } while(!okCoordinates);
+                        if(column < 0 || column > 8)
+                            System.out.print("Enter a valid number for row: ");
+                    } while(column < 0 || column > 8);
                     msg = new SendDataToServer(SELECT_ITEM, null, row, column, false);
                     setChangedView();
                     notifyObserversView(msg);
@@ -269,6 +270,8 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                     if (this.nickname.equals(arg.getNickname())){
                         System.out.println(RED + "\nThis is your own personal goal: " + RESET);
                         showItems(arg.getPersonal());
+                        System.out.println(RED + "\nThis is your own shelf: " + RESET);
+                        showItems(arg.getShelf());
                         System.out.println("\n\nIt is your turn " + arg.getNickname() + "!!");
                         System.out.println("To select a tile you must enter the couple Row - Column, if you wanna deselect it you can do it during the next submission by typing the same couple Row - Column.");
                         System.out.println("Each time you choose a tile press enter key to submit.");
@@ -301,11 +304,13 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
 
                 case ORDER_n_COLUMN:
                     arg.printMsg();
-                    System.out.print(RED + "\nIt follows the current state of the board, it is without the choice of ");
-                    if(arg.getNickname().equals(this.nickname)) System.out.println("you" + RESET);
-                    else System.out.println(arg.getNickname() + RESET);
+                    System.out.print(RED + "\nIt follows the current state of the board, it is without ");
+                    if(arg.getNickname().equals(this.nickname)) System.out.println("your choice" + RESET);
+                    else System.out.println(arg.getNickname() + "'s choice" + RESET);
                     showBoard(arg.getBoard());
                     if(arg.getNickname().equals(this.nickname)){
+                        System.out.println(RED + "\nThis is your own personal goal: " + RESET);
+                        showItems(arg.getPersonal());
                         System.out.print(RED + "\nThis is your own shelf, you can put the tiles only in the columns where there is a red arrow\n " + RESET);
                         for(int i=0; i<5; i++) System.out.print(i + " ");
                         System.out.print("\n");
@@ -317,7 +322,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                         System.out.print(RED + "\nUNORDERED ITEMS:" + RESET + " 1");
                         showItems(arg.getSelected());
                         System.out.print(RED + "\n  ORDERED ITEMS:" + RESET + " 0");
-                        showItems(arg.getOrdered());
+                        showItems(arg.getOrderedRanking());
 
                         System.out.println("\n\nNow you must select a column in the shelf and order the tile that will be inserted in it.");
                         System.out.println("Type \"C\" for choosing the column or type \"O\" for ordering the tiles: -- (default \"O\")");
@@ -328,6 +333,8 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                 case ACK_ORDER_n_COLUMN:
                     arg.printMsg();
                     if(arg.getNickname().equals(nickname)) {
+                        System.out.println(RED + "\nThis is your own personal goal: " + RESET);
+                        showItems(arg.getPersonal());
                         System.out.print(RED + "\nThis is your shelf and the columns you chose is highlighted with a red harrow.\n " + RESET);
                         for (int i = 0; i < 5; i++) System.out.print(i + " ");
                         System.out.print("\n");
@@ -339,7 +346,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                         System.out.print(RED + "\nUNORDERED ITEMS:" + RESET + " 1");
                         showItems(arg.getSelected());
                         System.out.print(RED + "\n  ORDERED ITEMS:" + RESET + " 0");
-                        showItems(arg.getOrdered());
+                        showItems(arg.getOrderedRanking());
                         if(arg.getConfirm()){
                             System.out.println("\nIf you wanna confirm you selection enter \"YES\" otherwise \"NO\": -- (default \"NO\")");
                             String insert = terminal.next();
@@ -382,6 +389,13 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
 
                 default:
                     System.err.println("Ignoring event from " + msg + ": " + arg);
+                    break;
+
+                case RESULTS:
+                    arg.getInfo();
+                    System.out.println(RED + arg.getOrderedRanking() + RESET);
+                    state = 1;
+                    lock.notifyAll();
                     break;
             }
         }

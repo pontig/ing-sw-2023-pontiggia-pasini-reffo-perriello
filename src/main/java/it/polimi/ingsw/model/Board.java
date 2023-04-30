@@ -230,7 +230,7 @@ public class Board {
                         case 8:
                             return true;
                         default:
-                            if (disposition[y][x + 1].getContent() == null || disposition[y][x - 1].getContent() == null || disposition[y + 1][x].getContent() == null || disposition[y - 1][x].getContent() == null) {
+                            if (disposition[x+1][y].getContent() == null || disposition[x-1][y].getContent() == null || disposition[x][y+1].getContent() == null || disposition[x][y-1].getContent() == null) {
                                 return true;
                             }
                     }

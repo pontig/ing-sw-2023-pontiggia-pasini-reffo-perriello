@@ -237,7 +237,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                     Player p = new Player(nickname, new PersonalGoal(pG)); //da sostituire con assignPersonal()
                     getPlayerList().add(p);
                     if (getNumberOfPlayers() == getPlayerList().size())
-                        msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), null, firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
+                        msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), getCurrentPlayer().getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
                     else
                         msg = new SendDataToClient(ACK_NICKNAME, null, null, null, null, null, null, null, false, null, null);
                 }
@@ -301,7 +301,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         setConfirmedItems(getBoard().removePendingItems());
         setNumPendingItems(getConfirmedItems().size());
         getCurrentPlayer().getShelf().setInsertableColumns(getNumPendingItems());
-        msg = new SendDataToClient(ORDER_n_COLUMN, getCurrentPlayer().getNickname(), getBoard().toString(), null, getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), false, orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(-1));
+        msg = new SendDataToClient(ORDER_n_COLUMN, getCurrentPlayer().getNickname(), getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), false, orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(-1));
         setChangedAndNotifyObservers(msg);
     }
 
@@ -341,7 +341,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         }
 
         setOrderOK(getConfirmedItems().size() == 0 && getTmpOrderedItems().size() == getNumPendingItems());
-        msg = new SendDataToClient(ACK_ORDER_n_COLUMN, getCurrentPlayer().getNickname(), null, null, getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), getColumnOK()&&getOrderOK(), orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(getColumnChosen()));
+        msg = new SendDataToClient(ACK_ORDER_n_COLUMN, getCurrentPlayer().getNickname(), null, getCurrentPlayer().getPersonalGoal().toString(), getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), getColumnOK()&&getOrderOK(), orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(getColumnChosen()));
         setChangedAndNotifyObservers(msg);
     }
 
@@ -351,7 +351,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
             if(c == column) {
                 setColumnChosen(column);
                 setColumnOK(getColumnChosen() > -1);
-                msg = new SendDataToClient(ACK_ORDER_n_COLUMN, getCurrentPlayer().getNickname(), null, null, getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), getColumnOK()&&getOrderOK(), orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(column));
+                msg = new SendDataToClient(ACK_ORDER_n_COLUMN, getCurrentPlayer().getNickname(), null, getCurrentPlayer().getPersonalGoal().toString(), getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), getColumnOK()&&getOrderOK(), orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(column));
                 columnFind = true;
                 break;
             }
@@ -401,7 +401,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                 setEndGame(true);
             }
         }
-        System.out.println("Fine gioco? " + getEndGame() + getCurrentPlayer().equals(getPlayerList().get(getPlayerList().size() - 1)));
+        System.out.println("Fine gioco? " + getEndGame() + "and" + getCurrentPlayer().equals(getPlayerList().get(getPlayerList().size() - 1)));
         return getEndGame() && getCurrentPlayer().equals(getPlayerList().get(getPlayerList().size() - 1));        //se true si va poi a endGame altrimenti se false a nextPlayer deciso dal controller
     }
     private void refillBoard() {
@@ -421,7 +421,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         setNumPendingItems(0);
         setColumnChosen(-1);
         System.out.println("Current player: " + getCurrentPlayer().getNickname());
-        msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), null, firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
+        msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), getCurrentPlayer().getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
         setChangedAndNotifyObservers(msg);
     }
 
@@ -453,6 +453,11 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                 tempResult = new ArrayList<>();
             }
         }
+        for(Pair<String, Integer> p: getGameResult()){
+            System.out.println("Player " + p.getX() + " points " + p.getY());
+        }
+        msg = new SendDataToClient(RESULTS, null, null, null, null, null, null, null, false, gameResultToString(), null);
+        setChangedAndNotifyObservers(msg);
     }
 
     private void setChangedAndNotifyObservers(Message arg) {
@@ -519,4 +524,16 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         }
         return ordered.toString();
     }
+
+    private String gameResultToString(){
+        StringBuilder ranking = new StringBuilder("MATCH RANKING: \n");
+        int i = 1;
+        for(Pair<String, Integer> p: getGameResult()){
+            ranking.append(i).append(" - ");
+            ranking.append(p.getX()).append("   Total score: ").append(p.getY()).append("\n");
+            i++;
+        }
+        return ranking.toString();
+    }
+
 }

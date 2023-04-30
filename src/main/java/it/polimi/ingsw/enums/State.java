@@ -27,4 +27,5 @@ public enum State {
     NACK_COLUMN,
     NACK_ORDER,
     INSERTION_DONE,
+    RESULTS
 }

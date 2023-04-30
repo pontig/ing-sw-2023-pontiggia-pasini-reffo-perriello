@@ -17,11 +17,11 @@ public class SendDataToClient implements Message{
     String c2 = null;
     String selected = null;
     boolean confirm = false;
-    String ordered = null;
+    String orderedRanking = null;
     String columns = null;
 
     public SendDataToClient(State info, String nickname, String board, String personalGoal, String shelf, String c1, String c2,
-                            String selected, boolean confirm, String ordered, String columns){
+                            String selected, boolean confirm, String orderedRanking, String columns){
         this.info = info;
         this.nickname = nickname;
         this.board = board;
@@ -31,7 +31,7 @@ public class SendDataToClient implements Message{
         this.c2 = c2;
         this.selected = selected;
         this.confirm = confirm;
-        this.ordered = ordered;
+        this.orderedRanking = orderedRanking;
         this.columns = columns;
     }
     @Override
@@ -62,7 +62,7 @@ public class SendDataToClient implements Message{
     @Override
     public String getShelf() { return shelf; }
     @Override
-    public String getOrdered() { return ordered; }
+    public String getOrderedRanking() { return orderedRanking; }
     @Override
     public String getColumns() { return columns; }
     @Override
