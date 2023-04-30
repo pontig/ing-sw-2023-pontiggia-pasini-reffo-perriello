@@ -33,6 +33,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     private int columnChosen;
     private List<Pair<String, Integer>> gameResult;
     private Bag bag;
+    private Message msg = null;
     /**
      * costruttore
      **/
@@ -49,7 +50,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         this.numPendingItems = 0;
         this.confirmedItems = new ArrayList<>();
         this.tmpOrderedItems = new ArrayList<>();
-        this.columnChosen = 0;
+        this.columnChosen = -1;
         this.gameResult = new ArrayList<>();
     }
 
@@ -57,7 +58,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         this.playerList = new ArrayList<>();
         this.numberOfPlayers = numberOfPlayer;
         //Da sistemare il passaggio di asset
-        Set<Triplet<Integer, Integer, Type>> pG = new HashSet<Triplet<Integer, Integer, Type>>();
+        Set<Triplet<Integer, Integer, Type>> pG = new HashSet<>();
         pG.add(new Triplet<>(4,1,CAT));
         pG.add(new Triplet<>(4,1,BOOK));
         pG.add(new Triplet<>(4,1,GAME));
@@ -85,7 +86,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         this.columnChosen = 0;
         this.gameResult = new ArrayList<>();
     }
-
+//TODO - sitemare i personal goal dagli asset e anche SEND_MODEL che manda il personal a tutti
     private PersonalGoal assignPersonalGoal(){
         Random random = new Random();
         int randomInt = random.nextInt(this.personalGoals.size());
@@ -166,8 +167,8 @@ public class Game extends ObservableModel<Message> {              //extends Obse
      **/
     public List<Player> getPlayerList(){ return playerList; }
     public StateTurn getPlayerState() { return playerState; }
-    public int getNumberOfPlayers(){ return numberOfPlayers; };
-    public List<PersonalGoal> getPersonalGoals() {return personalGoals; };
+    public int getNumberOfPlayers(){ return numberOfPlayers; }
+    public List<PersonalGoal> getPersonalGoals() {return personalGoals; }
     public List<CommonGoalName> getCommonGoals() { return commonGoals;}
     public Player getCurrentPlayer() { return currentPlayer; }
     public CommonGoalAbstract getFirstCommonGoal() { return firstCommonGoal; }
@@ -188,7 +189,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
      **/
     public void setPlayerList(List<Player> playerList) { this.playerList.addAll(playerList); }
     public void setPlayerState(StateTurn playerState) { this.playerState = playerState; }
-    public void setPersonalGoals(List<PersonalGoal> personalGoals){ this.personalGoals = personalGoals; };
+    public void setPersonalGoals(List<PersonalGoal> personalGoals){ this.personalGoals = personalGoals; }
     public void setCommonGoals(List<CommonGoalName> commonGoals) { this.commonGoals = commonGoals; }
     public void setCurrentPlayer(Player currentPlayer){ this.currentPlayer = currentPlayer; }
     public void setBoard(Board board) { this.board = board; }
@@ -206,8 +207,8 @@ public class Game extends ObservableModel<Message> {              //extends Obse
      * metodi
      **/
     public void insertPlayer(String nickname) {
-        Message msg = null;
-        Set<Triplet<Integer, Integer, Type>> pG = new HashSet<Triplet<Integer, Integer, Type>>();
+        boolean sameNickname = false;
+        Set<Triplet<Integer, Integer, Type>> pG = new HashSet<>();
         pG.add(new Triplet<>(4,1,CAT));
         pG.add(new Triplet<>(3,2,BOOK));
         pG.add(new Triplet<>(1,3,GAME));
@@ -215,38 +216,58 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         pG.add(new Triplet<>(2,5,TROPHY));
         pG.add(new Triplet<>(0,0,PLANTS));
 
-        if(getNumberOfPlayers() == 0 || getPlayerList() == null) {
-            Player p = new Player(nickname, new PersonalGoal(pG)); //da sostituire con assignPersonal()
-            getPlayerList().add(p);
-            msg = new SendDataToClient(ASK_NUMPLAYERS, null,null, null, null, null, null, null, false, null, null);
-        } else {
-            if(getNumberOfPlayers() == getPlayerList().size()) {
-                msg = new SendDataToClient(NACK_NICKNAME, null,null, null, null, null, null, null, false, null, null);
-            } else if(getNumberOfPlayers() > getPlayerList().size()) {
-                //devo controllare se il nickname va bene in caso messaggio SAME_NICKNAME
+        for(Player p: getPlayerList()){
+            if(p.getNickname().equals(nickname)) {
+                sameNickname = true;
+                break;
+            }
+        }
+
+        if(sameNickname)
+            msg = new SendDataToClient(SAME_NICKNAME, null, null, null, null, null, null, null, false, null, null);
+        else{
+            if(getNumberOfPlayers() == 0 || getPlayerList() == null) {
                 Player p = new Player(nickname, new PersonalGoal(pG)); //da sostituire con assignPersonal()
                 getPlayerList().add(p);
-                if(getNumberOfPlayers() == getPlayerList().size())
-                    msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), null, firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
-                else
-                    msg = new SendDataToClient(ACK_NICKNAME, null,null, null, null, null, null, null, false, null, null);
+                msg = new SendDataToClient(ASK_NUMPLAYERS, null,null, null, null, null, null, null, false, null, null);
+            } else {
+                if (getNumberOfPlayers() == getPlayerList().size()) {
+                    msg = new SendDataToClient(NACK_NICKNAME, null, null, null, null, null, null, null, false, null, null);
+                } else if (getNumberOfPlayers() > getPlayerList().size()) {
+                    Player p = new Player(nickname, new PersonalGoal(pG)); //da sostituire con assignPersonal()
+                    getPlayerList().add(p);
+                    if (getNumberOfPlayers() == getPlayerList().size())
+                        msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), null, firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
+                    else
+                        msg = new SendDataToClient(ACK_NICKNAME, null, null, null, null, null, null, null, false, null, null);
+                }
             }
         }
         setChangedAndNotifyObservers(msg);
     }
 
-    public void setNumberOfPlayers(int numberOfPlayers) {
-        Message msg;
-        if (numberOfPlayers < 5 && numberOfPlayers > 1){
-            this.numberOfPlayers = numberOfPlayers;
-            getBoard().fill(numberOfPlayers, getBag());
-            this.firstCommonGoal = assignCommonGoal();
-            this.secondCommonGoal = assignCommonGoal();
-            setCurrentPlayer(getPlayerList().get(0));
-            msg = new SendDataToClient(ACK_NUMPLAYERS, null, null, null, null, null, null, null, false, null, null);
-        } else {
-            msg = new SendDataToClient(OUT_BOUND_NUMPLAYERS, null,null, null, null, null, null, null, false, null, null);
+    public void setNumberOfPlayers(String nickname, int numberOfPlayers) {
+        if(getNumberOfPlayers() != 0)
+            msg = new SendDataToClient(NACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);
+        else {
+            if (numberOfPlayers < 5 && numberOfPlayers > 1) {
+                this.numberOfPlayers = numberOfPlayers;
+                getBoard().fill(numberOfPlayers, getBag());
+                this.firstCommonGoal = assignCommonGoal();
+                this.secondCommonGoal = assignCommonGoal();
+                setCurrentPlayer(getPlayerList().get(0));
+                msg = new SendDataToClient(ACK_NUMPLAYERS, null, null, null, null, null, null, null, false, null, null);
+            } else
+                msg = new SendDataToClient(OUT_BOUND_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);
         }
+        setChangedAndNotifyObservers(msg);
+    }
+
+    public void startGame(){
+        if(getNumberOfPlayers() == getPlayerList().size())
+            msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), null, firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
+        else
+            msg = new SendDataToClient(ACK_NICKNAME, null, null, null, null, null, null, null, false, null, null);
         setChangedAndNotifyObservers(msg);
     }
     public void itemClick(int x, int y) {
@@ -271,7 +292,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         for(Pair<Integer, Integer> p: getBoard().getPendingCells()){
             System.out.println(getBoard().getDisposition()[p.getX()][p.getY()].getContent().getType().toString());
         }
-        Message msg = new SendDataToClient(SELECTED, getCurrentPlayer().getNickname(), getBoard().toString(), null, null, null, null, getBoard().pendingToString(), getCanConfirmItems(), null, null);
+        msg = new SendDataToClient(SELECTED, getCurrentPlayer().getNickname(), getBoard().toString(), null, null, null, null, getBoard().pendingToString(), getCanConfirmItems(), null, null);
         setChangedAndNotifyObservers(msg);
     }
 
@@ -280,35 +301,77 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         setConfirmedItems(getBoard().removePendingItems());
         setNumPendingItems(getConfirmedItems().size());
         getCurrentPlayer().getShelf().setInsertableColumns(getNumPendingItems());
-        Message msg = new SendDataToClient(ORDER_n_COLUMN, getCurrentPlayer().getNickname(), getBoard().toString(), null, getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), false, orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString());
+        msg = new SendDataToClient(ORDER_n_COLUMN, getCurrentPlayer().getNickname(), getBoard().toString(), null, getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), false, orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(-1));
         setChangedAndNotifyObservers(msg);
     }
 
     public void orderSelectedItem(int position, int action){        // 0 - deseleziono da tmpOrderedItems, 1 - seleziono da confirmedItems
         Item tmpItem;
 
-        if(action == 0){                                            // deselezione
-            tmpItem = getTmpOrderedItems().remove(position);        //rimuove e ritorna l'elemento in posizione "position", fa scalare di una posizione tutti gli elementi successivi
-            getConfirmedItems().add(tmpItem);
-        } else if (action == 1) {                                   // selezione
-            tmpItem = getConfirmedItems().remove(position);
-            getTmpOrderedItems().add(tmpItem);
+        if(action == 0){                                            // deselezione dagli ordinati
+            if(getTmpOrderedItems() == null || getTmpOrderedItems().size() == 0){
+                msg = new SendDataToClient(NACK_ORDER, getCurrentPlayer().getNickname(), null, null, null, null, null, null, false, null, null);
+                setChangedAndNotifyObservers(msg);
+                return;
+            } else{
+                if(position >= getTmpOrderedItems().size()) {
+                    msg = new SendDataToClient(NACK_ORDER, getCurrentPlayer().getNickname(), null, null, null, null, null, null, false, null, null);
+                    setChangedAndNotifyObservers(msg);
+                    return;
+                } else {
+                    tmpItem = getTmpOrderedItems().remove(position);        //rimuove e ritorna l'elemento in posizione "position", fa scalare di una posizione tutti gli elementi successivi
+                    getConfirmedItems().add(tmpItem);
+                }
+            }
+        } else if (action == 1) {                                   // selezione dai disordinati
+            if(getConfirmedItems() == null || getConfirmedItems().size() == 0){
+                msg = new SendDataToClient(NACK_ORDER, getCurrentPlayer().getNickname(), null, null, null, null, null, null, false, null, null);
+                setChangedAndNotifyObservers(msg);
+                return;
+            } else {
+                if(position >= getConfirmedItems().size()) {
+                    msg = new SendDataToClient(NACK_ORDER, getCurrentPlayer().getNickname(), null, null, null, null, null, null, false, null, null);
+                    setChangedAndNotifyObservers(msg);
+                    return;
+                } else {
+                    tmpItem = getConfirmedItems().remove(position);
+                    getTmpOrderedItems().add(tmpItem);
+                }
+            }
         }
 
         setOrderOK(getConfirmedItems().size() == 0 && getTmpOrderedItems().size() == getNumPendingItems());
+        msg = new SendDataToClient(ACK_ORDER_n_COLUMN, getCurrentPlayer().getNickname(), null, null, getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), getColumnOK()&&getOrderOK(), orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(getColumnChosen()));
+        setChangedAndNotifyObservers(msg);
     }
 
     public void selectColumn(int column) {
-        setColumnChosen(column);
-        setColumnOK(getColumnChosen() > -1);
+        boolean columnFind = false;
+        for(int c:getCurrentPlayer().getShelf().getInsertableColumns()){
+            if(c == column) {
+                setColumnChosen(column);
+                setColumnOK(getColumnChosen() > -1);
+                msg = new SendDataToClient(ACK_ORDER_n_COLUMN, getCurrentPlayer().getNickname(), null, null, getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), getColumnOK()&&getOrderOK(), orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(column));
+                columnFind = true;
+                break;
+            }
+        }
+        if(!columnFind)
+            msg = new SendDataToClient(NACK_COLUMN, getCurrentPlayer().getNickname(), null, null, null, null, null, null, false, null, null);
+
+        setChangedAndNotifyObservers(msg);
     }
 
     public void confirmInsertion() {        // la VIEW controlla i due booleani OK per mostrare il pulsante
+        setOrderOK(false);
+        setColumnOK(false);
         getCurrentPlayer().getShelf().insertItems(getTmpOrderedItems(), columnChosen);
+        msg = new SendDataToClient(INSERTION_DONE, getCurrentPlayer().getNickname(), null, null, getCurrentPlayer().getShelf().toString(), null, null, null, false, null, null);
+        setChangedAndNotifyObservers(msg);
     }
 
     public boolean endTurnCheck() {
-        boolean closeGame = false;
+        boolean closeGame;
         getTmpOrderedItems().clear();
         commonGoalCheck();
         closeGame = endGameCheck();
@@ -329,27 +392,37 @@ public class Game extends ObservableModel<Message> {              //extends Obse
             if(getSecondCommonGoal().specificGoal(getCurrentPlayer().getShelf()))
                 getCurrentPlayer().setSecondCommonScore(getSecondCommonGoal().removePoint());
         }
+        System.out.println("Ho controllato i common goal di " + getCurrentPlayer().getNickname() + " --> primo: " + getCurrentPlayer().getFirstCommonScore() + " secondo: " + getCurrentPlayer().getSecondCommonScore());
     }
     private boolean endGameCheck() {
         if(!getEndGame()){
-            if(getCurrentPlayer().getShelf().getMaxFreeSpace() == 0)           //shelf pieno se non ho spazi liberi per le tessere
+            if(getCurrentPlayer().getShelf().getMaxFreeSpace() == 0) {          //shelf pieno se non ho spazi liberi per le tessere
                 getCurrentPlayer().setEndGameToken(1);
+                setEndGame(true);
+            }
         }
-        return getCurrentPlayer().equals(getPlayerList().get(getPlayerList().size() - 1));        //se true si va poi a endGame altrimenti se false a nextPlayer deciso dal controller
+        System.out.println("Fine gioco? " + getEndGame() + getCurrentPlayer().equals(getPlayerList().get(getPlayerList().size() - 1)));
+        return getEndGame() && getCurrentPlayer().equals(getPlayerList().get(getPlayerList().size() - 1));        //se true si va poi a endGame altrimenti se false a nextPlayer deciso dal controller
     }
     private void refillBoard() {
         if(getBoard().needToRefill()){
             getBoard().fill(getPlayerList().size(), getBag());
+            System.out.println("board refillata");
         }
     }
 
     public void nextPlayer(){
-        int indexCurrentPlayer = 0;
-        indexCurrentPlayer = getPlayerList().indexOf(getCurrentPlayer());
+        int indexCurrentPlayer = getPlayerList().indexOf(getCurrentPlayer());
         if(indexCurrentPlayer == getPlayerList().size()-1)
             setCurrentPlayer(getPlayerList().get(0));
         else
             setCurrentPlayer(getPlayerList().get(indexCurrentPlayer+1));
+
+        setNumPendingItems(0);
+        setColumnChosen(-1);
+        System.out.println("Current player: " + getCurrentPlayer().getNickname());
+        msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), null, firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
+        setChangedAndNotifyObservers(msg);
     }
 
     public void endGame(){
@@ -419,6 +492,31 @@ public class Game extends ObservableModel<Message> {              //extends Obse
 
     private String orderedItemsToString(){
         StringBuilder ordered = new StringBuilder(" ");
+        for(int i=0; i<getTmpOrderedItems().size(); i++){
+            switch (getTmpOrderedItems().get(i).getType()) {
+                case BOOK:
+                    ordered.append("W").append(getTmpOrderedItems().get(i).getVariant());
+                    break;
+                case CAT:
+                    ordered.append("G").append(getTmpOrderedItems().get(i).getVariant());
+                    break;
+                case FRAME:
+                    ordered.append("B").append(getTmpOrderedItems().get(i).getVariant());
+                    break;
+                case GAME:
+                    ordered.append("Y").append(getTmpOrderedItems().get(i).getVariant());
+                    break;
+                case PLANTS:
+                    ordered.append("P").append(getTmpOrderedItems().get(i).getVariant());
+                    break;
+                case TROPHY:
+                    ordered.append("L").append(getTmpOrderedItems().get(i).getVariant());
+                    break;
+                default:
+                    System.out.println("Error");
+                    break;
+            }
+        }
         return ordered.toString();
     }
 }

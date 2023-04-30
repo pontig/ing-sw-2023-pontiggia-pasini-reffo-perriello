@@ -7,7 +7,6 @@ import it.polimi.ingsw.network.server.ServerImpl;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -30,12 +29,33 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
 
     public static void main( String[] args ) throws RemoteException {
         Scanner terminal = new Scanner(System.in);
+        Integer port = 0;
         final int portRMI;
         final int portSocket;
-        System.out.println("Insert Server RMI port number:");
-        portRMI = terminal.nextInt();
-        System.out.println("Insert Server Socket port number:");
-        portSocket = terminal.nextInt();
+        System.out.print("\nInsert Server RMI port number - 4 digit only: ");
+        do{
+            try{
+                port = Integer.parseInt(terminal.next());
+            } catch (NumberFormatException e) {
+                System.out.println("It is not a valid number!!");
+            }
+            if(port.toString().length() != 4)
+                System.out.print("Enter a 4 digit number only: ");
+        } while(port.toString().length() != 4);
+        portRMI = port;
+
+        port = 0;
+        System.out.print("\nInsert Server Socket port number - 4 digit only: ");
+        do{
+            try{
+                port = Integer.parseInt(terminal.next());
+            } catch (NumberFormatException e) {
+                System.out.println("It is not a valid number!!");
+            }
+            if(port.toString().length() != 4)
+                System.out.print("Enter a 4 digit number only: ");
+        } while(port.toString().length() != 4);
+        portSocket = port;
 //RMI
         Thread rmiThread = new Thread(() -> {
             try {

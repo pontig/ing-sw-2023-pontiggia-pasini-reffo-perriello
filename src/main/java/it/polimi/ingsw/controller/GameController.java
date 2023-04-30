@@ -4,17 +4,13 @@ import it.polimi.ingsw.enums.State;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.tuples.Pair;
 
 public class GameController {                                                                   //extends Observer
     private Game game;
-    private Client currentClient; // forse da fare un lista di client su cui iterare e un current client
-
     private StateGame currentStateGame;
 //Costruttore
     public GameController(Game model, Client client) {
         this.game = model;
-        this.currentClient = client;
     }
 //getter
     public Game getGame(){ return this.game; }
@@ -24,7 +20,8 @@ public class GameController {                                                   
     public void setCurrentStateGame(StateGame currentStateGame) { this.currentStateGame = currentStateGame; }
 //metodi, INGAME state in base al messaggio chiamerà una delle funzioni
     public void setPlayer(String nickname) {getGame().insertPlayer(nickname);}
-    public void setNumPlayers(int numPlayers){getGame().setNumberOfPlayers(numPlayers);}
+    public void setNumPlayers(String nickname, int numPlayers){getGame().setNumberOfPlayers(nickname, numPlayers);}
+    public void gameReadyToStart(){ getGame().startGame();}
     public void onItemClick(int x, int y) {
         getGame().itemClick(x, y);
     }
@@ -55,10 +52,6 @@ public class GameController {                                                   
     }
 
     public void update(Client o, Message arg) {
-       /* if (!o.equals(currentClient)) {
-            System.err.println("Discarding notification from " + o);
-            return;
-        }*/
         play(arg);
     }
 
@@ -71,7 +64,11 @@ public class GameController {                                                   
                 break;
             case SET_NUMPLAYERS:
                 arg.printMsg();
-                setNumPlayers(arg.getNumRowAction());
+                setNumPlayers(arg.getNickname(), arg.getNumRowAction());
+                break;
+            case GAME_READY:
+                arg.printMsg();
+                gameReadyToStart();
                 break;
             case SELECT_ITEM:
                 arg.printMsg();
@@ -80,6 +77,19 @@ public class GameController {                                                   
             case CONFIRM_ITEMS:
                 arg.printMsg();
                 onConfirmItems();
+                break;
+            case SELECT_COLUMN:
+                arg.printMsg();
+                onColumnSelection(arg.getColumnPos());
+                break;
+            case ORDER_ITEM:
+                arg.printMsg();
+                onOrderItem(arg.getColumnPos(), arg.getNumRowAction());
+                break;
+            case CONFIRM_INSERTION:
+                arg.printMsg();
+                onConfirmInsertion();
+                break;
             default:
                 System.err.println("Ignoring event from " + msg + ": " + arg);
                 break;

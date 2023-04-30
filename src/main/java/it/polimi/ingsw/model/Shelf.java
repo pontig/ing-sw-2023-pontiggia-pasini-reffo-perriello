@@ -267,13 +267,14 @@ public class Shelf {
         return shelf.toString();
     }
 
-    public String columnsToString(){
+    public String columnsToString(int choice){
         StringBuilder columns = new StringBuilder(" ");
         boolean equals = false;
         for(int i=0; i<5; i++){
             for(int c:getInsertableColumns()){
                 if(c == i) {
-                    columns.append("▲").append(" ");
+                    if(c == choice) columns.append("#").append(" ");
+                    else columns.append("▲").append(" ");
                     equals = true;
                     break;
                 }
