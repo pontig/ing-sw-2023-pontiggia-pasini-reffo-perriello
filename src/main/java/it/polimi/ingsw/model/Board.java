@@ -234,9 +234,40 @@ public class Board {
             if (refill) {
                 for (int i = 0; i < 9; i++) {
                     for (int j = 0; j < 9; j++) {
-                        if(adjacencyCheck(i, j) && i != row && j != column){
-                            return false;
+                        if(disposition[j][i].getContent() != null){
+                            switch(i){
+                                case 0:
+                                    if(adjacencyCheck(i, j) && adjacencyCheck(i+1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j+1) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j-1) && i != row && j != column){
+                                        return false;
+                                    }
+                                    break;
+                                case 8:
+                                    if(adjacencyCheck(i, j) && adjacencyCheck(i-1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j+1) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j-1) && i != row && j != column){
+                                        return false;
+                                    }
+                                    break;
+                                default:
+                                    switch(j){
+                                        case 0:
+                                            if(adjacencyCheck(i, j) && adjacencyCheck(i+1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i-1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j+1) && i != row && j != column){
+                                                return false;
+                                            }
+                                            break;
+                                        case 8:
+                                            if(adjacencyCheck(i, j) && adjacencyCheck(i+1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i-1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j-1) && i != row && j != column){
+                                                return false;
+                                            }
+                                            break;
+                                        default:
+                                            if(adjacencyCheck(i, j) && adjacencyCheck(i+1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i-1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j+1) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j-1) && i != row && j != column){
+                                                return false;
+                                            }
+                                            break;
+                                    }
+                                break;
+                            }
                         }
+
                     }
                 }
                 return true;
@@ -285,8 +316,9 @@ public class Board {
                     }
                     break;
             }
+            return true;
         }
-        return true;
+        return false;
     }
 
     /** printBoard is used to print the board at any time
