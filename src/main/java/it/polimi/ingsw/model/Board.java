@@ -83,18 +83,25 @@ public class Board {
         if (adjacencyCheck(x, y) && sizePending < 3) {
             if (pendingCells.isEmpty()) {
                 pendingCells.add(selectedPair);
-            } else {
-                for (Pair<Integer, Integer> pair : pendingCells) {
-                    if ((selectedPair.getX().equals(pair.getX()+1) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX()-1) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY()+1)) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY()-1))) {
-                        sameLineOrColumn = true;
-                    } else {
-                        sameLineOrColumn = false;
-                    }
+            } else if (sizePending == 1) {
+                List<Pair<Integer, Integer>> list = new ArrayList<>(pendingCells);
+                if ((selectedPair.getX().equals(list.get(0).getX() + 1) && selectedPair.getY().equals(list.get(0).getY())) || (selectedPair.getX().equals(list.get(0).getX() - 1) && selectedPair.getY().equals(list.get(0).getY())) || (selectedPair.getX().equals(list.get(0).getX()) && selectedPair.getY().equals(list.get(0).getY() + 1)) || (selectedPair.getX().equals(list.get(0).getX()) && selectedPair.getY().equals(list.get(0).getY() - 1))) {
+                    sameLineOrColumn = true;
+                } else {
+                    sameLineOrColumn = false;
                 }
-                if (sameLineOrColumn) {
-                    pendingCells.add(selectedPair);
+                pendingCells.addAll(list);
+            } else if (sizePending == 2) {
+                List<Pair<Integer, Integer>> list = new ArrayList<>(pendingCells);
+                if ((selectedPair.getX().equals(list.get(1).getX() + 1) && selectedPair.getY().equals(list.get(1).getY())) || (selectedPair.getX().equals(list.get(1).getX() - 1) && selectedPair.getY().equals(list.get(1).getY())) || (selectedPair.getX().equals(list.get(1).getX()) && selectedPair.getY().equals(list.get(1).getY() + 1)) || (selectedPair.getX().equals(list.get(1).getX()) && selectedPair.getY().equals(list.get(1).getY() - 1))) {
+                    sameLineOrColumn = true;
+                } else {
+                    sameLineOrColumn = false;
                 }
             }
+        }
+        if (sameLineOrColumn) {
+            pendingCells.add(selectedPair);
         }
         return pendingCells.size();
     }
