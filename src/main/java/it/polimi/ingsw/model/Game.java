@@ -413,7 +413,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
             if(getCurrentPlayer().getShelf().getMaxFreeSpace() == 0) {          //shelf pieno se non ho spazi liberi per le tessere
                 getCurrentPlayer().setEndGameToken(1);
                 setEndGame(true);
-                msg = new SendDataToClient(TOKEN_END_GAME, getCurrentPlayer().getNickname(), null, null, null, null, null, null, false, null, null);
+                msg = new SendDataToClient(TOKEN_END_GAME, getCurrentPlayer().getNickname(), null, null, null, null, null, null, false, null, null);       //mando il messaggio di fine gioco
                 setChangedAndNotifyObservers(msg);
             }
         }
