@@ -387,19 +387,25 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         int oldC2 = getCurrentPlayer().getSecondCommonScore();
         Integer c1 = null;
         Integer c2 = null;
-        if(getCurrentPlayer().getFirstCommonScore() == 0){
+
+        if(oldC1 == 0){
             if(getFirstCommonGoal().specificGoal(getCurrentPlayer().getShelf()))
                 getCurrentPlayer().setFirstCommonScore(getFirstCommonGoal().removePoint());
         }
-
-        if(getCurrentPlayer().getSecondCommonScore() == 0){
+        if(oldC2 == 0){
             if(getSecondCommonGoal().specificGoal(getCurrentPlayer().getShelf()))
                 getCurrentPlayer().setSecondCommonScore(getSecondCommonGoal().removePoint());
         }
         c1 = getCurrentPlayer().getFirstCommonScore();
         c2 = getCurrentPlayer().getSecondCommonScore();
-        msg = new SendDataToClient(COMMONGOAL_TAKEN, getCurrentPlayer().getNickname(), null, null, null,  c1.toString(), c2.toString(), null, false, null, null);
-        setChangedAndNotifyObservers(msg);
+        if(oldC1 == 0 && c1 != 0) {
+            msg = new SendDataToClient(FIRSTCOMMONGOAL_TAKEN, getCurrentPlayer().getNickname(), null, null, null, c1.toString(), null, null, false, null, null);
+            setChangedAndNotifyObservers(msg);
+        }
+        if(oldC2 == 0 && c2 != 0) {
+            msg = new SendDataToClient(SECONDCOMMONGOAL_TAKEN, getCurrentPlayer().getNickname(), null, null, null, null, c2.toString(), null, false, null, null);
+            setChangedAndNotifyObservers(msg);
+        }
         System.out.println("Ho controllato i common goal di " + getCurrentPlayer().getNickname() + " --> primo: " + getCurrentPlayer().getFirstCommonScore() + " secondo: " + getCurrentPlayer().getSecondCommonScore());
     }
     private boolean endGameCheck() {
@@ -407,6 +413,8 @@ public class Game extends ObservableModel<Message> {              //extends Obse
             if(getCurrentPlayer().getShelf().getMaxFreeSpace() == 0) {          //shelf pieno se non ho spazi liberi per le tessere
                 getCurrentPlayer().setEndGameToken(1);
                 setEndGame(true);
+                msg = new SendDataToClient(TOKEN_END_GAME, getCurrentPlayer().getNickname(), null, null, null, null, null, null, false, null, null);       //mando il messaggio di fine gioco
+                setChangedAndNotifyObservers(msg);
             }
         }
         System.out.println("Fine gioco? " + getEndGame() + "and" + getCurrentPlayer().equals(getPlayerList().get(getPlayerList().size() - 1)));
