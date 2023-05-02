@@ -11,6 +11,10 @@ public class Triplet<A, B, C> {
         this._z = type;
     }
 
+    public A get_x(){ return this._x; }
+    public B get_y(){ return this._y; }
+    public C get_z(){ return this._z; }
+
     @Override
     public String toString() {
         return "Triplet{" +

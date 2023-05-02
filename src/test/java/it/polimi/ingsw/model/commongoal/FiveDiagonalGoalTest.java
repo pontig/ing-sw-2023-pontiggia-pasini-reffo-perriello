@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.Item;
 import it.polimi.ingsw.model.Shelf;
 import org.junit.jupiter.api.Test;
 
-import static it.polimi.ingsw.model.enums.Type.*;
+import static it.polimi.ingsw.enums.Type.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FiveDiagonalGoalTest {

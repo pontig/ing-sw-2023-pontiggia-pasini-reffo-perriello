@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 import static it.polimi.ingsw.view.CLI.*;
 
-public class ClientApp {
+public class ClientAppSecond {
     public static void main( String[] args ) throws RemoteException, NotBoundException {
         Scanner terminal = new Scanner(System.in);
         int networkClient = -1;
@@ -52,7 +52,7 @@ public class ClientApp {
             if(port.toString().length() != 4)
                 System.out.print("Enter a 4 digit number only: ");
         } while(port.toString().length() != 4);
-        
+
         if(networkClient == 0){
             Registry registry = LocateRegistry.getRegistry("localhost", port);
             ServerAbst server = (ServerAbst) registry.lookup("server");

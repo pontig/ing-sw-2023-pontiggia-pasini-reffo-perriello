@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.enums.Type;
+import it.polimi.ingsw.enums.Type;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,7 +43,9 @@ public class Shelf {
         return clone;
     }
 
-
+    /**
+     * clear empties the shelf setting all the items to null
+     */
     public void clear(){
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 6; j++) {
@@ -231,4 +232,58 @@ public class Shelf {
         }
     }
 
+    public String toString(){
+        StringBuilder shelf = new StringBuilder(" ");
+        for(int i=0; i<6; i++){
+            for(int j=0; j<5; j++){
+                if(getItems()[j][i] != null){
+                    switch (getItems()[j][i].getType()) {
+                        case BOOK:
+                            shelf.append("W").append(getItems()[j][i].getVariant());
+                            break;
+                        case CAT:
+                            shelf.append("G").append(getItems()[j][i].getVariant());
+                            break;
+                        case FRAME:
+                            shelf.append("B").append(getItems()[j][i].getVariant());
+                            break;
+                        case GAME:
+                            shelf.append("Y").append(getItems()[j][i].getVariant());
+                            break;
+                        case PLANTS:
+                            shelf.append("P").append(getItems()[j][i].getVariant());
+                            break;
+                        case TROPHY:
+                            shelf.append("L").append(getItems()[j][i].getVariant());
+                            break;
+                        default:
+                            System.out.println("Error");
+                            break;
+                    }
+                } else
+                    shelf.append('■').append(" ");
+            }
+            if(i!=5) shelf.append("\n ");
+            else shelf.append("\n");
+        }
+        return shelf.toString();
+    }
+
+    public String columnsToString(int choice){
+        StringBuilder columns = new StringBuilder(" ");
+        boolean equals = false;
+        for(int i=0; i<5; i++){
+            for(int c:getInsertableColumns()){
+                if(c == i) {
+                    if(c == choice) columns.append("#").append(" ");
+                    else columns.append("▲").append(" ");
+                    equals = true;
+                    break;
+                }
+            }
+            if(!equals) columns.append("  ");
+            equals = false;
+        }
+        return columns.toString();
+    }
 }

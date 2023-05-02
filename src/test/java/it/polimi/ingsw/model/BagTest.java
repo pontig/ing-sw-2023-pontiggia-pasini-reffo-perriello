@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.enums.Type;
+import it.polimi.ingsw.enums.Type;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;

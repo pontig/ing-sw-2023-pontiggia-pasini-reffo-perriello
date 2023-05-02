@@ -83,6 +83,7 @@ public class Board {
         if (adjacencyCheck(x, y) && sizePending < 3) {
             if (pendingCells.isEmpty()) {
                 pendingCells.add(selectedPair);
+
             } else if (sizePending == 1) {
                 List<Pair<Integer, Integer>> list = new ArrayList<>(pendingCells);
                 if ((selectedPair.getX().equals(list.get(0).getX() + 1) && selectedPair.getY().equals(list.get(0).getY())) || (selectedPair.getX().equals(list.get(0).getX() - 1) && selectedPair.getY().equals(list.get(0).getY())) || (selectedPair.getX().equals(list.get(0).getX()) && selectedPair.getY().equals(list.get(0).getY() + 1)) || (selectedPair.getX().equals(list.get(0).getX()) && selectedPair.getY().equals(list.get(0).getY() - 1))) {
@@ -166,7 +167,9 @@ public class Board {
             int y = pair.getY();
             offPending.add(disposition[x][y].getContent());
             disposition[x][y].setContent(null);
+
             pendingCells.remove(pair);
+
         }
         pendingCells.clear();
         return offPending;
@@ -286,13 +289,14 @@ public class Board {
         }
     }
 
+
     /** adjacencyCheck is used to check if  a certain item can be taken from a cell on the board
      * @param x: row of the cell you want to check
      * @param y: column of the cell you want to check
      * @return true if the selected cell has at least one free side, false if not
      */
     private boolean adjacencyCheck(int x, int y) {
-        if (disposition[y][x].getContent() != null) {
+        if (disposition[x][y].getContent() != null) {
             switch (x) {
                 case 0:
                     if(disposition[y+1][x].getContent() != null && disposition[y-1][x].getContent() != null && disposition[y][x+1].getContent() != null){
@@ -317,8 +321,10 @@ public class Board {
                             }
                             break;
                         default:
+
                             if (disposition[y][x + 1].getContent() != null && disposition[y][x - 1].getContent() != null && disposition[y + 1][x].getContent() != null && disposition[y - 1][x].getContent() != null) {
                                 return false;
+
                             }
                             break;
                     }
@@ -355,5 +361,83 @@ public class Board {
             }
         }
         return clone;
+    }
+
+    public String toString(){
+        StringBuilder board = new StringBuilder(" ");
+        boolean selected = false;
+        for(int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (getDisposition()[j][i].getContent() != null) {
+                    for(Pair<Integer, Integer> item: getPendingCells()){
+                        if(item.getX() == j && item.getY() == i) {
+                            board.append("#").append(getDisposition()[j][i].getContent().getVariant()).append(" ");
+                            selected = true;
+                            break;
+                        }
+                    }
+                    if(!selected) {
+                        switch (getDisposition()[j][i].getContent().getType()) {
+                            case BOOK:
+                                board.append("W").append(getDisposition()[j][i].getContent().getVariant()).append(" ");
+                                break;
+                            case CAT:
+                                board.append("G").append(getDisposition()[j][i].getContent().getVariant()).append(" ");
+                                break;
+                            case FRAME:
+                                board.append("B").append(getDisposition()[j][i].getContent().getVariant()).append(" ");
+                                break;
+                            case GAME:
+                                board.append("Y").append(getDisposition()[j][i].getContent().getVariant()).append(" ");
+                                break;
+                            case PLANTS:
+                                board.append("P").append(getDisposition()[j][i].getContent().getVariant()).append(" ");
+                                break;
+                            case TROPHY:
+                                board.append("L").append(getDisposition()[j][i].getContent().getVariant()).append(" ");
+                                break;
+                            default:
+                                System.out.println("Error");
+                                break;
+                        }
+                    }
+                } else
+                    board.append('■').append(" ").append(" ");
+
+                selected = false;
+            }
+            board.append("\n ");
+        }
+        return board.toString();
+    }
+
+    public String pendingToString(){
+        StringBuilder pendingStr = new StringBuilder(" ");
+        for(Pair<Integer, Integer> p: getPendingCells()){
+            switch (getDisposition()[p.getX()][p.getY()].getContent().getType()) {
+                case BOOK:
+                    pendingStr.append("W").append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(" ");
+                    break;
+                case CAT:
+                    pendingStr.append("G").append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(" ");
+                    break;
+                case FRAME:
+                    pendingStr.append("B").append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(" ");
+                    break;
+                case GAME:
+                    pendingStr.append("Y").append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(" ");
+                    break;
+                case PLANTS:
+                    pendingStr.append("P").append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(" ");
+                    break;
+                case TROPHY:
+                    pendingStr.append("L").append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(" ");
+                    break;
+                default:
+                    System.out.println("Error");
+                    break;
+            }
+        }
+        return pendingStr.toString();
     }
 }

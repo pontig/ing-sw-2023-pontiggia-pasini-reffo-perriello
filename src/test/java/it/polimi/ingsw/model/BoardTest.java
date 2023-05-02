@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.model.enums.Type;
+import it.polimi.ingsw.enums.Type;
 import it.polimi.ingsw.tuples.Pair;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

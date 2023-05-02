@@ -101,6 +101,12 @@ public class Player {
      */
     public int computeFinalScore() {
         int pg = this.personalGoalCheck();
+        System.out.println("Player: " + getNickname() +
+                            "\nFirst: " + this.firstCommonScore +
+                            "\nSecond: " + this.secondCommonScore +
+                            "\nEndGame: " + this.endGameToken +
+                            "\nPersonal: " + pg +
+                            "\nAdiacenze: " + this.adjacentScore());
         return this.firstCommonScore
                 + this.secondCommonScore
                 + this.endGameToken
