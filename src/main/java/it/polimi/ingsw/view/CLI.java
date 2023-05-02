@@ -386,23 +386,49 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                     }
                     state = 20;
                     break;
-                case COMMONGOAL_TAKEN:
+                case FIRSTCOMMONGOAL_TAKEN:      //avviso che un giocatore ha preso un obiettivo comune
                     arg.printMsg();
-                    //if(arg.getFirstCommon() )
+                    if(arg.getNickname().equals(this.nickname)){
+                        System.out.print("You ");
+                    }
+                    else {
+                        System.out.print(arg.getNickname() + " ");
+                    }
+                    System.out.println("obtained:" + arg.getFirstCommon() + "from the first common goal");
                     break;
-                default:
-                    System.err.println("Ignoring event from " + msg + ": " + arg);
+                case SECONDCOMMONGOAL_TAKEN:
+                    arg.printMsg();
+                    if(arg.getNickname().equals(this.nickname)){
+                        System.out.print("You ");
+                    }
+                    else {
+                        System.out.print(arg.getNickname() + " ");
+                    }
+                    System.out.println(arg.getNickname() + "obtained:" + arg.getSecondCommon() + "from the second common goal");
                     break;
-
+                case TOKEN_END_GAME:    //avviso che il giocatore corrente ha preso il token di fine gioco
+                    arg.printMsg();
+                    if(arg.getNickname().equals(this.nickname)){
+                        System.out.print("You ");
+                    }
+                    else {
+                        System.out.print(arg.getNickname() + " ");
+                    }
+                    System.out.println(arg.getNickname() + "completed Shelf and obtained endGame's point");
+                    break;
                 case RESULTS:
                     arg.getInfo();
                     System.out.println(RED + arg.getOrderedRanking() + RESET);
                     state = 1;
                     lock.notifyAll();
                     break;
+                default:
+                    System.err.println("Ignoring event from " + msg + ": " + arg);
+                    break;
             }
         }
     }
+
     private void showBoard(String board){
         System.out.print("  ");
         for(int i=0; i<9; i++) System.out.print(i + "  ");
