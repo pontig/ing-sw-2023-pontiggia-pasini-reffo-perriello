@@ -98,6 +98,7 @@ public class Board {
                 } else {
                     sameLineOrColumn = false;
                 }
+                pendingCells.addAll(list);
             }
         }
         if (sameLineOrColumn) {
