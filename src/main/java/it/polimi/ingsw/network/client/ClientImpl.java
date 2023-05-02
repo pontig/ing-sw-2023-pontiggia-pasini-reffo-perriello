@@ -32,7 +32,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, Runnable 
     @Override
     public void updateView(Server server, Message arg) {     //message mantiene i dati, event definisce quali dati prendere
         view.update(server, arg);
-    } //passo alla view il messaggio ricevuto dal server, con arg per le info da prendere -> se faccio un messaggio custom per ogniuno si può togliere arg forse
+    } //passo alla view il messaggio ricevuto dal server, con arg per le info da prendere -> se faccio un messaggio custom per ognuno si può togliere arg forse
 
     public void run() {
         view.run();

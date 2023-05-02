@@ -43,7 +43,9 @@ public class Shelf {
         return clone;
     }
 
-
+    /**
+     * clear empties the shelf setting all the items to null
+     */
     public void clear(){
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 6; j++) {

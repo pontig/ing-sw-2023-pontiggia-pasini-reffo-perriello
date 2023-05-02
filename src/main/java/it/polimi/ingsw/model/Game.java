@@ -383,6 +383,10 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         }
     }
     private void commonGoalCheck() {
+        int oldC1 = getCurrentPlayer().getFirstCommonScore();
+        int oldC2 = getCurrentPlayer().getSecondCommonScore();
+        Integer c1 = null;
+        Integer c2 = null;
         if(getCurrentPlayer().getFirstCommonScore() == 0){
             if(getFirstCommonGoal().specificGoal(getCurrentPlayer().getShelf()))
                 getCurrentPlayer().setFirstCommonScore(getFirstCommonGoal().removePoint());
@@ -392,6 +396,10 @@ public class Game extends ObservableModel<Message> {              //extends Obse
             if(getSecondCommonGoal().specificGoal(getCurrentPlayer().getShelf()))
                 getCurrentPlayer().setSecondCommonScore(getSecondCommonGoal().removePoint());
         }
+        c1 = getCurrentPlayer().getFirstCommonScore();
+        c2 = getCurrentPlayer().getSecondCommonScore();
+        msg = new SendDataToClient(COMMONGOAL_TAKEN, getCurrentPlayer().getNickname(), null, null, null,  c1.toString(), c2.toString(), null, false, null, null);
+        setChangedAndNotifyObservers(msg);
         System.out.println("Ho controllato i common goal di " + getCurrentPlayer().getNickname() + " --> primo: " + getCurrentPlayer().getFirstCommonScore() + " secondo: " + getCurrentPlayer().getSecondCommonScore());
     }
     private boolean endGameCheck() {
