@@ -78,7 +78,7 @@ public class Board {
         Pair<Integer, Integer> selectedPair = new Pair<>(x, y);
         int sizePending = pendingCells.size();
         if(adjacencyCheck(x, y) && sizePending < 3) {
-            if (pendingCells.isEmpty()){
+            if(pendingCells.isEmpty()){
                 pendingCells.add(selectedPair);
             }else for(Pair<Integer, Integer> pair : pendingCells){
                 if(sizePending == 1){
