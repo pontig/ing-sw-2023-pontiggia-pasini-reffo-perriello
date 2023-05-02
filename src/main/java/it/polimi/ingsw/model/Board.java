@@ -2,10 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.tuples.Pair;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Board {
 
@@ -80,26 +77,23 @@ public class Board {
         boolean sameLineOrColumn = false;
         Pair<Integer, Integer> selectedPair = new Pair<>(x, y);
         int sizePending = pendingCells.size();
-        if (adjacencyCheck(x, y) && sizePending < 3) {
-            if (pendingCells.isEmpty()) {
+        if(adjacencyCheck(x, y) && sizePending < 3) {
+            if(pendingCells.isEmpty()){
                 pendingCells.add(selectedPair);
-
-            } else if (sizePending == 1) {
-                List<Pair<Integer, Integer>> list = new ArrayList<>(pendingCells);
-                if ((selectedPair.getX().equals(list.get(0).getX() + 1) && selectedPair.getY().equals(list.get(0).getY())) || (selectedPair.getX().equals(list.get(0).getX() - 1) && selectedPair.getY().equals(list.get(0).getY())) || (selectedPair.getX().equals(list.get(0).getX()) && selectedPair.getY().equals(list.get(0).getY() + 1)) || (selectedPair.getX().equals(list.get(0).getX()) && selectedPair.getY().equals(list.get(0).getY() - 1))) {
-                    sameLineOrColumn = true;
-                } else {
-                    sameLineOrColumn = false;
+            }else for(Pair<Integer, Integer> pair : pendingCells){
+                if(sizePending == 1){
+                    if((selectedPair.getX().equals(pair.getX() + 1) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX() - 1) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY() + 1)) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY() - 1))){
+                        sameLineOrColumn = true;
+                    } else {
+                        sameLineOrColumn = false;
+                    }
+                }else{
+                    if((selectedPair.getX().equals(pair.getX() + 1) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX() - 1) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY() + 1)) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY() - 1)) || (selectedPair.getX().equals(pair.getX() + 2) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX() - 2) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY() + 2)) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY() - 2))){
+                        sameLineOrColumn = true;
+                    } else {
+                        sameLineOrColumn = false;
+                    }
                 }
-                pendingCells.addAll(list);
-            } else if (sizePending == 2) {
-                List<Pair<Integer, Integer>> list = new ArrayList<>(pendingCells);
-                if ((selectedPair.getX().equals(list.get(1).getX() + 1) && selectedPair.getY().equals(list.get(1).getY())) || (selectedPair.getX().equals(list.get(1).getX() - 1) && selectedPair.getY().equals(list.get(1).getY())) || (selectedPair.getX().equals(list.get(1).getX()) && selectedPair.getY().equals(list.get(1).getY() + 1)) || (selectedPair.getX().equals(list.get(1).getX()) && selectedPair.getY().equals(list.get(1).getY() - 1))) {
-                    sameLineOrColumn = true;
-                } else {
-                    sameLineOrColumn = false;
-                }
-                pendingCells.addAll(list);
             }
         }
         if (sameLineOrColumn) {
@@ -296,7 +290,7 @@ public class Board {
      * @return true if the selected cell has at least one free side, false if not
      */
     private boolean adjacencyCheck(int x, int y) {
-        if (disposition[x][y].getContent() != null) {
+        if (disposition[y][x].getContent() != null) {
             switch (x) {
                 case 0:
                     if(disposition[y+1][x].getContent() != null && disposition[y-1][x].getContent() != null && disposition[y][x+1].getContent() != null){
