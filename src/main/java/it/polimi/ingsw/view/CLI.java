@@ -388,7 +388,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                     break;
                 case COMMONGOAL_TAKEN:
                     arg.printMsg();
-                    if(arg.getFirstCommon() )
+                    //if(arg.getFirstCommon() )
                     break;
                 default:
                     System.err.println("Ignoring event from " + msg + ": " + arg);
