@@ -83,18 +83,27 @@ public class Board {
         if (adjacencyCheck(x, y) && sizePending < 3) {
             if (pendingCells.isEmpty()) {
                 pendingCells.add(selectedPair);
-            } else {
-                for (Pair<Integer, Integer> pair : pendingCells) {
-                    if ((selectedPair.getX().equals(pair.getX()+1) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX()-1) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY()+1)) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY()-1))) {
-                        sameLineOrColumn = true;
-                    } else {
-                        sameLineOrColumn = false;
-                    }
+
+            } else if (sizePending == 1) {
+                List<Pair<Integer, Integer>> list = new ArrayList<>(pendingCells);
+                if ((selectedPair.getX().equals(list.get(0).getX() + 1) && selectedPair.getY().equals(list.get(0).getY())) || (selectedPair.getX().equals(list.get(0).getX() - 1) && selectedPair.getY().equals(list.get(0).getY())) || (selectedPair.getX().equals(list.get(0).getX()) && selectedPair.getY().equals(list.get(0).getY() + 1)) || (selectedPair.getX().equals(list.get(0).getX()) && selectedPair.getY().equals(list.get(0).getY() - 1))) {
+                    sameLineOrColumn = true;
+                } else {
+                    sameLineOrColumn = false;
                 }
-                if (sameLineOrColumn) {
-                    pendingCells.add(selectedPair);
+                pendingCells.addAll(list);
+            } else if (sizePending == 2) {
+                List<Pair<Integer, Integer>> list = new ArrayList<>(pendingCells);
+                if ((selectedPair.getX().equals(list.get(1).getX() + 1) && selectedPair.getY().equals(list.get(1).getY())) || (selectedPair.getX().equals(list.get(1).getX() - 1) && selectedPair.getY().equals(list.get(1).getY())) || (selectedPair.getX().equals(list.get(1).getX()) && selectedPair.getY().equals(list.get(1).getY() + 1)) || (selectedPair.getX().equals(list.get(1).getX()) && selectedPair.getY().equals(list.get(1).getY() - 1))) {
+                    sameLineOrColumn = true;
+                } else {
+                    sameLineOrColumn = false;
                 }
+                pendingCells.addAll(list);
             }
+        }
+        if (sameLineOrColumn) {
+            pendingCells.add(selectedPair);
         }
         return pendingCells.size();
     }
@@ -158,6 +167,9 @@ public class Board {
             int y = pair.getY();
             offPending.add(disposition[x][y].getContent());
             disposition[x][y].setContent(null);
+
+            pendingCells.remove(pair);
+
         }
         pendingCells.clear();
         return offPending;
@@ -263,7 +275,7 @@ public class Board {
                                             }
                                             break;
                                     }
-                                    break;
+                                break;
                             }
                         }
 
@@ -287,19 +299,38 @@ public class Board {
         if (disposition[x][y].getContent() != null) {
             switch (x) {
                 case 0:
+                    if(disposition[y+1][x].getContent() != null && disposition[y-1][x].getContent() != null && disposition[y][x+1].getContent() != null){
+                        return false;
+                    }
+                    break;
                 case 8:
-                    return true;
+                    if(disposition[y+1][x].getContent() != null && disposition[y-1][x].getContent() != null && disposition[y][x-1].getContent() != null){
+                        return false;
+                    }
+                    break;
                 default:
                     switch (y) {
                         case 0:
-                        case 8:
-                            return true;
-                        default:
-                            if (disposition[x+1][y].getContent() == null || disposition[x-1][y].getContent() == null || disposition[x][y+1].getContent() == null || disposition[x][y-1].getContent() == null) {
-                                return true;
+                            if(disposition[y][x+1].getContent() != null && disposition[y][x-1].getContent() != null && disposition[y+1][x].getContent() != null){
+                                return false;
                             }
+                            break;
+                        case 8:
+                            if(disposition[y][x+1].getContent() != null && disposition[y][x-1].getContent() != null && disposition[y-1][x].getContent() != null){
+                                return false;
+                            }
+                            break;
+                        default:
+
+                            if (disposition[y][x + 1].getContent() != null && disposition[y][x - 1].getContent() != null && disposition[y + 1][x].getContent() != null && disposition[y - 1][x].getContent() != null) {
+                                return false;
+
+                            }
+                            break;
                     }
+                    break;
             }
+            return true;
         }
         return false;
     }
