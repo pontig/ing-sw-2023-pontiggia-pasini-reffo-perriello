@@ -85,7 +85,7 @@ public class Board {
                 pendingCells.add(selectedPair);
             } else {
                 for (Pair<Integer, Integer> pair : pendingCells) {
-                    if (pair.getX().equals(selectedPair.getX()) || pair.getY().equals(selectedPair.getY())) {
+                    if ((selectedPair.getX().equals(pair.getX()+1) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX()-1) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY()+1)) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY()-1))) {
                         sameLineOrColumn = true;
                     } else {
                         sameLineOrColumn = false;
@@ -167,51 +167,116 @@ public class Board {
      * @return true if at least one element of the board has 4 free sides, false if not
      */
     public boolean needToRefill() {
-
+        boolean refill = false;
+        boolean emptyBoard = true;
+        int row = -1;
+        int column = -1;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (disposition[j][i].getContent() != null) {
-                    switch (i) {
-                        case 0:
-                            if (disposition[j + 1][i].getContent() == null && disposition[j][i + 1].getContent() == null && disposition[j - 1][i].getContent() == null) {
-                                return true;
-                            }
-                            break;
-                        case 8:
-                            if (disposition[j][i - 1].getContent() == null && disposition[j + 1][i].getContent() == null && disposition[j - 1][i].getContent() == null) {
-
-                                return true;
-                            }
-                            break;
-                        default:
-                            switch (j) {
-                                case 0:
-
-                                    if (disposition[j][i + 1].getContent() == null && disposition[j][i - 1].getContent() == null && disposition[j + 1][i].getContent() == null) {
-                                        return true;
-                                    }
-                                    break;
-                                case 8:
-                                    if (disposition[j][i + 1].getContent() == null && disposition[j][i - 1].getContent() == null && disposition[j - 1][i].getContent() == null) {
-
-                                        return true;
-                                    }
-                                    break;
-                                default:
-
-                                    if (disposition[j][i + 1].getContent() == null && disposition[j][i - 1].getContent() == null && disposition[j + 1][i].getContent() == null && disposition[j - 1][i].getContent() == null) {
-
-                                        return true;
-                                    }
-                                    break;
-                            }
-                            break;
-                    }
+                if(disposition[j][i].getContent() != null){
+                    emptyBoard = false;
+                    break;
                 }
             }
         }
-        return false;
+        if(emptyBoard){
+            return true;
+        }
+        else{
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if (disposition[j][i].getContent() != null) {
+                        switch (i) {
+                            case 0:
+                                if (disposition[j + 1][i].getContent() == null && disposition[j][i + 1].getContent() == null && disposition[j - 1][i].getContent() == null) {
+                                    refill = true;
+                                    row = i;
+                                    column = j;
+                                }
+                                break;
+                            case 8:
+                                if (disposition[j][i - 1].getContent() == null && disposition[j + 1][i].getContent() == null && disposition[j - 1][i].getContent() == null) {
+                                    refill = true;
+                                    row = i;
+                                    column = j;
+                                }
+                                break;
+                            default:
+                                switch (j) {
+                                    case 0:
+                                        if (disposition[j][i + 1].getContent() == null && disposition[j][i - 1].getContent() == null && disposition[j + 1][i].getContent() == null) {
+                                            refill = true;
+                                            row = i;
+                                            column = j;
+                                        }
+                                        break;
+                                    case 8:
+                                        if (disposition[j][i + 1].getContent() == null && disposition[j][i - 1].getContent() == null && disposition[j - 1][i].getContent() == null) {
+                                            refill = true;
+                                            row = i;
+                                            column = j;
+                                        }
+                                        break;
+                                    default:
+                                        if (disposition[j][i + 1].getContent() == null && disposition[j][i - 1].getContent() == null && disposition[j + 1][i].getContent() == null && disposition[j - 1][i].getContent() == null) {
+                                            refill = true;
+                                            row = i;
+                                            column = j;
+                                        }
+                                        break;
+                                }
+                                break;
+                        }
+                    }
+                }
+            }
+            if (refill) {
+                for (int i = 0; i < 9; i++) {
+                    for (int j = 0; j < 9; j++) {
+                        if(disposition[j][i].getContent() != null){
+                            switch(i){
+                                case 0:
+                                    if(adjacencyCheck(i, j) && adjacencyCheck(i+1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j+1) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j-1) && i != row && j != column){
+                                        return false;
+                                    }
+                                    break;
+                                case 8:
+                                    if(adjacencyCheck(i, j) && adjacencyCheck(i-1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j+1) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j-1) && i != row && j != column){
+                                        return false;
+                                    }
+                                    break;
+                                default:
+                                    switch(j){
+                                        case 0:
+                                            if(adjacencyCheck(i, j) && adjacencyCheck(i+1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i-1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j+1) && i != row && j != column){
+                                                return false;
+                                            }
+                                            break;
+                                        case 8:
+                                            if(adjacencyCheck(i, j) && adjacencyCheck(i+1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i-1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j-1) && i != row && j != column){
+                                                return false;
+                                            }
+                                            break;
+                                        default:
+                                            if(adjacencyCheck(i, j) && adjacencyCheck(i+1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i-1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j+1) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j-1) && i != row && j != column){
+                                                return false;
+                                            }
+                                            break;
+                                    }
+                                    break;
+                            }
+                        }
+
+                    }
+                }
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
     }
+
 
     /** adjacencyCheck is used to check if  a certain item can be taken from a cell on the board
      * @param x: row of the cell you want to check
