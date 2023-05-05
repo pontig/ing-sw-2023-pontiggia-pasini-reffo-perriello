@@ -30,6 +30,5 @@ public enum State {
     FIRSTCOMMONGOAL_TAKEN,
     SECONDCOMMONGOAL_TAKEN,
     TOKEN_END_GAME,
-
     RESULTS
 }
