@@ -176,7 +176,7 @@ public class Board {
         int column = -1;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if(disposition[j][i].getContent() != null){
+                if(disposition[i][j].getContent() != null){
                     emptyBoard = false;
                     break;
                 }
@@ -188,43 +188,43 @@ public class Board {
         else{
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
-                    if (disposition[j][i].getContent() != null) {
+                    if (disposition[i][j].getContent() != null) {
                         switch (i) {
                             case 0:
-                                if (disposition[j + 1][i].getContent() == null && disposition[j][i + 1].getContent() == null && disposition[j - 1][i].getContent() == null) {
+                                if (disposition[i][j + 1].getContent() == null && disposition[i + 1][j].getContent() == null && disposition[i][j - 1].getContent() == null) {
                                     refill = true;
-                                    row = i;
-                                    column = j;
+                                    row = j;
+                                    column = i;
                                 }
                                 break;
                             case 8:
-                                if (disposition[j][i - 1].getContent() == null && disposition[j + 1][i].getContent() == null && disposition[j - 1][i].getContent() == null) {
+                                if (disposition[i - 1][j].getContent() == null && disposition[i][j + 1].getContent() == null && disposition[i][j - 1].getContent() == null) {
                                     refill = true;
-                                    row = i;
-                                    column = j;
+                                    row = j;
+                                    column = i;
                                 }
                                 break;
                             default:
                                 switch (j) {
                                     case 0:
-                                        if (disposition[j][i + 1].getContent() == null && disposition[j][i - 1].getContent() == null && disposition[j + 1][i].getContent() == null) {
+                                        if (disposition[i + 1][j].getContent() == null && disposition[i - 1][j].getContent() == null && disposition[i][j + 1].getContent() == null) {
                                             refill = true;
-                                            row = i;
-                                            column = j;
+                                            row = j;
+                                            column = i;
                                         }
                                         break;
                                     case 8:
-                                        if (disposition[j][i + 1].getContent() == null && disposition[j][i - 1].getContent() == null && disposition[j - 1][i].getContent() == null) {
+                                        if (disposition[i + 1][j].getContent() == null && disposition[i - 1][j].getContent() == null && disposition[i][j - 1].getContent() == null) {
                                             refill = true;
-                                            row = i;
-                                            column = j;
+                                            row = j;
+                                            column = i;
                                         }
                                         break;
                                     default:
-                                        if (disposition[j][i + 1].getContent() == null && disposition[j][i - 1].getContent() == null && disposition[j + 1][i].getContent() == null && disposition[j - 1][i].getContent() == null) {
+                                        if (disposition[i + 1][j].getContent() == null && disposition[i - 1][j].getContent() == null && disposition[i][j + 1].getContent() == null && disposition[i][j - 1].getContent() == null) {
                                             refill = true;
-                                            row = i;
-                                            column = j;
+                                            row = j;
+                                            column = i;
                                         }
                                         break;
                                 }
@@ -233,35 +233,35 @@ public class Board {
                     }
                 }
             }
-            if (refill) {
+            if(refill) {
                 for (int i = 0; i < 9; i++) {
                     for (int j = 0; j < 9; j++) {
-                        if(disposition[j][i].getContent() != null){
+                        if(disposition[i][j].getContent() != null){
                             switch(i){
                                 case 0:
-                                    if(adjacencyCheck(i, j) && adjacencyCheck(i+1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j+1) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j-1) && i != row && j != column){
+                                    if(adjacencyCheck(i, j) && adjacencyCheck(i+1, j) && j != row && i != column || adjacencyCheck(i, j) && adjacencyCheck(i, j+1) && j != row && i != column || adjacencyCheck(i, j) && adjacencyCheck(i, j-1) && j != row && i != column){
                                         return false;
                                     }
                                     break;
                                 case 8:
-                                    if(adjacencyCheck(i, j) && adjacencyCheck(i-1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j+1) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j-1) && i != row && j != column){
+                                    if(adjacencyCheck(i, j) && adjacencyCheck(i-1, j) && j != row && i != column || adjacencyCheck(i, j) && adjacencyCheck(i, j+1) && j != row && i != column || adjacencyCheck(i, j) && adjacencyCheck(i, j-1) && j != row && i != column){
                                         return false;
                                     }
                                     break;
                                 default:
                                     switch(j){
                                         case 0:
-                                            if(adjacencyCheck(i, j) && adjacencyCheck(i+1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i-1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j+1) && i != row && j != column){
+                                            if(adjacencyCheck(i, j) && adjacencyCheck(i+1, j) && j != row && i != column || adjacencyCheck(i, j) && adjacencyCheck(i-1, j) && j != row && i != column || adjacencyCheck(i, j) && adjacencyCheck(i, j+1) && j != row && i != column){
                                                 return false;
                                             }
                                             break;
                                         case 8:
-                                            if(adjacencyCheck(i, j) && adjacencyCheck(i+1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i-1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j-1) && i != row && j != column){
+                                            if(adjacencyCheck(i, j) && adjacencyCheck(i+1, j) && j != row && i != column || adjacencyCheck(i, j) && adjacencyCheck(i-1, j) && j != row && i != column || adjacencyCheck(i, j) && adjacencyCheck(i, j-1) && j != row && i != column){
                                                 return false;
                                             }
                                             break;
                                         default:
-                                            if(adjacencyCheck(i, j) && adjacencyCheck(i+1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i-1, j) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j+1) && i != row && j != column || adjacencyCheck(i, j) && adjacencyCheck(i, j-1) && i != row && j != column){
+                                            if(adjacencyCheck(i, j) && adjacencyCheck(i+1, j) && j != row && i != column || adjacencyCheck(i, j) && adjacencyCheck(i-1, j) && j != row && i != column || adjacencyCheck(i, j) && adjacencyCheck(i, j+1) && j != row && i != column || adjacencyCheck(i, j) && adjacencyCheck(i, j-1) && j != row && i != column){
                                                 return false;
                                             }
                                             break;
