@@ -265,7 +265,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
 
     public void startGame(){
         if(getNumberOfPlayers() == getPlayerList().size())
-            msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), null, firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
+            msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), getCurrentPlayer().getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
         else
             msg = new SendDataToClient(ACK_NICKNAME, null, null, null, null, null, null, null, false, null, null);
         setChangedAndNotifyObservers(msg);

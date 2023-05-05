@@ -10,46 +10,43 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 
 public class ClientSkeleton implements Client {
-
-    private final ObjectOutputStream ObjectOutputStream;
-    private static ObjectInputStream ObjectInputStream = null;
+    private final ObjectOutputStream objectOutputStream;
+    private final ObjectInputStream objectInputStream;
 
     public ClientSkeleton(Socket socket) throws RemoteException {
         try{
-            this.ObjectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             throw new RemoteException("Cannot create output stream" + e.getMessage());
         }
         try {
-            this.ObjectInputStream = new ObjectInputStream(socket.getInputStream());
+            this.objectInputStream = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
             throw new RemoteException("Cannot create input stream" + e.getMessage());
         }
-
     }
 
-    public static void receive(Server server) throws RemoteException {
+    public void receive(Server server) throws RemoteException {
         Message arg;
         try {
-            arg = (Message) ObjectInputStream.readObject();
+            arg = (Message) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             throw new RemoteException("Cannot receive or cast event: " + e.getMessage());
         }
-
         server.updateModel(this, arg);
-
-    }
-
     }
 
     @Override
     public void updateView(Server o, Message arg) throws RemoteException {
         try {
-            ObjectOutputStream.writeObject(o);
-            ObjectOutputStream.writeObject(arg);
+            objectOutputStream.writeObject(o);
         } catch (IOException e) {
             throw new RuntimeException("Cannot send event: " + e.getMessage());
         }
-
+        try {
+            objectOutputStream.writeObject(arg);
+        } catch (IOException e) {
+            throw new RuntimeException("Cannot send event: " + e.getMessage());
+        }
     }
 }

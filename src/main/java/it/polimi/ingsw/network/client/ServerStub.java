@@ -13,48 +13,51 @@ import java.rmi.RemoteException;
 
 public class ServerStub implements Server {
     private final int port;
-    private final String localhost;
+    private final String ip;
     private Socket socket;
-    private java.io.ObjectOutputStream ObjectOutputStream;
-    private ObjectInputStream ObjectInputStream;
+    private java.io.ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
 
-    public ServerStub(String localhost, int port) {
-        this.localhost = localhost;
+    public ServerStub(String ip, int port) {
+        this.ip = ip;
         this.port = port;
     }
 
-    public void receive(ClientImpl client) throws RemoteException {
-         Server server;
+    public void receive(Client client) throws RemoteException {
+        Server server;
         try {
-            server = (Server) ObjectInputStream.readObject();
+            server = (Server) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             throw new RemoteException("Cannot receive or cast event: " + e.getMessage());
         }
         Message arg;
         try {
-            arg = (Message) ObjectInputStream.readObject();
+            arg = (Message) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             throw new RemoteException("Cannot receive or cast event: " + e.getMessage());
         }
-
         client.updateView(server, arg);
-
     }
 
-    public void close() {
+    public void close() throws RemoteException{
+        try {
+            socket.close();
+        } catch (IOException e) {
+            throw new RemoteException("Cannot close socket", e);
+        }
     }
 
     @Override
     public void register(Client client) throws RemoteException {
         try {
-            this.socket = new Socket(localhost, port);
+            this.socket = new Socket(ip, port);
             try{
-            this.ObjectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             } catch (IOException e) {
                 throw new RemoteException("Cannot create output stream" + e.getMessage());
             }
             try {
-            this.ObjectInputStream = new ObjectInputStream(socket.getInputStream());
+                this.objectInputStream = new ObjectInputStream(socket.getInputStream());
             } catch (IOException e) {
                 throw new RemoteException("Cannot create input stream" + e.getMessage());
             }
@@ -67,11 +70,10 @@ public class ServerStub implements Server {
     @Override
     public void updateModel(Client client, Message arg) throws RemoteException {
         try {
-            ObjectOutputStream.writeObject(arg);
+            objectOutputStream.writeObject(arg);
         } catch (IOException e) {
             throw new RemoteException("Unable to send message to server" + e.getMessage());
         }
-
     }
 
 }

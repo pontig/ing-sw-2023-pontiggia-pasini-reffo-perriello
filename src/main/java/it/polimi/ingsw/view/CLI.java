@@ -394,7 +394,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                     else {
                         System.out.print(arg.getNickname() + " ");
                     }
-                    System.out.println("obtained:" + arg.getFirstCommon() + "from the first common goal");
+                    System.out.println("obtained: " + arg.getFirstCommon() + " points from the first common goal");
                     break;
                 case SECONDCOMMONGOAL_TAKEN:
                     arg.printMsg();
@@ -404,7 +404,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                     else {
                         System.out.print(arg.getNickname() + " ");
                     }
-                    System.out.println(arg.getNickname() + "obtained:" + arg.getSecondCommon() + "from the second common goal");
+                    System.out.println(arg.getNickname() + "obtained: " + arg.getSecondCommon() + " points from the second common goal");
                     break;
                 case TOKEN_END_GAME:    //avviso che il giocatore corrente ha preso il token di fine gioco
                     arg.printMsg();

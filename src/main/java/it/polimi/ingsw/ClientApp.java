@@ -59,8 +59,8 @@ public class ClientApp {
             ClientImpl client = new ClientImpl(server.connect(), typeView);
             client.run();
         }
- /*       else if(networkClient == 1){
-            ServerStub serverStub = new ServerStub(URL, port);              //da modifiare per ermettere di metterlo in rete
+        else if(networkClient == 1){
+            ServerStub serverStub = new ServerStub("localhost", port);              //da modifiare per ermettere di metterlo in rete
             ClientImpl client = new ClientImpl(serverStub, typeView);
             new Thread(() -> {
                 while(true) {
@@ -79,6 +79,5 @@ public class ClientApp {
             }).start();
             client.run();
         }
-*/
     }
 }
