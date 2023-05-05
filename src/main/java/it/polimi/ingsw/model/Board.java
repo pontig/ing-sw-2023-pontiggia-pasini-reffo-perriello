@@ -123,9 +123,16 @@ public class Board {
                 newList.add(tmp);
 
             for(int i = 0; i < size; i++){
-                if(newList.get(i).getX() == x && newList.get(i).getY() == y){
-                    newList.remove(i);
-                    break;
+                if(size == 3){
+                    if(newList.get(i).getX() == x && newList.get(i).getY() == y && i != 1){
+                        newList.remove(i);
+                        break;
+                    }
+                }else{
+                    if(newList.get(i).getX() == x && newList.get(i).getY() == y){
+                        newList.remove(i);
+                        break;
+                    }
                 }
             }
             Set<Pair<Integer, Integer>> pC = new HashSet<>();
