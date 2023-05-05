@@ -28,7 +28,7 @@ public class ClientSkeleton implements Client {
 
     }
 
-    public static void receive(Server server) throws RemoteException {
+    public void receive(Server server) throws RemoteException {
         Message arg;
         try {
             arg = (Message) ObjectInputStream.readObject();
@@ -40,7 +40,7 @@ public class ClientSkeleton implements Client {
 
     }
 
-    }
+
 
     @Override
     public void updateView(Server o, Message arg) throws RemoteException {
