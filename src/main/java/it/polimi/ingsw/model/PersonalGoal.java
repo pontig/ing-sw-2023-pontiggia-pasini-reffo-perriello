@@ -7,7 +7,7 @@ import java.util.Set;
 
 import static it.polimi.ingsw.enums.Type.*;
 
-final class PersonalGoal {
+public final class PersonalGoal {
     public final Set<Triplet<Integer, Integer, Type>> pg;
 
     /**
@@ -18,7 +18,7 @@ final class PersonalGoal {
         this.pg = pg;
     }
 
-    public String toString(){
+    public String sendToString(){
         boolean item = false;
         StringBuilder personalGoal = new StringBuilder(" ");
         Triplet<Integer, Integer, Type>[] array = new Triplet[pg.size()];

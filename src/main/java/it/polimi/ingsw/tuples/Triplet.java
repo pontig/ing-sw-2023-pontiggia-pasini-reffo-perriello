@@ -5,6 +5,9 @@ public class Triplet<A, B, C> {
     public final B _y;
     public final C _z;
 
+    public Triplet() {
+        this(null, null, null);
+    }
     public Triplet(A x, B y, C type) {
         this._x = x;
         this._y = y;

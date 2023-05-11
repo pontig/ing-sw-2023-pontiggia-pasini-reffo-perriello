@@ -361,7 +361,7 @@ public class Board {
         return clone;
     }
 
-    public String toString(){
+    public String sendToString(){
         StringBuilder board = new StringBuilder(" ");
         boolean selected = false;
         for(int i = 0; i < 9; i++) {
@@ -400,7 +400,7 @@ public class Board {
                         }
                     }
                 } else
-                    board.append('■').append(" ").append(" ");
+                    board.append("██").append(" ").append(" ");
 
                 selected = false;
             }

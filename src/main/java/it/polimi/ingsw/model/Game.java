@@ -37,11 +37,12 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     /**
      * costruttore
      **/
-    public Game(Board board, List<CommonGoalName> commonGoals) {        //mancano bisongna sistemare l'asset List<PersonalGoal> personalGoals,
+    public Game(Board board, List<CommonGoalName> commonGoals, List<PersonalGoal> personalGoalList) {
         this.playerList = new ArrayList<>();
         this.board = board;
         this.bag = new Bag();
         this.commonGoals = commonGoals;
+        this.personalGoals = personalGoalList;
         this.endGame = false;
         this.canConfirmItem = false;
         this.orderOK = false;
@@ -86,7 +87,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         this.columnChosen = 0;
         this.gameResult = new ArrayList<>();
     }
-//TODO - sitemare i personal goal dagli asset e anche SEND_MODEL che manda il personal a tutti
+//TODO - SEND_MODEL che manda il personal a tutti
     private PersonalGoal assignPersonalGoal(){
         Random random = new Random();
         int randomInt = random.nextInt(this.personalGoals.size());
@@ -208,13 +209,6 @@ public class Game extends ObservableModel<Message> {              //extends Obse
      **/
     public void insertPlayer(String nickname) {
         boolean sameNickname = false;
-        Set<Triplet<Integer, Integer, Type>> pG = new HashSet<>();
-        pG.add(new Triplet<>(4,1,CAT));
-        pG.add(new Triplet<>(3,2,BOOK));
-        pG.add(new Triplet<>(1,3,GAME));
-        pG.add(new Triplet<>(2,0,FRAME));
-        pG.add(new Triplet<>(2,5,TROPHY));
-        pG.add(new Triplet<>(0,0,PLANTS));
 
         for(Player p: getPlayerList()){
             if(p.getNickname().equals(nickname)) {
@@ -227,17 +221,17 @@ public class Game extends ObservableModel<Message> {              //extends Obse
             msg = new SendDataToClient(SAME_NICKNAME, null, null, null, null, null, null, null, false, null, null);
         else{
             if(getNumberOfPlayers() == 0 || getPlayerList() == null) {
-                Player p = new Player(nickname, new PersonalGoal(pG)); //da sostituire con assignPersonal()
+                Player p = new Player(nickname, assignPersonalGoal());
                 getPlayerList().add(p);
                 msg = new SendDataToClient(ASK_NUMPLAYERS, null,null, null, null, null, null, null, false, null, null);
             } else {
                 if (getNumberOfPlayers() == getPlayerList().size()) {
                     msg = new SendDataToClient(NACK_NICKNAME, null, null, null, null, null, null, null, false, null, null);
                 } else if (getNumberOfPlayers() > getPlayerList().size()) {
-                    Player p = new Player(nickname, new PersonalGoal(pG)); //da sostituire con assignPersonal()
+                    Player p = new Player(nickname, assignPersonalGoal()); //da sostituire con assignPersonal()
                     getPlayerList().add(p);
                     if (getNumberOfPlayers() == getPlayerList().size())
-                        msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), getCurrentPlayer().getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
+                        msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().sendToString(), getCurrentPlayer().getPersonalGoal().sendToString(), getCurrentPlayer().getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
                     else
                         msg = new SendDataToClient(ACK_NICKNAME, null, null, null, null, null, null, null, false, null, null);
                 }
@@ -265,7 +259,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
 
     public void startGame(){
         if(getNumberOfPlayers() == getPlayerList().size())
-            msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), getCurrentPlayer().getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
+            msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().sendToString(), getCurrentPlayer().getPersonalGoal().sendToString(), getCurrentPlayer().getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
         else
             msg = new SendDataToClient(ACK_NICKNAME, null, null, null, null, null, null, null, false, null, null);
         setChangedAndNotifyObservers(msg);
@@ -292,7 +286,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         for(Pair<Integer, Integer> p: getBoard().getPendingCells()){
             System.out.println(getBoard().getDisposition()[p.getX()][p.getY()].getContent().getType().toString());
         }
-        msg = new SendDataToClient(SELECTED, getCurrentPlayer().getNickname(), getBoard().toString(), null, null, null, null, getBoard().pendingToString(), getCanConfirmItems(), null, null);
+        msg = new SendDataToClient(SELECTED, getCurrentPlayer().getNickname(), getBoard().sendToString(), null, null, null, null, getBoard().pendingToString(), getCanConfirmItems(), null, null);
         setChangedAndNotifyObservers(msg);
     }
 
@@ -301,7 +295,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         setConfirmedItems(getBoard().removePendingItems());
         setNumPendingItems(getConfirmedItems().size());
         getCurrentPlayer().getShelf().setInsertableColumns(getNumPendingItems());
-        msg = new SendDataToClient(ORDER_n_COLUMN, getCurrentPlayer().getNickname(), getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), false, orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(-1));
+        msg = new SendDataToClient(ORDER_n_COLUMN, getCurrentPlayer().getNickname(), getBoard().sendToString(), getCurrentPlayer().getPersonalGoal().sendToString(), getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), false, orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(-1));
         setChangedAndNotifyObservers(msg);
     }
 
@@ -341,7 +335,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         }
 
         setOrderOK(getConfirmedItems().size() == 0 && getTmpOrderedItems().size() == getNumPendingItems());
-        msg = new SendDataToClient(ACK_ORDER_n_COLUMN, getCurrentPlayer().getNickname(), null, getCurrentPlayer().getPersonalGoal().toString(), getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), getColumnOK()&&getOrderOK(), orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(getColumnChosen()));
+        msg = new SendDataToClient(ACK_ORDER_n_COLUMN, getCurrentPlayer().getNickname(), null, getCurrentPlayer().getPersonalGoal().sendToString(), getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), getColumnOK()&&getOrderOK(), orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(getColumnChosen()));
         setChangedAndNotifyObservers(msg);
     }
 
@@ -437,7 +431,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         setNumPendingItems(0);
         setColumnChosen(-1);
         System.out.println("Current player: " + getCurrentPlayer().getNickname());
-        msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().toString(), getCurrentPlayer().getPersonalGoal().toString(), getCurrentPlayer().getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
+        msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().sendToString(), getCurrentPlayer().getPersonalGoal().sendToString(), getCurrentPlayer().getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
         setChangedAndNotifyObservers(msg);
     }
 
