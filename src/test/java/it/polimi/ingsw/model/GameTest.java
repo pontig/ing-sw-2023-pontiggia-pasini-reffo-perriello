@@ -1,12 +1,8 @@
 package it.polimi.ingsw.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-<<<<<<< Updated upstream
 import it.polimi.ingsw.enums.CommonGoalName;
-=======
-import it.polimi.ingsw.model.enums.CommonGoalName;
-import it.polimi.ingsw.model.enums.Type;
->>>>>>> Stashed changes
+import it.polimi.ingsw.enums.Type;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -64,8 +60,8 @@ class GameTest {
         return commonGoals;
     }
     Game gameTwoPlayers = new Game("Tommi", 2, initializeBoard(), initializeCommonGoals());
-  //  Game gameThreePlayers = new Game("Eli", 3, initializeBoard(), initializeCommonGoals());
-   // Game gameFourPlayers = new Game("Mauri", 4, initializeBoard(), initializeCommonGoals());
+    Game gameThreePlayers = new Game("Eli", 3, initializeBoard(), initializeCommonGoals());
+    Game gameFourPlayers = new Game("Mauri", 4, initializeBoard(), initializeCommonGoals());
 
     @Test
     void getPlayerList() {
@@ -73,7 +69,7 @@ class GameTest {
 
     @Test
     void getPlayerState() {
-        gameFourPlayers.setNumberOfPlayers(4);
+        gameFourPlayers.setNumberOfPlayers(gameFourPlayers.getCurrentPlayer().getNickname(),4);
         assertEquals(4, gameFourPlayers.getNumberOfPlayers());
     }
 
