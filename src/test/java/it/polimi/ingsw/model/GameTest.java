@@ -1,7 +1,12 @@
 package it.polimi.ingsw.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+<<<<<<< Updated upstream
 import it.polimi.ingsw.enums.CommonGoalName;
+=======
+import it.polimi.ingsw.model.enums.CommonGoalName;
+import it.polimi.ingsw.model.enums.Type;
+>>>>>>> Stashed changes
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -68,6 +73,8 @@ class GameTest {
 
     @Test
     void getPlayerState() {
+        gameFourPlayers.setNumberOfPlayers(4);
+        assertEquals(4, gameFourPlayers.getNumberOfPlayers());
     }
 
     @Test
@@ -84,10 +91,14 @@ class GameTest {
 
     @Test
     void getBoard() {
+        gameFourPlayers.setBoard(new Board());
+        assertNotEquals(null, gameFourPlayers.getBoard());
     }
 
     @Test
     void getEndGame() {
+        gameThreePlayers.setEndGame(false);
+        assertEquals(false, gameThreePlayers.getEndGame());
     }
 
     @Test
@@ -124,6 +135,10 @@ class GameTest {
 
     @Test
     void getBag() {
+        gameThreePlayers.setBag(new Bag());
+        Board board = new Board();
+        board.fill(3, gameThreePlayers.getBag());
+        assertNotEquals(22, gameThreePlayers.getBag().getItems().get(BOOK));
     }
 
     @Test
@@ -392,6 +407,30 @@ class GameTest {
 
     @Test
     void endTurnCheck() {
+        gameTwoPlayers.itemClick(4,1);
+        gameTwoPlayers.itemClick(3,1);
+        gameTwoPlayers.confirmItems();
+        gameTwoPlayers.orderSelectedItem(1,1);
+        gameTwoPlayers.orderSelectedItem(0,1);
+        gameTwoPlayers.selectColumn(3);
+        gameTwoPlayers.confirmInsertion();
+        assertEquals(false, gameTwoPlayers.endTurnCheck());
+        assertEquals(0, gameTwoPlayers.getCurrentPlayer().getFirstCommonScore());
+        assertEquals(0, gameTwoPlayers.getCurrentPlayer().getSecondCommonScore());
+        assertEquals(0, gameTwoPlayers.getCurrentPlayer().getEndGameToken());
+        assertEquals(null, gameTwoPlayers.getBoard().getDisposition()[4][1].getContent());
+        assertEquals(null, gameTwoPlayers.getBoard().getDisposition()[3][1].getContent());
+
+        gameTwoPlayers.setEndGame(true);
+        gameTwoPlayers.setNumPendingItems(0);
+        assertEquals(true, gameTwoPlayers.endTurnCheck());
+
+        gameTwoPlayers.setEndGame(false);
+        for(int i =0; i < 5; i++){
+            for(int j = 0; j < 6; j++)
+                gameTwoPlayers.getCurrentPlayer().getShelf().setItem(i, j, new Item(BOOK, 1));
+        }
+        gameTwoPlayers.endTurnCheck();
     }
 
     @Test
