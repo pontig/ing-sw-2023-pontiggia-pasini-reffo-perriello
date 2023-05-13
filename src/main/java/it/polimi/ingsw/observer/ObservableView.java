@@ -49,4 +49,8 @@ public class ObservableView<Message> {
     protected synchronized void clearChangedView() {
         changed = false;
     }
+
+    public Vector<ObserverView<? extends ObservableView<Message>, Message>> getObservers() {
+        return observers;
+    }
 }

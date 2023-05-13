@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="nicknamePane" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.NicknameSceneController">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <center>
+            <VBox alignment="CENTER" fillWidth="false" prefHeight="720.0" prefWidth="1280.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="347.0" fitWidth="584.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Title.png" />
+                     </image></ImageView>
+                  <Label text="Ciao zi, come ti chiami?" textFill="WHITE">
+                     <font>
+                        <Font name="Comic Sans MS Bold" size="22.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="textNickname" />
+                  <Button fx:id="buttonSubmitNickname" mnemonicParsing="false" text="Conferma" />
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>

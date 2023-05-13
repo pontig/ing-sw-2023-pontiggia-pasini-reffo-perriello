@@ -12,7 +12,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Vector;
 
 public class SceneController {
 
@@ -43,21 +43,22 @@ public class SceneController {
     }
 
     public static GenericSceneController getActiveController() {
-            return activeController;
+        return activeController;
     }
 
     public static void setActiveController(GenericSceneController activeController) {
         SceneController.activeController = activeController;
     }
 
-    public void ChangeRootPane(List<ObserverView> observerList, String fxml) {
+    public static void changeRootPane(Vector<ObserverView<? extends ObservableView<Message>, Message>> observerList, String fxml) {
 
         try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + fxml));
-        Parent root = null;
+            FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/" + fxml));
+            Parent root = null;
             root = loader.load();
             ObservableView<Message> controller = loader.getController();
-            // TODO: manca il setObserverList
+            // TODO: è giusto l'add degli observer?
+            observerList.forEach(controller::addObserverView);
             activeController = (GenericSceneController) controller;
             activeScene.setRoot(root);
             currFxml = fxml;

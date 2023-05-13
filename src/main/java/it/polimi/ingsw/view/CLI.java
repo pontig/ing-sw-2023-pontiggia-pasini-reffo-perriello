@@ -28,7 +28,8 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
     private volatile boolean isRunning = true;
     Message msg = null;
     String nickname;
-    public CLI(){
+
+    public CLI() {
         super();
     }
 
@@ -38,19 +39,20 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
             lock.notifyAll();
         }
     }
+
     @Override
     public void run() {
         System.out.println("\nCLI RUNNING CORRECTLY");
 
         System.out.println(YELLOW + "\n" + "ooo        ooooo                   .oooooo..o oooo                  oooo   .o88o.  o8o              \n" +
-                                           "`88.       .888'                  d8P'    `Y8 `888                  `888   888 `\"  `\"'            \n" +
-                                           " 888b     d'888  oooo    ooo      Y88bo.       888 .oo.    .ooooo.   888  o888oo  oooo   .ooooo.    \n" +
-                                           " 8 Y88. .P  888   `88.  .8'        `\"Y8888o.   888P\"Y88b  d88' `88b  888   888    `888  d88' `88b \n" +
-                                           " 8  `888'   888    `88..8'             `\"Y88b  888   888  888ooo888  888   888     888  888ooo888  \n" +
-                                           " 8    Y     888     `888'         oo     .d8P  888   888  888    .o  888   888     888  888    .o   \n" +
-                                           "o8o        o888o     .8'          8\"\"88888P'  o888o o888o `Y8bod8P' o888o o888o   o888o `Y8bod8P' \n" +
-                                           "                 .o..P'                                                                             \n" +
-                                           "                 `Y8P'                                                                              \n" + RESET);
+                "`88.       .888'                  d8P'    `Y8 `888                  `888   888 `\"  `\"'            \n" +
+                " 888b     d'888  oooo    ooo      Y88bo.       888 .oo.    .ooooo.   888  o888oo  oooo   .ooooo.    \n" +
+                " 8 Y88. .P  888   `88.  .8'        `\"Y8888o.   888P\"Y88b  d88' `88b  888   888    `888  d88' `88b \n" +
+                " 8  `888'   888    `88..8'             `\"Y88b  888   888  888ooo888  888   888     888  888ooo888  \n" +
+                " 8    Y     888     `888'         oo     .d8P  888   888  888    .o  888   888     888  888    .o   \n" +
+                "o8o        o888o     .8'          8\"\"88888P'  o888o o888o `Y8bod8P' o888o o888o   o888o `Y8bod8P' \n" +
+                "                 .o..P'                                                                             \n" +
+                "                 `Y8P'                                                                              \n" + RESET);
 
         System.out.print("Please enter a nickname: ");
         nickname = terminal.next();
@@ -58,10 +60,10 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
         setChangedView();
         notifyObserversView(msg);
 
-        while(isRunning) {
+        while (isRunning) {
             switch (state) {
-                //Form to enter a new nickname because someone already have the one expressed before
                 case 0:
+                    //Form to enter a new nickname because someone already have the one expressed before
                     System.out.print("Someone has a nickname as the one you just wrote.\nPlease enter a different nickname: ");
                     nickname = terminal.next();
                     msg = new SendDataToServer(SET_NICKNAME, nickname, 0, 0, false);
@@ -69,15 +71,15 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                     notifyObserversView(msg);
                     msg = null;
                     break;
-                //All the players required are in game so no more are needed
                 case 1:
+                    //All the players required are in game so no more are needed
                     System.out.println("No more players are required in this game, we are sorry, you will be disconnected");
                     stop();
                     break;
-                //Waiting for player and waiting
                 case 2:
-                    synchronized (lock){
-                        try{
+                    //Waiting for player and waiting
+                    synchronized (lock) {
+                        try {
                             System.out.print("\n\n ~ WAITING FOR PLAYERS ~ \n\n");
                             lock.wait();        //possibile lock per tutti i giocatori -> da inviare una richiesta al server se i due numeri sono uguali
                             msg = null;
@@ -86,65 +88,66 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                         }
                     }
                     break;
-                //Insert the number of player for the game 2 / 3 / 4
                 case 3:
+                    //Insert the number of player for the game 2 / 3 / 4
                     int numberPlayers = 0;
                     boolean okNumber = false;
                     System.out.print("Insert the number of players for the game (2 / 3 / 4): ");
-                    do{
-                        try{
+                    do {
+                        try {
                             numberPlayers = Integer.parseInt(terminal.next());
+                            if (numberPlayers < 2 || numberPlayers > 4) throw new NumberFormatException();
                             okNumber = true;
                         } catch (NumberFormatException e) {
                             System.out.print("You entered an invalid character, please enter a number (2 / 3 / 4): ");
                         }
-                    } while(!okNumber);
+                    } while (!okNumber);
                     msg = new SendDataToServer(SET_NUMPLAYERS, this.nickname, numberPlayers, 0, false);
                     setChangedView();
                     notifyObserversView(msg);
                     msg = null;
                     break;
-                //Check if the game should begin
                 case -1:
+                    //Check if the game should begin
                     msg = new SendDataToServer(GAME_READY, null, 0, 0, false);
                     setChangedView();
                     notifyObserversView(msg);
                     msg = null;
                     //state = 2;
                     break;
-                //Selecting an items from board by typing its coordinated ros first followed by the column
                 case 4:
+                    //Selecting an items from board by typing its coordinated ros first followed by the column
                     int row = -1;
                     int column = -1;
                     System.out.println("\nEnter the coordinates of the item you wanna select: ");
                     System.out.print("Row: ");
-                    do{
-                        try{
+                    do {
+                        try {
                             row = Integer.parseInt(terminal.next());
                         } catch (NumberFormatException e) {
                             System.out.println("It is not a valid number!!");
                         }
-                        if(row < 0 || row > 8)
+                        if (row < 0 || row > 8)
                             System.out.print("Enter a valid number for row: ");
-                    } while(row < 0 || row > 8);
+                    } while (row < 0 || row > 8);
 
                     System.out.print("Column: ");
-                    do{
-                        try{
+                    do {
+                        try {
                             column = Integer.parseInt(terminal.next());
                         } catch (NumberFormatException e) {
                             System.out.println("It is not a valid number!!");
                         }
-                        if(column < 0 || column > 8)
+                        if (column < 0 || column > 8)
                             System.out.print("Enter a valid number for row: ");
-                    } while(column < 0 || column > 8);
+                    } while (column < 0 || column > 8);
                     msg = new SendDataToServer(SELECT_ITEM, null, row, column, false);
                     setChangedView();
                     notifyObserversView(msg);
                     msg = null;
                     break;
-                //Y = confirm the item selected from the board and then go to the insertion phase
                 case 5:
+                    //Y = confirm the item selected from the board and then go to the insertion phase
                     msg = new SendDataToServer(CONFIRM_ITEMS, null, 0, 0, true);
                     setChangedView();
                     notifyObserversView(msg);
@@ -153,52 +156,52 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
 
                 case 6:
                     String orderOrColumn = terminal.next();
-                    if(orderOrColumn.equals("C") || orderOrColumn.equals("c")) {
+                    if (orderOrColumn.equals("C") || orderOrColumn.equals("c")) {
                         System.out.println("Type the number of one of the columns in the shelf highlighted with an arrow.");
                         boolean okColumn = false;
                         int columnShelf = 0;
-                        do{
+                        do {
                             try {
                                 columnShelf = Integer.parseInt(terminal.next());
                                 okColumn = true;
-                            } catch(NumberFormatException e){
+                            } catch (NumberFormatException e) {
                                 System.out.println("Please try again with a valid number: ");
                             }
-                        } while(!okColumn);
+                        } while (!okColumn);
                         msg = new SendDataToServer(SELECT_COLUMN, null, 0, columnShelf, false);
                     } else {
                         System.out.println("Now you must order the items in the UNORDERED LIST, to do so you select the list and the item you wanna order");
                         System.out.println("Type 1 for the UNORDERED LIST or type 0 for the ORDERED.");
                         System.out.print("From the list (0 / 1): ");
                         int action = -1;
-                        do{
+                        do {
                             try {
                                 action = Integer.parseInt(terminal.next());
-                            } catch(NumberFormatException e){
+                            } catch (NumberFormatException e) {
                                 System.out.println("It is not a valid number!!");
                             }
-                            if(action != 0 && action != 1)
+                            if (action != 0 && action != 1)
                                 System.out.print("Enter 0 for ORDERED or 1 for UNORDERED: ");
-                        } while(action != 0 && action != 1);
+                        } while (action != 0 && action != 1);
                         System.out.print("Order the item in position (0 / 1 / 2): ");
                         int pos = -1;
-                        do{
+                        do {
                             try {
                                 pos = Integer.parseInt(terminal.next());
-                            } catch(NumberFormatException e){
+                            } catch (NumberFormatException e) {
                                 System.out.println("It is not a valid number!!");
                             }
-                            if(pos != 0 && pos != 1 && pos != 2)
+                            if (pos != 0 && pos != 1 && pos != 2)
                                 System.out.print("Enter 0 - first item, 1 - second item or 2 - third item: ");
-                        } while(pos != 0 && pos != 1 && pos != 2);
+                        } while (pos != 0 && pos != 1 && pos != 2);
                         msg = new SendDataToServer(ORDER_ITEM, null, action, pos, false);
                     }
                     setChangedView();
                     notifyObserversView(msg);
                     msg = null;
                     break;
-                //Confirm column and order
                 case 7:
+                    //Confirm column and order
                     msg = new SendDataToServer(CONFIRM_INSERTION, null, 0, 0, true);
                     setChangedView();
                     notifyObserversView(msg);
@@ -206,8 +209,8 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                     break;
 
                 case 20:
-                    synchronized (lock){
-                        try{
+                    synchronized (lock) {
+                        try {
                             lock.wait();
                             msg = null;
                         } catch (InterruptedException e) {
@@ -224,7 +227,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
         }
     }
 
-    public void update(Server o, Message arg){
+    public void update(Server o, Message arg) {
         synchronized (lock) {
             State msg = arg.getInfo();
             switch (msg) {
@@ -247,7 +250,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
 
                 case NACK_NUMPLAYERS:
                     arg.printMsg();
-                    if(arg.getNickname().equals(this.nickname))
+                    if (arg.getNickname().equals(this.nickname))
                         System.out.println("Someone has already chosen the number of players, you will be added to that game");
                     state = -1;
                     break;
@@ -255,7 +258,8 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                 case ASK_NUMPLAYERS:
                 case OUT_BOUND_NUMPLAYERS:
                     arg.printMsg();
-                    if(msg == OUT_BOUND_NUMPLAYERS && arg.getNickname().equals(this.nickname)) System.out.println("Enter a valid number of player!!");
+                    if (msg == OUT_BOUND_NUMPLAYERS && arg.getNickname().equals(this.nickname))
+                        System.out.println("Enter a valid number of player!!");
                     state = 3;
                     break;
 
@@ -267,7 +271,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                     System.out.print(arg.getFirstCommon());
                     System.out.print(RED + "\nThis is the second common goal: " + RESET);
                     System.out.print(arg.getSecondCommon());
-                    if (this.nickname.equals(arg.getNickname())){
+                    if (this.nickname.equals(arg.getNickname())) {
                         System.out.println(RED + "\nThis is your own personal goal: " + RESET);
                         showItems(arg.getPersonal());
                         System.out.println(RED + "\nThis is your own shelf: " + RESET);
@@ -276,8 +280,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                         System.out.println("To select a tile you must enter the couple Row - Column, if you wanna deselect it you can do it during the next submission by typing the same couple Row - Column.");
                         System.out.println("Each time you choose a tile press enter key to submit.");
                         state = 4;
-                    }
-                    else{
+                    } else {
                         System.out.println("\n\nIt is " + arg.getNickname() + "'s turn, let's wait for your turn!!");
                         state = 20;
                     }
@@ -286,18 +289,17 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
 
                 case SELECTED:
                     arg.printMsg();
-                    if(arg.getNickname().equals(this.nickname)) {
+                    if (arg.getNickname().equals(this.nickname)) {
                         System.out.println(RED + "\nIn the board, if you chose a valid item, it is highlight in red" + RESET);
                         showBoard(arg.getBoard());
                         System.out.print(RED + "\nHere you can see what you chose till now: " + RESET);
                         showItems(arg.getSelected());
-                        if(arg.getConfirm()){
+                        if (arg.getConfirm()) {
                             System.out.println("\nIf you wanna confirm you selection enter \"YES\" otherwise \"NO\": -- (default \"NO\")");
                             String confirmation = terminal.next();
-                            if(confirmation.equals("Y") || confirmation.equals("y") || confirmation.equals("yes") || confirmation.equals("YES") || confirmation.equals("Yes"))
+                            if (confirmation.equals("Y") || confirmation.equals("y") || confirmation.equals("yes") || confirmation.equals("YES") || confirmation.equals("Yes"))
                                 state = 5;
-                        }
-                        else state = 4;
+                        } else state = 4;
                     }
                     lock.notifyAll();
                     break;
@@ -305,20 +307,20 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                 case ORDER_n_COLUMN:
                     arg.printMsg();
                     System.out.print(RED + "\nIt follows the current state of the board, it is without ");
-                    if(arg.getNickname().equals(this.nickname)) System.out.println("your choice" + RESET);
+                    if (arg.getNickname().equals(this.nickname)) System.out.println("your choice" + RESET);
                     else System.out.println(arg.getNickname() + "'s choice" + RESET);
                     showBoard(arg.getBoard());
-                    if(arg.getNickname().equals(this.nickname)){
+                    if (arg.getNickname().equals(this.nickname)) {
                         System.out.println(RED + "\nThis is your own personal goal: " + RESET);
                         showItems(arg.getPersonal());
                         System.out.print(RED + "\nThis is your own shelf, you can put the tiles only in the columns where there is a red arrow\n " + RESET);
-                        for(int i=0; i<5; i++) System.out.print(i + " ");
+                        for (int i = 0; i < 5; i++) System.out.print(i + " ");
                         System.out.print("\n");
                         showItems(arg.getShelf());
                         showItems(arg.getColumns());
                         System.out.print(RED + "\n\nThese two are the lists of items you selected:" + RESET);
                         System.out.print("\n                   ");
-                        for(int i=0; i<3; i++) System.out.print(i + " ");
+                        for (int i = 0; i < 3; i++) System.out.print(i + " ");
                         System.out.print(RED + "\nUNORDERED ITEMS:" + RESET + " 1");
                         showItems(arg.getSelected());
                         System.out.print(RED + "\n  ORDERED ITEMS:" + RESET + " 0");
@@ -332,7 +334,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
 
                 case ACK_ORDER_n_COLUMN:
                     arg.printMsg();
-                    if(arg.getNickname().equals(nickname)) {
+                    if (arg.getNickname().equals(nickname)) {
                         System.out.println(RED + "\nThis is your own personal goal: " + RESET);
                         showItems(arg.getPersonal());
                         System.out.print(RED + "\nThis is your shelf and the columns you chose is highlighted with a red harrow.\n " + RESET);
@@ -342,15 +344,15 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                         showItems(arg.getColumns());
                         System.out.print(RED + "\n\nThese two are the lists of items you selected:" + RESET);
                         System.out.print("\n                   ");
-                        for(int i=0; i<3; i++) System.out.print(i + " ");
+                        for (int i = 0; i < 3; i++) System.out.print(i + " ");
                         System.out.print(RED + "\nUNORDERED ITEMS:" + RESET + " 1");
                         showItems(arg.getSelected());
                         System.out.print(RED + "\n  ORDERED ITEMS:" + RESET + " 0");
                         showItems(arg.getOrderedRanking());
-                        if(arg.getConfirm()){
+                        if (arg.getConfirm()) {
                             System.out.println("\nIf you wanna confirm you selection enter \"YES\" otherwise \"NO\": -- (default \"NO\")");
                             String insert = terminal.next();
-                            if(insert.equals("Y") || insert.equals("y") || insert.equals("yes") || insert.equals("YES") || insert.equals("Yes"))
+                            if (insert.equals("Y") || insert.equals("y") || insert.equals("yes") || insert.equals("YES") || insert.equals("Yes"))
                                 state = 7;
                         } else {
                             System.out.println("\nType \"C\" for choosing the column or type \"O\" for ordering the tiles: -- (default \"O\")");
@@ -361,7 +363,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
 
                 case NACK_COLUMN:
                     arg.printMsg();
-                    if(arg.getNickname().equals(nickname)) {
+                    if (arg.getNickname().equals(nickname)) {
                         System.out.println("\nPlease enter a valid column number!");
                         System.out.println("\nFor changing column type \"C\" -- For ordering items type \"O\": ");
                         state = 6;
@@ -370,7 +372,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
 
                 case NACK_ORDER:
                     arg.printMsg();
-                    if(arg.getNickname().equals(nickname)) {
+                    if (arg.getNickname().equals(nickname)) {
                         System.out.println("\nPlease enter a valid item number or select a non empty list!");
                         System.out.println("\nFor changing column type \"C\" -- For ordering items type \"O\": ");
                         state = 6;
@@ -379,7 +381,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
 
                 case INSERTION_DONE:
                     arg.printMsg();
-                    if(arg.getNickname().equals(nickname)) {
+                    if (arg.getNickname().equals(nickname)) {
                         System.out.println("\nYour shelf now is:");
                         showItems(arg.getShelf());
                         System.out.println("\n\nYour turn is now finished!!");
@@ -388,30 +390,27 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                     break;
                 case FIRSTCOMMONGOAL_TAKEN:      //avviso che un giocatore ha preso un obiettivo comune
                     arg.printMsg();
-                    if(arg.getNickname().equals(this.nickname)){
+                    if (arg.getNickname().equals(this.nickname)) {
                         System.out.print("You ");
-                    }
-                    else {
+                    } else {
                         System.out.print(arg.getNickname() + " ");
                     }
                     System.out.println("obtained: " + arg.getFirstCommon() + " points from the first common goal");
                     break;
                 case SECONDCOMMONGOAL_TAKEN:
                     arg.printMsg();
-                    if(arg.getNickname().equals(this.nickname)){
+                    if (arg.getNickname().equals(this.nickname)) {
                         System.out.print("You ");
-                    }
-                    else {
+                    } else {
                         System.out.print(arg.getNickname() + " ");
                     }
                     System.out.println(arg.getNickname() + "obtained: " + arg.getSecondCommon() + " points from the second common goal");
                     break;
                 case TOKEN_END_GAME:    //avviso che il giocatore corrente ha preso il token di fine gioco
                     arg.printMsg();
-                    if(arg.getNickname().equals(this.nickname)){
+                    if (arg.getNickname().equals(this.nickname)) {
                         System.out.print("You ");
-                    }
-                    else {
+                    } else {
                         System.out.print(arg.getNickname() + " ");
                     }
                     System.out.println(arg.getNickname() + "completed Shelf and obtained endGame's point");
@@ -429,17 +428,17 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
         }
     }
 
-    private void showBoard(String board){
+    private void showBoard(String board) {
         System.out.print("  ");
-        for(int i=0; i<9; i++) System.out.print(i + "  ");
+        for (int i = 0; i < 9; i++) System.out.print(i + "  ");
         System.out.print("\n");
         int i = 0;
-        for(int j = 0; j < board.length(); j++) {
-            if(j == i*29 && i != 9){
+        for (int j = 0; j < board.length(); j++) {
+            if (j == i * 29 && i != 9) {
                 System.out.print(i);
                 i++;
             }
-            switch(board.charAt(j)){
+            switch (board.charAt(j)) {
                 case 'W':
                     System.out.print(WHITE + "██" + RESET);
                     break;
@@ -475,14 +474,14 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
 
     public void showItems(String items) {
         boolean columnChoosen = false;
-        for (int i=0; i<items.length(); i++) {
+        for (int i = 0; i < items.length(); i++) {
             if (items.charAt(i) == '#') {
                 columnChoosen = true;
                 break;
             }
         }
 
-        for(int j = 0; j < items.length(); j++) {
+        for (int j = 0; j < items.length(); j++) {
             if (columnChoosen) {
                 if (items.charAt(j) == '#') System.out.print(RED + '▲' + RESET);
                 else System.out.print(BLACK + items.charAt(j) + RESET);

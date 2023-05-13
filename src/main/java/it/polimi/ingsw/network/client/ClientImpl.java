@@ -8,13 +8,14 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class ClientImpl extends UnicastRemoteObject implements Client, Runnable {
-    View view = null;
+    //View view = null;
+    CLI view = null;
     public ClientImpl(Server server, int typeView) throws RemoteException {
         super();
         if(typeView == 0)
             view = new CLI();
-        else if(typeView == 1)                                                    //da sistemare View e GUI
-            view = new GUI();
+        //else if(typeView == 1)                                                    //da sistemare View e GUI
+        //    view = new GUI();
 
         initialize(server);
     }

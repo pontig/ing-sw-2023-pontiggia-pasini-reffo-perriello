@@ -1,0 +1,25 @@
+* {
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.nicknamePane {
+    -fx-background-image: url("../images/Display_1.jpg");
+
+}
+
+.waitingPane {
+    -fx-background-image: url("../images/Display_2.png");
+}
+
+.playingPane {
+    -fx-background-image: url("../images/Display_3.jpg");
+}
+
+#livingroom {
+    -fx-background-image: url("../images/livingroom.png");
+}
+#bookshelf {
+    -fx-background-image: url("../images/bookshelf.png");
+}
