@@ -2,15 +2,12 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.network.client.ClientImpl;
 import it.polimi.ingsw.network.client.ServerStub;
-import it.polimi.ingsw.network.server.Server;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
-
-import static it.polimi.ingsw.view.CLI.*;
 
 public class ClientApp {
     public static void main( String[] args ) throws RemoteException, NotBoundException {

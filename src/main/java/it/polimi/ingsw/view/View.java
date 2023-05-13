@@ -1,5 +1,5 @@
 package it.polimi.ingsw.view;
 
-public interface View {
+public interface View extends Runnable {
     void run();
 }

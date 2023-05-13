@@ -1,9 +1,9 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.observer.ObservableModel;
+import it.polimi.ingsw.observer.ObservableView;
 
-public class GUI extends ObservableModel<Message> implements View{
+public class GUI extends ObservableView<Message> implements View, Runnable{
     public GUI(){}
 
     @Override

@@ -8,45 +8,75 @@ import it.polimi.ingsw.network.messages.Message;
 public class GameController {                                                                   //extends Observer
     private Game game;
     private StateGame currentStateGame;
-//Costruttore
+
+    //Costruttore
     public GameController(Game model, Client client) {
         this.game = model;
     }
-//getter
-    public Game getGame(){ return this.game; }
-    public StateGame getCurrentStateGame() { return this.currentStateGame; }
-//setter
-    public void setGame(Game game) { this.game = game; }
-    public void setCurrentStateGame(StateGame currentStateGame) { this.currentStateGame = currentStateGame; }
-//metodi, INGAME state in base al messaggio chiamerà una delle funzioni
-    public void setPlayer(String nickname) {getGame().insertPlayer(nickname);}
-    public void setNumPlayers(String nickname, int numPlayers){getGame().setNumberOfPlayers(nickname, numPlayers);}
-    public void gameReadyToStart(){ getGame().startGame();}
+
+    //getter
+    public Game getGame() {
+        return this.game;
+    }
+
+    public StateGame getCurrentStateGame() {
+        return this.currentStateGame;
+    }
+
+    //setter
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public void setCurrentStateGame(StateGame currentStateGame) {
+        this.currentStateGame = currentStateGame;
+    }
+
+    //metodi, INGAME state in base al messaggio chiamerà una delle funzioni
+    public void setPlayer(String nickname) {
+        getGame().insertPlayer(nickname);
+    }
+
+    public void setNumPlayers(String nickname, int numPlayers) {
+        getGame().setNumberOfPlayers(nickname, numPlayers);
+    }
+
+    public void gameReadyToStart() {
+        getGame().startGame();
+    }
+
     public void onItemClick(int x, int y) {
         getGame().itemClick(x, y);
     }
+
     public void onConfirmItems() {
         getGame().confirmItems();
     }
+
     public void onOrderItem(int position, int action) {             //=> UML inserire action nel controller
         getGame().orderSelectedItem(position, action);
     }
+
     public void onColumnSelection(int column) {
         getGame().selectColumn(column);
     }
+
     public void onConfirmInsertion() {
         getGame().confirmInsertion();
         endTurnCheck();
     }
+
     private void endTurnCheck() {
-        if(getGame().endTurnCheck())
+        if (getGame().endTurnCheck())
             endGame();
         else
             nextPlayer();
     }
+
     private void nextPlayer() {
         getGame().nextPlayer();
     }
+
     private void endGame() {
         getGame().endGame();
     }
@@ -57,7 +87,7 @@ public class GameController {                                                   
 
     private void play(Message arg) {
         State msg = arg.getInfo();
-        switch(msg){
+        switch (msg) {
             case SET_NICKNAME:
                 arg.printMsg();
                 setPlayer(arg.getNickname());
