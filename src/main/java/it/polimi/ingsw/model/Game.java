@@ -58,7 +58,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     public Game(String nickName, int numberOfPlayer, Board board, List<CommonGoalName> commonGoals) {
         this.playerList = new ArrayList<>();
         this.numberOfPlayers = numberOfPlayer;
-        //Da sistemare il passaggio di asset
+        // TODO: Da sistemare il passaggio di asset
         Set<Triplet<Integer, Integer, Type>> pG = new HashSet<>();
         pG.add(new Triplet<>(4,1,CAT));
         pG.add(new Triplet<>(4,1,BOOK));
@@ -67,7 +67,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         pG.add(new Triplet<>(2,5,TROPHY));
         pG.add(new Triplet<>(0,0,PLANTS));
 
-        this.currentPlayer = new Player(nickName, new PersonalGoal(pG));
+        this.currentPlayer = new Player(nickName, new PersonalGoal(pG, -1));
         this.playerList.add(this.currentPlayer);
         this.board = board;
         this.bag = new Bag();

@@ -27,7 +27,7 @@ class PlayerTest {
                         new Triplet<>(0, 0, Type.PLANTS),
                         new Triplet<>(2, 5, Type.TROPHY)
                 ));
-        this.personalGoal = new PersonalGoal(personalGoalSet);
+        this.personalGoal = new PersonalGoal(personalGoalSet, -1);
 
         this.player = new Player("testPlayer", personalGoal);
 

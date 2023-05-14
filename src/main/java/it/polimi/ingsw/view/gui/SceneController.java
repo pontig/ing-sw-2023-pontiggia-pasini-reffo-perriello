@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.observer.ObservableView;
 import it.polimi.ingsw.observer.ObserverView;
 import it.polimi.ingsw.view.gui.scene.AlertSceneController;
+import it.polimi.ingsw.view.gui.scene.AskNumPlayersController;
 import it.polimi.ingsw.view.gui.scene.GenericSceneController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -85,6 +86,24 @@ public class SceneController {
             alertSceneController.setScene(alertScene);
             alertSceneController.setAlertText(message);
             alertSceneController.showAlert();
+        });
+    }
+
+    public static void askForNumPlayer() {
+        Platform.runLater(() -> {
+            FXMLLoader loader = new FXMLLoader();
+
+            Parent parent;
+            try {
+                parent = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+
+            AskNumPlayersController askNumPlayersController = loader.getController();
+            Scene scene = new Scene(parent);
+
         });
     }
 

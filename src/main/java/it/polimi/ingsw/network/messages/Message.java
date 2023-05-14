@@ -1,9 +1,6 @@
 package it.polimi.ingsw.network.messages;
 
 import it.polimi.ingsw.enums.State;
-import it.polimi.ingsw.model.Item;
-import it.polimi.ingsw.model.commongoal.CommonGoalAbstract;
-import it.polimi.ingsw.tuples.Pair;
 
 import java.io.Serializable;
 

@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.assets.PersonalGoalJson;
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.enums.CommonGoalName;
 import it.polimi.ingsw.enums.Type;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.enums.CommonGoalName;
 import it.polimi.ingsw.model.PersonalGoal;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
@@ -15,8 +15,6 @@ import it.polimi.ingsw.tuples.Triplet;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -83,9 +81,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         PersonalGoalJson[] personalGoalJsonArray = objectMapper.readValue(new File("src/main/java/it/polimi/ingsw/assets/personalGoals.json"), PersonalGoalJson[].class);
 
         List<PersonalGoal> personalGoalList = new ArrayList<>();
+        int i = 0;
         for (PersonalGoalJson personalGoalJson : personalGoalJsonArray) {
             Set<Triplet<Integer, Integer, Type>> pg = personalGoalJson.toSet();
-            personalGoalList.add(new PersonalGoal(pg));
+            personalGoalList.add(new PersonalGoal(pg, i));
+            i++;
         }
 
         return personalGoalList;

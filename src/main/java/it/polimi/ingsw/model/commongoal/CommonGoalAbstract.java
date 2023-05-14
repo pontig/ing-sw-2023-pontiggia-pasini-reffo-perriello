@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.commongoal;
 
-import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Shelf;
 
 import java.util.Stack;
@@ -43,7 +42,7 @@ public abstract class CommonGoalAbstract {
         return points.pop();
     }
     public String toString(){
-        StringBuilder commonGoal = new StringBuilder(" ");
+        StringBuilder commonGoal = new StringBuilder();
         Object[] pointsArray = getPoints().toArray();
         commonGoal.append(description).append("\n").append("The points left are: ");
         for(int i=0; i<getPoints().size(); i++)

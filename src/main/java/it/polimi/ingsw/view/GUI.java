@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.observer.ObservableView;
 import it.polimi.ingsw.view.gui.SceneController;
 import it.polimi.ingsw.view.gui.scene.NicknameSceneController;
+import it.polimi.ingsw.view.gui.scene.PlaySceneController;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 
@@ -68,8 +69,10 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
                     break;
                 //Insert the number of player for the game 2 / 3 / 4
                 case 3:
-                    // TODO: i think there is a smarter way to do this but i don't know how, i'll think about it later
-                    int numberPlayers = 0;
+                    // TODO: I think there is a smarter way to do this but i don't know how, i'll think about it later
+                    SceneController.askForNumPlayer();
+
+                    /*int numberPlayers = 0;
                     boolean okNumber = false;
                     System.out.print("Insert the number of players for the game (2 / 3 / 4): ");
                     do {
@@ -84,7 +87,7 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
                     setChangedView();
                     notifyObserversView(msg);
                     msg = null;
-                    break;
+                    break;*/
                 //Check if the game should begin
                 case -1:
                     // TODO: can't understand why this is here, i'll ask later
@@ -94,97 +97,28 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
                     msg = null;
                     //state = 2;
                     break;
-                //Selecting an items from board by typing its coordinated row first followed by the column
-                case 4:
-                    int row = -1;
-                    int column = -1;
-                    System.out.println("\nEnter the coordinates of the item you wanna select: ");
-                    System.out.print("Row: ");
-                    do {
-                        try {
-                            row = Integer.parseInt(terminal.next());
-                        } catch (NumberFormatException e) {
-                            System.out.println("It is not a valid number!!");
-                        }
-                        if (row < 0 || row > 8)
-                            System.out.print("Enter a valid number for row: ");
-                    } while (row < 0 || row > 8);
 
-                    System.out.print("Column: ");
-                    do {
-                        try {
-                            column = Integer.parseInt(terminal.next());
-                        } catch (NumberFormatException e) {
-                            System.out.println("It is not a valid number!!");
-                        }
-                        if (column < 0 || column > 8)
-                            System.out.print("Enter a valid number for row: ");
-                    } while (column < 0 || column > 8);
-                    msg = new SendDataToServer(SELECT_ITEM, null, row, column, false);
-                    setChangedView();
-                    notifyObserversView(msg);
-                    msg = null;
+                case 4:
+                    PlaySceneController controller1 = (PlaySceneController) SceneController.getActiveController();
+                    controller1.letSelectItemsOnBoard();
                     break;
                 //Y = confirm the item selected from the board and then go to the insertion phase
                 case 5:
-                    msg = new SendDataToServer(CONFIRM_ITEMS, null, 0, 0, true);
+                    // In the gui it should not be necessary this case
+                    /*msg = new SendDataToServer(CONFIRM_ITEMS, null, 0, 0, true);
                     setChangedView();
                     notifyObserversView(msg);
                     msg = null;
-                    break;
+                    break;*/
 
                 case 6:
-                    String orderOrColumn = terminal.next();
-                    if (orderOrColumn.equals("C") || orderOrColumn.equals("c")) {
-                        System.out.println("Type the number of one of the columns in the shelf highlighted with an arrow.");
-                        boolean okColumn = false;
-                        int columnShelf = 0;
-                        do {
-                            try {
-                                columnShelf = Integer.parseInt(terminal.next());
-                                okColumn = true;
-                            } catch (NumberFormatException e) {
-                                System.out.println("Please try again with a valid number: ");
-                            }
-                        } while (!okColumn);
-                        msg = new SendDataToServer(SELECT_COLUMN, null, 0, columnShelf, false);
-                    } else {
-                        System.out.println("Now you must order the items in the UNORDERED LIST, to do so you select the list and the item you wanna order");
-                        System.out.println("Type 1 for the UNORDERED LIST or type 0 for the ORDERED.");
-                        System.out.print("From the list (0 / 1): ");
-                        int action = -1;
-                        do {
-                            try {
-                                action = Integer.parseInt(terminal.next());
-                            } catch (NumberFormatException e) {
-                                System.out.println("It is not a valid number!!");
-                            }
-                            if (action != 0 && action != 1)
-                                System.out.print("Enter 0 for ORDERED or 1 for UNORDERED: ");
-                        } while (action != 0 && action != 1);
-                        System.out.print("Order the item in position (0 / 1 / 2): ");
-                        int pos = -1;
-                        do {
-                            try {
-                                pos = Integer.parseInt(terminal.next());
-                            } catch (NumberFormatException e) {
-                                System.out.println("It is not a valid number!!");
-                            }
-                            if (pos != 0 && pos != 1 && pos != 2)
-                                System.out.print("Enter 0 - first item, 1 - second item or 2 - third item: ");
-                        } while (pos != 0 && pos != 1 && pos != 2);
-                        msg = new SendDataToServer(ORDER_ITEM, null, action, pos, false);
-                    }
-                    setChangedView();
-                    notifyObserversView(msg);
-                    msg = null;
-                    break;
-                //Confirm column and order
+                    PlaySceneController controller2 = (PlaySceneController) SceneController.getActiveController();
+                    // TODO: if it is called two times, it could reset everything
+                    controller2.letOrderAndInsert();
+                    //Confirm column and order
                 case 7:
-                    msg = new SendDataToServer(CONFIRM_INSERTION, null, 0, 0, true);
-                    setChangedView();
-                    notifyObserversView(msg);
-                    msg = null;
+                    PlaySceneController controller3 = (PlaySceneController) SceneController.getActiveController();
+                    controller3.letConfirm();
                     break;
 
                 case 20:
@@ -212,37 +146,42 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
             switch (msg) {
                 case ACK_NICKNAME:
                 case ACK_NUMPLAYERS:
-                    arg.printMsg();
+                    SceneController.showMessage(msg.toString());
                     state = 2;
                     lock.notifyAll();
                     break;
 
                 case SAME_NICKNAME:
-                    arg.printMsg();
+                    SceneController.showMessage(msg.toString());
                     state = 0;
                     break;
 
                 case NACK_NICKNAME:
-                    arg.printMsg();
+                    SceneController.showMessage(msg.toString());
                     state = 1;
                     break;
 
                 case NACK_NUMPLAYERS:
-                    arg.printMsg();
                     if (arg.getNickname().equals(this.nickname))
-                        System.out.println("Someone has already chosen the number of players, you will be added to that game");
+                        SceneController.showMessage(msg + " Someone has already chosen the number of players, you will be added to that game");
+                    else
+                        SceneController.showMessage(msg.toString());
                     state = -1;
                     break;
 
                 case ASK_NUMPLAYERS:
                 case OUT_BOUND_NUMPLAYERS:
-                    arg.printMsg();
                     if (msg == OUT_BOUND_NUMPLAYERS && arg.getNickname().equals(this.nickname))
-                        System.out.println("Enter a valid number of player!!");
+                        System.out.println(msg + " Enter a valid number of player!!");
+                    else
+                    SceneController.showMessage(msg.toString());
                     state = 3;
                     break;
 
                 case SEND_MODEL:
+                    PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                    controller.updateModel(this.nickname, arg);
+                    break;
                     arg.printMsg();
                     System.out.println(RED + "\nThis is the board: " + RESET);
                     showBoard(arg.getBoard());
