@@ -440,25 +440,25 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
             }
             switch (board.charAt(j)) {
                 case 'W':
-                    System.out.print(WHITE + "██" + RESET);
+                    System.out.print(WHITE + '■' + RESET);
                     break;
                 case 'G':
-                    System.out.print(GREEN + "██" + RESET);
+                    System.out.print(GREEN + '■' + RESET);
                     break;
                 case 'B':
-                    System.out.print(BLUE + "██" + RESET);
+                    System.out.print(BLUE + '■' + RESET);
                     break;
                 case 'Y':
-                    System.out.print(YELLOW + "██" + RESET);
+                    System.out.print(YELLOW + '■' + RESET);
                     break;
                 case 'P':
-                    System.out.print(PURPLE + "██" + RESET);
+                    System.out.print(PURPLE + '■' + RESET);
                     break;
                 case 'L':
-                    System.out.print(CYAN + "██" + RESET);
+                    System.out.print(CYAN + '■' + RESET);
                     break;
                 case '#':
-                    System.out.print(RED + "██" + RESET);
+                    System.out.print(RED + '■' + RESET);
                     break;
                 case '0':
                 case '2':

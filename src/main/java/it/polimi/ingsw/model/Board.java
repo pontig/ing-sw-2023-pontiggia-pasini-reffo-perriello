@@ -400,7 +400,7 @@ public class Board {
                         }
                     }
                 } else
-                    board.append("██").append(" ").append(" ");
+                    board.append('■').append(" ").append(" ");
 
                 selected = false;
             }
