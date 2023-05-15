@@ -22,7 +22,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
     public static final String PURPLE = "\033[0;95m";  // PURPLE
     public static final String CYAN = "\033[0;36m";    // CYAN
     public static final String WHITE = "\033[0;97m";   // WHITE
-    int state = 0;
+    int state = 20;
     Scanner terminal = new Scanner(System.in);
     private final Object lock = new Object();
     private volatile boolean isRunning = true;
@@ -61,6 +61,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
         notifyObserversView(msg);
 
         while (isRunning) {
+            System.out.println("Stato: " + state);
             switch (state) {
                 case 0:
                     //Form to enter a new nickname because someone already have the one expressed before
@@ -113,7 +114,6 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                     setChangedView();
                     notifyObserversView(msg);
                     msg = null;
-                    //state = 2;
                     break;
                 case 4:
                     //Selecting an items from board by typing its coordinated ros first followed by the column
@@ -146,6 +146,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                     notifyObserversView(msg);
                     msg = null;
                     break;
+
                 case 5:
                     //Y = confirm the item selected from the board and then go to the insertion phase
                     msg = new SendDataToServer(CONFIRM_ITEMS, null, 0, 0, true);
@@ -200,6 +201,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                     notifyObserversView(msg);
                     msg = null;
                     break;
+
                 case 7:
                     //Confirm column and order
                     msg = new SendDataToServer(CONFIRM_INSERTION, null, 0, 0, true);
@@ -299,7 +301,8 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                             String confirmation = terminal.next();
                             if (confirmation.equals("Y") || confirmation.equals("y") || confirmation.equals("yes") || confirmation.equals("YES") || confirmation.equals("Yes"))
                                 state = 5;
-                        } else state = 4;
+                        } else
+                            state = 4;
                     }
                     lock.notifyAll();
                     break;
@@ -388,6 +391,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                     }
                     state = 20;
                     break;
+
                 case FIRSTCOMMONGOAL_TAKEN:      //avviso che un giocatore ha preso un obiettivo comune
                     arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
@@ -397,6 +401,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                     }
                     System.out.println("obtained: " + arg.getFirstCommon() + " points from the first common goal");
                     break;
+
                 case SECONDCOMMONGOAL_TAKEN:
                     arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
@@ -406,6 +411,7 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                     }
                     System.out.println(arg.getNickname() + "obtained: " + arg.getSecondCommon() + " points from the second common goal");
                     break;
+
                 case TOKEN_END_GAME:    //avviso che il giocatore corrente ha preso il token di fine gioco
                     arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
@@ -415,12 +421,14 @@ public class CLI extends ObservableView<Message> implements View, Runnable {
                     }
                     System.out.println(arg.getNickname() + "completed Shelf and obtained endGame's point");
                     break;
+
                 case RESULTS:
                     arg.getInfo();
                     System.out.println(RED + arg.getOrderedRanking() + RESET);
                     state = 1;
                     lock.notifyAll();
                     break;
+
                 default:
                     System.err.println("Ignoring event from " + msg + ": " + arg);
                     break;

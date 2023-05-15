@@ -15,36 +15,12 @@ public class ServerStub implements Server {
     private final int port;
     private final String ip;
     private Socket socket;
-    private java.io.ObjectOutputStream objectOutputStream;
+    private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
 
     public ServerStub(String ip, int port) {
         this.ip = ip;
         this.port = port;
-    }
-
-    public void receive(Client client) throws RemoteException {
-        Server server;
-        try {
-            server = (Server) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RemoteException("Cannot receive or cast event: " + e.getMessage());
-        }
-        Message arg;
-        try {
-            arg = (Message) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RemoteException("Cannot receive or cast event: " + e.getMessage());
-        }
-        client.updateView(server, arg);
-    }
-
-    public void close() throws RemoteException{
-        try {
-            socket.close();
-        } catch (IOException e) {
-            throw new RemoteException("Cannot close socket", e);
-        }
     }
 
     @Override
@@ -76,4 +52,27 @@ public class ServerStub implements Server {
         }
     }
 
+    public void receive(Client client) throws RemoteException {
+        Server server;
+        try {
+            server = (Server) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RemoteException("Cannot receive or cast event: " + e.getMessage());
+        }
+        Message arg;
+        try {
+            arg = (Message) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RemoteException("Cannot receive or cast event: " + e.getMessage());
+        }
+        client.updateView(server, arg);
+    }
+
+    public void close() throws RemoteException{
+        try {
+            socket.close();
+        } catch (IOException e) {
+            throw new RemoteException("Cannot close socket", e);
+        }
+    }
 }
