@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Set;
 
 public class ServerImpl extends UnicastRemoteObject implements Server {
-    private GameController controller;
+    private static GameController controller;
     //private List<GameController> matches; da capire se è impl che crea più match oppure se il server
-    private Game match = null;
+    private static Game match = null;
 
     public ServerImpl() throws RemoteException{
         super();
@@ -36,14 +36,15 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     public void register(Client client) throws RemoteException{
         if(match == null){
             try {
-                this.match = new Game(getBoard(), getCommons(), getPersonals());                            //da modificare il costruttore di game -> asset board, personal e common
+                match = new Game(getBoard(), getCommons(), getPersonals());                            //da modificare il costruttore di game -> asset board, personal e common
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            this.controller = new GameController(match, client);
-            System.out.println("Game e controller creati");//da creare sistemare con più client
+
+            controller = new GameController(match, client);
+            System.out.println("Game e controller creati da " + client);//da creare sistemare con più client
         }
-        this.match.addObserverModel((o, arg) -> {
+        match.addObserverModel((o, arg) -> {
             try {
                 client.updateView(this, arg);                          //creo init connecting to server
             } catch (RemoteException e) {
@@ -92,6 +93,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     }
 
     public void updateModel(Client client, Message arg){     //ViewChange invia già modifiche e dati forse un messaggio?
-        this.controller.update(client, arg);
+        controller.update(client, arg);
     }
 }

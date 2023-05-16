@@ -14,7 +14,7 @@ import java.util.Scanner;
 import static it.polimi.ingsw.enums.State.GAME_READY;
 import static it.polimi.ingsw.enums.State.OUT_BOUND_NUMPLAYERS;
 
-public class GUI  extends View {
+public class GUI extends ObservableView<Message> implements View, Runnable {
 
     int state = 0;
     Scanner terminal = new Scanner(System.in);

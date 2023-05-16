@@ -26,16 +26,6 @@ public class ClientSkeleton implements Client {
         }
     }
 
-    public void receive(Server server) throws RemoteException {
-        Message arg;
-        try {
-            arg = (Message) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RemoteException("Cannot receive or cast event: " + e.getMessage());
-        }
-        server.updateModel(this, arg);
-    }
-
     @Override
     public void updateView(Server o, Message arg) throws RemoteException {
         try {
@@ -48,5 +38,15 @@ public class ClientSkeleton implements Client {
         } catch (IOException e) {
             throw new RuntimeException("Cannot send event: " + e.getMessage());
         }
+    }
+
+    public void receive(Server server) throws RemoteException {
+        Message arg;
+        try {
+            arg = (Message) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RemoteException("Cannot receive or cast event: " + e.getMessage());
+        }
+        server.updateModel(this, arg);
     }
 }
