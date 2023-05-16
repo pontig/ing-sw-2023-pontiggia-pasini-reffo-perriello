@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.network.server.Server;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import static it.polimi.ingsw.enums.State.*;
@@ -266,6 +267,24 @@ public class CLI extends View {
 
                 case SEND_MODEL:
                     arg.printMsg();
+
+                    try {
+                        String os = System.getProperty("os.name").toLowerCase();
+                        Runtime runtime = Runtime.getRuntime();
+
+                        if (os.contains("win")) {
+                            runtime.exec("cmd /c start");
+                        } else if (os.contains("nix") || os.contains("nux")) {
+                            runtime.exec("gnome-terminal");
+                        } else if (os.contains("mac")) {
+                            runtime.exec("open -a Terminal");
+                        } else {
+                            System.out.println("Impossibile aprire il terminale. Sistema operativo non supportato.");
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                     System.out.println(RED + "\nThis is the board: " + RESET);
                     showBoard(arg.getBoard());
                     System.out.print(RED + "\nThis is the first common goal: " + RESET);
