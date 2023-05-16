@@ -73,27 +73,40 @@ public class Board {
      * @param y: column of the selected cell
      * @return the current size (after select) of the set of items (pendingCells)
      */
-    public int select(int x, int y) {
+    public int select(int x, int y){
         boolean sameLineOrColumn = false;
         Pair<Integer, Integer> selectedPair = new Pair<>(x, y);
         int sizePending = pendingCells.size();
         if(adjacencyCheck(x, y) && sizePending < 3) {
             if(pendingCells.isEmpty()){
                 pendingCells.add(selectedPair);
-            }else for(Pair<Integer, Integer> pair : pendingCells){
-                if(sizePending == 1){
+            }else if(sizePending == 1){
+                for(Pair<Integer, Integer> pair : pendingCells) {
                     if((selectedPair.getX().equals(pair.getX() + 1) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX() - 1) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY() + 1)) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY() - 1))){
                         sameLineOrColumn = true;
                     } else {
                         sameLineOrColumn = false;
-                    }
-                }else{
-                    if((selectedPair.getX().equals(pair.getX() + 1) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX() - 1) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY() + 1)) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY() - 1)) || (selectedPair.getX().equals(pair.getX() + 2) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX() - 2) && selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY() + 2)) || (selectedPair.getX().equals(pair.getX()) && selectedPair.getY().equals(pair.getY() - 2))){
-                        sameLineOrColumn = true;
-                    } else {
-                        sameLineOrColumn = false;
+
                     }
                 }
+            }else{
+                List<Pair<Integer, Integer>> newList = new ArrayList<>(pendingCells);
+                if((newList.get(0).getX() > newList.get(1).getX() && newList.get(0).getY() == newList.get(1).getY()) || (newList.get(0).getX() == newList.get(1).getX() && newList.get(0).getY() > newList.get(1).getY())){
+                    int indice1 = 0;
+                    int indice2 = 1;
+                    Pair<Integer, Integer> pair0 = newList.get(indice1);
+                    Pair<Integer, Integer> pair1 = newList.get(indice2);
+                    newList.set(indice1, pair1);
+                    newList.set(indice2, pair0);
+                }
+                if(((selectedPair.getX().equals(newList.get(0).getX() + 2) || selectedPair.getX().equals(newList.get(0).getX() - 1)) && selectedPair.getY().equals(newList.get(0).getY()) && (selectedPair.getX().equals(newList.get(1).getX() + 1) || selectedPair.getX().equals(newList.get(1).getX() - 2)) && selectedPair.getY().equals(newList.get(1).getY())) || (selectedPair.getX().equals(newList.get(0).getX()) && (selectedPair.getY().equals(newList.get(0).getY() + 2) || selectedPair.getY().equals(newList.get(0).getY() - 1)) && selectedPair.getX().equals(newList.get(1).getX()) && (selectedPair.getY().equals(newList.get(1).getY() + 1) || selectedPair.getY().equals(newList.get(1).getY() - 2)))){
+                    sameLineOrColumn = true;
+                } else {
+                    sameLineOrColumn = false;
+                }
+                Set<Pair<Integer, Integer>> pC = new LinkedHashSet<>();
+                pC.addAll(newList);
+                setPendingCells(pC);
             }
         }
         if (sameLineOrColumn) {
@@ -110,6 +123,7 @@ public class Board {
     public int deselect(int x, int y) {
         Pair<Integer, Integer> selectedPair = new Pair<>(x, y);
         boolean contains = false;
+        boolean swapped;
         for(Pair<Integer, Integer> tmp : getPendingCells()){
             if(tmp.getX().equals(selectedPair.getX()) && tmp.getY().equals(selectedPair.getY())){
                 contains = true;
@@ -119,17 +133,70 @@ public class Board {
         if (contains) {
             int size = getPendingCells().size();
             List<Pair<Integer, Integer>> newList = new ArrayList<>();
-            for(Pair<Integer, Integer> tmp : getPendingCells())
+            for(Pair<Integer, Integer> tmp : getPendingCells()){
                 newList.add(tmp);
-
-            for(int i = 0; i < size; i++){
-                if(size == 3){
-                    if(newList.get(i).getX() == x && newList.get(i).getY() == y && i != 1){
+            }
+            if(size == 1 || size == 2){
+                for(int i = 0; i < size; i++){
+                    if(newList.get(i).getX() == x && newList.get(i).getY() == y){
                         newList.remove(i);
                         break;
                     }
-                }else{
-                    if(newList.get(i).getX() == x && newList.get(i).getY() == y){
+                }
+            }else{
+                if(newList.get(0).getX().equals(newList.get(1).getX())){
+                    int pairX = newList.get(0).getX();
+                    int[] array = new int[size];
+                    for(int i = 0; i < size; i++){
+                        array[i] = newList.get(i).getY();
+                    }
+                    for (int i = 0; i < size - 1; i++) {
+                        swapped = false;
+                        for (int j = 0; j < size - i - 1; j++) {
+                            if (array[j] > array[j + 1]) {
+                                int temp = array[j];
+                                array[j] = array[j + 1];
+                                array[j + 1] = temp;
+                                swapped = true;
+                            }
+                        }
+                        if (!swapped) {
+                            break;
+                        }
+                    }
+                    newList.clear();
+                    for(int i = 0; i < size; i++){
+                        Pair<Integer, Integer> pair = new Pair<>(pairX, array[i]);
+                        newList.add(pair);
+                    }
+                }else if(newList.get(0).getY().equals(newList.get(1).getY())){
+                    int pairY = newList.get(0).getY();
+                    int[] array = new int[size];
+                    for(int i = 0; i < size; i++){
+                        array[i] = newList.get(i).getX();
+                    }
+                    for (int i = 0; i < size - 1; i++) {
+                        swapped = false;
+                        for (int j = 0; j < size - i - 1; j++) {
+                            if (array[j] > array[j + 1]) {
+                                int temp = array[j];
+                                array[j] = array[j + 1];
+                                array[j + 1] = temp;
+                                swapped = true;
+                            }
+                        }
+                        if (!swapped) {
+                        break;
+                        }
+                    }
+                    newList.clear();
+                    for(int i = 0; i < size; i++){
+                        Pair<Integer, Integer> pair = new Pair<>(array[i], pairY);
+                        newList.add(pair);
+                    }
+                }
+                for(int i = 0; i < size; i++){
+                    if(newList.get(i).getX() == x && newList.get(i).getY() == y && i != 1){
                         newList.remove(i);
                         break;
                     }
