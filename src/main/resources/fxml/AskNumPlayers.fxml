@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.view.gui.scene.AskNumPlayersController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<VBox fx:controller="it.polimi.ingsw.view.gui.scene.AskNumPlayersController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="generic" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <center>
+            <Label text="In quanti vogliamo giocare?" textFill="#e3d7c9" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="Comic Sans MS" size="27.0" />
+               </font></Label>
+         </center>
+      </BorderPane>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+         <children>
+            <Button fx:id="twoPlayersButton" mnemonicParsing="false" styleClass="numPlayersButton" text="2" />
+            <Button fx:id="threePlayersButton" mnemonicParsing="false" styleClass="numPlayersButton" text="3" />
+            <Button fx:id="fourPlayersButton" mnemonicParsing="false" styleClass="numPlayersButton" text="4" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

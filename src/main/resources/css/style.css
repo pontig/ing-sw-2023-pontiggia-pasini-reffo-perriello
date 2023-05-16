@@ -23,3 +23,13 @@
 #bookshelf {
     -fx-background-image: url("../images/bookshelf.png");
 }
+.generic {
+    -fx-background-image: url("../images/generic.png");
+}
+.numPlayersButton {
+    -fx-background-color: #E3D7C9;
+    -fx-font-size: 27px;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 100px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 30, 0, 0, 0);
+}

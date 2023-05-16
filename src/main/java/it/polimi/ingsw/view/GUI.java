@@ -4,18 +4,17 @@ import it.polimi.ingsw.enums.State;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.network.server.Server;
-import it.polimi.ingsw.observer.ObservableView;
 import it.polimi.ingsw.view.gui.SceneController;
 import it.polimi.ingsw.view.gui.scene.NicknameSceneController;
 import it.polimi.ingsw.view.gui.scene.PlaySceneController;
 import javafx.application.Platform;
-import javafx.scene.Scene;
 
 import java.util.Scanner;
 
-import static it.polimi.ingsw.enums.State.*;
+import static it.polimi.ingsw.enums.State.GAME_READY;
+import static it.polimi.ingsw.enums.State.OUT_BOUND_NUMPLAYERS;
 
-public class GUI extends ObservableView<Message> implements View, Runnable {
+public class GUI  extends View {
 
     int state = 0;
     Scanner terminal = new Scanner(System.in);
@@ -69,7 +68,6 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
                     break;
                 //Insert the number of player for the game 2 / 3 / 4
                 case 3:
-                    // TODO: I think there is a smarter way to do this but i don't know how, i'll think about it later
                     SceneController.askForNumPlayer();
 
                     /*int numberPlayers = 0;
@@ -88,7 +86,7 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
                     notifyObserversView(msg);
                     msg = null;
                     break;*/
-                //Check if the game should begin
+                    //Check if the game should begin
                 case -1:
                     // TODO: can't understand why this is here, i'll ask later
                     msg = new SendDataToServer(GAME_READY, null, 0, 0, false);
@@ -174,15 +172,23 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
                     if (msg == OUT_BOUND_NUMPLAYERS && arg.getNickname().equals(this.nickname))
                         System.out.println(msg + " Enter a valid number of player!!");
                     else
-                    SceneController.showMessage(msg.toString());
+                        SceneController.showMessage(msg.toString());
                     state = 3;
                     break;
 
                 case SEND_MODEL:
-                    PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
-                    controller.updateModel(this.nickname, arg);
+                    if (this.nickname.equals(arg.getNickname())) {
+                        PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                        controller.updateModel(this.nickname, arg);
+                        controller.letSelectItemsOnBoard();
+                        state = 4;
+                    } else {
+                        // TODO say to the player that it is not his turn
+                        state = 20;
+                    }
+                    lock.notifyAll();
                     break;
-                    arg.printMsg();
+                    /*arg.printMsg();
                     System.out.println(RED + "\nThis is the board: " + RESET);
                     showBoard(arg.getBoard());
                     System.out.print(RED + "\nThis is the first common goal: " + RESET);
@@ -203,10 +209,14 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
                         state = 20;
                     }
                     lock.notifyAll();
-                    break;
+                    break;*/
 
                 case SELECTED:
-                    arg.printMsg();
+                    if (arg.getNickname().equals(this.nickname)) {
+                        PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                        controller.updateModel(this.nickname, arg);
+                    }
+                    /*arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
                         System.out.println(RED + "\nIn the board, if you chose a valid item, it is highlight in red" + RESET);
                         showBoard(arg.getBoard());
@@ -220,10 +230,10 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
                         } else state = 4;
                     }
                     lock.notifyAll();
-                    break;
+                    break;*/
 
                 case ORDER_n_COLUMN:
-                    arg.printMsg();
+                    /*arg.printMsg();
                     System.out.print(RED + "\nIt follows the current state of the board, it is without ");
                     if (arg.getNickname().equals(this.nickname)) System.out.println("your choice" + RESET);
                     else System.out.println(arg.getNickname() + "'s choice" + RESET);
@@ -248,10 +258,10 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
                         System.out.println("Type \"C\" for choosing the column or type \"O\" for ordering the tiles: -- (default \"O\")");
                         state = 6;
                     }
-                    break;
+                    break;*/
 
                 case ACK_ORDER_n_COLUMN:
-                    arg.printMsg();
+                    /*arg.printMsg();
                     if (arg.getNickname().equals(nickname)) {
                         System.out.println(RED + "\nThis is your own personal goal: " + RESET);
                         showItems(arg.getPersonal());
@@ -277,68 +287,68 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
                             state = 6;
                         }
                     }
-                    break;
+                    break;*/
 
                 case NACK_COLUMN:
-                    arg.printMsg();
+                    /*arg.printMsg();
                     if (arg.getNickname().equals(nickname)) {
                         System.out.println("\nPlease enter a valid column number!");
                         System.out.println("\nFor changing column type \"C\" -- For ordering items type \"O\": ");
                         state = 6;
                     }
-                    break;
+                    break;*/
 
                 case NACK_ORDER:
-                    arg.printMsg();
+                    /*arg.printMsg();
                     if (arg.getNickname().equals(nickname)) {
                         System.out.println("\nPlease enter a valid item number or select a non empty list!");
                         System.out.println("\nFor changing column type \"C\" -- For ordering items type \"O\": ");
                         state = 6;
                     }
-                    break;
+                    break;*/
 
                 case INSERTION_DONE:
-                    arg.printMsg();
+                    /*arg.printMsg();
                     if (arg.getNickname().equals(nickname)) {
                         System.out.println("\nYour shelf now is:");
                         showItems(arg.getShelf());
                         System.out.println("\n\nYour turn is now finished!!");
                     }
                     state = 20;
-                    break;
+                    break;*/
                 case FIRSTCOMMONGOAL_TAKEN:      //avviso che un giocatore ha preso un obiettivo comune
-                    arg.printMsg();
+                    /*arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
                         System.out.print("You ");
                     } else {
                         System.out.print(arg.getNickname() + " ");
                     }
                     System.out.println("obtained: " + arg.getFirstCommon() + " points from the first common goal");
-                    break;
+                    break;*/
                 case SECONDCOMMONGOAL_TAKEN:
-                    arg.printMsg();
+                    /*arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
                         System.out.print("You ");
                     } else {
                         System.out.print(arg.getNickname() + " ");
                     }
                     System.out.println(arg.getNickname() + "obtained: " + arg.getSecondCommon() + " points from the second common goal");
-                    break;
+                    break;*/
                 case TOKEN_END_GAME:    //avviso che il giocatore corrente ha preso il token di fine gioco
-                    arg.printMsg();
+                    /*arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
                         System.out.print("You ");
                     } else {
                         System.out.print(arg.getNickname() + " ");
                     }
                     System.out.println(arg.getNickname() + "completed Shelf and obtained endGame's point");
-                    break;
+                    break;*/
                 case RESULTS:
-                    arg.getInfo();
+                    /*arg.getInfo();
                     System.out.println(RED + arg.getOrderedRanking() + RESET);
                     state = 1;
                     lock.notifyAll();
-                    break;
+                    break;*/
                 default:
                     System.err.println("Ignoring event from " + msg + ": " + arg);
                     break;
@@ -346,7 +356,7 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
         }
     }
 
-    private void showBoard(String board) {
+   /* private void showBoard(String board) {
         System.out.print("  ");
         for (int i = 0; i < 9; i++) System.out.print(i + "  ");
         System.out.print("\n");
@@ -388,9 +398,9 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
                     break;
             }
         }
-    }
+    }*/
 
-    public void showItems(String items) {
+    /*public void showItems(String items) {
         boolean columnChoosen = false;
         for (int i = 0; i < items.length(); i++) {
             if (items.charAt(i) == '#') {
@@ -437,5 +447,5 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
                 }
             }
         }
-    }
+    }*/
 }

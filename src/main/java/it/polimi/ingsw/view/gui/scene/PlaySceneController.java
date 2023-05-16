@@ -19,7 +19,7 @@ import java.util.List;
 
 import static it.polimi.ingsw.enums.State.*;
 
-public class PlaySceneController extends ObservableView implements GenericSceneController {
+public class PlaySceneController extends ObservableView<Message> implements GenericSceneController {
 
     @FXML
     private GridPane livingroomGrid;
@@ -275,6 +275,5 @@ public class PlaySceneController extends ObservableView implements GenericSceneC
         String path = "file:src/main/resources/images/personalGoals/Personal_Goals" + number + ".png";
         commonGoalCard.setImage(new Image(path));
     }
-
 
 }

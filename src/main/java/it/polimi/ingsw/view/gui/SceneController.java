@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Vector;
 
+import static javafx.application.Application.launch;
+
 public class SceneController {
 
     private static Scene activeScene;
@@ -105,6 +107,11 @@ public class SceneController {
             Scene scene = new Scene(parent);
 
         });
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+        changeRootPane(new Vector<>(), "PlayScene.fxml");
     }
 
 }

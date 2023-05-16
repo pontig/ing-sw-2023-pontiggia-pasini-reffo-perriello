@@ -4,13 +4,12 @@ import it.polimi.ingsw.enums.State;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.network.server.Server;
-import it.polimi.ingsw.observer.ObservableView;
 
 import java.util.Scanner;
 
 import static it.polimi.ingsw.enums.State.*;
 
-public class CLI extends ObservableView<Message> implements View, Runnable {
+public class CLI extends View {
     // Reset
     public static final String RESET = "\033[0m";  // Text Reset
     // Regular Colors
