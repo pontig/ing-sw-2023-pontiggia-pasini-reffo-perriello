@@ -14,7 +14,7 @@ import java.util.Scanner;
 import static it.polimi.ingsw.enums.State.GAME_READY;
 import static it.polimi.ingsw.enums.State.OUT_BOUND_NUMPLAYERS;
 
-public class GUI extends ObservableView<Message> implements View, Runnable {
+public class GUI extends View {
 
     int state = 0;
     Scanner terminal = new Scanner(System.in);
@@ -37,25 +37,29 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
     @Override
     public void run() {
 
+
+
         Platform.runLater(() -> {
+
+
             SceneController.changeRootPane(getObservers(), "LoginScene.fxml");
         });
 
         while (isRunning) {
             switch (state) {
-                //Form to enter a new nickname because someone already have the one expressed before
                 case 0:
+                //Form to enter a new nickname because someone already have the one expressed before
                     SceneController.showMessage("Someone has a nickname as the one you just wrote.\nPlease enter a different nickname");
                     NicknameSceneController controller = (NicknameSceneController) SceneController.getActiveController();
                     controller.setError();
                     break;
-                //All the players required are in game so no more are needed
                 case 1:
+                //All the players required are in game so no more are needed
                     SceneController.showMessage("No more players are required in this game, we are sorry, you will be disconnected");
                     stop();
                     break;
-                //Waiting for player and waiting
                 case 2:
+                //Waiting for player and waiting
                     synchronized (lock) {
                         try {
                             SceneController.changeRootPane(getObservers(), "WaitingScene.fxml");
@@ -86,9 +90,8 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
                     notifyObserversView(msg);
                     msg = null;
                     break;*/
-                    //Check if the game should begin
                 case -1:
-                    // TODO: can't understand why this is here, i'll ask later
+                    //Check if the game should begin
                     msg = new SendDataToServer(GAME_READY, null, 0, 0, false);
                     setChangedView();
                     notifyObserversView(msg);
@@ -168,7 +171,7 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
                     break;
 
                 case ASK_NUMPLAYERS:
-                case OUT_BOUND_NUMPLAYERS:
+                case OUT_BOUND_NUMPLAYERS: // should not be necessary in the gui
                     if (msg == OUT_BOUND_NUMPLAYERS && arg.getNickname().equals(this.nickname))
                         System.out.println(msg + " Enter a valid number of player!!");
                     else
@@ -213,6 +216,7 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
 
                 case SELECTED:
                     if (arg.getNickname().equals(this.nickname)) {
+                        // La tessera sulla board è stata selzionata correttamente
                         PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                         controller.updateModel(this.nickname, arg);
                     }
@@ -233,6 +237,7 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
                     break;*/
 
                 case ORDER_n_COLUMN:
+                    // Manda il personal goal, la shelf con le colonne disponibili
                     /*arg.printMsg();
                     System.out.print(RED + "\nIt follows the current state of the board, it is without ");
                     if (arg.getNickname().equals(this.nickname)) System.out.println("your choice" + RESET);
@@ -261,6 +266,7 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
                     break;*/
 
                 case ACK_ORDER_n_COLUMN:
+                    // Immesso correttamente il valore di colonna / ordinato correttamente una delle tiles
                     /*arg.printMsg();
                     if (arg.getNickname().equals(nickname)) {
                         System.out.println(RED + "\nThis is your own personal goal: " + RESET);
@@ -355,97 +361,4 @@ public class GUI extends ObservableView<Message> implements View, Runnable {
             }
         }
     }
-
-   /* private void showBoard(String board) {
-        System.out.print("  ");
-        for (int i = 0; i < 9; i++) System.out.print(i + "  ");
-        System.out.print("\n");
-        int i = 0;
-        for (int j = 0; j < board.length(); j++) {
-            if (j == i * 29 && i != 9) {
-                System.out.print(i);
-                i++;
-            }
-            switch (board.charAt(j)) {
-                case 'W':
-                    System.out.print(WHITE + "██" + RESET);
-                    break;
-                case 'G':
-                    System.out.print(GREEN + "██" + RESET);
-                    break;
-                case 'B':
-                    System.out.print(BLUE + "██" + RESET);
-                    break;
-                case 'Y':
-                    System.out.print(YELLOW + "██" + RESET);
-                    break;
-                case 'P':
-                    System.out.print(PURPLE + "██" + RESET);
-                    break;
-                case 'L':
-                    System.out.print(CYAN + "██" + RESET);
-                    break;
-                case '#':
-                    System.out.print(RED + "██" + RESET);
-                    break;
-                case '0':
-                case '2':
-                case '1':
-                    System.out.print(" ");
-                    break;
-                default:
-                    System.out.print(BLACK + board.charAt(j) + RESET);
-                    break;
-            }
-        }
-    }*/
-
-    /*public void showItems(String items) {
-        boolean columnChoosen = false;
-        for (int i = 0; i < items.length(); i++) {
-            if (items.charAt(i) == '#') {
-                columnChoosen = true;
-                break;
-            }
-        }
-
-        for (int j = 0; j < items.length(); j++) {
-            if (columnChoosen) {
-                if (items.charAt(j) == '#') System.out.print(RED + '▲' + RESET);
-                else System.out.print(BLACK + items.charAt(j) + RESET);
-            } else {
-                switch (items.charAt(j)) {
-                    case 'W':
-                        System.out.print(WHITE + '■' + RESET);
-                        break;
-                    case 'G':
-                        System.out.print(GREEN + '■' + RESET);
-                        break;
-                    case 'B':
-                        System.out.print(BLUE + '■' + RESET);
-                        break;
-                    case 'Y':
-                        System.out.print(YELLOW + '■' + RESET);
-                        break;
-                    case 'P':
-                        System.out.print(PURPLE + '■' + RESET);
-                        break;
-                    case 'L':
-                        System.out.print(CYAN + '■' + RESET);
-                        break;
-                    case '▲':
-                        System.out.print(RED + items.charAt(j) + RESET);
-                        break;
-                    case '0':
-                    case '2':
-                    case '1':
-                        System.out.print(" ");
-                        break;
-                    default:
-                        System.out.print(BLACK + items.charAt(j) + RESET);
-                        break;
-                }
-            }
-        }
-    }*/
 }

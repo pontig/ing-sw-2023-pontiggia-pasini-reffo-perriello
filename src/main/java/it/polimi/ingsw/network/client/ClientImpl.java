@@ -3,6 +3,8 @@ package it.polimi.ingsw.network.client;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.view.*;
+import it.polimi.ingsw.view.gui.JavaFXGui;
+import javafx.application.Application;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -15,7 +17,10 @@ public class ClientImpl extends UnicastRemoteObject implements Client, Runnable 
         if(typeView == 0)
             view = new CLI();
         else if(typeView == 1)                                                    //da sistemare View e GUI
+        {
             view = new GUI();
+            Application.launch(JavaFXGui.class);
+        }
 
         initialize(server);
     }

@@ -21,7 +21,7 @@ public final class PersonalGoal {
 
     public String sendToString() {
         boolean item = false;
-        StringBuilder personalGoal = new StringBuilder();
+        StringBuilder personalGoal = new StringBuilder(" ");
         Triplet<Integer, Integer, Type>[] array = new Triplet[pg.size()];
         pg.toArray(array);
         for (int i = 0; i < 6; i++) {
