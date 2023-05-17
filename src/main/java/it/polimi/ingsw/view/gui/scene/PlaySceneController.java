@@ -4,6 +4,7 @@ import it.polimi.ingsw.enums.CommonGoalName;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.observer.ObservableView;
+import it.polimi.ingsw.view.GUI;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -19,7 +20,7 @@ import java.util.List;
 
 import static it.polimi.ingsw.enums.State.*;
 
-public class PlaySceneController extends ObservableView<Message> implements GenericSceneController {
+public class PlaySceneController extends GUI implements GenericSceneController {
 
     @FXML
     private GridPane livingroomGrid;

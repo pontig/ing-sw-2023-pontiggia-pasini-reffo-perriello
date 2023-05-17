@@ -19,7 +19,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, Runnable 
         else if(typeView == 1)                                                    //da sistemare View e GUI
         {
             view = new GUI();
-            Application.launch(JavaFXGui.class);
+            //Application.launch(JavaFXGui.class);
         }
 
         initialize(server);

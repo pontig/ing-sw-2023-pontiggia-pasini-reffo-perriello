@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui.scene;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.observer.ObservableView;
+import it.polimi.ingsw.view.GUI;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -10,8 +11,14 @@ import javafx.scene.input.MouseEvent;
 
 import static it.polimi.ingsw.enums.State.SET_NICKNAME;
 
-public class NicknameSceneController extends ObservableView implements GenericSceneController {
-    
+public class NicknameSceneController extends GUI implements GenericSceneController {
+
+    private static GUI view;
+
+    public static void setView(GUI g){
+        view = g;
+    }
+
     @FXML
     private TextField textNickname;
     @FXML
@@ -24,10 +31,11 @@ public class NicknameSceneController extends ObservableView implements GenericSc
 
     @FXML
     private void onLoginBtnClick(MouseEvent event) {
+        System.out.println("Sono nel crea messaggio");
         String nickname = textNickname.getText();
         Message msg = new SendDataToServer(SET_NICKNAME, nickname, 0, 0, false);
-        setChangedView();
-        notifyObserversView(msg);
+        view.setChangedView();
+        view.notifyObserversView(msg);
     }
 
     public void setError() {

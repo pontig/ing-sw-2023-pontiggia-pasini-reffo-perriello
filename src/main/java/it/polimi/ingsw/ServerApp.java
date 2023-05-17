@@ -28,7 +28,7 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
     }
 
     public Server getS(){
-        return this.s;
+        return s;
     }
 
     public static void main( String[] args ) throws RemoteException {

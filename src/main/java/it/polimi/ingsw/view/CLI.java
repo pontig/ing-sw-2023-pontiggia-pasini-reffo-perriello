@@ -4,6 +4,8 @@ import it.polimi.ingsw.enums.State;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.network.server.Server;
+import it.polimi.ingsw.observer.ObservableView;
+import it.polimi.ingsw.observer.ObserverView;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -263,6 +265,7 @@ public class CLI extends View {
                     if (msg == OUT_BOUND_NUMPLAYERS && arg.getNickname().equals(this.nickname))
                         System.out.println("Enter a valid number of player!!");
                     state = 3;
+                    lock.notifyAll();
                     break;
 
                 case SEND_MODEL:

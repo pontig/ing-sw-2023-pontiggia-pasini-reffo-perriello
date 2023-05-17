@@ -4,9 +4,11 @@ import it.polimi.ingsw.enums.State;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.network.server.Server;
+import it.polimi.ingsw.view.gui.JavaFXGui;
 import it.polimi.ingsw.view.gui.SceneController;
 import it.polimi.ingsw.view.gui.scene.NicknameSceneController;
 import it.polimi.ingsw.view.gui.scene.PlaySceneController;
+import javafx.application.Application;
 import javafx.application.Platform;
 
 import java.util.Scanner;
@@ -33,15 +35,14 @@ public class GUI extends View {
             lock.notifyAll();
         }
     }
-
     @Override
     public void run() {
 
+        JavaFXGui.setCustomClassInstance(this);
 
+        Application.launch(JavaFXGui.class);
 
         Platform.runLater(() -> {
-
-
             SceneController.changeRootPane(getObservers(), "LoginScene.fxml");
         });
 

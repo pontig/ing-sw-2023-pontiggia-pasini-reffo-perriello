@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.view.gui.scene.NicknameSceneController;
 import javafx.application.Application;
@@ -11,12 +13,23 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import static it.polimi.ingsw.enums.State.SET_NICKNAME;
+
 /**
  * Main JavaFX class which starts the main stage and scene.
  * we have to choose between swing or javafx
  * It extends {@link Application}
  */
 public class JavaFXGui extends Application {
+    private static GUI view;
+
+    public static void setCustomClassInstance(GUI instance) {
+        view = instance;
+    }
+
+    private GUI getView(){
+        return view;
+    }
 
     /**
      * Starts the JavaFXGui instance
@@ -25,9 +38,6 @@ public class JavaFXGui extends Application {
      */
     @Override
     public void start(Stage stage) {
-
-
-        GUI view = new GUI();
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/NicknameScene.fxml"));
@@ -38,7 +48,7 @@ public class JavaFXGui extends Application {
             System.exit(1);
         }
 
-
+        NicknameSceneController.setView(getView());
         NicknameSceneController controller = loader.getController();
 
         // Show the scene containing the root layout.
