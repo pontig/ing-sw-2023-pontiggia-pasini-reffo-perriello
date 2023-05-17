@@ -19,7 +19,10 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
     private static ServerApp instance = null;
     private static Server s = null;
     private final ExecutorService executorService = Executors.newCachedThreadPool();
-    protected ServerApp() throws RemoteException {}
+
+    protected ServerApp() throws RemoteException {
+    }
+
     public static ServerApp getInstance() throws RemoteException {
         if (instance == null) {
             instance = new ServerApp();
@@ -27,39 +30,42 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
         return instance;
     }
 
-    public Server getS(){
+    public Server getS() {
         return s;
     }
 
-    public static void main( String[] args ) throws RemoteException {
+    public static void main(String[] args) throws RemoteException {
         Scanner terminal = new Scanner(System.in);
         Integer port = 0;
         final int portRMI;
         final int portSocket;
-        System.out.print("\nInsert Server RMI port number - 4 digit only: ");
-        do{
-            try{
+        /*System.out.print("\nInsert Server RMI port number - 4 digit only: ");
+        do {
+            try {
                 port = Integer.parseInt(terminal.next());
             } catch (NumberFormatException e) {
                 System.out.println("It is not a valid number!!");
             }
-            if(port.toString().length() != 4)
+            if (port.toString().length() != 4)
                 System.out.print("Enter a 4 digit number only: ");
-        } while(port.toString().length() != 4);
+        } while (port.toString().length() != 4);
         portRMI = port;
 
         port = 0;
         System.out.print("\nInsert Server Socket port number - 4 digit only: ");
-        do{
-            try{
+        do {
+            try {
                 port = Integer.parseInt(terminal.next());
             } catch (NumberFormatException e) {
                 System.out.println("It is not a valid number!!");
             }
-            if(port.toString().length() != 4)
+            if (port.toString().length() != 4)
                 System.out.print("Enter a 4 digit number only: ");
-        } while(port.toString().length() != 4);
-        portSocket = port;
+        } while (port.toString().length() != 4);
+        portSocket = port;*/
+        // TODO: debug only
+        portRMI = 1111;
+        portSocket = 2222;
 //RMI
         Thread rmiThread = new Thread(() -> {
             try {
@@ -69,7 +75,7 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
             }
         });
         rmiThread.start();
-/* SOCKET */
+        /* SOCKET */
         Thread socketThread = new Thread(() -> {
             try {
                 startSocket(portSocket);
@@ -88,14 +94,15 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
         }
     }
 
-//RMI start
+    //RMI start
     private static void startRMI(int port) throws RemoteException {
         System.out.println("RMI started");
         ServerApp instanceRMI = getInstance();
         Registry registry = LocateRegistry.createRegistry(port);
         registry.rebind("server", instanceRMI);
     }
-//SOCKET start
+
+    //SOCKET start
     public static void startSocket(int port) throws RemoteException {
         System.out.println("Socket started");
         ServerApp instanceSocket = getInstance();
@@ -125,10 +132,11 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
             throw new RemoteException("Cannot start socket server", e);
         }
     }
-//Crea un server implementato
+
+    //Crea un server implementato
     @Override
     public Server connect() throws RemoteException {
-        if(s == null)
+        if (s == null)
             s = new ServerImpl();
 
         return s;

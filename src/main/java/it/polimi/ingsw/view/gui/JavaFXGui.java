@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.view.gui.scene.NicknameSceneController;
 import javafx.application.Application;
@@ -12,8 +10,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
-import static it.polimi.ingsw.enums.State.SET_NICKNAME;
 
 /**
  * Main JavaFX class which starts the main stage and scene.
@@ -41,6 +37,7 @@ public class JavaFXGui extends Application {
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/NicknameScene.fxml"));
+
         Parent rootLayout = null;
         try {
             rootLayout = loader.load();

@@ -95,4 +95,5 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     public void updateModel(Client client, Message arg){     //ViewChange invia già modifiche e dati forse un messaggio?
         controller.update(client, arg);
     }
+
 }

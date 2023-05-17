@@ -35,32 +35,37 @@ public class GUI extends View {
             lock.notifyAll();
         }
     }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     @Override
     public void run() {
 
         JavaFXGui.setCustomClassInstance(this);
-
         Application.launch(JavaFXGui.class);
 
-        Platform.runLater(() -> {
-            SceneController.changeRootPane(getObservers(), "LoginScene.fxml");
-        });
+        //Platform.runLater(() -> {
+        //  SceneController.changeRootPane(getObservers(), "LoginScene.fxml");
+        //});
 
+        // Could be not necessary?
         while (isRunning) {
             switch (state) {
                 case 0:
-                //Form to enter a new nickname because someone already have the one expressed before
+                    //Form to enter a new nickname because someone already have the one expressed before
                     SceneController.showMessage("Someone has a nickname as the one you just wrote.\nPlease enter a different nickname");
                     NicknameSceneController controller = (NicknameSceneController) SceneController.getActiveController();
                     controller.setError();
                     break;
                 case 1:
-                //All the players required are in game so no more are needed
+                    //All the players required are in game so no more are needed
                     SceneController.showMessage("No more players are required in this game, we are sorry, you will be disconnected");
                     stop();
                     break;
                 case 2:
-                //Waiting for player and waiting
+                    //Waiting for player and waiting
                     synchronized (lock) {
                         try {
                             SceneController.changeRootPane(getObservers(), "WaitingScene.fxml");
@@ -148,7 +153,9 @@ public class GUI extends View {
             switch (msg) {
                 case ACK_NICKNAME:
                 case ACK_NUMPLAYERS:
-                    SceneController.showMessage(msg.toString());
+                    if (this.nickname == null) break;
+                    //SceneController.showMessage(msg.toString());
+                    SceneController.changeRootPane(getObservers(), "WaitingScene.fxml");
                     state = 2;
                     lock.notifyAll();
                     break;
@@ -171,20 +178,31 @@ public class GUI extends View {
                     state = -1;
                     break;
 
+                case GAME_READY:
+                    SceneController.changeRootPane(getObservers(), "PlayScene.fxml");
+                    state = 4;
+                    break;
+
                 case ASK_NUMPLAYERS:
+                    if (this.nickname == null) break;
                 case OUT_BOUND_NUMPLAYERS: // should not be necessary in the gui
                     if (msg == OUT_BOUND_NUMPLAYERS && arg.getNickname().equals(this.nickname))
                         System.out.println(msg + " Enter a valid number of player!!");
                     else
-                        SceneController.showMessage(msg.toString());
+                        Platform.runLater(() -> {
+                            SceneController.changeRootPane(getObservers(), "AskNumPlayersScene.fxml");
+                        });
                     state = 3;
                     break;
 
                 case SEND_MODEL:
                     if (this.nickname.equals(arg.getNickname())) {
+                        Platform.runLater(()->{
+
                         PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                         controller.updateModel(this.nickname, arg);
                         controller.letSelectItemsOnBoard();
+                        });
                         state = 4;
                     } else {
                         // TODO say to the player that it is not his turn

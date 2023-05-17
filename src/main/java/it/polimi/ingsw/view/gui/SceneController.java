@@ -4,7 +4,7 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.observer.ObservableView;
 import it.polimi.ingsw.observer.ObserverView;
 import it.polimi.ingsw.view.gui.scene.AlertSceneController;
-import it.polimi.ingsw.view.gui.scene.AskNumPlayersController;
+import it.polimi.ingsw.view.gui.scene.AskNumPlayersSceneController;
 import it.polimi.ingsw.view.gui.scene.GenericSceneController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -14,8 +14,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Vector;
-
-import static javafx.application.Application.launch;
 
 public class SceneController {
 
@@ -57,8 +55,7 @@ public class SceneController {
 
         try {
             FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/" + fxml));
-            Parent root = null;
-            root = loader.load();
+            Parent root = loader.load();
             ObservableView<Message> controller = loader.getController();
             // TODO: è giusto l'add degli observer?
             observerList.forEach(controller::addObserverView);
@@ -72,7 +69,7 @@ public class SceneController {
 
     public static void showMessage(String message) {
         Platform.runLater(() -> {
-            FXMLLoader loader = new FXMLLoader();
+            FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/AlertScene.fxml"));
 
             Parent parent;
 
@@ -103,15 +100,10 @@ public class SceneController {
                 return;
             }
 
-            AskNumPlayersController askNumPlayersController = loader.getController();
+            AskNumPlayersSceneController askNumPlayersController = loader.getController();
             Scene scene = new Scene(parent);
 
         });
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-        changeRootPane(new Vector<>(), "PlayScene.fxml");
     }
 
 }

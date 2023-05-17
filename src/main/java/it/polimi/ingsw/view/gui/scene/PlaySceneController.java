@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.gui.scene;
 import it.polimi.ingsw.enums.CommonGoalName;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendDataToServer;
-import it.polimi.ingsw.observer.ObservableView;
 import it.polimi.ingsw.view.GUI;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -46,6 +45,12 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     @FXML
     public void initialize() {
         livingroomGrid.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onLivingroomGridClick);
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                Image image = new Image(getClass().getResourceAsStream("/images/empty.png"));
+                livingroomGrid.add(new ImageView(image), i, j);
+            }
+        }
         shelfGrid.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onShelfGridClick);
         orderingBox.setVisible(false);
         unordered1.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onOrderingClick(1, 0));
@@ -148,14 +153,14 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         // Update board
         String board = model.getBoard();
         String[] boardRows = board.split("\n");
-        String[][] boardMatrix = Arrays.stream(boardRows).map(row -> row.split(" ")).toArray(String[][]::new);
+        String[][] boardMatrix = Arrays.stream(boardRows).map(row -> splitString(row, 3)).toArray(String[][]::new);
         List<Node> livingroomChildren = livingroomGrid.getChildren();
         livingroomChildren.forEach(cell -> {
             int colIndex = GridPane.getColumnIndex(cell);
             int rowIndex = GridPane.getRowIndex(cell);
             String cellValue = boardMatrix[rowIndex][colIndex];
             StringBuilder url = new StringBuilder("file:src/main/resources/images/tiles/");
-            switch (cellValue.charAt(0)) {
+            switch (cellValue.charAt(1)) {
                 case 'W':
                     // Book
                     url.append("Libri");
@@ -192,7 +197,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
             }
             if (url != null) {
-                url.append("1.").append(cellValue.charAt(1)).append(".png");
+                url.append("1.").append(cellValue.charAt(2)).append(".png");
                 ((ImageView) cell).setImage(new Image(url.toString()));
             } else {
                 ((ImageView) cell).setImage(null);
@@ -247,6 +252,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
             }
         });
 
+        return;
+
         // Update commonGoals
         String[] goals = {model.getFirstCommon(), model.getSecondCommon()};
         Node[][] wheretoPut = new Node[2][2];
@@ -275,6 +282,20 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         int number = Integer.parseInt(pg.split("~")[1]);
         String path = "file:src/main/resources/images/personalGoals/Personal_Goals" + number + ".png";
         commonGoalCard.setImage(new Image(path));
+    }
+
+    private String[] splitString(String input, int chunkSize) {
+        int length = input.length();
+        int numOfChunks = (int) Math.ceil((double) length / chunkSize);
+        String[] chunks = new String[numOfChunks];
+
+        for (int i = 0; i < numOfChunks; i++) {
+            int start = i * chunkSize;
+            int end = Math.min(start + chunkSize, length);
+            chunks[i] = input.substring(start, end);
+        }
+
+        return chunks;
     }
 
 }

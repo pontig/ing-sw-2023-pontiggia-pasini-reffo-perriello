@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 
 import static it.polimi.ingsw.enums.State.SET_NUMPLAYERS;
 
-public class AskNumPlayersController extends ObservableView implements GenericSceneController  {
+public class AskNumPlayersSceneController extends ObservableView implements GenericSceneController  {
     @FXML
     private Button twoPlayersButton, threePlayersButton, fourPlayersButton;
 
@@ -25,6 +25,6 @@ public class AskNumPlayersController extends ObservableView implements GenericSc
         setChangedView();
         notifyObserversView(msg);
         // close this scene
-        twoPlayersButton.getScene().getWindow().hide();
+        //twoPlayersButton.getScene().getWindow().hide();
     }
 }

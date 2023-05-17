@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.gui.scene;
 
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendDataToServer;
-import it.polimi.ingsw.observer.ObservableView;
 import it.polimi.ingsw.view.GUI;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -33,6 +32,7 @@ public class NicknameSceneController extends GUI implements GenericSceneControll
     private void onLoginBtnClick(MouseEvent event) {
         System.out.println("Sono nel crea messaggio");
         String nickname = textNickname.getText();
+        view.setNickname(nickname);
         Message msg = new SendDataToServer(SET_NICKNAME, nickname, 0, 0, false);
         view.setChangedView();
         view.notifyObserversView(msg);
