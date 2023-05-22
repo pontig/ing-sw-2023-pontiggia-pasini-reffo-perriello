@@ -7,48 +7,103 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="playingPane" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.PlaySceneController">
    <center>
-      <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0" prefWidth="200.0" spacing="40.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0" prefWidth="200.0" spacing="30.0" BorderPane.alignment="CENTER">
          <children>
-            <GridPane fx:id="commonBox">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-            </GridPane>
-            <StackPane prefHeight="300.0" prefWidth="300.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="45.0">
                <children>
-                  <GridPane id="livingroom" fx:id="livingroomGrid" prefHeight="300.0" prefWidth="300.0" stylesheets="@../css/style.css">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <padding>
-                        <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
-                     </padding>
+                  <StackPane fx:id="firstCommonContainer" prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="firstCommonImg" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/commonGoals/1.jpg" />
+                           </image>
+                        </ImageView>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="first2token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
+                                 <image>
+                                    <Image url="@../images/commonGoals/scores/scoring_2.jpg" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="first4token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
+                                 <image>
+                                    <Image url="@../images/commonGoals/scores/scoring_4.jpg" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="first6token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
+                                 <image>
+                                    <Image url="@../images/commonGoals/scores/scoring_6.jpg" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="first8token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
+                                 <image>
+                                    <Image url="@../images/commonGoals/scores/scoring_8.jpg" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                     </children></StackPane>
+                  <StackPane fx:id="secondCommonContainer" prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="secondCommonImg" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/commonGoals/1.jpg" />
+                           </image>
+                        </ImageView>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="second2token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
+                                 <image>
+                                    <Image url="@../images/commonGoals/scores/scoring_2.jpg" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="second4token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
+                                 <image>
+                                    <Image url="@../images/commonGoals/scores/scoring_4.jpg" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="second6token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
+                                 <image>
+                                    <Image url="@../images/commonGoals/scores/scoring_6.jpg" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="second8token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
+                                 <image>
+                                    <Image url="@../images/commonGoals/scores/scoring_8.jpg" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                     </children></StackPane>
 
-                  </GridPane>
+               </children>
+            </VBox>
+            <StackPane prefHeight="415.0" prefWidth="415.0">
+               <children>
                   <VBox fx:id="orderingBox" fillWidth="false" prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <VBox prefHeight="200.0" prefWidth="100.0">
@@ -101,29 +156,174 @@
                         </VBox>
                      </children>
                   </VBox>
+                  <GridPane id="livingroom" fx:id="livingroomGrid" prefHeight="300.0" prefWidth="300.0" stylesheets="@../css/style.css">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <padding>
+                        <Insets bottom="22.0" left="18.0" right="22.0" top="18.0" />
+                     </padding>
+                     <children>
+                        <ImageView fx:id="cell00" fitHeight="43.0" fitWidth="43.0" layoutX="70.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="cell10" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                        <ImageView fx:id="cell20" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+                        <ImageView fx:id="cell30" fitHeight="43.0" fitWidth="43.0" layoutX="70.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+                        <ImageView fx:id="cell40" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+                        <ImageView fx:id="cell50" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" />
+                        <ImageView fx:id="cell60" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" />
+                        <ImageView fx:id="cell70" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" />
+                        <ImageView fx:id="cell80" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" />
+                        <ImageView fx:id="cell01" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                        <ImageView fx:id="cell11" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ImageView fx:id="cell21" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <ImageView fx:id="cell31" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <ImageView fx:id="cell41" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                        <ImageView fx:id="cell51" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                        <ImageView fx:id="cell61" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                        <ImageView fx:id="cell71" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+                        <ImageView fx:id="cell81" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+                        <ImageView fx:id="cell02" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                        <ImageView fx:id="cell12" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ImageView fx:id="cell22" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <ImageView fx:id="cell32" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <ImageView fx:id="cell42" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                        <ImageView fx:id="cell52" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                        <ImageView fx:id="cell62" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+                        <ImageView fx:id="cell72" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+                        <ImageView fx:id="cell82" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+                        <ImageView fx:id="cell03" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3" />
+                        <ImageView fx:id="cell13" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <ImageView fx:id="cell23" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <ImageView fx:id="cell33" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <ImageView fx:id="cell43" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                        <ImageView fx:id="cell53" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                        <ImageView fx:id="cell63" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+                        <ImageView fx:id="cell73" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="3" />
+                        <ImageView fx:id="cell83" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="3" />
+                        <ImageView fx:id="cell04" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4" />
+                        <ImageView fx:id="cell14" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <ImageView fx:id="cell24" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <ImageView fx:id="cell34" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                        <ImageView fx:id="cell44" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                        <ImageView fx:id="cell54" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                        <ImageView fx:id="cell64" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+                        <ImageView fx:id="cell74" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="4" />
+                        <ImageView fx:id="cell84" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="4" />
+                        <ImageView fx:id="cell05" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5" />
+                        <ImageView fx:id="cell15" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <ImageView fx:id="cell25" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <ImageView fx:id="cell35" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                        <ImageView fx:id="cell45" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                        <ImageView fx:id="cell55" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+                        <ImageView fx:id="cell65" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="5" />
+                        <ImageView fx:id="cell75" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="5" />
+                        <ImageView fx:id="cell85" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="5" />
+                        <ImageView fx:id="cell06" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="6" />
+                        <ImageView fx:id="cell16" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <ImageView fx:id="cell26" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                        <ImageView fx:id="cell36" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                        <ImageView fx:id="cell46" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                        <ImageView fx:id="cell56" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="6" />
+                        <ImageView fx:id="cell66" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="6" />
+                        <ImageView fx:id="cell76" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="6" />
+                        <ImageView fx:id="cell86" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="6" />
+                        <ImageView fx:id="cell07" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="7" />
+                        <ImageView fx:id="cell17" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <ImageView fx:id="cell27" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                        <ImageView fx:id="cell37" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                        <ImageView fx:id="cell47" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+                        <ImageView fx:id="cell57" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="7" />
+                        <ImageView fx:id="cell67" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="7" />
+                        <ImageView fx:id="cell77" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="7" />
+                        <ImageView fx:id="cell87" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="7" />
+                        <ImageView fx:id="cell08" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="8" />
+                        <ImageView fx:id="cell18" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <ImageView fx:id="cell28" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+                        <ImageView fx:id="cell38" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+                        <ImageView fx:id="cell48" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="8" />
+                        <ImageView fx:id="cell58" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="8" />
+                        <ImageView fx:id="cell68" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="8" />
+                        <ImageView fx:id="cell78" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="8" />
+                        <ImageView fx:id="cell88" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="8" />
+                     </children>
+
+                  </GridPane>
                </children>
             </StackPane>
-            <GridPane id="bookshelf" fx:id="shelfGrid" prefHeight="250.0" prefWidth="250.0">
+            <GridPane id="bookshelf" fx:id="shelfGrid" prefHeight="360.0" prefWidth="360.0">
               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="74.0" minWidth="10.0" prefWidth="54.33333333333334" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="86.33333333333331" minWidth="10.0" prefWidth="60.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="97.33333333333334" minWidth="10.0" prefWidth="57.33333333333334" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="79.0" minWidth="0.3333333333333428" prefWidth="54.00000000000003" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.99999999999997" minWidth="10.0" prefWidth="59.333333333333314" />
+                  <ColumnConstraints />
               </columnConstraints>
               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="64.00000381469727" minHeight="10.0" prefHeight="55.66666666666667" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="78.9999771118164" minHeight="10.0" prefHeight="46.66666666666666" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="87.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="89.33334859212243" minHeight="10.0" prefHeight="53.33333333333334" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="63.0" minHeight="10.0" prefHeight="48.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="69.0" minHeight="10.0" prefHeight="49.333333333333314" vgrow="SOMETIMES" />
               </rowConstraints>
                <padding>
-                  <Insets bottom="33.0" left="32.0" right="33.0" top="16.0" />
+                  <Insets bottom="45.0" left="40.0" right="33.0" top="16.0" />
                </padding>
+               <children>
+                  <ImageView fx:id="shelfCell00" fitHeight="50.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="shelfCell10" fitHeight="50.0" fitWidth="52.0" layoutX="50.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                  <ImageView fx:id="shelfCell20" fitHeight="50.0" fitWidth="52.0" layoutX="97.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+                  <ImageView fx:id="shelfCell30" fitHeight="50.0" fitWidth="52.0" layoutX="144.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+                  <ImageView fx:id="shelfCell40" fitHeight="50.0" fitWidth="52.0" layoutX="191.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+                  <ImageView fx:id="shelfCell01" fitHeight="50.0" fitWidth="52.0" layoutX="277.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                  <ImageView fx:id="shelfCell11" fitHeight="50.0" fitWidth="52.0" layoutX="324.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ImageView fx:id="shelfCell21" fitHeight="50.0" fitWidth="52.0" layoutX="371.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <ImageView fx:id="shelfCell31" fitHeight="50.0" fitWidth="52.0" layoutX="418.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <ImageView fx:id="shelfCell41" fitHeight="50.0" fitWidth="52.0" layoutX="465.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <ImageView fx:id="shelfCell02" fitHeight="50.0" fitWidth="52.0" layoutX="551.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                  <ImageView fx:id="shelfCell12" fitHeight="50.0" fitWidth="52.0" layoutX="598.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ImageView fx:id="shelfCell22" fitHeight="50.0" fitWidth="52.0" layoutX="645.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <ImageView fx:id="shelfCell32" fitHeight="50.0" fitWidth="52.0" layoutX="692.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <ImageView fx:id="shelfCell42" fitHeight="50.0" fitWidth="52.0" layoutX="739.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <ImageView fx:id="shelfCell03" fitHeight="50.0" fitWidth="52.0" layoutX="825.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3" />
+                  <ImageView fx:id="shelfCell13" fitHeight="50.0" fitWidth="52.0" layoutX="872.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <ImageView fx:id="shelfCell23" fitHeight="50.0" fitWidth="52.0" layoutX="919.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <ImageView fx:id="shelfCell33" fitHeight="50.0" fitWidth="52.0" layoutX="966.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                  <ImageView fx:id="shelfCell43" fitHeight="50.0" fitWidth="52.0" layoutX="1013.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                  <ImageView fx:id="shelfCell04" fitHeight="50.0" fitWidth="52.0" layoutX="1099.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4" />
+                  <ImageView fx:id="shelfCell14" fitHeight="50.0" fitWidth="52.0" layoutX="1146.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                    <ImageView fx:id="shelfCell24" fitHeight="50.0" fitWidth="52.0" layoutX="1193.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                    <ImageView fx:id="shelfCell34" fitHeight="50.0" fitWidth="52.0" layoutX="1240.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                    <ImageView fx:id="shelfCell44" fitHeight="50.0" fitWidth="52.0" layoutX="1287.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                    <ImageView fx:id="shelfCell05" fitHeight="50.0" fitWidth="52.0" layoutX="1373.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5" />
+                    <ImageView fx:id="shelfCell15" fitHeight="50.0" fitWidth="52.0" layoutX="1420.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                    <ImageView fx:id="shelfCell25" fitHeight="50.0" fitWidth="52.0" layoutX="1467.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                    <ImageView fx:id="shelfCell35" fitHeight="50.0" fitWidth="52.0" layoutX="1514.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                    <ImageView fx:id="shelfCell45" fitHeight="50.0" fitWidth="52.0" layoutX="1561.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+
+               </children>
             </GridPane>
-            <ImageView id="personalGoalCard" fx:id="commonGoalCard" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="personalGoalCard" fx:id="commonGoalCard" fitHeight="213.0" fitWidth="270.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/personalGoals/Personal_Goals2.png" />
                </image></ImageView>

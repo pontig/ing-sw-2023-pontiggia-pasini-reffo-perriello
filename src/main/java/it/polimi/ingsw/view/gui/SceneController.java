@@ -62,6 +62,10 @@ public class SceneController {
             activeController = (GenericSceneController) controller;
             activeScene.setRoot(root);
             currFxml = fxml;
+            if (fxml.equals("PlayScene.fxml")) {
+                mainStage.setWidth(1280);
+                mainStage.setHeight(720);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

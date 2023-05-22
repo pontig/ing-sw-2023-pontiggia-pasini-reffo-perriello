@@ -15,7 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Objects;
 
 import static it.polimi.ingsw.enums.State.*;
 
@@ -42,15 +42,71 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     @FXML
     private ImageView commonGoalCard;
 
+    // Livingroom grid cells
+    @FXML
+    private ImageView cell00, cell01, cell02, cell03, cell04, cell05, cell06, cell07, cell08;
+    @FXML
+    private ImageView cell10, cell11, cell12, cell13, cell14, cell15, cell16, cell17, cell18;
+    @FXML
+    private ImageView cell20, cell21, cell22, cell23, cell24, cell25, cell26, cell27, cell28;
+    @FXML
+    private ImageView cell30, cell31, cell32, cell33, cell34, cell35, cell36, cell37, cell38;
+    @FXML
+    private ImageView cell40, cell41, cell42, cell43, cell44, cell45, cell46, cell47, cell48;
+    @FXML
+    private ImageView cell50, cell51, cell52, cell53, cell54, cell55, cell56, cell57, cell58;
+    @FXML
+    private ImageView cell60, cell61, cell62, cell63, cell64, cell65, cell66, cell67, cell68;
+    @FXML
+    private ImageView cell70, cell71, cell72, cell73, cell74, cell75, cell76, cell77, cell78;
+    @FXML
+    private ImageView cell80, cell81, cell82, cell83, cell84, cell85, cell86, cell87, cell88;
+    private ImageView[][] livingroomGridCells;
+
+    // Shelf grid cells
+    @FXML
+    private ImageView shelfCell00, shelfCell01, shelfCell02, shelfCell03, shelfCell04, shelfCell05;
+    @FXML
+    private ImageView shelfCell10, shelfCell11, shelfCell12, shelfCell13, shelfCell14, shelfCell15;
+    @FXML
+    private ImageView shelfCell20, shelfCell21, shelfCell22, shelfCell23, shelfCell24, shelfCell25;
+    @FXML
+    private ImageView shelfCell30, shelfCell31, shelfCell32, shelfCell33, shelfCell34, shelfCell35;
+    @FXML
+    private ImageView shelfCell40, shelfCell41, shelfCell42, shelfCell43, shelfCell44, shelfCell45;
+    private ImageView[][] shelfGridCells;
+
+    // Common goals
+    @FXML
+    private ImageView firstCommonImg, secondCommonImg;
+    @FXML
+    private ImageView first2token, first4token, first6token, first8token;
+    @FXML
+    private ImageView second2token, second4token, second6token, second8token;
+    private ImageView[][] commonWrap;
+
     @FXML
     public void initialize() {
         livingroomGrid.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onLivingroomGridClick);
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                Image image = new Image(getClass().getResourceAsStream("/images/empty.png"));
-                livingroomGrid.add(new ImageView(image), i, j);
-            }
-        }
+
+        livingroomGridCells = new ImageView[][]{{cell00, cell01, cell02, cell03, cell04, cell05, cell06, cell07, cell08},
+                {cell10, cell11, cell12, cell13, cell14, cell15, cell16, cell17, cell18},
+                {cell20, cell21, cell22, cell23, cell24, cell25, cell26, cell27, cell28},
+                {cell30, cell31, cell32, cell33, cell34, cell35, cell36, cell37, cell38},
+                {cell40, cell41, cell42, cell43, cell44, cell45, cell46, cell47, cell48},
+                {cell50, cell51, cell52, cell53, cell54, cell55, cell56, cell57, cell58},
+                {cell60, cell61, cell62, cell63, cell64, cell65, cell66, cell67, cell68},
+                {cell70, cell71, cell72, cell73, cell74, cell75, cell76, cell77, cell78},
+                {cell80, cell81, cell82, cell83, cell84, cell85, cell86, cell87, cell88}};
+        shelfGridCells = new ImageView[][]{{shelfCell00, shelfCell01, shelfCell02, shelfCell03, shelfCell04, shelfCell05},
+                {shelfCell10, shelfCell11, shelfCell12, shelfCell13, shelfCell14, shelfCell15},
+                {shelfCell20, shelfCell21, shelfCell22, shelfCell23, shelfCell24, shelfCell25},
+                {shelfCell30, shelfCell31, shelfCell32, shelfCell33, shelfCell34, shelfCell35},
+                {shelfCell40, shelfCell41, shelfCell42, shelfCell43, shelfCell44, shelfCell45}};
+        commonWrap = new ImageView[][]{{firstCommonImg, null, first2token, null, first4token, null, first6token, null, first8token},
+                {secondCommonImg, null, second2token, null, second4token, null, second6token, null, second8token}};
+
+
         shelfGrid.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onShelfGridClick);
         orderingBox.setVisible(false);
         unordered1.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onOrderingClick(1, 0));
@@ -153,126 +209,133 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         // Update board
         String board = model.getBoard();
         String[] boardRows = board.split("\n");
-        String[][] boardMatrix = Arrays.stream(boardRows).map(row -> splitString(row, 3)).toArray(String[][]::new);
-        List<Node> livingroomChildren = livingroomGrid.getChildren();
-        livingroomChildren.forEach(cell -> {
-            int colIndex = GridPane.getColumnIndex(cell);
-            int rowIndex = GridPane.getRowIndex(cell);
-            String cellValue = boardMatrix[rowIndex][colIndex];
-            StringBuilder url = new StringBuilder("file:src/main/resources/images/tiles/");
-            switch (cellValue.charAt(1)) {
-                case 'W':
-                    // Book
-                    url.append("Libri");
-                    break;
-                case 'G':
-                    // Cat
-                    url.append("Gatti");
-                    break;
-                case 'B':
-                    // Frame
-                    url.append("Cornici");
-                    break;
-                case 'Y':
-                    // Game
-                    url.append("Giochi");
-                    break;
-                case 'P':
-                    // Plant
-                    url.append("Piante");
-                    break;
-                case 'L':
-                    // Trophy
-                    url.append("Trofei");
-                    break;
-                case '#':
-                    // Selected
-                    url.append("Selezionato");
-                    break;
-                case '■':
-                default:
-                    // Empty
-                    url = null;
-                    break;
+        String[][] itemsToPutInBoard = Arrays.stream(boardRows).map(row -> splitString(row, 3)).toArray(String[][]::new);
 
+        for (int rowIndex = 0; rowIndex < 9; rowIndex++) {
+            for (int colIndex = 0; colIndex < 9; colIndex++) {
+
+                ImageView cell = livingroomGridCells[colIndex][rowIndex];
+                String cellValue = itemsToPutInBoard[rowIndex][colIndex];
+                StringBuilder url = new StringBuilder("file:src/main/resources/images/tiles/");
+                switch (cellValue.charAt(1)) {
+                    case 'W':
+                        // Book
+                        url.append("Libri");
+                        break;
+                    case 'G':
+                        // Cat
+                        url.append("Gatti");
+                        break;
+                    case 'B':
+                        // Frame
+                        url.append("Cornici");
+                        break;
+                    case 'Y':
+                        // Game
+                        url.append("Giochi");
+                        break;
+                    case 'P':
+                        // Plant
+                        url.append("Piante");
+                        break;
+                    case 'L':
+                        // Trophy
+                        url.append("Trofei");
+                        break;
+                    case '#':
+                        // Selected
+                        url.append("Selezionato");
+                        break;
+                    case '■':
+                    default:
+                        // Empty
+                        url = null;
+                        break;
+
+                }
+                if (url != null) {
+                    url.append("1.").append(Character.getNumericValue(cellValue.charAt(2)) + 1).append(".png");
+                    cell.setImage(new Image(url.toString()));
+                } else {
+                    cell.setImage(null);
+                }
             }
-            if (url != null) {
-                url.append("1.").append(cellValue.charAt(2)).append(".png");
-                ((ImageView) cell).setImage(new Image(url.toString()));
-            } else {
-                ((ImageView) cell).setImage(null);
-            }
-        });
+        }
 
         // Update shelf
         String shelf = model.getShelf();
         String[] shelfRows = shelf.split("\n ");
-        String[][] shelfMatrix = Arrays.stream(shelfRows).map(row -> row.split("(?<=\\G.{" + 2 + "})")).toArray(String[][]::new);
-        List<Node> shelfChildren = shelfGrid.getChildren();
-        shelfChildren.forEach(cell -> {
-            int colIndex = GridPane.getColumnIndex(cell);
-            String cellValue = shelfMatrix[0][colIndex];
-            StringBuilder url = new StringBuilder("file:src/main/resources/images/tiles/");
-            switch (cellValue.charAt(0)) {
-                case 'W':
-                    // Book
-                    url.append("Libri");
-                    break;
-                case 'G':
-                    // Cat
-                    url.append("Gatti");
-                    break;
-                case 'B':
-                    // Frame
-                    url.append("Cornici");
-                    break;
-                case 'Y':
-                    // Game
-                    url.append("Giochi");
-                    break;
-                case 'P':
-                    // Plant
-                    url.append("Piante");
-                    break;
-                case 'L':
-                    // Trophy
-                    url.append("Trofei");
-                    break;
-                case '■':
-                default:
-                    // Empty
-                    url = null;
-                    break;
-            }
-            if (url != null) {
-                url.append("1.").append(cellValue.charAt(1)).append(".png");
-                ((ImageView) cell).setImage(new Image(url.toString()));
-            } else {
-                ((ImageView) cell).setImage(null);
-            }
-        });
+        String[][] ItemsToPutInShelf = Arrays.stream(shelfRows).map(row -> splitString(row, 2)).toArray(String[][]::new);
 
-        return;
+        for (int rowIndex = 0; rowIndex < 6; rowIndex++) {
+            for (int colIndex = 0; colIndex < 5; colIndex++) {
+
+                ImageView cell = shelfGridCells[colIndex][rowIndex];
+                String cellValue = itemsToPutInBoard[rowIndex][colIndex];
+                StringBuilder url = new StringBuilder("file:src/main/resources/images/tiles/");
+                switch (cellValue.charAt(0)) {
+                    case 'W':
+                        // Book
+                        url.append("Libri");
+                        break;
+                    case 'G':
+                        // Cat
+                        url.append("Gatti");
+                        break;
+                    case 'B':
+                        // Frame
+                        url.append("Cornici");
+                        break;
+                    case 'Y':
+                        // Game
+                        url.append("Giochi");
+                        break;
+                    case 'P':
+                        // Plant
+                        url.append("Piante");
+                        break;
+                    case 'L':
+                        // Trophy
+                        url.append("Trofei");
+                        break;
+                    case '■':
+                    default:
+                        // Empty
+                        url = null;
+                        break;
+                }
+                if (url != null) {
+                    url.append("1.").append(Character.getNumericValue(cellValue.charAt(2)) + 1).append(".png");
+                    cell.setImage(new Image(url.toString()));
+                } else {
+                    cell.setImage(null);
+                }
+            }
+        }
+
 
         // Update commonGoals
         String[] goals = {model.getFirstCommon(), model.getSecondCommon()};
-        Node[][] wheretoPut = new Node[2][2];
-        commonBox.getChildren().stream().forEach(cell -> {
-            int colIndex = GridPane.getColumnIndex(cell);
-            int rowIndex = GridPane.getRowIndex(cell);
-            wheretoPut[rowIndex][colIndex] = cell;
-        });
+        Arrays.stream(commonWrap).flatMap(Arrays::stream).filter(Objects::nonNull).forEach(node -> node.setVisible(false));
+
         for (int i = 0; i < 2; i++) {
             String goal = goals[i];
             String name = goal.split("\n")[0];
-            int which = CommonGoalName.valueOf(name).ordinal();
-            String url = "file:src/main/resources/images/commonGoals/" + which + ".png";
-            ((ImageView) wheretoPut[i][1]).setImage(new Image(url));
-            String[] exploded = goal.split(" ");
+            int which = CommonGoalName.valueOf(name).ordinal() +1 ;
+            String url = "file:src/main/resources/images/commonGoals/" + which + ".jpg";
+            commonWrap[i][0].setImage(new Image(url));
+            commonWrap[i][0].setVisible(true);
+            String[] exploded = goal.split("are: ");
+            String[] tokenRemaining = exploded[1].split(" ");
+            for (int j = 0; j < tokenRemaining.length -1; j++) {
+                String token = tokenRemaining[j];
+                String tokenUrl = "file:src/main/resources/commonGoals/scores/scoring_" + token + ".jpg";
+                //commonWrap[i][j].setImage(new Image(tokenUrl));
+                commonWrap[i][Integer.parseInt(token)].setVisible(true);
+            }
 
-            ((ImageView) wheretoPut[i][1]).setImage(
-                    new Image("file:src/main/resources/images/commonGoals/scores/scoring_" + exploded[exploded.length - 1] + ".jpg")
-            );
+                  //  new Image("file:src/main/resources/images/commonGoals/scores/scoring_" + exploded[exploded.length - 1] + ".jpg")
+
         }
     }
 
