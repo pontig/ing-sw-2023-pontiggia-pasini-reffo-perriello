@@ -216,6 +216,10 @@ public class GUI extends View {
                         state = 4;
                     } else {
                         // TODO say to the player that it is not his turn
+                        Platform.runLater(() -> {
+                            PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                            controller.gameJustStarted(arg.getNickname(), arg);
+                        });
                         state = 20;
                     }
                     lock.notifyAll();

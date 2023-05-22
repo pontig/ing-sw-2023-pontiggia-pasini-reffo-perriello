@@ -207,6 +207,44 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         title.setText("Dashboard di " + nickname);
 
         // Update board
+        fillBoard(model);
+
+        // Update shelf
+        if (model.getShelf() != null) fillShelf(model);
+
+        // Update commonGoals
+        fillCommonGoals(model);
+    }
+
+    public void assignPersonalGoal(Message model) {
+        // TODO: find a way to call this method and pass it the correct arguments
+        String pg = model.getPersonal();
+        int number = Integer.parseInt(pg.split("~")[1]);
+        String path = "file:src/main/resources/images/personalGoals/Personal_Goals" + number + ".png";
+        commonGoalCard.setImage(new Image(path));
+    }
+
+    private String[] splitString(String input, int chunkSize) {
+        int length = input.length();
+        int numOfChunks = (int) Math.ceil((double) length / chunkSize);
+        String[] chunks = new String[numOfChunks];
+
+        for (int i = 0; i < numOfChunks; i++) {
+            int start = i * chunkSize;
+            int end = Math.min(start + chunkSize, length);
+            chunks[i] = input.substring(start, end);
+        }
+
+        return chunks;
+    }
+
+    public void gameJustStarted(String nickname, Message model) {
+        title.setText("Dashboard di " + nickname);
+        fillBoard(model);
+        fillCommonGoals(model);
+    }
+
+    private void fillBoard(Message model) {
         String board = model.getBoard();
         String[] boardRows = board.split("\n");
         String[][] itemsToPutInBoard = Arrays.stream(boardRows).map(row -> splitString(row, 3)).toArray(String[][]::new);
@@ -262,61 +300,61 @@ public class PlaySceneController extends GUI implements GenericSceneController {
             }
         }
 
-        // Update shelf
-        if (model.getShelf() != null) {
-            String shelf = model.getShelf();
-            String[] shelfRows = shelf.split("\n ");
-            String[][] ItemsToPutInShelf = Arrays.stream(shelfRows).map(row -> splitString(row, 2)).toArray(String[][]::new);
+    }
 
-            for (int rowIndex = 0; rowIndex < 6; rowIndex++) {
-                for (int colIndex = 0; colIndex < 5; colIndex++) {
+    private void fillShelf(Message model) {
+        String shelf = model.getShelf();
+        String[] shelfRows = shelf.split("\n ");
+        String[][] itemsToPutInShelf = Arrays.stream(shelfRows).map(row -> splitString(row, 2)).toArray(String[][]::new);
 
-                    ImageView cell = shelfGridCells[colIndex][rowIndex];
-                    String cellValue = itemsToPutInBoard[rowIndex][colIndex];
-                    StringBuilder url = new StringBuilder("file:src/main/resources/images/tiles/");
-                    switch (cellValue.charAt(0)) {
-                        case 'W':
-                            // Book
-                            url.append("Libri");
-                            break;
-                        case 'G':
-                            // Cat
-                            url.append("Gatti");
-                            break;
-                        case 'B':
-                            // Frame
-                            url.append("Cornici");
-                            break;
-                        case 'Y':
-                            // Game
-                            url.append("Giochi");
-                            break;
-                        case 'P':
-                            // Plant
-                            url.append("Piante");
-                            break;
-                        case 'L':
-                            // Trophy
-                            url.append("Trofei");
-                            break;
-                        case '■':
-                        default:
-                            // Empty
-                            url = null;
-                            break;
-                    }
-                    if (url != null) {
-                        url.append("1.").append(Character.getNumericValue(cellValue.charAt(2)) + 1).append(".png");
-                        cell.setImage(new Image(url.toString()));
-                    } else {
-                        cell.setImage(null);
-                    }
+        for (int rowIndex = 0; rowIndex < 6; rowIndex++) {
+            for (int colIndex = 0; colIndex < 5; colIndex++) {
+
+                ImageView cell = shelfGridCells[colIndex][rowIndex];
+                String cellValue = itemsToPutInShelf[rowIndex][colIndex];
+                StringBuilder url = new StringBuilder("file:src/main/resources/images/tiles/");
+                switch (cellValue.charAt(0)) {
+                    case 'W':
+                        // Book
+                        url.append("Libri");
+                        break;
+                    case 'G':
+                        // Cat
+                        url.append("Gatti");
+                        break;
+                    case 'B':
+                        // Frame
+                        url.append("Cornici");
+                        break;
+                    case 'Y':
+                        // Game
+                        url.append("Giochi");
+                        break;
+                    case 'P':
+                        // Plant
+                        url.append("Piante");
+                        break;
+                    case 'L':
+                        // Trophy
+                        url.append("Trofei");
+                        break;
+                    case '■':
+                    default:
+                        // Empty
+                        url = null;
+                        break;
+                }
+                if (url != null) {
+                    url.append("1.").append(Character.getNumericValue(cellValue.charAt(2)) + 1).append(".png");
+                    cell.setImage(new Image(url.toString()));
+                } else {
+                    cell.setImage(null);
                 }
             }
         }
+    }
 
-
-        // Update commonGoals
+    private void fillCommonGoals(Message model) {
         String[] goals = {model.getFirstCommon(), model.getSecondCommon()};
         Arrays.stream(commonWrap).flatMap(Arrays::stream).filter(Objects::nonNull).forEach(node -> node.setVisible(false));
 
@@ -336,31 +374,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
                 commonWrap[i][Integer.parseInt(token)].setVisible(true);
             }
 
-            //  new Image("file:src/main/resources/images/commonGoals/scores/scoring_" + exploded[exploded.length - 1] + ".jpg")
-
         }
-    }
-
-    public void assignPersonalGoal(Message model) {
-        // TODO: find a way to call this method and pass it the correct arguments
-        String pg = model.getPersonal();
-        int number = Integer.parseInt(pg.split("~")[1]);
-        String path = "file:src/main/resources/images/personalGoals/Personal_Goals" + number + ".png";
-        commonGoalCard.setImage(new Image(path));
-    }
-
-    private String[] splitString(String input, int chunkSize) {
-        int length = input.length();
-        int numOfChunks = (int) Math.ceil((double) length / chunkSize);
-        String[] chunks = new String[numOfChunks];
-
-        for (int i = 0; i < numOfChunks; i++) {
-            int start = i * chunkSize;
-            int end = Math.min(start + chunkSize, length);
-            chunks[i] = input.substring(start, end);
-        }
-
-        return chunks;
     }
 
 }
