@@ -359,7 +359,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                 this.firstCommonGoal = assignCommonGoal();
                 this.secondCommonGoal = assignCommonGoal();
                 setCurrentPlayer(getPlayerList().get(0));
-                msg = new SendDataToClient(ACK_NUMPLAYERS, null, null, null, null, null, null, null, false, null, null);
+                msg = new SendDataToClient(ACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);
             } else
                 msg = new SendDataToClient(OUT_BOUND_NUMPLAYERS, null, null, null, null, null, null, null, false, null, null);
         }

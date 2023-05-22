@@ -11,6 +11,7 @@ import static it.polimi.ingsw.enums.State.SET_NUMPLAYERS;
 public class AskNumPlayersSceneController extends ObservableView implements GenericSceneController  {
     @FXML
     private Button twoPlayersButton, threePlayersButton, fourPlayersButton;
+    private String nickname;
 
     @FXML
     public void initialize()  {
@@ -21,10 +22,14 @@ public class AskNumPlayersSceneController extends ObservableView implements Gene
     }
 
     private void send(int n) {
-        Message msg = new SendDataToServer(SET_NUMPLAYERS,  null, n, 0, false);
+        Message msg = new SendDataToServer(SET_NUMPLAYERS,  nickname, n, 0, false);
         setChangedView();
         notifyObserversView(msg);
         // close this scene
         //twoPlayersButton.getScene().getWindow().hide();
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

@@ -6,6 +6,7 @@ import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.view.gui.JavaFXGui;
 import it.polimi.ingsw.view.gui.SceneController;
+import it.polimi.ingsw.view.gui.scene.AskNumPlayersSceneController;
 import it.polimi.ingsw.view.gui.scene.NicknameSceneController;
 import it.polimi.ingsw.view.gui.scene.PlaySceneController;
 import javafx.application.Application;
@@ -153,9 +154,10 @@ public class GUI extends View {
             switch (msg) {
                 case ACK_NICKNAME:
                 case ACK_NUMPLAYERS:
-                    if (this.nickname == null) break;
-                    //SceneController.showMessage(msg.toString());
+                    if (this.nickname == null || !this.nickname.equals(arg.getNickname())) break;
+                    Platform.runLater(() -> {
                     SceneController.changeRootPane(getObservers(), "WaitingScene.fxml");
+                    });
                     state = 2;
                     lock.notifyAll();
                     break;
@@ -171,11 +173,16 @@ public class GUI extends View {
                     break;
 
                 case NACK_NUMPLAYERS:
-                    if (arg.getNickname().equals(this.nickname))
-                        SceneController.showMessage(msg + " Someone has already chosen the number of players, you will be added to that game");
-                    else
-                        SceneController.showMessage(msg.toString());
-                    state = -1;
+                    if (arg.getNickname().equals(this.nickname)) {
+                        Platform.runLater(() -> {
+                            SceneController.changeRootPane(getObservers(), "WaitingScene.fxml");
+                        Message check = new SendDataToServer(GAME_READY, null, 0, 0, false);
+                        setChangedView();
+                        notifyObserversView(check);
+                            SceneController.showMessage(msg + " Someone has already chosen the number of players, you will be added to that game");
+                            state = -1;
+                        });
+                    }
                     break;
 
                 case GAME_READY:
@@ -191,17 +198,20 @@ public class GUI extends View {
                     else
                         Platform.runLater(() -> {
                             SceneController.changeRootPane(getObservers(), "AskNumPlayersScene.fxml");
+                            AskNumPlayersSceneController controller = (AskNumPlayersSceneController) SceneController.getActiveController();
+                            controller.setNickname(this.nickname);
+
                         });
                     state = 3;
                     break;
 
                 case SEND_MODEL:
                     if (this.nickname.equals(arg.getNickname())) {
-                        Platform.runLater(()->{
+                        Platform.runLater(() -> {
 
-                        PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
-                        controller.updateModel(this.nickname, arg);
-                        controller.letSelectItemsOnBoard();
+                            PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                            controller.updateModel(this.nickname, arg);
+                            controller.letSelectItemsOnBoard();
                         });
                         state = 4;
                     } else {
