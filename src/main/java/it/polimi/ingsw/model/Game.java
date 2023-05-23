@@ -337,12 +337,15 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                 } else if (getNumberOfPlayers() > getPlayerList().size()) {
                     Player p = new Player(nickname, assignPersonalGoal()); //da sostituire con assignPersonal()
                     getPlayerList().add(p);
-                    if (getNumberOfPlayers() == getPlayerList().size()) {
-                        msg = new SendDataToClient(GAME_READY, null, null, null, null, null, null, null, false, null, null);
-                        setChangedAndNotifyObservers(msg);
-                        msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().sendToString(), getCurrentPlayer().getPersonalGoal().sendToString(), getCurrentPlayer().getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
+                    this.startGame();
+                   /* if (getNumberOfPlayers() == getPlayerList().size()) {
+                        for(Player user: playerList){
+                            msg = new SendDataToClient(GAME_READY, null, null, null, null, null, null, null, false, null, null);
+                        }
+                        //setChangedAndNotifyObservers(msg);
+                        //msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().sendToString(), getCurrentPlayer().getPersonalGoal().sendToString(), getCurrentPlayer().getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
                     } else
-                        msg = new SendDataToClient(ACK_NICKNAME, nickname, null, null, null, null, null, null, false, null, null);
+                        msg = new SendDataToClient(ACK_NICKNAME, nickname, null, null, null, null, null, null, false, null, null);*/
                 }
             }
         }
@@ -367,13 +370,20 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     }
 
     public void startGame() {
+
         if (getNumberOfPlayers() == getPlayerList().size()) {
-            msg = new SendDataToClient(GAME_READY, null, null, null, null, null, null, null, false, null, null);
-            setChangedAndNotifyObservers(msg);
+            for(Player user: playerList) {
+
+                msg = new SendDataToClient(GAME_READY, user.getNickname(), getBoard().sendToString(), user.getPersonalGoal().sendToString(),  user.getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, user == getCurrentPlayer(), null, null);
+                setChangedAndNotifyObservers(msg);
+
+            }
             msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().sendToString(), getCurrentPlayer().getPersonalGoal().sendToString(), getCurrentPlayer().getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
-        } else
+        } else {
             msg = new SendDataToClient(ACK_NICKNAME, null, null, null, null, null, null, null, false, null, null);
+        }
         setChangedAndNotifyObservers(msg);
+
     }
 
     public void itemClick(int x, int y) {
