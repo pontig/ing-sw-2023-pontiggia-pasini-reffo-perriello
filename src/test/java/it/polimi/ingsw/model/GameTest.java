@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.glass.ui.Clipboard;
 import it.polimi.ingsw.enums.CommonGoalName;
 import it.polimi.ingsw.enums.Type;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import static it.polimi.ingsw.enums.Type.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
+
     //Board from assets
     private Board initializeBoard() {
         ObjectMapper mapper = new ObjectMapper();
@@ -356,7 +358,9 @@ class GameTest {
     @Test
     void selectColumn() {
         assertEquals(false, gameTwoPlayers.getColumnOK());
-        gameTwoPlayers.selectColumn(0);
+        gameTwoPlayers.getCurrentPlayer().getShelf().getInsertableColumns().add(0);
+        gameTwoPlayers.getCurrentPlayer().getShelf().getInsertableColumns().add(3);
+        gameTwoPlayers.selectColumn(3);
         assertEquals(true, gameTwoPlayers.getColumnOK());
     }
 
