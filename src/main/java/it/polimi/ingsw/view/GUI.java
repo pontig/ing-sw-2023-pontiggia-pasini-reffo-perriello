@@ -7,7 +7,6 @@ import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.view.gui.JavaFXGui;
 import it.polimi.ingsw.view.gui.SceneController;
 import it.polimi.ingsw.view.gui.scene.AskNumPlayersSceneController;
-import it.polimi.ingsw.view.gui.scene.NicknameSceneController;
 import it.polimi.ingsw.view.gui.scene.PlaySceneController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -52,100 +51,100 @@ public class GUI extends View {
         //});
 
         // Could be not necessary?
-        while (isRunning) {
-            switch (state) {
-                case 0:
-                    //Form to enter a new nickname because someone already have the one expressed before
-                    SceneController.showMessage("Someone has a nickname as the one you just wrote.\nPlease enter a different nickname");
-                    NicknameSceneController controller = (NicknameSceneController) SceneController.getActiveController();
-                    controller.setError();
-                    break;
-                case 1:
-                    //All the players required are in game so no more are needed
-                    SceneController.showMessage("No more players are required in this game, we are sorry, you will be disconnected");
-                    stop();
-                    break;
-                case 2:
-                    //Waiting for player and waiting
-                    synchronized (lock) {
-                        try {
-                            SceneController.changeRootPane(getObservers(), "WaitingScene.fxml");
-                            lock.wait();        //possibile lock per tutti i giocatori -> da inviare una richiesta al server se i due numeri sono uguali
-                            msg = null;
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    break;
-                //Insert the number of player for the game 2 / 3 / 4
-                case 3:
-                    SceneController.askForNumPlayer();
-
-                    /*int numberPlayers = 0;
-                    boolean okNumber = false;
-                    System.out.print("Insert the number of players for the game (2 / 3 / 4): ");
-                    do {
-                        try {
-                            numberPlayers = Integer.parseInt(terminal.next());
-                            okNumber = true;
-                        } catch (NumberFormatException e) {
-                            System.out.print("You entered an invalid character, please enter a number (2 / 3 / 4): ");
-                        }
-                    } while (!okNumber);
-                    msg = new SendDataToServer(SET_NUMPLAYERS, this.nickname, numberPlayers, 0, false);
-                    setChangedView();
-                    notifyObserversView(msg);
-                    msg = null;
-                    break;*/
-                case -1:
-                    //Check if the game should begin
-                    msg = new SendDataToServer(GAME_READY, null, 0, 0, false);
-                    setChangedView();
-                    notifyObserversView(msg);
-                    msg = null;
-                    //state = 2;
-                    break;
-
-                case 4:
-                    PlaySceneController controller1 = (PlaySceneController) SceneController.getActiveController();
-                    controller1.letSelectItemsOnBoard();
-                    break;
-                //Y = confirm the item selected from the board and then go to the insertion phase
-                case 5:
-                    // In the gui it should not be necessary this case
-                    /*msg = new SendDataToServer(CONFIRM_ITEMS, null, 0, 0, true);
-                    setChangedView();
-                    notifyObserversView(msg);
-                    msg = null;
-                    break;*/
-
-                case 6:
-                    PlaySceneController controller2 = (PlaySceneController) SceneController.getActiveController();
-                    // TODO: if it is called two times, it could reset everything
-                    controller2.letOrderAndInsert();
-                    //Confirm column and order
-                case 7:
-                    PlaySceneController controller3 = (PlaySceneController) SceneController.getActiveController();
-                    controller3.letConfirm();
-                    break;
-
-                case 20:
-                    synchronized (lock) {
-                        try {
-                            lock.wait();
-                            msg = null;
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    break;
-
-                default:
-                    System.out.println("Error");
-                    break;
-            }
-
-        }
+        //while (isRunning) {
+        //    switch (state) {
+        //        case 0:
+        //            //Form to enter a new nickname because someone already have the one expressed before
+        //            SceneController.showMessage("Someone has a nickname as the one you just wrote.\nPlease enter a different nickname");
+        //            NicknameSceneController controller = (NicknameSceneController) SceneController.getActiveController();
+        //            controller.setError();
+        //            break;
+        //        case 1:
+        //            //All the players required are in game so no more are needed
+        //            SceneController.showMessage("No more players are required in this game, we are sorry, you will be disconnected");
+        //            stop();
+        //            break;
+        //        case 2:
+        //            //Waiting for player and waiting
+        //            synchronized (lock) {
+        //                try {
+        //                    SceneController.changeRootPane(getObservers(), "WaitingScene.fxml");
+        //                    lock.wait();        //possibile lock per tutti i giocatori -> da inviare una richiesta al server se i due numeri sono uguali
+        //                    msg = null;
+        //                } catch (InterruptedException e) {
+        //                    throw new RuntimeException(e);
+        //                }
+        //            }
+        //            break;
+        //        //Insert the number of player for the game 2 / 3 / 4
+        //        case 3:
+        //            SceneController.askForNumPlayer();
+//
+        //            /*int numberPlayers = 0;
+        //            boolean okNumber = false;
+        //            System.out.print("Insert the number of players for the game (2 / 3 / 4): ");
+        //            do {
+        //                try {
+        //                    numberPlayers = Integer.parseInt(terminal.next());
+        //                    okNumber = true;
+        //                } catch (NumberFormatException e) {
+        //                    System.out.print("You entered an invalid character, please enter a number (2 / 3 / 4): ");
+        //                }
+        //            } while (!okNumber);
+        //            msg = new SendDataToServer(SET_NUMPLAYERS, this.nickname, numberPlayers, 0, false);
+        //            setChangedView();
+        //            notifyObserversView(msg);
+        //            msg = null;
+        //            break;*/
+        //        case -1:
+        //            //Check if the game should begin
+        //            msg = new SendDataToServer(GAME_READY, null, 0, 0, false);
+        //            setChangedView();
+        //            notifyObserversView(msg);
+        //            msg = null;
+        //            //state = 2;
+        //            break;
+//
+        //        case 4:
+        //            PlaySceneController controller1 = (PlaySceneController) SceneController.getActiveController();
+        //            controller1.letSelectItemsOnBoard();
+        //            break;
+        //        //Y = confirm the item selected from the board and then go to the insertion phase
+        //        case 5:
+        //            // In the gui it should not be necessary this case
+        //            /*msg = new SendDataToServer(CONFIRM_ITEMS, null, 0, 0, true);
+        //            setChangedView();
+        //            notifyObserversView(msg);
+        //            msg = null;
+        //            break;*/
+//
+        //        case 6:
+        //            PlaySceneController controller2 = (PlaySceneController) SceneController.getActiveController();
+        //            // TODO: if it is called two times, it could reset everything
+        //            controller2.letOrderAndInsert();
+        //            //Confirm column and order
+        //        case 7:
+        //            PlaySceneController controller3 = (PlaySceneController) SceneController.getActiveController();
+        //            controller3.letConfirm();
+        //            break;
+//
+        //        case 20:
+        //            synchronized (lock) {
+        //                try {
+        //                    lock.wait();
+        //                    msg = null;
+        //                } catch (InterruptedException e) {
+        //                    throw new RuntimeException(e);
+        //                }
+        //            }
+        //            break;
+//
+        //        default:
+        //            System.out.println("Error");
+        //            break;
+        //    }
+//
+        //}
     }
 
     public void update(Server o, Message arg) {
@@ -156,7 +155,7 @@ public class GUI extends View {
                 case ACK_NUMPLAYERS:
                     if (this.nickname == null || !this.nickname.equals(arg.getNickname())) break;
                     Platform.runLater(() -> {
-                    SceneController.changeRootPane(getObservers(), "WaitingScene.fxml");
+                        SceneController.changeRootPane(getObservers(), "WaitingScene.fxml");
                     });
                     state = 2;
                     lock.notifyAll();
@@ -176,9 +175,9 @@ public class GUI extends View {
                     if (arg.getNickname().equals(this.nickname)) {
                         Platform.runLater(() -> {
                             SceneController.changeRootPane(getObservers(), "WaitingScene.fxml");
-                        Message check = new SendDataToServer(GAME_READY, null, 0, 0, false);
-                        setChangedView();
-                        notifyObserversView(check);
+                            Message check = new SendDataToServer(GAME_READY, null, 0, 0, false);
+                            setChangedView();
+                            notifyObserversView(check);
                             SceneController.showMessage(msg + " Someone has already chosen the number of players, you will be added to that game");
                             state = -1;
                         });
@@ -186,8 +185,19 @@ public class GUI extends View {
                     break;
 
                 case GAME_READY:
-                    SceneController.changeRootPane(getObservers(), "PlayScene.fxml");
-                    state = 4;
+
+                    Platform.runLater(() -> {
+                        SceneController.changeRootPane(getObservers(), "PlayScene.fxml");
+
+                        state = 4;
+                    });
+                    Platform.runLater(() -> {
+                        // TODO: confirm a true se è il primo giocatore
+                        if (arg.getNickname().equals(this.nickname)) {
+                            PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                            controller.assignPersonalGoal(arg);
+                        }
+                    });
                     break;
 
                 case ASK_NUMPLAYERS:
@@ -212,13 +222,16 @@ public class GUI extends View {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                             controller.updateModel(this.nickname, arg);
                             controller.letSelectItemsOnBoard();
+                            if (arg.getPersonal() != null) {
+                                controller.assignPersonalGoal(arg);
+                            }
                         });
                         state = 4;
                     } else {
                         // TODO say to the player that it is not his turn
                         Platform.runLater(() -> {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
-                            controller.gameJustStarted(arg.getNickname(), arg);
+                            controller.gameJustStarted(this.nickname, arg);
                         });
                         state = 20;
                     }
@@ -249,10 +262,16 @@ public class GUI extends View {
 
                 case SELECTED:
                     if (arg.getNickname().equals(this.nickname)) {
-                        // La tessera sulla board è stata selzionata correttamente
+                        // La tessera sulla board è stata selezionata correttamente
                         PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                         controller.updateModel(this.nickname, arg);
+                        if (arg.getConfirm()) {
+                            controller.letConfirm();
+                        } else {
+                            controller.dontLetConfirm();
+                        }
                     }
+                    break;
                     /*arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
                         System.out.println(RED + "\nIn the board, if you chose a valid item, it is highlight in red" + RESET);
@@ -271,6 +290,15 @@ public class GUI extends View {
 
                 case ORDER_n_COLUMN:
                     // Manda il personal goal, la shelf con le colonne disponibili
+                    if (arg.getNickname().equals(this.nickname)) {
+                        Platform.runLater(() -> {
+                            PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                            controller.letOrderAndInsert(arg.getSelected(), arg.getOrderedRanking());
+                        });
+                        state = 6;
+                    }
+                    break;
+
                     /*arg.printMsg();
                     System.out.print(RED + "\nIt follows the current state of the board, it is without ");
                     if (arg.getNickname().equals(this.nickname)) System.out.println("your choice" + RESET);
@@ -299,7 +327,20 @@ public class GUI extends View {
                     break;*/
 
                 case ACK_ORDER_n_COLUMN:
-                    // Immesso correttamente il valore di colonna / ordinato correttamente una delle tiles
+                    if (arg.getNickname().equals(nickname)) {
+                        Platform.runLater(() -> {
+                            if (arg.getConfirm()) {
+                                PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                                controller.letInsert();
+                            } else {
+                                PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                                controller.dontLetInsert();
+                            }
+                        });
+                    }
+                    break;
+
+                // Immesso correttamente il valore di colonna / ordinato correttamente una delle tiles
                     /*arg.printMsg();
                     if (arg.getNickname().equals(nickname)) {
                         System.out.println(RED + "\nThis is your own personal goal: " + RESET);
@@ -329,6 +370,7 @@ public class GUI extends View {
                     break;*/
 
                 case NACK_COLUMN:
+                    break;
                     /*arg.printMsg();
                     if (arg.getNickname().equals(nickname)) {
                         System.out.println("\nPlease enter a valid column number!");
@@ -347,6 +389,15 @@ public class GUI extends View {
                     break;*/
 
                 case INSERTION_DONE:
+                    if (arg.getNickname().equals(nickname)) {
+                        Platform.runLater(() -> {
+                            PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                            controller.updateModel(nickname, arg);
+                            controller.endTurn();
+                        });
+                    }
+                    break;
+
                     /*arg.printMsg();
                     if (arg.getNickname().equals(nickname)) {
                         System.out.println("\nYour shelf now is:");

@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -31,16 +32,17 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     private ImageView unordered1, unordered2, unordered3;
     @FXML
     private ImageView ordered1, ordered2, ordered3;
-    private ImageView[] unordered = {unordered1, unordered2, unordered3};
-    private ImageView[] ordered = {ordered1, ordered2, ordered3};
+    private ImageView[] unordered;
+    private ImageView[] ordered;
+    private ImageView[][] orderingBoxChildren;
     @FXML
-    private Button confirmInsertButton;
+    private Button confirmInsertButton, confirmSelectButton;
     @FXML
     private Label title;
     @FXML
     private GridPane commonBox;
     @FXML
-    private ImageView commonGoalCard;
+    private ImageView personalGoalCard;
 
     // Livingroom grid cells
     @FXML
@@ -88,6 +90,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     @FXML
     public void initialize() {
         livingroomGrid.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onLivingroomGridClick);
+        livingroomGrid.setDisable(true);
 
         livingroomGridCells = new ImageView[][]{{cell00, cell01, cell02, cell03, cell04, cell05, cell06, cell07, cell08},
                 {cell10, cell11, cell12, cell13, cell14, cell15, cell16, cell17, cell18},
@@ -106,6 +109,10 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         commonWrap = new ImageView[][]{{firstCommonImg, null, first2token, null, first4token, null, first6token, null, first8token},
                 {secondCommonImg, null, second2token, null, second4token, null, second6token, null, second8token}};
 
+        unordered = new ImageView[]{unordered1, unordered2, unordered3};
+        ordered = new ImageView[]{ordered1, ordered2, ordered3};
+        orderingBoxChildren = new ImageView[][]{unordered, ordered};
+
 
         shelfGrid.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onShelfGridClick);
         orderingBox.setVisible(false);
@@ -115,6 +122,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         ordered1.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onOrderingClick(0, 0));
         ordered2.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onOrderingClick(0, 1));
         ordered3.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onOrderingClick(0, 2));
+        confirmSelectButton.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> this.onConfirmSelectClick());
+        confirmSelectButton.setVisible(false);
         confirmInsertButton.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> this.onConfirmInsertClick());
         confirmInsertButton.setVisible(false);
 
@@ -125,14 +134,80 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         shelfGrid.setDisable(true);
     }
 
-    public void letOrderAndInsert() {
+    public void letOrderAndInsert(String unorderedString, String orderedString) {
         livingroomGrid.setDisable(true);
         shelfGrid.setDisable(false);
         orderingBox.setVisible(true);
+        confirmSelectButton.setVisible(false);
+        confirmInsertButton.setVisible(false);
+        String[] lists = {unorderedString, orderedString};
+        for (int i = 0; i < 2; i++) {
+            String actual = lists[i];
+            ImageView[] child = orderingBoxChildren[i];
+            if (actual.equals(" ")) continue;
+
+            actual = actual.substring(1);
+            String[] items = splitString(actual, 2);
+            for (int j = 0; j < items.length; j++) {
+
+                ImageView cell = child[j];
+                String cellValue = items[j];
+                StringBuilder url = new StringBuilder("file:src/main/resources/images/tiles/");
+                switch (cellValue.charAt(0)) {
+                    case 'W':
+                        // Book
+                        url.append("Libri");
+                        break;
+                    case 'G':
+                        // Cat
+                        url.append("Gatti");
+                        break;
+                    case 'B':
+                        // Frame
+                        url.append("Cornici");
+                        break;
+                    case 'Y':
+                        // Game
+                        url.append("Giochi");
+                        break;
+                    case 'P':
+                        // Plant
+                        url.append("Piante");
+                        break;
+                    case 'L':
+                        // Trophy
+                        url.append("Trofei");
+                        break;
+                    default:
+                        // Empty
+                        url = null;
+                        break;
+                }
+                if (url != null) {
+                    url.append("1.").append(Character.getNumericValue(cellValue.charAt(1)) + 1).append(".png");
+                    cell.setImage(new Image(url.toString()));
+                } else {
+                    cell.setImage(null);
+                }
+            }
+        }
+
     }
 
     public void letConfirm() {
+        confirmSelectButton.setVisible(true);
+    }
+
+    public void dontLetConfirm() {
+        confirmSelectButton.setVisible(false);
+    }
+
+    public void letInsert() {
         confirmInsertButton.setVisible(true);
+    }
+
+    public void dontLetInsert() {
+        confirmInsertButton.setVisible(false);
     }
 
     @FXML
@@ -175,9 +250,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         ImageView[] from = action == 0 ? ordered : unordered;
         ImageView[] to = action == 0 ? unordered : ordered;
 
-        String fromPath = from[pos].getImage().getUrl();
         for (int i = 0; ; i++) {
-            if (to[i].getImage().getUrl().equals("file:src/main/resources/images/empty.png")) {
+            if (to[i].getImage() == null) {
                 to[i].setImage(from[pos].getImage());
                 break;
             }
@@ -185,11 +259,12 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         for (int i = pos; i < 2; i++) {
             from[i].setImage(from[i + 1].getImage());
         }
+        from[2].setImage(null);
 
         // Could be unnecessary, the server should check this
         boolean unorderedEmpty = true;
         for (int i = 0; i < 3; i++) {
-            if (!unordered[i].getImage().getUrl().equals("file:src/main/resources/images/empty.png")) {
+            if (unordered[i].getImage() != null) {
                 unorderedEmpty = false;
                 break;
             }
@@ -201,30 +276,38 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         Message msg = new SendDataToServer(CONFIRM_INSERTION, null, 0, 0, true);
         setChangedView();
         notifyObserversView(msg);
+        confirmInsertButton.setVisible(false);
+    }
+
+    @FXML
+    private void onConfirmSelectClick() {
+        Message msg = new SendDataToServer(CONFIRM_ITEMS, null, 0, 0, true);
+        setChangedView();
+        notifyObserversView(msg);
     }
 
     public void updateModel(String nickname, Message model) {
         title.setText("Dashboard di " + nickname);
 
         // Update board
-        fillBoard(model);
+        if (model.getBoard() != null) fillBoard(model);
 
         // Update shelf
         if (model.getShelf() != null) fillShelf(model);
 
         // Update commonGoals
-        fillCommonGoals(model);
+        if (model.getFirstCommon() != null) fillCommonGoals(model);
     }
 
     public void assignPersonalGoal(Message model) {
-        // TODO: find a way to call this method and pass it the correct arguments
         String pg = model.getPersonal();
         int number = Integer.parseInt(pg.split("~")[1]);
         String path = "file:src/main/resources/images/personalGoals/Personal_Goals" + number + ".png";
-        commonGoalCard.setImage(new Image(path));
+        personalGoalCard.setImage(new Image(path));
     }
 
     private String[] splitString(String input, int chunkSize) {
+        if (input == null) return null;
         int length = input.length();
         int numOfChunks = (int) Math.ceil((double) length / chunkSize);
         String[] chunks = new String[numOfChunks];
@@ -282,7 +365,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
                         break;
                     case '#':
                         // Selected
-                        url.append("Selezionato");
+                        url = null;
                         break;
                     case '■':
                     default:
@@ -291,11 +374,17 @@ public class PlaySceneController extends GUI implements GenericSceneController {
                         break;
 
                 }
+                ColorAdjust selectedEffect = new ColorAdjust();
                 if (url != null) {
                     url.append("1.").append(Character.getNumericValue(cellValue.charAt(2)) + 1).append(".png");
                     cell.setImage(new Image(url.toString()));
+                    cell.setEffect(null);
                 } else {
-                    cell.setImage(null);
+                    if (cellValue.charAt(1) == '#') {
+                        selectedEffect.setBrightness(-0.5);
+                        cell.setEffect(selectedEffect);
+                    } else
+                        cell.setImage(null);
                 }
             }
         }
@@ -345,7 +434,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
                         break;
                 }
                 if (url != null) {
-                    url.append("1.").append(Character.getNumericValue(cellValue.charAt(2)) + 1).append(".png");
+                    url.append("1.").append(Character.getNumericValue(cellValue.charAt(1)) + 1).append(".png");
                     cell.setImage(new Image(url.toString()));
                 } else {
                     cell.setImage(null);
@@ -376,5 +465,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
         }
     }
-
+    public void endTurn() {
+        orderingBox.setVisible(false);
+        Arrays.stream(orderingBoxChildren).flatMap(Arrays::stream).forEach(node -> node.setImage(null));
+    }
 }
