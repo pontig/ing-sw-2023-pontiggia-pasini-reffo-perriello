@@ -33,3 +33,7 @@
     -fx-pref-height: 100px;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 30, 0, 0, 0);
 }
+
+.orderingBox {
+    -fx-background-image: url("../images/backgroundSpecial1.jpg");
+}

@@ -268,6 +268,31 @@ public class CLI extends View {
                     lock.notifyAll();
                     break;
 
+                case GAME_READY:
+                    arg.printMsg();
+                    if(nickname.equals(arg.getNickname())){
+                        System.out.println("Board");
+                        showBoard(arg.getBoard());
+                        System.out.print("First");
+                        System.out.print(arg.getFirstCommon());
+                        System.out.print("Second");
+                        System.out.print(arg.getSecondCommon());
+                        System.out.println("Personal");
+                        showItems(arg.getPersonal());
+                        System.out.println("Shelf");
+                        showItems(arg.getShelf());
+                    }
+                    if(arg.getConfirm()){
+                        System.out.println("\n\nIt is your turn " + arg.getNickname() + "!!");
+                        System.out.println("To select a tile you must enter the couple Row - Column, if you wanna deselect it you can do it during the next submission by typing the same couple Row - Column.");
+                        System.out.println("Each time you choose a tile press enter key to submit.");
+                        state = 4;
+                    } else{
+                        System.out.println("\n\nIt is " + arg.getNickname() + "'s turn, let's wait for your turn!!");
+                        state = 20;
+                    }
+                    break;
+
                 case SEND_MODEL:
                     arg.printMsg();
 

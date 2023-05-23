@@ -82,7 +82,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         PersonalGoalJson[] personalGoalJsonArray = objectMapper.readValue(new File("src/main/java/it/polimi/ingsw/assets/personalGoals.json"), PersonalGoalJson[].class);
 
         List<PersonalGoal> personalGoalList = new ArrayList<>();
-        int i = 0;
+        int i = 1;
         for (PersonalGoalJson personalGoalJson : personalGoalJsonArray) {
             Set<Triplet<Integer, Integer, Type>> pg = personalGoalJson.toSet();
             personalGoalList.add(new PersonalGoal(pg, i));
