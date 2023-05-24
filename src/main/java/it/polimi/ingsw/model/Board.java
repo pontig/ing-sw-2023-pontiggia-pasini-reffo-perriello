@@ -473,6 +473,7 @@ public class Board {
             }
             board.append("\n ");
         }
+        System.out.println(board);
         return board.toString();
     }
 

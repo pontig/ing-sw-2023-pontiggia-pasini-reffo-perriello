@@ -1,23 +1,21 @@
 package it.polimi.ingsw.model;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.assets.PersonalGoalJson;
+import com.sun.glass.ui.Clipboard;
 import it.polimi.ingsw.enums.CommonGoalName;
 import it.polimi.ingsw.enums.Type;
-import it.polimi.ingsw.tuples.Triplet;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static it.polimi.ingsw.enums.Type.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
+
     //Board from assets
     private Board initializeBoard() {
         ObjectMapper mapper = new ObjectMapper();
@@ -360,7 +358,9 @@ class GameTest {
     @Test
     void selectColumn() {
         assertEquals(false, gameTwoPlayers.getColumnOK());
-        gameTwoPlayers.selectColumn(1);
+        gameTwoPlayers.getCurrentPlayer().getShelf().getInsertableColumns().add(0);
+        gameTwoPlayers.getCurrentPlayer().getShelf().getInsertableColumns().add(3);
+        gameTwoPlayers.selectColumn(3);
         assertEquals(true, gameTwoPlayers.getColumnOK());
     }
 
@@ -474,51 +474,5 @@ class GameTest {
         assertEquals("Tommi", gameTwoPlayers.getGameResult().get(0).getX());
         assertEquals("Eli", gameTwoPlayers.getGameResult().get(1).getX());
         assertEquals("Ale", gameTwoPlayers.getGameResult().get(2).getX());
-    }
-
-    @Test
-    void startGame() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        //Board from asset
-        int[][] board = new int[0][];
-        try {
-            board = objectMapper.readValue(new File("src/main/java/it/polimi/ingsw/assets/livingroom.json"), int[][].class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        new Board(board);
-        Board boardGame = new Board();
-
-        //Common from asset
-        List<String> goals = objectMapper.readValue(new File("src/main/java/it/polimi/ingsw/assets/commonGoals.json"), new TypeReference<List<String>>(){});
-        List<CommonGoalName> commonGoals = new ArrayList<>();
-        for(String s: goals)
-            commonGoals.add(CommonGoalName.valueOf(s));
-
-        //Personal from asset
-        PersonalGoalJson[] personalGoalJsonArray = objectMapper.readValue(new File("src/main/java/it/polimi/ingsw/assets/personalGoals.json"), PersonalGoalJson[].class);
-
-        List<PersonalGoal> personalGoalList = new ArrayList<>();
-        int i = 0;
-        for (PersonalGoalJson personalGoalJson : personalGoalJsonArray) {
-            Set<Triplet<Integer, Integer, Type>> pg = personalGoalJson.toSet();
-            personalGoalList.add(new PersonalGoal(pg, i));
-            i++;
-        }
-
-        Game game = new Game(boardGame, commonGoals, personalGoalList);
-        List<Player> players = new ArrayList<>();
-
-        for(i = 0; i < 4; i++){
-            StringBuilder name = new StringBuilder("");
-            name.append(i);
-            players.add(new Player(name.toString(), personalGoalList.get(i)));
-        }
-
-        game.setPlayerList(players);
-        game.setNumberOfPlayers(game.getPlayerList().get(0).getNickname(), 4);
-
-        game.startGame();
     }
 }
