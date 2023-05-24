@@ -294,6 +294,7 @@ public class GUI extends View {
                         Platform.runLater(() -> {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                             controller.letOrderAndInsert(arg.getSelected(), arg.getOrderedRanking());
+                            controller.disableOthers(arg.getColumns());
                         });
                         state = 6;
                     }
@@ -329,12 +330,14 @@ public class GUI extends View {
                 case ACK_ORDER_n_COLUMN:
                     if (arg.getNickname().equals(nickname)) {
                         Platform.runLater(() -> {
-                            if (arg.getConfirm()) {
                                 PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                            if (arg.getConfirm()) {
                                 controller.letInsert();
                             } else {
-                                PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                                 controller.dontLetInsert();
+                            }
+                            if (arg.getColumns().contains("#")) {
+                                controller.enlightColumn((arg.getColumns().indexOf("#")-1)/2);
                             }
                         });
                     }
@@ -407,6 +410,14 @@ public class GUI extends View {
                     state = 20;
                     break;*/
                 case FIRSTCOMMONGOAL_TAKEN:      //avviso che un giocatore ha preso un obiettivo comune
+                    if (arg.getNickname().equals(this.nickname)) {
+                        Platform.runLater(() -> {
+                            PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                            controller.setCommon(0, Integer.parseInt(arg.getFirstCommon()));
+                        });
+                    }
+                    break;
+
                     /*arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
                         System.out.print("You ");
@@ -416,6 +427,13 @@ public class GUI extends View {
                     System.out.println("obtained: " + arg.getFirstCommon() + " points from the first common goal");
                     break;*/
                 case SECONDCOMMONGOAL_TAKEN:
+                    if (arg.getNickname().equals(this.nickname)) {
+                        Platform.runLater(() -> {
+                            PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                            controller.setCommon(1, Integer.parseInt(arg.getSecondCommon()));
+                        });
+                    }
+                    break;
                     /*arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
                         System.out.print("You ");
@@ -425,6 +443,12 @@ public class GUI extends View {
                     System.out.println(arg.getNickname() + "obtained: " + arg.getSecondCommon() + " points from the second common goal");
                     break;*/
                 case TOKEN_END_GAME:    //avviso che il giocatore corrente ha preso il token di fine gioco
+                    if (arg.getNickname().equals(this.nickname)) {
+                        Platform.runLater(() -> {
+                            PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                            controller.setCommon(2, 1);
+                        });
+                    }
                     /*arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
                         System.out.print("You ");

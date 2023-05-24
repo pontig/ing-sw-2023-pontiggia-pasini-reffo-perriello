@@ -64,7 +64,7 @@ public class SceneController {
             currFxml = fxml;
             if (fxml.equals("PlayScene.fxml")) {
                 mainStage.setWidth(1280);
-                mainStage.setHeight(720);
+                mainStage.setHeight(820);
             }
         } catch (IOException e) {
             e.printStackTrace();

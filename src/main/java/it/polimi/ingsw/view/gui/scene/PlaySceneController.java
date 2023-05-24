@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.Arrays;
@@ -67,6 +68,9 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     // Shelf grid cells
     @FXML
+    private ImageView chooseColumn0, chooseColumn1, chooseColumn2, chooseColumn3, chooseColumn4;
+    private ImageView[] chooseColumns;
+    @FXML
     private ImageView shelfCell00, shelfCell01, shelfCell02, shelfCell03, shelfCell04, shelfCell05;
     @FXML
     private ImageView shelfCell10, shelfCell11, shelfCell12, shelfCell13, shelfCell14, shelfCell15;
@@ -86,6 +90,11 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     @FXML
     private ImageView second2token, second4token, second6token, second8token;
     private ImageView[][] commonWrap;
+    @FXML
+    private ImageView firstCommonTokenTaken, secondCommonTokenTaken, endGameTokenTaken;
+    private ImageView[] commonTokensTaken;
+    @FXML
+    private HBox selectColumnBox;
 
     @FXML
     public void initialize() {
@@ -108,13 +117,19 @@ public class PlaySceneController extends GUI implements GenericSceneController {
                 {shelfCell40, shelfCell41, shelfCell42, shelfCell43, shelfCell44, shelfCell45}};
         commonWrap = new ImageView[][]{{firstCommonImg, null, first2token, null, first4token, null, first6token, null, first8token},
                 {secondCommonImg, null, second2token, null, second4token, null, second6token, null, second8token}};
+        commonTokensTaken = new ImageView[]{firstCommonTokenTaken, secondCommonTokenTaken, endGameTokenTaken};
+        chooseColumns = new ImageView[]{chooseColumn0, chooseColumn1, chooseColumn2, chooseColumn3, chooseColumn4};
 
         unordered = new ImageView[]{unordered1, unordered2, unordered3};
         ordered = new ImageView[]{ordered1, ordered2, ordered3};
         orderingBoxChildren = new ImageView[][]{unordered, ordered};
 
 
-        shelfGrid.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onShelfGridClick);
+        //shelfGrid.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onShelfGridClick);
+        for (int i = 0; i < chooseColumns.length; i++) {
+            int inalI = i;
+            chooseColumns[i].addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onShelfGridClick(inalI));
+        }
         orderingBox.setVisible(false);
         unordered1.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onOrderingClick(1, 0));
         unordered2.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onOrderingClick(1, 1));
@@ -126,6 +141,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         confirmSelectButton.setVisible(false);
         confirmInsertButton.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> this.onConfirmInsertClick());
         confirmInsertButton.setVisible(false);
+        selectColumnBox.setVisible(false);
 
     }
 
@@ -140,6 +156,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         orderingBox.setVisible(true);
         confirmSelectButton.setVisible(false);
         confirmInsertButton.setVisible(false);
+        selectColumnBox.setVisible(true);
         String[] lists = {unorderedString, orderedString};
         for (int i = 0; i < 2; i++) {
             String actual = lists[i];
@@ -194,6 +211,32 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     }
 
+    public void disableOthers(String cols) {
+
+
+        Arrays.stream(chooseColumns).forEach(c -> {
+            c.setImage(new Image("file:src/main/resources/images/thisColumn.png"));
+            c.setOpacity(1);
+            c.setDisable(false);
+        });
+        for (int i = 0; i < cols.length(); i++) {
+            // TODO: qualcosa non va
+            if (cols.charAt(i*2 +1) == ' ') {
+                chooseColumns[i].setOpacity(0.5);
+                chooseColumns[i].setDisable(true);
+            }
+        }
+    }
+
+    public void enlightColumn(int n) {
+        Arrays.stream(chooseColumns).filter(c -> c.getOpacity() == 1).forEach(c -> {
+            c.setImage(new Image("file:src/main/resources/images/thisColumn.png"));
+            c.setOpacity(1);
+            c.setDisable(false);
+        });
+        chooseColumns[n].setImage(new Image("file:src/main/resources/images/thisColumnSelected.png"));
+    }
+
     public void letConfirm() {
         confirmSelectButton.setVisible(true);
     }
@@ -227,18 +270,14 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     }
 
     @FXML
-    private void onShelfGridClick(MouseEvent event) {
-        System.out.println("Shelf grid clicked");
-        Node clickedNode = event.getPickResult().getIntersectedNode();
-        if (clickedNode != shelfGrid) {
-            // click on descendant node
-            Integer colIndex = GridPane.getColumnIndex(clickedNode);
-            System.out.println("Mouse clicked column: " + colIndex);
-            Message msg = new SendDataToServer(SELECT_COLUMN, null, 0, colIndex, false);
-            setChangedView();
-            notifyObserversView(msg);
-        }
+    private void onShelfGridClick(int colIndex) {
+        // click on descendant node
 
+        System.out.println("Mouse clicked column: " + colIndex);
+        Message msg = new SendDataToServer(SELECT_COLUMN, null, 0, colIndex, false);
+        setChangedView();
+        notifyObserversView(msg);
+        // Arrays.stream(chooseColumns).forEach(c -> c.setImage(new Image("file:src/main/resources/images/thisColumn.png")));
     }
 
     @FXML
@@ -277,6 +316,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         setChangedView();
         notifyObserversView(msg);
         confirmInsertButton.setVisible(false);
+        selectColumnBox.setVisible(false);
     }
 
     @FXML
@@ -297,6 +337,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
         // Update commonGoals
         if (model.getFirstCommon() != null) fillCommonGoals(model);
+
+        if (model.getPersonal() != null) assignPersonalGoal(model);
     }
 
     public void assignPersonalGoal(Message model) {
@@ -393,6 +435,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     private void fillShelf(Message model) {
         String shelf = model.getShelf();
+        shelf=shelf.substring(1);
         String[] shelfRows = shelf.split("\n ");
         String[][] itemsToPutInShelf = Arrays.stream(shelfRows).map(row -> splitString(row, 2)).toArray(String[][]::new);
 
@@ -458,15 +501,19 @@ public class PlaySceneController extends GUI implements GenericSceneController {
             String[] tokenRemaining = exploded[1].split(" ");
             for (int j = 0; j < tokenRemaining.length - 1; j++) {
                 String token = tokenRemaining[j];
-                String tokenUrl = "file:src/main/resources/commonGoals/scores/scoring_" + token + ".jpg";
-                //commonWrap[i][j].setImage(new Image(tokenUrl));
                 commonWrap[i][Integer.parseInt(token)].setVisible(true);
             }
 
         }
     }
+
     public void endTurn() {
         orderingBox.setVisible(false);
         Arrays.stream(orderingBoxChildren).flatMap(Arrays::stream).forEach(node -> node.setImage(null));
+    }
+
+    public void setCommon(int which, int points) {
+        ImageView toShow = commonTokensTaken[which];
+        toShow.setImage(new Image("file:src/main/resources/images/commonGoals/scores/scoring_" + points + ".jpg"));
     }
 }
