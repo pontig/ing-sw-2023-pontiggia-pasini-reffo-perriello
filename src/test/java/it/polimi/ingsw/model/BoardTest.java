@@ -590,8 +590,8 @@ class BoardTest {
 
         Set<Pair<Integer, Integer>> testPendingCells3 = new HashSet<>();              // 3 elements in pendingCells
 
-        Pair<Integer, Integer> a3 = new Pair<>(0, 4);
-        Pair<Integer, Integer> b3 = new Pair<>(0, 5);
+        Pair<Integer, Integer> a3 = new Pair<>(1, 3);
+        Pair<Integer, Integer> b3 = new Pair<>(1, 5);
         Pair<Integer, Integer> c3 = new Pair<>(1, 4);
         testPendingCells3.add(a3);
         testPendingCells3.add(b3);
@@ -599,11 +599,45 @@ class BoardTest {
 
         Board testBoard3 = new Board();
         testBoard3.setPendingCells(testPendingCells3);
-        int sizeTestPendingCells3 = testBoard3.deselect(1,4);
-        Pair<Integer, Integer> d3 = new Pair<>(1, 4);
+        int sizeTestPendingCells3 = testBoard3.deselect(1,5);
+        Pair<Integer, Integer> d3 = new Pair<>(1, 5);
 
         assertFalse(testPendingCells3.contains(d3));
         assertEquals(2, sizeTestPendingCells3);
+
+        Set<Pair<Integer, Integer>> testPendingCells4 = new HashSet<>();              // can't delete the middle element row
+
+        Pair<Integer, Integer> a4 = new Pair<>(1, 3);
+        Pair<Integer, Integer> b4 = new Pair<>(1, 5);
+        Pair<Integer, Integer> c4 = new Pair<>(1, 4);
+        testPendingCells4.add(a4);
+        testPendingCells4.add(b4);
+        testPendingCells4.add(c4);
+
+        Board testBoard4 = new Board();
+        testBoard4.setPendingCells(testPendingCells4);
+        int sizeTestPendingCells4 = testBoard4.deselect(1,4);
+        Pair<Integer, Integer> d4 = new Pair<>(1, 4);
+
+        assertFalse(testPendingCells4.contains(d4));
+        assertEquals(3, sizeTestPendingCells4);
+
+        Set<Pair<Integer, Integer>> testPendingCells5 = new HashSet<>();              // can't delete the middle element column
+
+        Pair<Integer, Integer> a5 = new Pair<>(1, 4);
+        Pair<Integer, Integer> b5 = new Pair<>(2, 4);
+        Pair<Integer, Integer> c5 = new Pair<>(3, 4);
+        testPendingCells5.add(a5);
+        testPendingCells5.add(b5);
+        testPendingCells5.add(c5);
+
+        Board testBoard5 = new Board();
+        testBoard5.setPendingCells(testPendingCells5);
+        int sizeTestPendingCells5 = testBoard5.deselect(2,4);
+        Pair<Integer, Integer> d5 = new Pair<>(2, 4);
+
+        assertFalse(testPendingCells5.contains(d5));
+        assertEquals(3, sizeTestPendingCells5);
     }
 
     @Test
@@ -1962,5 +1996,39 @@ class BoardTest {
         testBoard15.setCell(8, 8, null, 0);
 
         assertFalse(testBoard15.needToRefill());
+    }
+
+    @Test
+    void sendToString() {
+        ObjectMapper mapper = new ObjectMapper();
+
+        int[][] board = new int[0][];
+        try {
+            board = mapper.readValue(new File("src/main/java/it/polimi/ingsw/assets/livingroom.json"), int[][].class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        new Board(board);
+        Board boardGame = new Board();
+        Bag bag = new Bag();
+        boardGame.fill(2, bag);
+        boardGame.sendToString();
+    }
+
+    @Test
+    void printBoard() {
+        ObjectMapper mapper = new ObjectMapper();
+
+        int[][] board = new int[0][];
+        try {
+            board = mapper.readValue(new File("src/main/java/it/polimi/ingsw/assets/livingroom.json"), int[][].class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        new Board(board);
+        Board boardGame = new Board();
+        Bag bag = new Bag();
+        boardGame.fill(2, bag);
+        boardGame.printBoard();
     }
 }
