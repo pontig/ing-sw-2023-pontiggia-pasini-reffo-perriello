@@ -14,11 +14,7 @@
                <children>
                   <StackPane fx:id="firstCommonContainer" prefHeight="150.0" prefWidth="200.0">
                      <children>
-                        <ImageView fx:id="firstCommonImg" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/commonGoals/1.jpg" />
-                           </image>
-                        </ImageView>
+                        <ImageView fx:id="firstCommonImg" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <ImageView fx:id="first2token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
@@ -58,11 +54,7 @@
                      </children></StackPane>
                   <StackPane fx:id="secondCommonContainer" prefHeight="150.0" prefWidth="200.0">
                      <children>
-                        <ImageView fx:id="secondCommonImg" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/commonGoals/1.jpg" />
-                           </image>
-                        </ImageView>
+                        <ImageView fx:id="secondCommonImg" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <ImageView fx:id="second2token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
@@ -129,7 +121,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <padding>
-                        <Insets bottom="22.0" left="18.0" right="22.0" top="18.0" />
+                        <Insets bottom="22.0" left="18.0" right="10.0" top="18.0" />
                      </padding>
                      <children>
                         <ImageView fx:id="cell00" fitHeight="43.0" fitWidth="43.0" layoutX="70.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="0" />

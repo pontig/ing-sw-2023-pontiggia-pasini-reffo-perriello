@@ -89,6 +89,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     private ImageView first2token, first4token, first6token, first8token;
     @FXML
     private ImageView second2token, second4token, second6token, second8token;
+    @FXML
+    private ImageView endGameTokenImg;
     private ImageView[][] commonWrap;
     @FXML
     private ImageView firstCommonTokenTaken, secondCommonTokenTaken, endGameTokenTaken;
@@ -219,9 +221,9 @@ public class PlaySceneController extends GUI implements GenericSceneController {
             c.setOpacity(1);
             c.setDisable(false);
         });
-        for (int i = 0; i < cols.length(); i++) {
+        for (int i = 0; i < cols.length() / 2; i++) {
             // TODO: qualcosa non va
-            if (cols.charAt(i*2 +1) == ' ') {
+            if (cols.charAt(i * 2 + 1) == ' ') {
                 chooseColumns[i].setOpacity(0.5);
                 chooseColumns[i].setDisable(true);
             }
@@ -435,7 +437,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     private void fillShelf(Message model) {
         String shelf = model.getShelf();
-        shelf=shelf.substring(1);
+        shelf = shelf.substring(1);
         String[] shelfRows = shelf.split("\n ");
         String[][] itemsToPutInShelf = Arrays.stream(shelfRows).map(row -> splitString(row, 2)).toArray(String[][]::new);
 
@@ -513,6 +515,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     }
 
     public void setCommon(int which, int points) {
+        if (which == 2) endGameTokenImg.setVisible(false);
         ImageView toShow = commonTokensTaken[which];
         toShow.setImage(new Image("file:src/main/resources/images/commonGoals/scores/scoring_" + points + ".jpg"));
     }
