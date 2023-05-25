@@ -97,6 +97,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     private ImageView[] commonTokensTaken;
     @FXML
     private HBox selectColumnBox;
+    @FXML
+    private ImageView firstChair;
 
     @FXML
     public void initialize() {
@@ -222,7 +224,6 @@ public class PlaySceneController extends GUI implements GenericSceneController {
             c.setDisable(false);
         });
         for (int i = 0; i < cols.length() / 2; i++) {
-            // TODO: qualcosa non va
             if (cols.charAt(i * 2 + 1) == ' ') {
                 chooseColumns[i].setOpacity(0.5);
                 chooseColumns[i].setDisable(true);
@@ -515,8 +516,12 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     }
 
     public void setCommon(int which, int points) {
-        if (which == 2) endGameTokenImg.setVisible(false);
         ImageView toShow = commonTokensTaken[which];
         toShow.setImage(new Image("file:src/main/resources/images/commonGoals/scores/scoring_" + points + ".jpg"));
+        if (which == 2) endGameTokenImg.setVisible(false);
+    }
+
+    public void thisIsFirstPlayer() {
+        firstChair.setVisible(true);
     }
 }

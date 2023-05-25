@@ -18,8 +18,8 @@ public class AlertSceneController {
 
     public AlertSceneController() {
         this.stage = new Stage();
-        stage.setWidth(400);
-        stage.setHeight(200);
+        stage.setWidth(500);
+        stage.setHeight(250);
         stage.setResizable(false);
         stage.setTitle("Alert");
         stage.initModality(Modality.APPLICATION_MODAL);

@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.view.gui.JavaFXGui;
 import it.polimi.ingsw.view.gui.SceneController;
 import it.polimi.ingsw.view.gui.scene.AskNumPlayersSceneController;
+import it.polimi.ingsw.view.gui.scene.NicknameSceneController;
 import it.polimi.ingsw.view.gui.scene.PlaySceneController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -162,7 +163,16 @@ public class GUI extends View {
                     break;
 
                 case SAME_NICKNAME:
-                    SceneController.showMessage(msg.toString());
+                    if (this.nickname != null &&
+                            this.nickname.equals(arg.getNickname()) &&
+                            !SceneController.getCurrFxml().equals("NicknameScene.fxml") &&
+                            !SceneController.getCurrFxml().equals("AskNumPlayersScene.fxml")
+                    ) {
+                        SceneController.showMessage("Please choose another nickname, the one you chose is already taken");
+                        NicknameSceneController controller = (NicknameSceneController) SceneController.getActiveController();
+                        controller.letReSubmit();
+                        this.nickname = null;
+                    }
                     state = 0;
                     break;
 
@@ -178,7 +188,7 @@ public class GUI extends View {
                             Message check = new SendDataToServer(GAME_READY, null, 0, 0, false);
                             setChangedView();
                             notifyObserversView(check);
-                            SceneController.showMessage(msg + " Someone has already chosen the number of players, you will be added to that game");
+                            SceneController.showMessage("Someone has already chosen the number of players, you will be added to that game");
                             state = -1;
                         });
                     }
@@ -195,6 +205,9 @@ public class GUI extends View {
                         // TODO: confirm a true se è il primo giocatore
                         if (arg.getNickname().equals(this.nickname)) {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                            if (arg.getConfirm()) {
+                                controller.thisIsFirstPlayer();
+                            }
                             controller.assignPersonalGoal(arg);
                         }
                     });
@@ -330,14 +343,14 @@ public class GUI extends View {
                 case ACK_ORDER_n_COLUMN:
                     if (arg.getNickname().equals(nickname)) {
                         Platform.runLater(() -> {
-                                PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                            PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                             if (arg.getConfirm()) {
                                 controller.letInsert();
                             } else {
                                 controller.dontLetInsert();
                             }
                             if (arg.getColumns().contains("#")) {
-                                controller.enlightColumn((arg.getColumns().indexOf("#")-1)/2);
+                                controller.enlightColumn((arg.getColumns().indexOf("#") - 1) / 2);
                             }
                         });
                     }
@@ -458,11 +471,11 @@ public class GUI extends View {
                     System.out.println(arg.getNickname() + "completed Shelf and obtained endGame's point");
                     break;*/
                 case RESULTS:
+                    break;
                     /*arg.getInfo();
                     System.out.println(RED + arg.getOrderedRanking() + RESET);
                     state = 1;
-                    lock.notifyAll();
-                    break;*/
+                    lock.notifyAll();*/
                 default:
                     System.err.println("Ignoring event from " + msg + ": " + arg);
                     break;

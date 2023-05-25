@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -60,7 +61,7 @@ public class JavaFXGui extends Application {
         stage.setMinHeight(600);
         stage.setResizable(true);
         stage.setTitle("La mia libreria");
-        //stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/mother_nature.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
         stage.show();
     }
 

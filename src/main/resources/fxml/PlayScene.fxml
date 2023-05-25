@@ -97,7 +97,7 @@
             </VBox>
             <StackPane prefHeight="415.0" prefWidth="415.0">
                <children>
-                  <GridPane id="livingroom" fx:id="livingroomGrid" prefHeight="300.0" prefWidth="300.0" stylesheets="@../css/style.css">
+                  <GridPane id="livingroom" fx:id="livingroomGrid" alignment="CENTER" prefHeight="300.0" prefWidth="300.0" stylesheets="@../css/style.css">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -132,7 +132,7 @@
                         <ImageView fx:id="cell50" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="0" />
                         <ImageView fx:id="cell60" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="0" />
                         <ImageView fx:id="cell70" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="0" />
-                        <ImageView fx:id="cell80" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="0" />
+                        <ImageView fx:id="cell80" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" />
                         <ImageView fx:id="cell01" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1" />
                         <ImageView fx:id="cell11" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <ImageView fx:id="cell21" fitHeight="43.0" fitWidth="43.0" layoutX="28.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
@@ -169,7 +169,7 @@
                         <ImageView fx:id="cell64" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="4" />
                         <ImageView fx:id="cell74" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="4" />
                         <ImageView fx:id="cell84" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="4" />
-                        <ImageView fx:id="cell05" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                        <ImageView fx:id="cell05" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5" />
                         <ImageView fx:id="cell15" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                         <ImageView fx:id="cell25" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                         <ImageView fx:id="cell35" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5" />
@@ -178,7 +178,7 @@
                         <ImageView fx:id="cell65" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="5" />
                         <ImageView fx:id="cell75" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="5" />
                         <ImageView fx:id="cell85" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="5" />
-                        <ImageView fx:id="cell06" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                        <ImageView fx:id="cell06" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="6" />
                         <ImageView fx:id="cell16" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                         <ImageView fx:id="cell26" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="6" />
                         <ImageView fx:id="cell36" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="6" />
@@ -187,7 +187,7 @@
                         <ImageView fx:id="cell66" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="6" />
                         <ImageView fx:id="cell76" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="6" />
                         <ImageView fx:id="cell86" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="6" />
-                        <ImageView fx:id="cell07" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                        <ImageView fx:id="cell07" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="7" />
                         <ImageView fx:id="cell17" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                         <ImageView fx:id="cell27" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="7" />
                         <ImageView fx:id="cell37" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="7" />
@@ -196,7 +196,7 @@
                         <ImageView fx:id="cell67" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="7" />
                         <ImageView fx:id="cell77" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="7" />
                         <ImageView fx:id="cell87" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="7" />
-                        <ImageView fx:id="cell08" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                        <ImageView fx:id="cell08" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="8" />
                         <ImageView fx:id="cell18" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                         <ImageView fx:id="cell28" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="8" />
                         <ImageView fx:id="cell38" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="8" />
@@ -208,11 +208,19 @@
                      </children>
 
                   </GridPane>
+                  <ImageView fx:id="endGameTokenImg" fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" rotate="9.0" StackPane.alignment="BOTTOM_RIGHT">
+                     <StackPane.margin>
+                        <Insets bottom="84.0" right="24.0" />
+                     </StackPane.margin>
+                     <image>
+                        <Image url="@../images/commonGoals/scores/scoring_1.jpg" />
+                     </image>
+                  </ImageView>
                   <VBox fx:id="orderingBox" fillWidth="false" prefHeight="200.0" prefWidth="435.0" styleClass="orderingBox">
                      <children>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="414.0" spacing="40.0">
                            <children>
-                              <Label contentDisplay="CENTER" text="Items to order:">
+                              <Label contentDisplay="CENTER" text="Items to order:" textFill="WHITE">
                                  <font>
                                     <Font name="Comic Sans MS" size="16.0" />
                                  </font></Label>
@@ -227,7 +235,7 @@
                         </VBox>
                         <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="414.0" spacing="30.0">
                            <children>
-                              <Label contentDisplay="CENTER" text="Ordered Items:">
+                              <Label contentDisplay="CENTER" text="Ordered Items:" textFill="WHITE">
                                  <font>
                                     <Font name="Comic Sans MS" size="16.0" />
                                  </font>
@@ -351,18 +359,35 @@
                   </HBox>
                </children>
             </VBox>
-            <ImageView id="personalGoalCard" fx:id="personalGoalCard" fitHeight="213.0" fitWidth="270.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/personalGoals/front_EMPTY.jpg" />
-               </image></ImageView>
+            <VBox spacing="40.0">
+               <children>
+                  <ImageView id="personalGoalCard" fx:id="personalGoalCard" fitHeight="213.0" fitWidth="270.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/personalGoals/front_EMPTY.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="firstChair" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../images/firstChair.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
          </children>
       </HBox>
    </center>
    <bottom>
    <StackPane>
       <children>
-         <Button fx:id="confirmInsertButton" mnemonicParsing="false" text="Insert" BorderPane.alignment="CENTER" />
-          <Button fx:id="confirmSelectButton" layoutX="627.0" layoutY="10.0" mnemonicParsing="false" text="Insert" />
+         <Button fx:id="confirmInsertButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="183.0" text="Insert into the shelf" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="Comic Sans MS" size="12.0" />
+               </font></Button>
+         <Button fx:id="confirmSelectButton" layoutX="627.0" layoutY="10.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="170.0" text="Choose these tiles">
+            <font>
+            <Font name="Comic Sans MS" size="16.0" />
+            </font>
+         </Button>
       </children>
          <padding>
             <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
@@ -370,9 +395,12 @@
    </StackPane>
    </bottom>
    <top>
-      <Label fx:id="title" text="Label" BorderPane.alignment="CENTER">
+      <Label fx:id="title" text="Title" BorderPane.alignment="CENTER">
          <padding>
-            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
-         </padding></Label>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+         </padding>
+         <font>
+            <Font name="Comic Sans MS" size="30.0" />
+         </font></Label>
    </top>
 </BorderPane>
