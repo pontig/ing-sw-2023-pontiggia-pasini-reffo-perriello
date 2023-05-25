@@ -366,11 +366,7 @@
                         <Image url="@../images/personalGoals/front_EMPTY.jpg" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="firstChair" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/firstChair.png" />
-                     </image>
-                  </ImageView>
+                  <ImageView fx:id="chair" fitHeight="150.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </VBox>
          </children>

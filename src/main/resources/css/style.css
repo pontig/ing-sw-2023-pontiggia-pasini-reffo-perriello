@@ -32,6 +32,7 @@ Button {
     -fx-border: none;
     -fx-border-radius: 5px;
     -fx-background-color: #f6d38a;
+    -fx-text-fill: black;
 }
 .numPlayersButton {
     -fx-background-color: #E3D7C9;

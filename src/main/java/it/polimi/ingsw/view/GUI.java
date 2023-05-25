@@ -198,16 +198,12 @@ public class GUI extends View {
 
                     Platform.runLater(() -> {
                         SceneController.changeRootPane(getObservers(), "PlayScene.fxml");
-
                         state = 4;
                     });
                     Platform.runLater(() -> {
                         // TODO: confirm a true se è il primo giocatore
                         if (arg.getNickname().equals(this.nickname)) {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
-                            if (arg.getConfirm()) {
-                                controller.thisIsFirstPlayer();
-                            }
                             controller.assignPersonalGoal(arg);
                         }
                     });

@@ -98,7 +98,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     @FXML
     private HBox selectColumnBox;
     @FXML
-    private ImageView firstChair;
+    private ImageView chair;
 
     @FXML
     public void initialize() {
@@ -216,8 +216,6 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     }
 
     public void disableOthers(String cols) {
-
-
         Arrays.stream(chooseColumns).forEach(c -> {
             c.setImage(new Image("file:src/main/resources/images/thisColumn.png"));
             c.setOpacity(1);
@@ -349,6 +347,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         int number = Integer.parseInt(pg.split("~")[1]);
         String path = "file:src/main/resources/images/personalGoals/Personal_Goals" + number + ".png";
         personalGoalCard.setImage(new Image(path));
+        if(model.getConfirm())
+            thisIsFirstPlayer();
     }
 
     private String[] splitString(String input, int chunkSize) {
@@ -522,6 +522,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     }
 
     public void thisIsFirstPlayer() {
-        firstChair.setVisible(true);
+
+            chair.setVisible(true);
+            chair.setImage(new Image("file:src/main/resources/images/firstChair.png"));
     }
 }
