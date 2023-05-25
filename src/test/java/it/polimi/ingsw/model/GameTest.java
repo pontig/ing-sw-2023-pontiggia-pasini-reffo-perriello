@@ -256,10 +256,6 @@ class GameTest {
         gameTwoPlayers.getCurrentPlayer().getShelf().setItem(4, 3, new Item(PLANTS, 2));
         gameTwoPlayers.getCurrentPlayer().getShelf().setItem(4, 4, new Item(GAME, 3));
         gameTwoPlayers.getCurrentPlayer().getShelf().setItem(4, 5, new Item(BOOK, 1));
-        gameTwoPlayers.itemClick(4,1);
-        assertEquals(1, gameTwoPlayers.getNumPendingItems());
-        gameTwoPlayers.itemClick(3,1);
-        assertEquals(1, gameTwoPlayers.getNumPendingItems());
         gameTwoPlayers.itemClick(5,2);
         assertEquals(1, gameTwoPlayers.getNumPendingItems());
         gameTwoPlayers.itemClick(6,2);

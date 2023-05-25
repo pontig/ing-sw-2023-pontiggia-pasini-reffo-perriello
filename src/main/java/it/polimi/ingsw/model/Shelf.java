@@ -125,6 +125,7 @@ public class Shelf {
                    count = 0;
                    break;
                }
+               count = 0;
             }
         }
     }
