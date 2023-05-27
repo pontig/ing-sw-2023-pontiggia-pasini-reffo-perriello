@@ -158,14 +158,17 @@ class ShelfTest {
         List<Integer> insertableColumns = new ArrayList<>();
         for(int i = 0; i < 5; i++) {                                //create Random Shelf
             int columnLength = generator.nextInt(5);
-            for(int j = 5; j >= columnLength; j--) {
+            int columnhigh = 5-columnLength;                 //fill alternate columns with a specific number of items
+            for(int j = 5; j >= columnhigh; j--) {
                 shelf.setItem(i, j, new Item(Type.values()[generator.nextInt(Type.values().length)], generator.nextInt(3)));
             }
-            for(int k = columnLength - 1; k >= 0; k--) {
-                shelf.setItem(i, k, null);
+            if(columnhigh > 0) {
+                for (int k = columnhigh - 1; k >= 0; k--) {
+                    shelf.setItem(i, k, null);
+                }
             }
           }
-        int numItems = 3;
+        int numItems = generator.nextInt(5);
         shelf.setInsertableColumns(numItems);
         insertableColumns = shelf.getInsertableColumns();
         int counter = 0;
@@ -178,6 +181,7 @@ class ShelfTest {
             if(counter >= numItems) {
                 assertTrue(insertableColumns.contains(i));
             }
+            counter = 0;
         }
     }
 
