@@ -21,7 +21,10 @@ public class EndGameSceneController extends ObservableView implements GenericSce
         String results = model;
         Pair[] ranks = Arrays.stream(results.split("\n"))
                 .filter(e -> !e.contains("MATCH RANKING"))
-                .map(e -> new Pair<String, Integer>(e.split("- ")[1], Integer.valueOf(e.split("Total score: ")[1])))
+                .map(e -> new Pair<String, Integer>(
+                        e.split("- ")[1].split("   ")[0],
+                        Integer.valueOf(e.split("Total score: ")[1]))
+                )
                 .toArray(Pair[]::new);
 
         for (int i = 0; i < ranks.length; i++) {
