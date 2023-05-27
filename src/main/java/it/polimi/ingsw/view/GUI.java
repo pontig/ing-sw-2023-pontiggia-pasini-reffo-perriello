@@ -463,6 +463,7 @@ public class GUI extends View {
                         PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                         controller.endGameTaken();
                     });
+                    break;
                     /*arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
                         System.out.print("You ");
