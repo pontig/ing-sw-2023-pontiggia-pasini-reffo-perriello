@@ -98,10 +98,13 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     private ImageView[] commonTokensTaken;
     @FXML
     private HBox selectColumnBox;
+    @FXML
+    private ImageView customImg;
+    private boolean initialized = false;
 
 
     @FXML
-    public void initialize() {
+    public synchronized void initialize() {
         livingroomGrid.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onLivingroomGridClick);
         livingroomGrid.setDisable(true);
 
@@ -146,7 +149,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         confirmInsertButton.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> this.onConfirmInsertClick());
         confirmInsertButton.setVisible(false);
         selectColumnBox.setVisible(false);
-
+        customImg.setVisible(false);
+    initialized = true;
     }
 
     public void letSelectItemsOnBoard() {
@@ -301,14 +305,6 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         }
         from[2].setImage(null);
 
-        // Could be unnecessary, the server should check this
-        boolean unorderedEmpty = true;
-        for (int i = 0; i < 3; i++) {
-            if (unordered[i].getImage() != null) {
-                unorderedEmpty = false;
-                break;
-            }
-        }
     }
 
     @FXML
@@ -327,7 +323,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         notifyObserversView(msg);
     }
 
-    public void updateModel(String nickname, Message model) {
+    public synchronized void updateModel(String nickname, Message model, Boolean f) {
+        if (initialized) {
         title.setText("Dashboard di " + nickname);
 
         // Update board
@@ -340,13 +337,17 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         if (model.getFirstCommon() != null) fillCommonGoals(model);
 
         if (model.getPersonal() != null) assignPersonalGoal(model);
-    }
+    }}
 
-    public void assignPersonalGoal(Message model) {
+    public synchronized void assignPersonalGoal(Message model) {
         String pg = model.getPersonal();
         int number = Integer.parseInt(pg.split("~")[1]);
         String path = "file:src/main/resources/images/personalGoals/Personal_Goals" + number + ".png";
         personalGoalCard.setImage(new Image(path));
+        if (model.getConfirm()) {
+            isThisFirst = true;
+            customImg.setVisible(true);
+        }
     }
 
     private String[] splitString(String input, int chunkSize) {
@@ -365,10 +366,11 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     }
 
     public void gameJustStarted(String nickname, Message model) {
+        if (initialized) {
         title.setText("Dashboard di " + nickname);
         fillBoard(model);
         fillCommonGoals(model);
-    }
+    }}
 
     private void fillBoard(Message model) {
         String board = model.getBoard();

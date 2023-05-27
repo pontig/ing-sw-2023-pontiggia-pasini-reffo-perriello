@@ -30,7 +30,6 @@ public class NicknameSceneController extends GUI implements GenericSceneControll
 
     @FXML
     private void onLoginBtnClick(MouseEvent event) {
-        System.out.println("Sono nel crea messaggio");
         buttonSubmitNickname.setDisable(true);
         String nickname = textNickname.getText();
         if (nickname.equals("")) {

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.observer;
 
-import java.io.IOException;
 import java.util.Vector;
 
 public class ObservableView<Message> {
@@ -37,11 +36,11 @@ public class ObservableView<Message> {
             clearChangedView();
         }
 
-        System.out.println("Sono nell'observer");
-        for(int i = arrLocal.length-1; i>=0; i--)
-            System.out.println((ObserverView<ObservableView<Message>, Message>) arrLocal[i]);
-        System.out.println("Fine");
-        for (int i = arrLocal.length-1; i>=0; i--)
+        //System.out.println("Sono nell'observer");
+        //for (int i = arrLocal.length - 1; i >= 0; i--)
+        //    System.out.println((ObserverView<ObservableView<Message>, Message>) arrLocal[i]);
+        //System.out.println("Fine");
+        for (int i = arrLocal.length - 1; i >= 0; i--)
             ((ObserverView<ObservableView<Message>, Message>) arrLocal[i]).updateC(this, arg);
 
     }
@@ -49,9 +48,11 @@ public class ObservableView<Message> {
     public synchronized void setChangedView() {
         changed = true;
     }
+
     public synchronized boolean hasChangedView() {
         return changed;
     }
+
     protected synchronized void clearChangedView() {
         changed = false;
     }

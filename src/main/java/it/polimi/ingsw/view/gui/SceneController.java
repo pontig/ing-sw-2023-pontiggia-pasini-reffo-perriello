@@ -57,7 +57,6 @@ public class SceneController {
             FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/" + fxml));
             Parent root = loader.load();
             ObservableView<Message> controller = loader.getController();
-            // TODO: è giusto l'add degli observer?
             observerList.forEach(controller::addObserverView);
             activeController = (GenericSceneController) controller;
             activeScene.setRoot(root);
@@ -65,6 +64,11 @@ public class SceneController {
             if (fxml.equals("PlayScene.fxml")) {
                 mainStage.setWidth(1280);
                 mainStage.setHeight(820);
+            }
+            if (fxml.equals("EndGameScene.fxml")) {
+                mainStage.setWidth(1280);
+                mainStage.setHeight(820);
+                mainStage.setResizable(false);
             }
         } catch (IOException e) {
             e.printStackTrace();
