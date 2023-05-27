@@ -47,3 +47,6 @@ Button {
     -fx-background-image: url("../images/backgroundSpecial1.jpg");
 }
 
+.endPane {
+    -fx-background-image: url("../images/podium.jpg");
+}

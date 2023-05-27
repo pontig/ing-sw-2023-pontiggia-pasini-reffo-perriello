@@ -44,6 +44,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     private GridPane commonBox;
     @FXML
     private ImageView personalGoalCard;
+    private boolean isThisFirst = false;
 
     // Livingroom grid cells
     @FXML
@@ -97,8 +98,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     private ImageView[] commonTokensTaken;
     @FXML
     private HBox selectColumnBox;
-    @FXML
-    private ImageView chair;
+
 
     @FXML
     public void initialize() {
@@ -347,8 +347,6 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         int number = Integer.parseInt(pg.split("~")[1]);
         String path = "file:src/main/resources/images/personalGoals/Personal_Goals" + number + ".png";
         personalGoalCard.setImage(new Image(path));
-        if(model.getConfirm())
-            thisIsFirstPlayer();
     }
 
     private String[] splitString(String input, int chunkSize) {
@@ -521,9 +519,9 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         if (which == 2) endGameTokenImg.setVisible(false);
     }
 
-    public void thisIsFirstPlayer() {
-
-            chair.setVisible(true);
-            chair.setImage(new Image("file:src/main/resources/images/firstChair.png"));
+    public void endGameTaken() {
+        endGameTokenImg.setVisible(false);
     }
+
+
 }

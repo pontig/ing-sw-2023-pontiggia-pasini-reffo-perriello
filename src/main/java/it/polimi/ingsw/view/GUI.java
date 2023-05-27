@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.view.gui.JavaFXGui;
 import it.polimi.ingsw.view.gui.SceneController;
 import it.polimi.ingsw.view.gui.scene.AskNumPlayersSceneController;
+import it.polimi.ingsw.view.gui.scene.EndGameSceneController;
 import it.polimi.ingsw.view.gui.scene.NicknameSceneController;
 import it.polimi.ingsw.view.gui.scene.PlaySceneController;
 import javafx.application.Application;
@@ -25,6 +26,7 @@ public class GUI extends View {
     private volatile boolean isRunning = true;
     Message msg = null;
     String nickname;
+    Boolean isGameEnded = false;
 
     public GUI() {
         super();
@@ -149,7 +151,7 @@ public class GUI extends View {
     }
 
     public void update(Server o, Message arg) {
-        synchronized (lock) {
+        if (!isGameEnded) synchronized (lock) {
             State msg = arg.getInfo();
             switch (msg) {
                 case ACK_NICKNAME:
@@ -457,7 +459,10 @@ public class GUI extends View {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                             controller.setCommon(2, 1);
                         });
-                    }
+                    } else Platform.runLater(() -> {
+                        PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                        controller.endGameTaken();
+                    });
                     /*arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
                         System.out.print("You ");
@@ -467,6 +472,13 @@ public class GUI extends View {
                     System.out.println(arg.getNickname() + "completed Shelf and obtained endGame's point");
                     break;*/
                 case RESULTS:
+                    String info = arg.getOrderedRanking();
+                    Platform.runLater(() -> {
+                        SceneController.changeRootPane(getObservers(), "EndGameScene.fxml");
+                        EndGameSceneController controller = (EndGameSceneController) SceneController.getActiveController();
+                        controller.assignRanks(info);
+                    });
+                    isGameEnded = true;
                     break;
                     /*arg.getInfo();
                     System.out.println(RED + arg.getOrderedRanking() + RESET);
