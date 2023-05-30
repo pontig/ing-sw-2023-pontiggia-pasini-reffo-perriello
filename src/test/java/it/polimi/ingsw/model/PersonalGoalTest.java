@@ -19,7 +19,7 @@ class PersonalGoalTest {
     @Test
     void sendToString() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        PersonalGoalJson[] personalGoalJsonArray = objectMapper.readValue(new File("src/main/java/it/polimi/ingsw/assets/personalGoals.json"), PersonalGoalJson[].class);
+        PersonalGoalJson[] personalGoalJsonArray = objectMapper.readValue(new File("src/main/resources/json/personalGoals.json"), PersonalGoalJson[].class);
 
         List<PersonalGoal> personalGoalList = new ArrayList<>();
         int i = 0;

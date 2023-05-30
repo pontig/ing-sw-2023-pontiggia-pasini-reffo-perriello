@@ -22,7 +22,7 @@ class GameTest {
 
         int[][] board = new int[0][];
         try {
-            board = mapper.readValue(new File("src/main/java/it/polimi/ingsw/assets/livingroom.json"), int[][].class);
+            board = mapper.readValue(new File("src/main/resources/json/livingroom.json"), int[][].class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -36,7 +36,7 @@ class GameTest {
         ObjectMapper mapper = new ObjectMapper();
 
         try {
-            List<List<Triplet<Integer, Integer, Type>>> personalGoalList = mapper.readValue(new File("src/main/java/it/polimi/ingsw/assets/personalGoals.json"), new TypeReference<List<List<Triplet<Integer, Integer, Type>>>>() {});
+            List<List<Triplet<Integer, Integer, Type>>> personalGoalList = mapper.readValue(new File("src/main/resources/json/personalGoals.json"), new TypeReference<List<List<Triplet<Integer, Integer, Type>>>>() {});
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

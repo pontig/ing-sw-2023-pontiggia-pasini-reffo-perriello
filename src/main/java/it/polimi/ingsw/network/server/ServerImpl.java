@@ -58,7 +58,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
         int[][] board = new int[0][];
         try {
-            board = mapper.readValue(new File("src/main/java/it/polimi/ingsw/assets/livingroom.json"), int[][].class);
+            board = mapper.readValue(new File("src/main/resources/json/livingroom.json"), int[][].class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -69,7 +69,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     private List<CommonGoalName> getCommons() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        List<String> goals = objectMapper.readValue(new File("src/main/java/it/polimi/ingsw/assets/commonGoals.json"), new TypeReference<List<String>>(){});
+        List<String> goals = objectMapper.readValue(new File("src/main/resources/json/commonGoals.json"), new TypeReference<List<String>>(){});
         List<CommonGoalName> commonGoals = new ArrayList<>();
         for(String s: goals)
             commonGoals.add(CommonGoalName.valueOf(s));
@@ -79,7 +79,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     private List<PersonalGoal> getPersonals() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        PersonalGoalJson[] personalGoalJsonArray = objectMapper.readValue(new File("src/main/java/it/polimi/ingsw/assets/personalGoals.json"), PersonalGoalJson[].class);
+        PersonalGoalJson[] personalGoalJsonArray = objectMapper.readValue(new File("src/main/resources/json/personalGoals.json"), PersonalGoalJson[].class);
 
         List<PersonalGoal> personalGoalList = new ArrayList<>();
         int i = 1;
