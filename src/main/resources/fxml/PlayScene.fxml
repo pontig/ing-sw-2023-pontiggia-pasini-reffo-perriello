@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="playingPane" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.PlaySceneController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1300.0" styleClass="playingPane" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.PlaySceneController">
    <center>
       <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0" prefWidth="200.0" spacing="30.0" BorderPane.alignment="CENTER">
          <children>
@@ -377,22 +377,315 @@
       </HBox>
    </center>
    <bottom>
-   <StackPane>
-      <children>
-         <Button fx:id="confirmInsertButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="183.0" text="Insert into the shelf" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="Comic Sans MS" size="12.0" />
-               </font></Button>
-         <Button fx:id="confirmSelectButton" layoutX="627.0" layoutY="10.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="170.0" text="Choose these tiles">
-            <font>
-            <Font name="Comic Sans MS" size="16.0" />
-            </font>
-         </Button>
-      </children>
-         <padding>
-            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
-         </padding>
-   </StackPane>
+      <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <StackPane layoutX="919.0" layoutY="10.0" prefHeight="207.0" prefWidth="205.0">
+               <children>
+                  <GridPane id="bookshelf" fx:id="otherPlayerShelf1" prefHeight="267.0" prefWidth="269.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="74.0" minWidth="10.0" prefWidth="33.66666666666666" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="86.33333333333331" minWidth="10.0" prefWidth="28.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="97.33333333333334" minWidth="10.0" prefWidth="38.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="79.0" minWidth="0.3333333333333428" prefWidth="34.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.99999999999997" minWidth="10.0" prefWidth="30.666666666666657" />
+                        <ColumnConstraints />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="64.00000381469727" minHeight="10.0" prefHeight="24.666666666666664" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="78.9999771118164" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="87.0" minHeight="4.0" prefHeight="30.33333333333333" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="89.33334859212243" minHeight="0.6666666666666714" prefHeight="29.333333333333343" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="63.0" minHeight="10.0" prefHeight="29.333333333333314" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="69.0" minHeight="10.0" prefHeight="27.333333333333343" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <padding>
+                        <Insets bottom="27.0" left="26.0" right="27.0" top="15.0" />
+                     </padding>
+                     <children>
+                        <ImageView fx:id="shelfCell0012" fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" />
+                        <ImageView fx:id="shelfCell1012" fitHeight="28.0" fitWidth="26.0" layoutX="50.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                        <ImageView fx:id="shelfCell2012" fitHeight="28.0" fitWidth="26.0" layoutX="97.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+                        <ImageView fx:id="shelfCell3012" fitHeight="28.0" fitWidth="26.0" layoutX="144.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+                        <ImageView fx:id="shelfCell4012" fitHeight="28.0" fitWidth="26.0" layoutX="191.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+                        <ImageView fx:id="shelfCell0112" fitHeight="28.0" fitWidth="26.0" layoutX="277.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell1112" fitHeight="28.0" fitWidth="26.0" layoutX="324.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell2112" fitHeight="28.0" fitWidth="26.0" layoutX="371.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell3112" fitHeight="28.0" fitWidth="26.0" layoutX="418.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell4112" fitHeight="28.0" fitWidth="26.0" layoutX="465.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell0212" fitHeight="28.0" fitWidth="26.0" layoutX="551.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell1212" fitHeight="28.0" fitWidth="26.0" layoutX="598.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell2212" fitHeight="28.0" fitWidth="26.0" layoutX="645.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell3212" fitHeight="28.0" fitWidth="26.0" layoutX="692.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell4212" fitHeight="28.0" fitWidth="26.0" layoutX="739.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell0312" fitHeight="28.0" fitWidth="26.0" layoutX="825.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell1312" fitHeight="28.0" fitWidth="26.0" layoutX="872.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell2312" fitHeight="28.0" fitWidth="26.0" layoutX="919.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell3312" fitHeight="28.0" fitWidth="26.0" layoutX="966.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell4312" fitHeight="28.0" fitWidth="26.0" layoutX="1013.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell0412" fitHeight="28.0" fitWidth="26.0" layoutX="1099.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell1412" fitHeight="28.0" fitWidth="26.0" layoutX="1146.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell2412" fitHeight="28.0" fitWidth="26.0" layoutX="1193.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell3412" fitHeight="28.0" fitWidth="26.0" layoutX="1240.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell4412" fitHeight="28.0" fitWidth="26.0" layoutX="1287.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell0512" fitHeight="28.0" fitWidth="26.0" layoutX="1373.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                        <ImageView fx:id="shelfCell1512" fitHeight="28.0" fitWidth="26.0" layoutX="1420.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <ImageView fx:id="shelfCell2512" fitHeight="28.0" fitWidth="26.0" layoutX="1467.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <ImageView fx:id="shelfCell3512" fitHeight="28.0" fitWidth="26.0" layoutX="1514.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                        <ImageView fx:id="shelfCell4512" fitHeight="28.0" fitWidth="26.0" layoutX="1561.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                     </children>
+                     <StackPane.margin>
+                        <Insets top="20.0" />
+                     </StackPane.margin>
+                  </GridPane>
+                  <ImageView fitHeight="212.0" fitWidth="395.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/bookshelf.png" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets top="20.0" />
+                     </StackPane.margin>
+                  </ImageView>
+                  <Label fx:id="otherPlayerName1" text="-no one-" StackPane.alignment="TOP_CENTER" />
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </StackPane>
+            <StackPane layoutX="275.0" layoutY="10.0" prefHeight="207.0" prefWidth="205.0">
+               <children>
+                  <GridPane id="bookshelf" fx:id="otherPlayerShelf2" prefHeight="267.0" prefWidth="269.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="74.0" minWidth="10.0" prefWidth="29.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="86.33333333333331" minWidth="10.0" prefWidth="35.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="97.33333333333334" minWidth="10.0" prefWidth="33.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="79.0" minWidth="0.3333333333333428" prefWidth="34.66666666666666" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.99999999999997" minWidth="10.0" prefWidth="30.0" />
+                        <ColumnConstraints maxWidth="6.0" minWidth="0.0" prefWidth="0.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="64.00000381469727" minHeight="10.0" prefHeight="24.666666666666664" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="78.9999771118164" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="87.0" minHeight="4.0" prefHeight="30.33333333333333" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="89.33334859212243" minHeight="0.6666666666666714" prefHeight="29.333333333333343" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="63.0" minHeight="10.0" prefHeight="29.333333333333314" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="69.0" minHeight="10.0" prefHeight="27.333333333333343" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <padding>
+                        <Insets bottom="27.0" left="26.0" right="27.0" top="15.0" />
+                     </padding>
+                     <children>
+                        <ImageView fx:id="shelfCell0013" fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" />
+                        <ImageView fx:id="shelfCell1013" fitHeight="28.0" fitWidth="26.0" layoutX="50.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                        <ImageView fx:id="shelfCell2013" fitHeight="28.0" fitWidth="26.0" layoutX="97.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+                        <ImageView fx:id="shelfCell3013" fitHeight="28.0" fitWidth="26.0" layoutX="144.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+                        <ImageView fx:id="shelfCell4013" fitHeight="28.0" fitWidth="26.0" layoutX="191.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+                        <ImageView fx:id="shelfCell0113" fitHeight="28.0" fitWidth="26.0" layoutX="277.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell1113" fitHeight="28.0" fitWidth="26.0" layoutX="324.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell2113" fitHeight="28.0" fitWidth="26.0" layoutX="371.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell3113" fitHeight="28.0" fitWidth="26.0" layoutX="418.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell4113" fitHeight="28.0" fitWidth="26.0" layoutX="465.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell0213" fitHeight="28.0" fitWidth="26.0" layoutX="551.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell1213" fitHeight="28.0" fitWidth="26.0" layoutX="598.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell2213" fitHeight="28.0" fitWidth="26.0" layoutX="645.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell3213" fitHeight="28.0" fitWidth="26.0" layoutX="692.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell4213" fitHeight="28.0" fitWidth="26.0" layoutX="739.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell0313" fitHeight="28.0" fitWidth="26.0" layoutX="825.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell1313" fitHeight="28.0" fitWidth="26.0" layoutX="872.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell2313" fitHeight="28.0" fitWidth="26.0" layoutX="919.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell3313" fitHeight="28.0" fitWidth="26.0" layoutX="966.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell4313" fitHeight="28.0" fitWidth="26.0" layoutX="1013.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell0413" fitHeight="28.0" fitWidth="26.0" layoutX="1099.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell1413" fitHeight="28.0" fitWidth="26.0" layoutX="1146.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell2413" fitHeight="28.0" fitWidth="26.0" layoutX="1193.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell3413" fitHeight="28.0" fitWidth="26.0" layoutX="1240.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell4413" fitHeight="28.0" fitWidth="26.0" layoutX="1287.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell0513" fitHeight="28.0" fitWidth="26.0" layoutX="1373.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                        <ImageView fx:id="shelfCell1513" fitHeight="28.0" fitWidth="26.0" layoutX="1420.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <ImageView fx:id="shelfCell2513" fitHeight="28.0" fitWidth="26.0" layoutX="1467.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <ImageView fx:id="shelfCell3513" fitHeight="28.0" fitWidth="26.0" layoutX="1514.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                        <ImageView fx:id="shelfCell4513" fitHeight="28.0" fitWidth="26.0" layoutX="1561.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                     </children>
+                     <StackPane.margin>
+                        <Insets top="20.0" />
+                     </StackPane.margin>
+                  </GridPane>
+                  <ImageView fitHeight="212.0" fitWidth="395.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/bookshelf.png" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets top="20.0" />
+                     </StackPane.margin>
+                  </ImageView>
+                  <Label fx:id="otherPlayerName2" text="-no one-" StackPane.alignment="TOP_CENTER" />
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </StackPane>
+         <StackPane>
+            <children>
+               <Button fx:id="confirmInsertButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="183.0" text="Insert into the shelf" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Comic Sans MS" size="12.0" />
+                     </font>
+                  </Button>
+               <Button fx:id="confirmSelectButton" layoutX="627.0" layoutY="10.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="170.0" text="Choose these tiles">
+                  <font>
+                  <Font name="Comic Sans MS" size="16.0" />
+                  </font>
+               </Button>
+            </children>
+               <padding>
+                  <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+               </padding>
+         </StackPane>
+            <StackPane layoutX="402.0" layoutY="10.0" prefHeight="207.0" prefWidth="205.0">
+               <children>
+                  <GridPane id="bookshelf" fx:id="shelfGrid121" prefHeight="267.0" prefWidth="269.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="74.0" minWidth="10.0" prefWidth="33.66666666666666" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="86.33333333333331" minWidth="10.0" prefWidth="34.33333333333334" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="97.33333333333334" minWidth="10.0" prefWidth="34.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="79.0" minWidth="0.3333333333333428" prefWidth="33.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.99999999999997" minWidth="10.0" prefWidth="30.333333333333343" />
+                        <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="64.00000381469727" minHeight="10.0" prefHeight="24.666666666666664" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="78.9999771118164" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="87.0" minHeight="4.0" prefHeight="30.33333333333333" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="89.33334859212243" minHeight="0.6666666666666714" prefHeight="29.333333333333343" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="63.0" minHeight="10.0" prefHeight="29.333333333333314" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="69.0" minHeight="10.0" prefHeight="27.333333333333343" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <padding>
+                        <Insets bottom="27.0" left="26.0" right="27.0" top="15.0" />
+                     </padding>
+                     <children>
+                        <ImageView fx:id="shelfCell0014" fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" />
+                        <ImageView fx:id="shelfCell1014" fitHeight="28.0" fitWidth="26.0" layoutX="50.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                        <ImageView fx:id="shelfCell2014" fitHeight="28.0" fitWidth="26.0" layoutX="97.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+                        <ImageView fx:id="shelfCell3014" fitHeight="28.0" fitWidth="26.0" layoutX="144.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+                        <ImageView fx:id="shelfCell4014" fitHeight="28.0" fitWidth="26.0" layoutX="191.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+                        <ImageView fx:id="shelfCell0114" fitHeight="28.0" fitWidth="26.0" layoutX="277.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell1114" fitHeight="28.0" fitWidth="26.0" layoutX="324.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell2114" fitHeight="28.0" fitWidth="26.0" layoutX="371.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell3114" fitHeight="28.0" fitWidth="26.0" layoutX="418.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell4114" fitHeight="28.0" fitWidth="26.0" layoutX="465.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell0214" fitHeight="28.0" fitWidth="26.0" layoutX="551.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell1214" fitHeight="28.0" fitWidth="26.0" layoutX="598.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell2214" fitHeight="28.0" fitWidth="26.0" layoutX="645.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell3214" fitHeight="28.0" fitWidth="26.0" layoutX="692.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell4214" fitHeight="28.0" fitWidth="26.0" layoutX="739.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell0314" fitHeight="28.0" fitWidth="26.0" layoutX="825.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell1314" fitHeight="28.0" fitWidth="26.0" layoutX="872.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell2314" fitHeight="28.0" fitWidth="26.0" layoutX="919.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell3314" fitHeight="28.0" fitWidth="26.0" layoutX="966.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell4314" fitHeight="28.0" fitWidth="26.0" layoutX="1013.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell0414" fitHeight="28.0" fitWidth="26.0" layoutX="1099.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell1414" fitHeight="28.0" fitWidth="26.0" layoutX="1146.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell2414" fitHeight="28.0" fitWidth="26.0" layoutX="1193.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell3414" fitHeight="28.0" fitWidth="26.0" layoutX="1240.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell4414" fitHeight="28.0" fitWidth="26.0" layoutX="1287.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell0514" fitHeight="28.0" fitWidth="26.0" layoutX="1373.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                        <ImageView fx:id="shelfCell1514" fitHeight="28.0" fitWidth="26.0" layoutX="1420.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <ImageView fx:id="shelfCell2514" fitHeight="28.0" fitWidth="26.0" layoutX="1467.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <ImageView fx:id="shelfCell3514" fitHeight="28.0" fitWidth="26.0" layoutX="1514.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                        <ImageView fx:id="shelfCell4514" fitHeight="28.0" fitWidth="26.0" layoutX="1561.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                     </children>
+                     <StackPane.margin>
+                        <Insets top="20.0" />
+                     </StackPane.margin>
+                  </GridPane>
+                  <ImageView fitHeight="212.0" fitWidth="395.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/bookshelf.png" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets top="20.0" />
+                     </StackPane.margin>
+                  </ImageView>
+                  <Label fx:id="otherPlayerName3" text="-no one-" StackPane.alignment="TOP_CENTER" />
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </StackPane>
+            <StackPane layoutX="792.0" layoutY="10.0" prefHeight="207.0" prefWidth="205.0" visible="false">
+               <children>
+                  <GridPane id="bookshelf" fx:id="shelfGrid1211" prefHeight="267.0" prefWidth="269.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="74.0" minWidth="10.0" prefWidth="54.33333333333334" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="86.33333333333331" minWidth="10.0" prefWidth="60.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="97.33333333333334" minWidth="10.0" prefWidth="57.33333333333334" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="79.0" minWidth="0.3333333333333428" prefWidth="54.00000000000003" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.99999999999997" minWidth="10.0" prefWidth="59.333333333333314" />
+                        <ColumnConstraints />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="64.00000381469727" minHeight="10.0" prefHeight="24.666666666666664" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="78.9999771118164" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="87.0" minHeight="4.0" prefHeight="30.33333333333333" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="89.33334859212243" minHeight="0.6666666666666714" prefHeight="29.333333333333343" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="63.0" minHeight="10.0" prefHeight="29.333333333333314" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="69.0" minHeight="10.0" prefHeight="27.333333333333343" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <padding>
+                        <Insets bottom="27.0" left="26.0" right="27.0" top="15.0" />
+                     </padding>
+                     <children>
+                        <ImageView fx:id="shelfCell001211" fitHeight="50.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" />
+                        <ImageView fx:id="shelfCell101211" fitHeight="50.0" fitWidth="52.0" layoutX="50.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                        <ImageView fx:id="shelfCell201211" fitHeight="50.0" fitWidth="52.0" layoutX="97.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+                        <ImageView fx:id="shelfCell301211" fitHeight="50.0" fitWidth="52.0" layoutX="144.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+                        <ImageView fx:id="shelfCell401211" fitHeight="50.0" fitWidth="52.0" layoutX="191.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+                        <ImageView fx:id="shelfCell011211" fitHeight="50.0" fitWidth="52.0" layoutX="277.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell111211" fitHeight="50.0" fitWidth="52.0" layoutX="324.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell211211" fitHeight="50.0" fitWidth="52.0" layoutX="371.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell311211" fitHeight="50.0" fitWidth="52.0" layoutX="418.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell411211" fitHeight="50.0" fitWidth="52.0" layoutX="465.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                        <ImageView fx:id="shelfCell021211" fitHeight="50.0" fitWidth="52.0" layoutX="551.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell121211" fitHeight="50.0" fitWidth="52.0" layoutX="598.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell221211" fitHeight="50.0" fitWidth="52.0" layoutX="645.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell321211" fitHeight="50.0" fitWidth="52.0" layoutX="692.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell421211" fitHeight="50.0" fitWidth="52.0" layoutX="739.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                        <ImageView fx:id="shelfCell031211" fitHeight="50.0" fitWidth="52.0" layoutX="825.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell131211" fitHeight="50.0" fitWidth="52.0" layoutX="872.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell231211" fitHeight="50.0" fitWidth="52.0" layoutX="919.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell331211" fitHeight="50.0" fitWidth="52.0" layoutX="966.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell431211" fitHeight="50.0" fitWidth="52.0" layoutX="1013.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                        <ImageView fx:id="shelfCell041211" fitHeight="50.0" fitWidth="52.0" layoutX="1099.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell141211" fitHeight="50.0" fitWidth="52.0" layoutX="1146.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell241211" fitHeight="50.0" fitWidth="52.0" layoutX="1193.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell341211" fitHeight="50.0" fitWidth="52.0" layoutX="1240.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell441211" fitHeight="50.0" fitWidth="52.0" layoutX="1287.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                        <ImageView fx:id="shelfCell051211" fitHeight="50.0" fitWidth="52.0" layoutX="1373.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                        <ImageView fx:id="shelfCell151211" fitHeight="50.0" fitWidth="52.0" layoutX="1420.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <ImageView fx:id="shelfCell251211" fitHeight="50.0" fitWidth="52.0" layoutX="1467.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <ImageView fx:id="shelfCell351211" fitHeight="50.0" fitWidth="52.0" layoutX="1514.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                        <ImageView fx:id="shelfCell451211" fitHeight="50.0" fitWidth="52.0" layoutX="1561.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                     </children>
+                     <StackPane.margin>
+                        <Insets top="20.0" />
+                     </StackPane.margin>
+                  </GridPane>
+                  <ImageView fitHeight="212.0" fitWidth="395.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/bookshelf.png" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets top="20.0" />
+                     </StackPane.margin>
+                  </ImageView>
+                  <Label text="Label" StackPane.alignment="TOP_CENTER" />
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </StackPane>
+         </children>
+      </HBox>
    </bottom>
    <top>
       <Label fx:id="title" text="Title" BorderPane.alignment="CENTER">

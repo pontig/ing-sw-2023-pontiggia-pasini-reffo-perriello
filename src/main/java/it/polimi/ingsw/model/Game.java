@@ -484,6 +484,12 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         getCurrentPlayer().getShelf().insertItems(getTmpOrderedItems(), columnChosen);
         msg = new SendDataToClient(INSERTION_DONE, getCurrentPlayer().getNickname(), null, null, getCurrentPlayer().getShelf().toString(), null, null, null, false, null, null);
         setChangedAndNotifyObservers(msg);
+        for (Player p: getPlayerList()) {
+            //if (p != getCurrentPlayer()) {
+                msg = new SendDataToClient(SEND_OTHER_SHELF, p.getNickname(), null, null, p.getShelf().toString(), null, null, null, false, null, null);
+                setChangedAndNotifyObservers(msg);
+            //}
+        }
     }
 
     public boolean endTurnCheck() {

@@ -121,19 +121,15 @@ public class GUI extends View {
                     if (this.nickname.equals(arg.getNickname())) {
                         Platform.runLater(() -> {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
-                            controller.updateModel(this.nickname, arg, isThisPlayerFirst);
+                            controller.updateModel(this.nickname, arg);
                             controller.letSelectItemsOnBoard();
-                            //if (arg.getPersonal() != null) {
-                            //    controller.assignPersonalGoal(arg);
-                            //}
                             System.out.println("Message: " + msg.toString() + " " + arg.getNickname() + " then");
                         });
                     } else {
                         // TODO say to the player that it is not his turn
-                        // TODO differenza tra gameJustStarted e updateModel ?
                         Platform.runLater(() -> {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
-                            controller.gameJustStarted(this.nickname, arg);
+                            controller.updateNotMyTurn(this.nickname, arg);
                             System.out.println("Message: " + msg.toString() + " " + arg.getNickname() + " else");
                         });
                     }
@@ -143,7 +139,7 @@ public class GUI extends View {
                 case SELECTED:
                     if (arg.getNickname().equals(this.nickname)) {
                         PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
-                        controller.updateModel(this.nickname, arg, isThisPlayerFirst);
+                        controller.updateModel(this.nickname, arg);
                         if (arg.getConfirm()) {
                             controller.letConfirm();
                         } else {
@@ -189,14 +185,14 @@ public class GUI extends View {
                     if (arg.getNickname().equals(nickname)) {
                         Platform.runLater(() -> {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
-                            controller.updateModel(this.nickname, arg, isThisPlayerFirst);
+                            controller.updateModel(this.nickname, arg);
                             controller.endTurn();
                         });
                     }
                     lock.notifyAll();
                     break;
 
-                case FIRSTCOMMONGOAL_TAKEN:      //avviso che un giocatore ha preso un obiettivo comune
+                case FIRSTCOMMONGOAL_TAKEN:
                     if (arg.getNickname().equals(this.nickname)) {
                         Platform.runLater(() -> {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
@@ -216,7 +212,7 @@ public class GUI extends View {
                     lock.notifyAll();
                     break;
 
-                case TOKEN_END_GAME:    //avviso che il giocatore corrente ha preso il token di fine gioco
+                case TOKEN_END_GAME:
                     if (arg.getNickname().equals(this.nickname)) {
                         Platform.runLater(() -> {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
@@ -238,6 +234,16 @@ public class GUI extends View {
                     });
                     isGameEnded = true;
                     lock.notifyAll();
+                    break;
+
+                case SEND_OTHER_SHELF:
+                    if(!arg.getNickname().equals(this.nickname)) {
+                        Platform.runLater(() -> {
+                            PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                            controller.updateOtherShelf(arg.getNickname(), arg.getShelf());
+                        });
+                        lock.notifyAll();
+                    }
                     break;
 
                 default:

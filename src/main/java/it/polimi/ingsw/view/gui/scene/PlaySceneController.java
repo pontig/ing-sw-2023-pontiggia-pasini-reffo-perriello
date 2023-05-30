@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui.scene;
 import it.polimi.ingsw.enums.CommonGoalName;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendDataToServer;
+import it.polimi.ingsw.tuples.Pair;
 import it.polimi.ingsw.view.GUI;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -16,8 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 
 import static it.polimi.ingsw.enums.State.*;
 
@@ -102,6 +102,16 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     private ImageView customImg;
     private boolean initialized = false;
 
+    @FXML
+    private ImageView shelfCell0014, shelfCell0013, shelfCell0012, shelfCell1014, shelfCell1013, shelfCell1012, shelfCell2014, shelfCell2013, shelfCell2012, shelfCell3014, shelfCell3013, shelfCell3012, shelfCell4014, shelfCell4013, shelfCell4012, shelfCell0114, shelfCell0113, shelfCell0112, shelfCell1114, shelfCell1113, shelfCell1112, shelfCell2114, shelfCell2113, shelfCell2112, shelfCell3114, shelfCell3113, shelfCell3112, shelfCell4114, shelfCell4113, shelfCell4112, shelfCell0214, shelfCell0213, shelfCell0212, shelfCell1214, shelfCell1213, shelfCell1212, shelfCell2214, shelfCell2213, shelfCell2212, shelfCell3214, shelfCell3213, shelfCell3212, shelfCell4214, shelfCell4213, shelfCell4212, shelfCell0314, shelfCell0313, shelfCell0312, shelfCell1314, shelfCell1313, shelfCell1312, shelfCell2314, shelfCell2313, shelfCell2312, shelfCell3314, shelfCell3313, shelfCell3312, shelfCell4314, shelfCell4313, shelfCell4312, shelfCell0414, shelfCell0413, shelfCell0412, shelfCell1414, shelfCell1413, shelfCell1412, shelfCell2414, shelfCell2413, shelfCell2412, shelfCell3414, shelfCell3413, shelfCell3412, shelfCell4414, shelfCell4413, shelfCell4412, shelfCell0514, shelfCell0513, shelfCell0512, shelfCell1514, shelfCell1513, shelfCell1512, shelfCell2514, shelfCell2513, shelfCell2512, shelfCell3514, shelfCell3513, shelfCell3512, shelfCell4514, shelfCell4513, shelfCell4512;
+    private ImageView[][] shelfGridCells2, shelfGridCells3, shelfGridCells4;
+    private Set<ImageView[][]> otherShelfUsed = new HashSet<>();
+    @FXML
+    private GridPane otherPlayerShelf1, otherPlayerShelf2, otherPlayerShelf3;
+    @FXML
+    private Label otherPlayerName1, otherPlayerName2, otherPlayerName3;
+    private Map<String, Pair<ImageView[][], Label>> otherPlayerShelves;
+
 
     @FXML
     public synchronized void initialize() {
@@ -122,6 +132,22 @@ public class PlaySceneController extends GUI implements GenericSceneController {
                 {shelfCell20, shelfCell21, shelfCell22, shelfCell23, shelfCell24, shelfCell25},
                 {shelfCell30, shelfCell31, shelfCell32, shelfCell33, shelfCell34, shelfCell35},
                 {shelfCell40, shelfCell41, shelfCell42, shelfCell43, shelfCell44, shelfCell45}};
+        shelfGridCells2 = new ImageView[][]{{shelfCell0012, shelfCell0112, shelfCell0212, shelfCell0312, shelfCell0412, shelfCell0512},
+                {shelfCell1012, shelfCell1112, shelfCell1212, shelfCell1312, shelfCell1412, shelfCell1512},
+                {shelfCell2012, shelfCell2112, shelfCell2212, shelfCell2312, shelfCell2412, shelfCell2512},
+                {shelfCell3012, shelfCell3112, shelfCell3212, shelfCell3312, shelfCell3412, shelfCell3512},
+                {shelfCell4012, shelfCell4112, shelfCell4212, shelfCell4312, shelfCell4412, shelfCell4512}};
+        shelfGridCells3 = new ImageView[][]{{shelfCell0013, shelfCell0113, shelfCell0213, shelfCell0313, shelfCell0413, shelfCell0513},
+                {shelfCell1013, shelfCell1113, shelfCell1213, shelfCell1313, shelfCell1413, shelfCell1513},
+                {shelfCell2013, shelfCell2113, shelfCell2213, shelfCell2313, shelfCell2413, shelfCell2513},
+                {shelfCell3013, shelfCell3113, shelfCell3213, shelfCell3313, shelfCell3413, shelfCell3513},
+                {shelfCell4013, shelfCell4113, shelfCell4213, shelfCell4313, shelfCell4413, shelfCell4513}};
+        shelfGridCells4 = new ImageView[][]{{shelfCell0014, shelfCell0114, shelfCell0214, shelfCell0314, shelfCell0414, shelfCell0514},
+                {shelfCell1014, shelfCell1114, shelfCell1214, shelfCell1314, shelfCell1414, shelfCell1514},
+                {shelfCell2014, shelfCell2114, shelfCell2214, shelfCell2314, shelfCell2414, shelfCell2514},
+                {shelfCell3014, shelfCell3114, shelfCell3214, shelfCell3314, shelfCell3414, shelfCell3514},
+                {shelfCell4014, shelfCell4114, shelfCell4214, shelfCell4314, shelfCell4414, shelfCell4514}};
+
         commonWrap = new ImageView[][]{{firstCommonImg, null, first2token, null, first4token, null, first6token, null, first8token},
                 {secondCommonImg, null, second2token, null, second4token, null, second6token, null, second8token}};
         commonTokensTaken = new ImageView[]{firstCommonTokenTaken, secondCommonTokenTaken, endGameTokenTaken};
@@ -150,7 +176,10 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         confirmInsertButton.setVisible(false);
         selectColumnBox.setVisible(false);
         customImg.setVisible(false);
-    initialized = true;
+        initialized = true;
+
+        otherPlayerShelves = new HashMap<>();
+
     }
 
     public void letSelectItemsOnBoard() {
@@ -323,21 +352,22 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         notifyObserversView(msg);
     }
 
-    public synchronized void updateModel(String nickname, Message model, Boolean f) {
+    public synchronized void updateModel(String nickname, Message model) {
         if (initialized) {
-        title.setText("Dashboard di " + nickname);
+            title.setText("Dashboard di " + nickname);
 
-        // Update board
-        if (model.getBoard() != null) fillBoard(model);
+            // Update board
+            if (model.getBoard() != null) fillBoard(model);
 
-        // Update shelf
-        if (model.getShelf() != null) fillShelf(model);
+            // Update shelf
+            if (model.getShelf() != null) fillShelf(model.getShelf(), shelfGridCells);
 
-        // Update commonGoals
-        if (model.getFirstCommon() != null) fillCommonGoals(model);
+            // Update commonGoals
+            if (model.getFirstCommon() != null) fillCommonGoals(model);
 
-        if (model.getPersonal() != null) assignPersonalGoal(model);
-    }}
+            if (model.getPersonal() != null) assignPersonalGoal(model);
+        }
+    }
 
     public synchronized void assignPersonalGoal(Message model) {
         String pg = model.getPersonal();
@@ -365,12 +395,13 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         return chunks;
     }
 
-    public void gameJustStarted(String nickname, Message model) {
+    public void updateNotMyTurn(String nickname, Message model) {
         if (initialized) {
-        title.setText("Dashboard di " + nickname);
-        fillBoard(model);
-        fillCommonGoals(model);
-    }}
+            title.setText("Dashboard di " + nickname);
+            fillBoard(model);
+            fillCommonGoals(model);
+        }
+    }
 
     private void fillBoard(Message model) {
         String board = model.getBoard();
@@ -437,8 +468,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     }
 
-    private void fillShelf(Message model) {
-        String shelf = model.getShelf();
+    private void fillShelf(String shelf, ImageView[][] target) {
+
         shelf = shelf.substring(1);
         String[] shelfRows = shelf.split("\n ");
         String[][] itemsToPutInShelf = Arrays.stream(shelfRows).map(row -> splitString(row, 2)).toArray(String[][]::new);
@@ -446,7 +477,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         for (int rowIndex = 0; rowIndex < 6; rowIndex++) {
             for (int colIndex = 0; colIndex < 5; colIndex++) {
 
-                ImageView cell = shelfGridCells[colIndex][rowIndex];
+                ImageView cell = target[colIndex][rowIndex];
                 String cellValue = itemsToPutInShelf[rowIndex][colIndex];
                 StringBuilder url = new StringBuilder("/images/tiles/");
                 switch (cellValue.charAt(0)) {
@@ -526,5 +557,30 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         endGameTokenImg.setVisible(false);
     }
 
+    public void updateOtherShelf(String nickname, String shelf) {
+        ImageView[][] shelfToUpdate;
+        if (otherPlayerShelves.containsKey(nickname)) {
+            shelfToUpdate = otherPlayerShelves.get(nickname).getX();
+        } else {
+            Label lbl;
+            if (!otherShelfUsed.contains(shelfGridCells2)) {
+                shelfToUpdate = shelfGridCells2;
+                lbl = otherPlayerName1;
+            }
+            else if (!otherShelfUsed.contains(shelfGridCells3)) {
+                shelfToUpdate = shelfGridCells3;
+                lbl = otherPlayerName2;
+            }
+            else {
+                shelfToUpdate = shelfGridCells4;
+                lbl = otherPlayerName3;
+            }
+            otherShelfUsed.add(shelfToUpdate);
+            lbl.setText(nickname);
+            otherPlayerShelves.put(nickname, new Pair<>(shelfToUpdate, lbl));
+        }
+
+        fillShelf(shelf, shelfToUpdate);
+    }
 
 }

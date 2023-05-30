@@ -98,7 +98,8 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
     private static void startRMI(int port) throws RemoteException {
         System.out.println("RMI started");
         ServerApp instanceRMI = getInstance();
-        System.setProperty("java.rmi.server.hostname", "192.168.104.128");
+        // TODO: remember quello che ha detto il prof
+        //System.setProperty("java.rmi.server.hostname", "192.168.104.128");
         Registry registry = LocateRegistry.createRegistry(port);
         registry.rebind("server", instanceRMI);
     }
