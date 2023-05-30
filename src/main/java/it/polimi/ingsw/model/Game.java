@@ -588,6 +588,10 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                 tempResult = new ArrayList<>();
             }
         }
+        System.out.println("Final shelves:");
+        for (Player p: getPlayerList()) {
+            System.out.println(p.getNickname() + ":\n" + p.getShelf().toString());
+        }
         for (Pair<String, Integer> p : getGameResult()) {
             System.out.println("Player " + p.getX() + " points " + p.getY());
         }

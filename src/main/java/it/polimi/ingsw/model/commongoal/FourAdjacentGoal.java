@@ -24,7 +24,7 @@ public class FourAdjacentGoal extends CommonGoalAbstract {
                 if (copy.getItem(i,j) != null) {
                     int groups = copy.adjacent(i, j, copy.getItem(i, j).getType());
                     count += groups / 4;
-                    if (count >= 2) return true;
+                    if (count >= 4) return true;
                 }
             }
         }
