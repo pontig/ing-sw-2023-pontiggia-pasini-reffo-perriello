@@ -62,11 +62,11 @@ public class SceneController {
             activeScene.setRoot(root);
             currFxml = fxml;
             if (fxml.equals("PlayScene.fxml")) {
-                mainStage.setWidth(1280);
+                mainStage.setWidth(1300);
                 mainStage.setHeight(820);
             }
             if (fxml.equals("EndGameScene.fxml")) {
-                mainStage.setWidth(1280);
+                mainStage.setWidth(1300);
                 mainStage.setHeight(820);
                 mainStage.setResizable(false);
             }

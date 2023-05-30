@@ -20,10 +20,9 @@ class BoardTest {
     @BeforeAll
     static void init() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        //InputStream inputStream = BoardTest.class.getClassLoader().getResourceAsStream("../assets/livingroom.json");
         int[][] board = new int[0][];
         try {
-            board = mapper.readValue(new File("src/main/resources/json/livingroom.json"), int[][].class);
+            board = mapper.readValue(BoardTest.class.getResourceAsStream("/json/livingroom.json"), int[][].class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

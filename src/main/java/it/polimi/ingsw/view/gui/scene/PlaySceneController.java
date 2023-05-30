@@ -177,7 +177,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
                 ImageView cell = child[j];
                 String cellValue = items[j];
-                StringBuilder url = new StringBuilder("file:src/main/resources/images/tiles/");
+                StringBuilder url = new StringBuilder("/images/tiles/");
                 switch (cellValue.charAt(0)) {
                     case 'W':
                         // Book
@@ -210,7 +210,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
                 }
                 if (url != null) {
                     url.append("1.").append(Character.getNumericValue(cellValue.charAt(1)) + 1).append(".png");
-                    cell.setImage(new Image(url.toString()));
+                    cell.setImage(new Image(PlaySceneController.class.getResourceAsStream(url.toString())));
                 } else {
                     cell.setImage(null);
                 }
@@ -221,7 +221,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     public void disableOthers(String cols) {
         Arrays.stream(chooseColumns).forEach(c -> {
-            c.setImage(new Image("file:src/main/resources/images/thisColumn.png"));
+            c.setImage(new Image(PlaySceneController.class.getResourceAsStream("/images/thisColumn.png")));
             c.setOpacity(1);
             c.setDisable(false);
         });
@@ -235,11 +235,11 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     public void enlightColumn(int n) {
         Arrays.stream(chooseColumns).filter(c -> c.getOpacity() == 1).forEach(c -> {
-            c.setImage(new Image("file:src/main/resources/images/thisColumn.png"));
+            c.setImage(new Image(PlaySceneController.class.getResourceAsStream("/images/thisColumn.png")));
             c.setOpacity(1);
             c.setDisable(false);
         });
-        chooseColumns[n].setImage(new Image("file:src/main/resources/images/thisColumnSelected.png"));
+        chooseColumns[n].setImage(new Image(PlaySceneController.class.getResourceAsStream("/images/thisColumnSelected.png")));
     }
 
     public void letConfirm() {
@@ -342,8 +342,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     public synchronized void assignPersonalGoal(Message model) {
         String pg = model.getPersonal();
         int number = Integer.parseInt(pg.split("~")[1]);
-        String path = "file:src/main/resources/images/personalGoals/Personal_Goals" + number + ".png";
-        personalGoalCard.setImage(new Image(path));
+        String path = "/images/personalGoals/Personal_Goals" + number + ".png";
+        personalGoalCard.setImage(new Image(PlaySceneController.class.getResourceAsStream(path)));
         if (model.getConfirm()) {
             isThisFirst = true;
             customImg.setVisible(true);
@@ -382,7 +382,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
                 ImageView cell = livingroomGridCells[colIndex][rowIndex];
                 String cellValue = itemsToPutInBoard[rowIndex][colIndex];
-                StringBuilder url = new StringBuilder("file:src/main/resources/images/tiles/");
+                StringBuilder url = new StringBuilder("/images/tiles/");
                 switch (cellValue.charAt(1)) {
                     case 'W':
                         // Book
@@ -422,7 +422,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
                 ColorAdjust selectedEffect = new ColorAdjust();
                 if (url != null) {
                     url.append("1.").append(Character.getNumericValue(cellValue.charAt(2)) + 1).append(".png");
-                    cell.setImage(new Image(url.toString()));
+                    //cell.setImage(new Image(url.toString()));
+                    cell.setImage(new Image(PlaySceneController.class.getResourceAsStream(url.toString())));
                     cell.setEffect(null);
                 } else {
                     if (cellValue.charAt(1) == '#') {
@@ -447,7 +448,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
                 ImageView cell = shelfGridCells[colIndex][rowIndex];
                 String cellValue = itemsToPutInShelf[rowIndex][colIndex];
-                StringBuilder url = new StringBuilder("file:src/main/resources/images/tiles/");
+                StringBuilder url = new StringBuilder("/images/tiles/");
                 switch (cellValue.charAt(0)) {
                     case 'W':
                         // Book
@@ -481,7 +482,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
                 }
                 if (url != null) {
                     url.append("1.").append(Character.getNumericValue(cellValue.charAt(1)) + 1).append(".png");
-                    cell.setImage(new Image(url.toString()));
+                    cell.setImage(new Image(PlaySceneController.class.getResourceAsStream(url.toString())));
                 } else {
                     cell.setImage(null);
                 }
@@ -497,8 +498,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
             String goal = goals[i];
             String name = goal.split("\n")[0];
             int which = CommonGoalName.valueOf(name).ordinal() + 1;
-            String url = "file:src/main/resources/images/commonGoals/" + which + ".jpg";
-            commonWrap[i][0].setImage(new Image(url));
+            String url = "/images/commonGoals/" + which + ".jpg";
+            commonWrap[i][0].setImage(new Image(PlaySceneController.class.getResourceAsStream(url)));
             commonWrap[i][0].setVisible(true);
             String[] exploded = goal.split("are: ");
             String[] tokenRemaining = exploded[1].split(" ");
@@ -517,7 +518,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     public void setCommon(int which, int points) {
         ImageView toShow = commonTokensTaken[which];
-        toShow.setImage(new Image("file:src/main/resources/images/commonGoals/scores/scoring_" + points + ".jpg"));
+        toShow.setImage(new Image(PlaySceneController.class.getResourceAsStream("/images/commonGoals/scores/scoring_" + points + ".jpg")));
         if (which == 2) endGameTokenImg.setVisible(false);
     }
 

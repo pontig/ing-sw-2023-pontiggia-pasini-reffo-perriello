@@ -16,6 +16,10 @@ public class ClientApp {
         int typeView = -1;
         Integer port = 0;
 
+        System.out.print("Enter server IP address: ");
+        String ip = terminal.next();
+        System.out.println("Server IP address is: " + ip);
+
         System.out.print("Choose if you want a RMI or Socket client -- 0 is RMI and 1 is Socket: ");
         do{
             try{
@@ -51,13 +55,13 @@ public class ClientApp {
         } while(port.toString().length() != 4);
         
         if(networkClient == 0){
-            Registry registry = LocateRegistry.getRegistry("localhost", port);
+            Registry registry = LocateRegistry.getRegistry(ip, port);
             ServerAbst server = (ServerAbst) registry.lookup("server");
             ClientImpl client = new ClientImpl(server.connect(), typeView);
             client.run();
         }
         else if(networkClient == 1){
-            ServerStub serverStub = new ServerStub("localhost", port);              //da modifiare per ermettere di metterlo in rete
+            ServerStub serverStub = new ServerStub(ip, port);              //da modifiare per ermettere di metterlo in rete
             ClientImpl client = new ClientImpl(serverStub, typeView);
             new Thread(() -> {
                 while(true) {

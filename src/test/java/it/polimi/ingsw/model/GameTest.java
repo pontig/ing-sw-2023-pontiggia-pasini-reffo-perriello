@@ -22,7 +22,7 @@ class GameTest {
 
         int[][] board = new int[0][];
         try {
-            board = mapper.readValue(new File("src/main/resources/json/livingroom.json"), int[][].class);
+            board = mapper.readValue(GameTest.class.getResourceAsStream("src/main/resources/json/livingroom.json"), int[][].class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -30,19 +30,6 @@ class GameTest {
         Board boardGame = new Board();
         return boardGame;
     }
-
-    /*PersonalGoal from assets
-    private List<PersonalGoal> initializePersonalGoals() {
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-            List<List<Triplet<Integer, Integer, Type>>> personalGoalList = mapper.readValue(new File("src/main/resources/json/personalGoals.json"), new TypeReference<List<List<Triplet<Integer, Integer, Type>>>>() {});
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        List<PersonalGoal> pGList = null;
-        return pGList;
-    }*/
 
     //CommonGoal
     private List<CommonGoalName> initializeCommonGoals() {
