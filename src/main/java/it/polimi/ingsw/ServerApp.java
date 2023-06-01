@@ -188,7 +188,8 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
     //Crea un server implementato
     @Override
     public Server connect() throws RemoteException {
-        boolean fromScratch = (new File("status.json")).length() == 0;
+        File f = new File("status.json");
+        boolean fromScratch = !f.exists() || f.length() == 0;
         if (s == null)
             if (fromScratch)
                 s = new ServerImpl(true);
