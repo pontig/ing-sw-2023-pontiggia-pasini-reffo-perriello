@@ -305,10 +305,10 @@ public class Board {
             for (int j = 0; j < 9; j++) {
                 Cell c = disposition[i][j];
                 if (c.getContent() != null) {
-                    if ((i != 0 && disposition[i - 1][j] != null) ||
-                            (j != 0 && disposition[i][j - 1] != null) ||
-                            (i != 8 && disposition[i + 1][j] != null) ||
-                            (j != 8 && disposition[i][j + 1] != null)
+                    if ((i != 0 && disposition[i - 1][j].getContent() != null) ||
+                            (j != 0 && disposition[i][j - 1].getContent() != null) ||
+                            (i != 8 && disposition[i + 1][j].getContent() != null) ||
+                            (j != 8 && disposition[i][j + 1].getContent() != null)
                     ) {
                         return false;
                     }
