@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.enums.Type;
 import it.polimi.ingsw.tuples.Triplet;
 
@@ -9,15 +11,13 @@ public final class PersonalGoal {
     public final Set<Triplet<Integer, Integer, Type>> pg;
     public final int which;
 
-    /**
-     * Constructor of PersonalGoal
-     *
-     * @param pg the deck of personal goals
-     */
+
     public PersonalGoal(Set<Triplet<Integer, Integer, Type>> pg, int number) {
         this.pg = pg;
         this.which = number;
     }
+
+
 
     public String sendToString() {
         boolean item = false;

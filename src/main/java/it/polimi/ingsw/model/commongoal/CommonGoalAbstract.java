@@ -33,6 +33,9 @@ public abstract class CommonGoalAbstract {
                 break;
         }
     }
+    public void setPoints(Stack<Integer> remaining) {
+        this.points = remaining;
+    }
     public Stack<Integer> getPoints(){
         return points;
     }

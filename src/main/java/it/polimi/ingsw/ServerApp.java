@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.server.ClientSkeleton;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.network.server.ServerImpl;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.*;
 import java.nio.channels.SocketChannel;
@@ -22,6 +23,7 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
     private static Server s = null;
     private final ExecutorService executorService = Executors.newCachedThreadPool();
     private static String serverIP;
+    private boolean fromScratch;
 
     protected ServerApp() throws RemoteException {
     }
@@ -186,8 +188,11 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
     //Crea un server implementato
     @Override
     public Server connect() throws RemoteException {
+        boolean fromScratch = (new File("status.json")).length() == 0;
         if (s == null)
-            s = new ServerImpl();
+            if (fromScratch)
+                s = new ServerImpl(true);
+            else s = new ServerImpl(false);
 
         return s;
     }

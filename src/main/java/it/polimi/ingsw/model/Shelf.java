@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.enums.Type;
 
 import java.util.ArrayList;
@@ -137,6 +139,11 @@ public class Shelf {
         }
     }
 
+    @JsonProperty("insertableColumns")
+    public void setInsertableColumns(int[] cols) {
+        this.insertableColumns = new ArrayList<>();
+    }
+
     /**
      * getInsertableColumns gives back the list created by the previous method( "setInsertableColumns" )
      *
@@ -152,6 +159,7 @@ public class Shelf {
      *
      * @return this number if it is less than 3, otherwise it returns 3
      */
+    @JsonIgnore
     public int getMaxFreeSpace() {
         int countFreeSpace = 0;
         int maxFreeColumn = 0;
@@ -167,6 +175,16 @@ public class Shelf {
             countFreeSpace = 0;
         }
         return Math.min(maxFreeColumn, 3);
+    }
+
+    /**
+     * dummy method, just to make the ObjectMapper work
+     *
+     * @param n whatever the json gives me
+     */
+    @JsonProperty("maxFreeSpace")
+    public void setMaxFreeSpace(int n) {
+        return;
     }
 
     /**
