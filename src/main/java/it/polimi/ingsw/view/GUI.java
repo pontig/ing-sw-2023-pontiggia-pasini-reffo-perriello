@@ -100,6 +100,7 @@ public class GUI extends View {
                         if (arg.getNickname().equals(this.nickname)) {
                             SceneController.changeRootPane(getObservers(), "PlayScene.fxml");
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                            controller.updateModel(this.nickname, arg);
                             controller.assignPersonalGoal(arg);
                             System.out.println("Message: " + msg.toString() + " " + arg.getNickname() + ", first=" + arg.getConfirm());
                         }
