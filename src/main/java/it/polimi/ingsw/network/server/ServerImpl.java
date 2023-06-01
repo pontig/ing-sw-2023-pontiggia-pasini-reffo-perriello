@@ -26,18 +26,27 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     private static GameController controller;
     //private List<GameController> matches; da capire se è impl che crea più match oppure se il server
     private static Game match = null;
+    private boolean fromScratch;
 
-    public ServerImpl() throws RemoteException{
+    public ServerImpl(boolean fromScratch) throws RemoteException {
         super();
+        this.fromScratch = fromScratch;
         //matches = new ArrayList<>();
     }
 
     //nella registrazione posso semplicamente fare l'add observer, inviare un messaggio che richiede nome e numero giocatori
     @Override
-    public void register(Client client) throws RemoteException{
-        if(match == null){
+    public void register(Client client) throws RemoteException {
+        if (match == null) {
             try {
-                match = new Game(getBoard(), getCommons(), getPersonals());                            //da modificare il costruttore di game -> asset board, personal e common
+                if (fromScratch) {
+                    match = new Game(getBoard(), getCommons(), getPersonals());
+                }                       //da modificare il costruttore di game -> asset board, personal e common
+                else {
+                    match = (new ObjectMapper()).readValue((new File("status.json")), Game.class);
+                    match.notFromScratch();
+                }
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -54,12 +63,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         });
     }
 
-    private Board getBoard(){
+    private Board getBoard() {
         ObjectMapper mapper = new ObjectMapper();
 
         int[][] board = new int[0][];
         try {
-
             board = mapper.readValue(ServerImpl.class.getResourceAsStream("/json/livingroom.json"), int[][].class);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -71,9 +79,10 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     private List<CommonGoalName> getCommons() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        List<String> goals = objectMapper.readValue(ServerImpl.class.getResourceAsStream("/json/commonGoals.json"), new TypeReference<List<String>>(){});
+        List<String> goals = objectMapper.readValue(ServerImpl.class.getResourceAsStream("/json/commonGoals.json"), new TypeReference<List<String>>() {
+        });
         List<CommonGoalName> commonGoals = new ArrayList<>();
-        for(String s: goals)
+        for (String s : goals)
             commonGoals.add(CommonGoalName.valueOf(s));
 
         return commonGoals;
@@ -94,7 +103,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         return personalGoalList;
     }
 
-    public void updateModel(Client client, Message arg){     //ViewChange invia già modifiche e dati forse un messaggio?
+    public void updateModel(Client client, Message arg) {     //ViewChange invia già modifiche e dati forse un messaggio?
         controller.update(client, arg);
     }
 

@@ -1,10 +1,24 @@
 package it.polimi.ingsw.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.assets.PersonalGoalJson;
+import it.polimi.ingsw.enums.Type;
+import it.polimi.ingsw.network.server.ServerImpl;
+import it.polimi.ingsw.tuples.Triplet;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public class Player {
-    private final String nickname;
+    private  String nickname;
     private Shelf shelf;
-    private final PersonalGoal personalGoal;
+    private PersonalGoal personalGoal;
     private int firstCommonScore;
     private int secondCommonScore;
     private int endGameToken;
@@ -22,6 +36,7 @@ public class Player {
         this.secondCommonScore = 0;
         this.endGameToken = 0;
     }
+    public Player() {}
 
     /**
      * Getter of the nickname
@@ -147,6 +162,21 @@ public class Player {
             }
         }
         return res;
+    }
+
+    @JsonProperty("personalGoal")
+    public void setPersonalGoal (Map<String, Object> which) {
+        PersonalGoalJson[] personalGoalJsonArray;
+        int cardinality = (int) which.get("which");
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+             personalGoalJsonArray = objectMapper.readValue(ServerImpl.class.getResourceAsStream("/json/personalGoals.json"), PersonalGoalJson[].class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        PersonalGoalJson personalGoalJson = personalGoalJsonArray[cardinality-1];
+        Set<Triplet<Integer, Integer, Type>> pg = personalGoalJson.toSet();
+        this.personalGoal = new PersonalGoal(pg, cardinality);
     }
 
 }

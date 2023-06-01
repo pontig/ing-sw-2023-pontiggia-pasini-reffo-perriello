@@ -56,6 +56,7 @@ public class GUI extends View {
             switch (msg) {
                 case ACK_NUMPLAYERS:
                     isThisPlayerFirst = true;
+                case RECONNECTED:
                 case ACK_NICKNAME:
                     if (this.nickname == null) break;
                     Platform.runLater(() -> {
