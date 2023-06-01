@@ -474,15 +474,15 @@ public class Game extends ObservableModel<Message> {              //extends Obse
             }
             if (!found) {
                 msg = new SendDataToClient(NOT_IN_PREV_GAME, null, null, null, null, null, null, null, false, null, null);
-            setChangedAndNotifyObservers(msg);
-            return;
+                setChangedAndNotifyObservers(msg);
+                return;
             }
             if (playersToReconnect.isEmpty()) {
                 this.startGame();
-                //for (Player user : playerList) {
-                //    msg = new SendDataToClient(GAME_READY, user.getNickname(), getBoard().sendToString(), user.getPersonalGoal().sendToString(), user.getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, user == getCurrentPlayer(), null, null);
-                //    setChangedAndNotifyObservers(msg);
-                //}
+                for (Player p : getPlayerList()) {
+                    msg = new SendDataToClient(SEND_OTHER_SHELF, p.getNickname(), null, null, p.getShelf().toString(), null, null, null, false, null, null);
+                    setChangedAndNotifyObservers(msg);
+                }
             }
         }
     }
@@ -507,11 +507,9 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     public void startGame() {
 
         if (getNumberOfPlayers() == getPlayerList().size()) {
-            for (Player user : playerList) {
-
-                msg = new SendDataToClient(GAME_READY, user.getNickname(), getBoard().sendToString(), user.getPersonalGoal().sendToString(), user.getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, user == getCurrentPlayer(), null, null);
+            for(Player user: playerList) {
+                msg = new SendDataToClient(GAME_READY, user.getNickname(), getBoard().sendToString(), user.getPersonalGoal().sendToString(),  user.getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), getCurrentPlayer().getNickname(), user == getCurrentPlayer(), null, null);
                 setChangedAndNotifyObservers(msg);
-
             }
             msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().sendToString(), getCurrentPlayer().getPersonalGoal().sendToString(), getCurrentPlayer().getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
         } else {
@@ -539,7 +537,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
 
             setCanConfirmItem(getNumPendingItems() > 0);
         }
-        System.out.println(getNumPendingItems());
+        System.out.println(getNumPendingItems() + " pending items");
         for (Pair<Integer, Integer> p : getBoard().getPendingCells()) {
             System.out.println(getBoard().getDisposition()[p.getX()][p.getY()].getContent().getType().toString());
         }
@@ -602,7 +600,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
             if (c == column) {
                 setColumnChosen(column);
                 setColumnOK(getColumnChosen() > -1);
-                msg = new SendDataToClient(ACK_ORDER_n_COLUMN, getCurrentPlayer().getNickname(), null, getCurrentPlayer().getPersonalGoal().toString(), getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), getColumnOK() && getOrderOK(), orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(column));
+                msg = new SendDataToClient(ACK_ORDER_n_COLUMN, getCurrentPlayer().getNickname(), null, getCurrentPlayer().getPersonalGoal().sendToString(), getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), getColumnOK() && getOrderOK(), orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(column));
                 columnFind = true;
                 break;
             }
@@ -619,7 +617,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         getCurrentPlayer().getShelf().insertItems(getTmpOrderedItems(), columnChosen);
         msg = new SendDataToClient(INSERTION_DONE, getCurrentPlayer().getNickname(), null, null, getCurrentPlayer().getShelf().toString(), null, null, null, false, null, null);
         setChangedAndNotifyObservers(msg);
-        for (Player p : getPlayerList()) {
+        for (Player p: getPlayerList()) {
             //if (p != getCurrentPlayer()) {
             msg = new SendDataToClient(SEND_OTHER_SHELF, p.getNickname(), null, null, p.getShelf().toString(), null, null, null, false, null, null);
             setChangedAndNotifyObservers(msg);
@@ -694,9 +692,12 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     }
 
     public void nextPlayer() {
+        int indexCurrentPlayer = -1;
 
+        for (Player p : getPlayerList())
+            if (p.getNickname().equals(getCurrentPlayer().getNickname()))
+                indexCurrentPlayer = getPlayerList().indexOf(p);
 
-        int indexCurrentPlayer = getPlayerList().indexOf(getCurrentPlayer());
         if (indexCurrentPlayer == getPlayerList().size() - 1)
             setCurrentPlayer(getPlayerList().get(0));
         else
@@ -704,13 +705,17 @@ public class Game extends ObservableModel<Message> {              //extends Obse
 
         setNumPendingItems(0);
         setColumnChosen(-1);
+        for(Player user: playerList) {
+            msg = new SendDataToClient(GAME_READY, user.getNickname(), getBoard().sendToString(), user.getPersonalGoal().sendToString(),  user.getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), getCurrentPlayer().getNickname(), user == getCurrentPlayer(), null, null);
+            setChangedAndNotifyObservers(msg);
+        }
         System.out.println("Current player: " + getCurrentPlayer().getNickname());
 
-        //try {
-        //    (new ObjectMapper()).writeValue(new File("status.json"), this);
-        //} catch (IOException e) {
-        //    throw new RuntimeException(e);
-        //}
+        try {
+            (new ObjectMapper()).writeValue(new File("status.json"), this);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().sendToString(), getCurrentPlayer().getPersonalGoal().sendToString(), getCurrentPlayer().getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
         setChangedAndNotifyObservers(msg);
@@ -746,7 +751,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
             }
         }
         System.out.println("Final shelves:");
-        for (Player p : getPlayerList()) {
+        for (Player p: getPlayerList()) {
             System.out.println(p.getNickname() + ":\n" + p.getShelf().toString());
         }
         for (Pair<String, Integer> p : getGameResult()) {

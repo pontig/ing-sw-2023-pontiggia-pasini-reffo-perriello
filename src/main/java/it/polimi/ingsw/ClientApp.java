@@ -97,12 +97,12 @@ public class ClientApp {
             System.setProperty("java.rmi.server.hostname", localIP);
             Registry registry = LocateRegistry.getRegistry(ip, port);
             ServerAbst server = (ServerAbst) registry.lookup("server");
-            ClientImpl client = new ClientImpl(server.connect(), typeView);
+            ClientImpl client = new ClientImpl(server.connect(), typeView, networkClient);
             client.run();
         }
         else if(networkClient == 1){
             ServerStub serverStub = new ServerStub(ip, port);              //da modifiare per ermettere di metterlo in rete
-            ClientImpl client = new ClientImpl(serverStub, typeView);
+            ClientImpl client = new ClientImpl(serverStub, typeView, networkClient);
             new Thread(() -> {
                 while(true) {
                     try {
@@ -120,5 +120,6 @@ public class ClientApp {
             }).start();
             client.run();
         }
+
     }
 }
