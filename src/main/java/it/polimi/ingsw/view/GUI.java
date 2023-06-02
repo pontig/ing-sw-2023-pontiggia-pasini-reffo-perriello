@@ -102,6 +102,9 @@ public class GUI extends View {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                             controller.updateModel(this.nickname, arg);
                             controller.assignPersonalGoal(arg);
+                            if (arg.getOrderedRanking() != null  && arg.getOrderedRanking().equals("1")) {
+                                controller.setThisFirst();
+                            }
                             System.out.println("Message: " + msg.toString() + " " + arg.getNickname() + ", first=" + arg.getConfirm());
                         }
                     });
@@ -247,6 +250,42 @@ public class GUI extends View {
                         lock.notifyAll();
                     }
                     break;
+
+                case TOKENS_TAKEN:
+                    if (arg.getNickname().equals(this.nickname)) {
+                        Platform.runLater(() -> {
+                            PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                            controller.setCommon(0, Integer.parseInt(arg.getFirstCommon()));
+                            controller.setCommon(1, Integer.parseInt(arg.getSecondCommon()));
+                            if (arg.getConfirm()) controller.setCommon(2, 1);
+                        });
+                    } else {
+                        if (arg.getConfirm()) {
+                            Platform.runLater(() -> {
+                                PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                                controller.endGameTaken();
+                            });
+                        }
+                    }
+                    lock.notifyAll();
+                    break;
+
+                case NOT_IN_PREV_GAME:
+                    //if (this.nickname != null &&
+                    //        this.nickname.equals(arg.getNickname()) &&
+                    //        !SceneController.getCurrFxml().equals("WaitingScene.fxml") &&
+                    //        !SceneController.getCurrFxml().equals("AskNumPlayersScene.fxml")
+                    //) {
+                    //    Platform.runLater(() -> {
+                    //        SceneController.showMessage("You were not in the previous game, please re-submit your nickname");
+                    //        NicknameSceneController controller = (NicknameSceneController) SceneController.getActiveController();
+                    //        controller.letReSubmit();
+                    //        this.nickname = null;
+                    //        System.out.println("Message: " + msg.toString() + " " + arg.getNickname());
+                    //    });
+                    //}
+                    //lock.notifyAll();
+                    //break;
 
                 default:
                     System.err.println("Ignoring event from " + msg + ": " + arg);

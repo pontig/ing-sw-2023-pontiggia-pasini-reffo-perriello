@@ -375,9 +375,13 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         String path = "/images/personalGoals/Personal_Goals" + number + ".png";
         personalGoalCard.setImage(new Image(PlaySceneController.class.getResourceAsStream(path)));
         if (model.getConfirm()) {
-            isThisFirst = true;
-            customImg.setVisible(true);
+           setThisFirst();
         }
+    }
+
+    public void setThisFirst() {
+        isThisFirst = true;
+        customImg.setVisible(true);
     }
 
     private String[] splitString(String input, int chunkSize) {
@@ -549,6 +553,11 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     public void setCommon(int which, int points) {
         ImageView toShow = commonTokensTaken[which];
+        System.out.println("Common goal " + points + " taken");
+        if (points == 0) {
+            toShow.setImage(null);
+            return;
+        }
         toShow.setImage(new Image(PlaySceneController.class.getResourceAsStream("/images/commonGoals/scores/scoring_" + points + ".jpg")));
         if (which == 2) endGameTokenImg.setVisible(false);
     }

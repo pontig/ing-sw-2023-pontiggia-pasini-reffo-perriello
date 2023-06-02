@@ -34,5 +34,7 @@ public enum State {
     SEND_OTHER_SHELF,
 
     RECONNECTED,
-    NOT_IN_PREV_GAME
+    NOT_IN_PREV_GAME,
+    TOKENS_TAKEN,
+    IN_GAME,
 }
