@@ -4,6 +4,7 @@ import it.polimi.ingsw.enums.State;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.SendChatMessage;
 
 public class GameController {                                                                   //extends Observer
     private Game game;
@@ -85,6 +86,10 @@ public class GameController {                                                   
         play(arg);
     }
 
+    private void onChatMessage(String from, String to, String text) {
+        getGame().sendChat(from, to, text);
+    }
+
     private void play(Message arg) {
         State msg = arg.getInfo();
         switch (msg) {
@@ -119,6 +124,10 @@ public class GameController {                                                   
             case CONFIRM_INSERTION:
                 arg.printMsg();
                 onConfirmInsertion();
+                break;
+            case CHAT_MESSAGE:
+                arg.printMsg();
+                onChatMessage(((SendChatMessage) arg).getFrom(), ((SendChatMessage) arg).getTo(), ((SendChatMessage) arg).getText());
                 break;
             default:
                 System.err.println("Ignoring event from " + msg + ": " + arg);

@@ -22,7 +22,7 @@
 #bookshelf {
     -fx-background-image: url("../images/bookshelf.png");
 }
-.generic {
+.generic, .chatPopup {
     -fx-background-image: url("../images/generic.png");
 }
 Button {
@@ -48,4 +48,8 @@ Button {
 
 .endPane {
     -fx-background-image: url("../images/podium.jpg");
+}
+
+.chat {
+    -fx-background-color: #00000033;
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.enums.State;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.SendChatMessage;
 import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.view.gui.JavaFXGui;
@@ -102,7 +103,7 @@ public class GUI extends View {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                             controller.updateModel(this.nickname, arg);
                             controller.assignPersonalGoal(arg);
-                            if (arg.getOrderedRanking() != null  && arg.getOrderedRanking().equals("1")) {
+                            if (arg.getOrderedRanking() != null && arg.getOrderedRanking().equals("1")) {
                                 controller.setThisFirst();
                             }
                             System.out.println("Message: " + msg.toString() + " " + arg.getNickname() + ", first=" + arg.getConfirm());
@@ -158,7 +159,7 @@ public class GUI extends View {
 
 
                 case ORDER_n_COLUMN:
-                                        if (arg.getNickname().equals(this.nickname)) {
+                    if (arg.getNickname().equals(this.nickname)) {
                         Platform.runLater(() -> {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                             controller.letOrderAndInsert(arg.getSelected(), arg.getOrderedRanking());
@@ -243,7 +244,7 @@ public class GUI extends View {
                     break;
 
                 case SEND_OTHER_SHELF:
-                    if(!arg.getNickname().equals(this.nickname)) {
+                    if (!arg.getNickname().equals(this.nickname)) {
                         Platform.runLater(() -> {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                             controller.updateOtherShelf(arg.getNickname(), arg.getShelf());
@@ -285,6 +286,20 @@ public class GUI extends View {
                             System.out.println("Message: " + msg.toString() + " " + arg.getNickname());
                         });
                     }
+                    lock.notifyAll();
+                    break;
+
+                case CHAT_MESSAGE:
+                    Platform.runLater(() -> {
+                        SendChatMessage m = (SendChatMessage) arg;
+                        PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                        if (!m.getFrom().equals(this.nickname)) {
+                            if (m.getTo() == null)
+                                controller.newMessage(m.getFrom(), "everyone", m.getText());
+                            else if (m.getTo().equals(this.nickname))
+                                controller.newMessage(m.getFrom(), "you", m.getText());
+                        }
+                    });
                     lock.notifyAll();
                     break;
 

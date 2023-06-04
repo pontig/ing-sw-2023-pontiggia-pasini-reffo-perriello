@@ -3,9 +3,12 @@ package it.polimi.ingsw.view.gui.scene;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.view.GUI;
+import it.polimi.ingsw.view.gui.SceneController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 import static it.polimi.ingsw.enums.State.SET_NICKNAME;
@@ -26,6 +29,14 @@ public class NicknameSceneController extends GUI implements GenericSceneControll
     @FXML
     public void initialize() {
         buttonSubmitNickname.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onLoginBtnClick);
+        textNickname.textProperty().addListener((observable, oldValue, newValue) -> {
+        SceneController.getActiveScene().setOnKeyPressed(this::onKeyPressed);
+        });
+    }
+
+    @FXML
+    public void onKeyPressed(KeyEvent event) {
+            if (event.getCode() == KeyCode.ENTER) onLoginBtnClick(null);
     }
 
     @FXML

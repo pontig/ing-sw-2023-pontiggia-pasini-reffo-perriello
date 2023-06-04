@@ -37,4 +37,5 @@ public enum State {
     NOT_IN_PREV_GAME,
     TOKENS_TAKEN,
     IN_GAME,
+    CHAT_MESSAGE
 }

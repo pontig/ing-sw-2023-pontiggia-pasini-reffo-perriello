@@ -824,4 +824,9 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         return ranking.toString();
     }
 
+    public void sendChat(String from,String to, String text) {
+        Message msg = new SendChatMessage(CHAT_MESSAGE, from, to, text);
+        setChangedAndNotifyObservers(msg);
+    }
+
 }

@@ -2,17 +2,21 @@ package it.polimi.ingsw.view.gui.scene;
 
 import it.polimi.ingsw.enums.CommonGoalName;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.SendChatMessage;
 import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.tuples.Pair;
 import it.polimi.ingsw.view.GUI;
+import it.polimi.ingsw.view.gui.SceneController;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -114,6 +118,23 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     @FXML
     private Label instructions;
 
+    // Chat
+    @FXML
+    private ChoiceBox<String> chatDest;
+    @FXML
+    private TextField chatMsg;
+    @FXML
+    private VBox chatList;
+    @FXML
+    private AnchorPane chatContainer;
+    @FXML
+    private AnchorPane screen;
+    @FXML
+    private ScrollPane chatScroll;
+    @FXML
+    private Label chatPopupText;
+    private String nickname;
+
 
     @FXML
     public synchronized void initialize() {
@@ -162,8 +183,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
         //shelfGrid.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onShelfGridClick);
         for (int i = 0; i < chooseColumns.length; i++) {
-            int inalI = i;
-            chooseColumns[i].addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onShelfGridClick(inalI));
+            int finalI = i;
+            chooseColumns[i].addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onShelfGridClick(finalI));
         }
         orderingBox.setVisible(false);
         unordered1.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onOrderingClick(1, 0));
@@ -181,6 +202,82 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         initialized = true;
 
         otherPlayerShelves = new HashMap<>();
+
+        // Chat
+        SceneController.getActiveScene().setOnKeyPressed(this::onKeyPressed);
+        screen.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> chatContainer.setVisible(true));
+        chatDest.getItems().add("Everyone");
+        chatContainer.setVisible(false);
+        screen.setVisible(false);
+    }
+
+    @FXML
+    public void onKeyPressed(KeyEvent event) {
+        KeyCode pressed = event.getCode();
+        switch (pressed) {
+            case T:
+                if (chatContainer.isVisible()) break;
+                chatContainer.setVisible(true);
+                break;
+
+            case ENTER:
+                if (!chatMsg.getText().equals("") && chatDest.getValue() != null) {
+                    Message msg;
+                    if (chatDest.getValue().equals("Everyone")) {
+                        msg = new SendChatMessage(CHAT_MESSAGE, this.nickname, null, chatMsg.getText());
+                    } else {
+                        msg = new SendChatMessage(CHAT_MESSAGE, this.nickname, chatDest.getValue(), chatMsg.getText());
+                    }
+                    setChangedView();
+                    notifyObserversView(msg);
+                    addMessage("you", chatDest.getValue(), chatMsg.getText());
+                    chatMsg.setText("");
+                }
+                break;
+
+            case ESCAPE:
+                hideChat();
+                break;
+        }
+
+    }
+
+    private void hideChat() {
+        chatContainer.setVisible(false);
+        screen.setVisible(false);
+        chatMsg.setText("");
+    }
+
+    public void newMessage(String from, String to, String msg) {
+        chatPopupText.setText(from + ": " + msg);
+        screen.setVisible(true);
+        addMessage(from, to, msg);
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        screen.setVisible(false);
+                    }
+                },
+                5000
+        );
+        chatScroll.setVvalue(1);
+    }
+
+    public void addMessage(String from, String to, String msg) {
+        Label text = new Label();
+        text.setText("from " + from + " to " + to + ": " + msg);
+        chatList.getChildren().add(text);
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+        chatScroll.setVvalue(1);
+
+                    }
+                },
+                500
+        );
 
     }
 
@@ -361,6 +458,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     public synchronized void updateModel(String nickname, Message model) {
         if (initialized) {
             title.setText("Dashboard di " + nickname);
+            this.nickname = nickname;
 
             // Update board
             if (model.getBoard() != null) fillBoard(model);
@@ -381,7 +479,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         String path = "/images/personalGoals/Personal_Goals" + number + ".png";
         personalGoalCard.setImage(new Image(PlaySceneController.class.getResourceAsStream(path)));
         if (model.getConfirm()) {
-           setThisFirst();
+            setThisFirst();
         }
     }
 
@@ -407,7 +505,6 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     public void updateNotMyTurn(String nickname, Message model) {
         if (initialized) {
-            title.setText("Dashboard di " + nickname);
             fillBoard(model);
             fillCommonGoals(model);
         }
@@ -574,6 +671,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     public void updateOtherShelf(String nickname, String shelf) {
         ImageView[][] shelfToUpdate;
+        if (!chatDest.getItems().contains(nickname))
+            chatDest.getItems().add(nickname);
         if (otherPlayerShelves.containsKey(nickname)) {
             shelfToUpdate = otherPlayerShelves.get(nickname).getX();
         } else {
@@ -581,12 +680,10 @@ public class PlaySceneController extends GUI implements GenericSceneController {
             if (!otherShelfUsed.contains(shelfGridCells2)) {
                 shelfToUpdate = shelfGridCells2;
                 lbl = otherPlayerName1;
-            }
-            else if (!otherShelfUsed.contains(shelfGridCells3)) {
+            } else if (!otherShelfUsed.contains(shelfGridCells3)) {
                 shelfToUpdate = shelfGridCells3;
                 lbl = otherPlayerName2;
-            }
-            else {
+            } else {
                 shelfToUpdate = shelfGridCells4;
                 lbl = otherPlayerName3;
             }
