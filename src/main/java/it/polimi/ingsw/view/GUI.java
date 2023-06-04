@@ -128,13 +128,14 @@ public class GUI extends View {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                             controller.updateModel(this.nickname, arg);
                             controller.letSelectItemsOnBoard();
+                            controller.setInstructions("It's your turn, select 1 to 3 items and then click 'confirm'");
                             System.out.println("Message: " + msg.toString() + " " + arg.getNickname() + " then");
                         });
                     } else {
-                        // TODO say to the player that it is not his turn
                         Platform.runLater(() -> {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                             controller.updateNotMyTurn(this.nickname, arg);
+                            controller.setInstructions("It's " + arg.getNickname() + " turn, we are waiting for him");
                             System.out.println("Message: " + msg.toString() + " " + arg.getNickname() + " else");
                         });
                     }
@@ -157,11 +158,11 @@ public class GUI extends View {
 
 
                 case ORDER_n_COLUMN:
-                    // Manda il personal goal, la shelf con le colonne disponibili
-                    if (arg.getNickname().equals(this.nickname)) {
+                                        if (arg.getNickname().equals(this.nickname)) {
                         Platform.runLater(() -> {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                             controller.letOrderAndInsert(arg.getSelected(), arg.getOrderedRanking());
+                            controller.setInstructions("Now order the items the way you want, select a column and then click 'confirm'");
                             controller.disableOthers(arg.getColumns());
                         });
                         state = 6;
@@ -271,21 +272,21 @@ public class GUI extends View {
                     break;
 
                 case NOT_IN_PREV_GAME:
-                    //if (this.nickname != null &&
-                    //        this.nickname.equals(arg.getNickname()) &&
-                    //        !SceneController.getCurrFxml().equals("WaitingScene.fxml") &&
-                    //        !SceneController.getCurrFxml().equals("AskNumPlayersScene.fxml")
-                    //) {
-                    //    Platform.runLater(() -> {
-                    //        SceneController.showMessage("You were not in the previous game, please re-submit your nickname");
-                    //        NicknameSceneController controller = (NicknameSceneController) SceneController.getActiveController();
-                    //        controller.letReSubmit();
-                    //        this.nickname = null;
-                    //        System.out.println("Message: " + msg.toString() + " " + arg.getNickname());
-                    //    });
-                    //}
-                    //lock.notifyAll();
-                    //break;
+                    if (this.nickname != null &&
+                            this.nickname.equals(arg.getNickname()) &&
+                            !SceneController.getCurrFxml().equals("WaitingScene.fxml") &&
+                            !SceneController.getCurrFxml().equals("AskNumPlayersScene.fxml")
+                    ) {
+                        Platform.runLater(() -> {
+                            SceneController.showMessage("You were not in the previous game, please re-submit your nickname");
+                            NicknameSceneController controller = (NicknameSceneController) SceneController.getActiveController();
+                            controller.letReSubmit();
+                            this.nickname = null;
+                            System.out.println("Message: " + msg.toString() + " " + arg.getNickname());
+                        });
+                    }
+                    lock.notifyAll();
+                    break;
 
                 default:
                     System.err.println("Ignoring event from " + msg + ": " + arg);

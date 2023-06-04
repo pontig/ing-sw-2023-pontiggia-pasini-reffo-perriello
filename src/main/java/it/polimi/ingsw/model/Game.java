@@ -465,7 +465,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                 }
             }
             if (!found) {
-                msg = new SendDataToClient(NOT_IN_PREV_GAME, null, null, null, null, null, null, null, false, null, null);
+                msg = new SendDataToClient(NOT_IN_PREV_GAME, nickname, null, null, null, null, null, null, false, null, null);
                 setChangedAndNotifyObservers(msg);
             }
             if (playersToReconnect.isEmpty()) {

@@ -111,6 +111,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     @FXML
     private Label otherPlayerName1, otherPlayerName2, otherPlayerName3;
     private Map<String, Pair<ImageView[][], Label>> otherPlayerShelves;
+    @FXML
+    private Label instructions;
 
 
     @FXML
@@ -180,6 +182,10 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
         otherPlayerShelves = new HashMap<>();
 
+    }
+
+    public void setInstructions(String s) {
+        instructions.setText(s);
     }
 
     public void letSelectItemsOnBoard() {
