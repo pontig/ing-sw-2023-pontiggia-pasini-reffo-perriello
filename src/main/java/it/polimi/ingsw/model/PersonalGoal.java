@@ -19,6 +19,7 @@ public final class PersonalGoal {
 
 
 
+
     public String sendToString() {
         boolean item = false;
         StringBuilder personalGoal = new StringBuilder();

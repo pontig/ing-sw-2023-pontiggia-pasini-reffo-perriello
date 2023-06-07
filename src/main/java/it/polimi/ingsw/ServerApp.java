@@ -18,6 +18,7 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
 public class ServerApp extends UnicastRemoteObject implements ServerAbst {
     private static ServerApp instance = null;
     private static Server s = null;

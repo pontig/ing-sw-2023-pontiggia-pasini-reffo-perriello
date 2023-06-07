@@ -33,7 +33,39 @@ class ItemTest {
             }
         }
     }
-
+    @Test
+    void setType() {
+        Random rand = new Random();
+        List<Type> types = new ArrayList<>();
+        types.add(Type.BOOK);
+        types.add(Type.CAT);
+        types.add(Type.FRAME);
+        types.add(Type.GAME);
+        types.add(Type.PLANTS);
+        types.add(Type.TROPHY);
+        int randomVariant = rand.nextInt(3);
+        int randomIndex = rand.nextInt(types.size());
+        Type randomType = types.get(randomIndex);
+        Item randomItem = new Item();
+        randomItem.setType(randomType);
+        assertEquals(randomType, randomItem.getType());
+    }
+    @Test
+    void setVariant() {
+        Random rand = new Random();
+        List<Type> types = new ArrayList<>();
+        types.add(Type.BOOK);
+        types.add(Type.CAT);
+        types.add(Type.FRAME);
+        types.add(Type.GAME);
+        types.add(Type.PLANTS);
+        types.add(Type.TROPHY);
+        int randomVariant = rand.nextInt(3);
+        int randomIndex = rand.nextInt(types.size());
+        Item randomItem = new Item();
+        randomItem.setVariant(randomVariant);
+        assertEquals(randomVariant, randomItem.getVariant());
+    }
     @Test
     void getVariant() {
         Random rand = new Random();                               //Random case

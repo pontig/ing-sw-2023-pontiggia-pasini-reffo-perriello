@@ -63,7 +63,7 @@ public class ClientApp {
         do{
             try{
                 networkClient = Integer.parseInt(terminal.next());
-            } catch (NumberFormatException e) {
+           } catch (NumberFormatException e) {
                 System.out.println("It is not a valid number!!");
             }
             if(networkClient != 0 && networkClient != 1)

@@ -22,7 +22,7 @@ class GameTest {
 
         int[][] board = new int[0][];
         try {
-            board = mapper.readValue(GameTest.class.getResourceAsStream("src/main/resources/json/livingroom.json"), int[][].class);
+            board = mapper.readValue(GameTest.class.getResourceAsStream("/json/livingroom.json"), int[][].class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

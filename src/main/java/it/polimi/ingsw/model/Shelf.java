@@ -302,6 +302,11 @@ public class Shelf {
         return shelf.toString();
     }
 
+    /**
+     * columnsToString creates a string that represents the columns of the shelf
+     * @param choice
+     * @return
+     */
     public String columnsToString(int choice) {
         StringBuilder columns = new StringBuilder(" ");
         boolean equals = false;

@@ -43,9 +43,13 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     private boolean fromScratch = true;
     private List<Player> playersToReconnect = new ArrayList<>();
 
+
     /**
-     * costruttore
-     **/
+     * Game constructor
+     * @param board
+     * @param commonGoals
+     * @param personalGoalList
+     */
     public Game(Board board, List<CommonGoalName> commonGoals, List<PersonalGoal> personalGoalList) {
         this.playerList = new ArrayList<>();
         this.board = board;
@@ -99,6 +103,8 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     }
 
     //TODO - SEND_MODEL che manda il personal a tutti
+
+
     private PersonalGoal assignPersonalGoal() {
         Random random = new Random();
         int randomInt = random.nextInt(this.personalGoals.size());
@@ -184,9 +190,6 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         return new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'v', 6, 2);
     }
 
-    /**
-     * getter
-     **/
     public List<Player> getPlayerList() {
         return playerList;
     }
