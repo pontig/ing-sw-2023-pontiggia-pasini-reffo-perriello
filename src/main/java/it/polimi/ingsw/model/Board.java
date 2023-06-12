@@ -90,6 +90,10 @@ public class Board {
         return this.disposition;
     }
 
+    public Cell getCell(int x, int y) {
+        // WARNING: Must be used only for setCell's test
+        return disposition[y][x];
+    }
     public void setCell(int x, int y, Item item, int circumstance) {
         // WARNING: Must be used only for testing purposes
         this.disposition[y][x] = new Cell(circumstance);

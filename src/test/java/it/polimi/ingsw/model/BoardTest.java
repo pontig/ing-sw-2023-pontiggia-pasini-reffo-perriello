@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,6 +30,25 @@ class BoardTest {
         boardToTest = new Board(board);
 
     }
+    @Test
+    void setCell() {
+        Cell[][] test = new Cell[9][9];
+        Board testBoard = new Board();
+        Random rand = new Random();
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                // Random cells
+                Item itemtest = new Item(Type.values()[rand.nextInt(Type.values().length)], rand.nextInt(3));
+                int circumstance = rand.nextInt(3);
+                test[i][j] = new Cell(circumstance);
+                test[i][j].setContent(itemtest);
+                testBoard.setCell(i, j, itemtest, circumstance);
+                assertEquals(test[i][j].getContent(), testBoard.getCell(i, j).getContent());
+            }
+        }
+    }
+
 
     @Test
     void getDisposition() {
