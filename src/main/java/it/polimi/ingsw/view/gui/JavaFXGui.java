@@ -60,7 +60,7 @@ public class JavaFXGui extends Application {
         stage.setMinWidth(900);
         stage.setMinHeight(600);
         stage.setResizable(true);
-        stage.setTitle("La mia libreria");
+        stage.setTitle("MyShelfie");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
         stage.show();
     }

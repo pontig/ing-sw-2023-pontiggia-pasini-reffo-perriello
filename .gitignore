@@ -3,6 +3,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 status.json
+status2.json
 
 ### IntelliJ IDEA ###
 .idea

@@ -23,6 +23,7 @@ public class AskNumPlayersSceneController extends ObservableView implements Gene
 
     private void send(int n) {
         Message msg = new SendDataToServer(SET_NUMPLAYERS,  nickname, n, 0, false);
+        System.out.println("AskNumPlayersSceneController: " + n + " from " + nickname);
         setChangedView();
         notifyObserversView(msg);
         // close this scene

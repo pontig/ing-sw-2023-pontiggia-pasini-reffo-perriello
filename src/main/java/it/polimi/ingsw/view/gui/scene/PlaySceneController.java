@@ -207,6 +207,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         SceneController.getActiveScene().setOnKeyPressed(this::onKeyPressed);
         screen.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> chatContainer.setVisible(true));
         chatDest.getItems().add("Everyone");
+        //chatDest.getItems().addAll(SceneController.getNicknamesList());
         chatContainer.setVisible(false);
         screen.setVisible(false);
     }
@@ -267,6 +268,11 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     public void addMessage(String from, String to, String msg) {
         Label text = new Label();
         text.setText("from " + from + " to " + to + ": " + msg);
+        if (from.equals("you")) {
+            text.getStyleClass().add("chatMessageYou");
+        } else {
+            text.getStyleClass().add("chatMessage");
+        }
         chatList.getChildren().add(text);
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
@@ -457,8 +463,9 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     public synchronized void updateModel(String nickname, Message model) {
         if (initialized) {
-            title.setText("Dashboard di " + nickname);
+            title.setText( nickname + "'s dashboard");
             this.nickname = nickname;
+            chatDest.getItems().remove(nickname);
 
             // Update board
             if (model.getBoard() != null) fillBoard(model);

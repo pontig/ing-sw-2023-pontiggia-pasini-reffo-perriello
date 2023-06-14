@@ -56,6 +56,7 @@ public class GUI extends View {
             State msg = arg.getInfo();
             switch (msg) {
                 case ACK_NUMPLAYERS:
+                    if (!(this.nickname != null && this.nickname.equals(arg.getNickname()))) break;
                     isThisPlayerFirst = true;
                 case RECONNECTED:
                 case ACK_NICKNAME:
@@ -63,6 +64,7 @@ public class GUI extends View {
                     Platform.runLater(() -> {
                         SceneController.changeRootPane(getObservers(), "WaitingScene.fxml");
                         System.out.println("Message: " + msg.toString() + " " + nickname);
+                        SceneController.addNickname(nickname);
                     });
                     lock.notifyAll();
                     break;
@@ -97,8 +99,8 @@ public class GUI extends View {
                     break;
 
                 case GAME_READY:
-                    Platform.runLater(() -> {
-                        if (arg.getNickname().equals(this.nickname)) {
+                    if (arg.getNickname().equals(this.nickname)) {
+                        Platform.runLater(() -> {
                             SceneController.changeRootPane(getObservers(), "PlayScene.fxml");
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                             controller.updateModel(this.nickname, arg);
@@ -107,8 +109,8 @@ public class GUI extends View {
                                 controller.setThisFirst();
                             }
                             System.out.println("Message: " + msg.toString() + " " + arg.getNickname() + ", first=" + arg.getConfirm());
-                        }
-                    });
+                        });
+                    }
                     lock.notifyAll();
                     break;
 
@@ -163,7 +165,7 @@ public class GUI extends View {
                         Platform.runLater(() -> {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                             controller.letOrderAndInsert(arg.getSelected(), arg.getOrderedRanking());
-                            controller.setInstructions("Now order the items the way you want, select a column and then click 'confirm'");
+                            controller.setInstructions("Now order the items, select a column and then click 'confirm'");
                             controller.disableOthers(arg.getColumns());
                         });
                         state = 6;

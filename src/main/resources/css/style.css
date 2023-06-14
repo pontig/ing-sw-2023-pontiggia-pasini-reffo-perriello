@@ -53,3 +53,27 @@ Button {
 .chat {
     -fx-background-color: #00000033;
 }
+
+.chatMessages {
+    -fx-background-image: url("../images/chatBackground.png");
+}
+
+.chatMessageYou{
+    -fx-padding: 5px;
+    -fx-margin: 5px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-background-color: #d9fdd3;
+}
+
+.chatMessage {
+    -fx-padding: 5px;
+    -fx-margin: 5px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-background-color: white;
+}
+
+.transp {
+    -fx-background-color: transparent;
+}

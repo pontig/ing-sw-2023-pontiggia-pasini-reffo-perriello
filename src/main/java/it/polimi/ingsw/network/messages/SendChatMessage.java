@@ -11,7 +11,7 @@ public class SendChatMessage implements Message {
     public SendChatMessage(State info, String from, String to, String text) {
         this.info = info;
         this.from = from;
-        this.to = to;
+        this.to = to; // null if the message is for everyone
         this.text = text;
     }
 
