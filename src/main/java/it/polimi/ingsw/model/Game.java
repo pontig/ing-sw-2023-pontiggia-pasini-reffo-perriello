@@ -21,7 +21,8 @@ import static it.polimi.ingsw.enums.Type.*;
 public class Game extends ObservableModel<Message> {              //extends Observable
     private List<Player> playerList;
     private int numberOfPlayers;
-    @JsonIgnore private List<PersonalGoal> personalGoals;
+    @JsonIgnore
+    private List<PersonalGoal> personalGoals;
     private StateTurn playerState;
     private Player currentPlayer;
     private List<CommonGoalName> commonGoals;
@@ -30,12 +31,15 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     private CommonGoalAbstract secondCommonGoal;
     private Board board;
     private boolean endGame;
-    @JsonIgnore private boolean canConfirmItem;
+    @JsonIgnore
+    private boolean canConfirmItem;
     private boolean orderOK;
     private boolean columnOK;
     private int numPendingItems;
-    @JsonIgnore private List<Item> confirmedItems = new ArrayList<>();
-    @JsonIgnore private List<Item> tmpOrderedItems = new ArrayList<>();
+    @JsonIgnore
+    private List<Item> confirmedItems = new ArrayList<>();
+    @JsonIgnore
+    private List<Item> tmpOrderedItems = new ArrayList<>();
     private int columnChosen;
     private List<Pair<String, Integer>> gameResult;
     private Bag bag;
@@ -46,6 +50,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
 
     /**
      * Game constructor
+     *
      * @param board
      * @param commonGoals
      * @param personalGoalList
@@ -275,7 +280,8 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         return this.secondCommonGoalString;
     }
 
-    public Game() {}
+    public Game() {
+    }
 
     /**
      * setter
@@ -288,7 +294,9 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     @JsonProperty("firstCommonGoal")
     public void restoreFirstCommon(Map<String, Object> ref) {
         restoreCommons(ref, 1);
-    }@JsonProperty("secondCommonGoal")
+    }
+
+    @JsonProperty("secondCommonGoal")
     public void restoreSecondCommon(Map<String, Object> ref) {
         restoreCommons(ref, 2);
     }
@@ -476,7 +484,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                 for (Player p : getPlayerList()) {
                     msg = new SendDataToClient(SEND_OTHER_SHELF, p.getNickname(), null, null, p.getShelf().toString(), null, null, null, false, null, null);
                     setChangedAndNotifyObservers(msg);
-                    msg = new SendDataToClient(TOKENS_TAKEN, p.getNickname(), null, null, null, "" +p.getFirstCommonScore(), "" + p.getSecondCommonScore(), null, p.getEndGameToken() == 1, null, null);
+                    msg = new SendDataToClient(TOKENS_TAKEN, p.getNickname(), null, null, null, "" + p.getFirstCommonScore(), "" + p.getSecondCommonScore(), null, p.getEndGameToken() == 1, null, null);
                     setChangedAndNotifyObservers(msg);
                 }
             }
@@ -503,8 +511,8 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     public void startGame() {
 
         if (getNumberOfPlayers() == getPlayerList().size()) {
-            for(Player user: playerList) {
-                String p1 = null, p2 = null, p3 = null, p4 = null;
+            String p1 = null, p2 = null, p3 = null, p4 = null;
+            for (Player user : playerList) {
                 switch (getNumberOfPlayers()) {
                     case 4:
                         p4 = getPlayerList().get(3).getNickname();
@@ -517,11 +525,11 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                     default:
                         break;
                 }
-                msg = new SendDataToClient(PLAYER_LIST, p1, p2, p3, p4, null, null, null, false, null, null);
-                setChangedAndNotifyObservers(msg);
-                msg = new SendDataToClient(GAME_READY, user.getNickname(), getBoard().sendToString(), user.getPersonalGoal().sendToString(),  user.getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), getCurrentPlayer().getNickname(), user == getCurrentPlayer(), user.getNickname().equals(getPlayerList().get(0).getNickname()) ? "1" : null, null);
+                msg = new SendDataToClient(GAME_READY, user.getNickname(), getBoard().sendToString(), user.getPersonalGoal().sendToString(), user.getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), getCurrentPlayer().getNickname(), user == getCurrentPlayer(), user.getNickname().equals(getPlayerList().get(0).getNickname()) ? "1" : null, null);
                 setChangedAndNotifyObservers(msg);
             }
+            msg = new SendDataToClient(PLAYER_LIST, p1, p2, p3, p4, null, null, null, false, null, null);
+            setChangedAndNotifyObservers(msg);
             msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().sendToString(), getCurrentPlayer().getPersonalGoal().sendToString(), getCurrentPlayer().getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);
         } else {
             msg = new SendDataToClient(ACK_NICKNAME, null, null, null, null, null, null, null, false, null, null);
@@ -628,7 +636,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         getCurrentPlayer().getShelf().insertItems(getTmpOrderedItems(), columnChosen);
         msg = new SendDataToClient(INSERTION_DONE, getCurrentPlayer().getNickname(), null, null, getCurrentPlayer().getShelf().toString(), null, null, null, false, null, null);
         setChangedAndNotifyObservers(msg);
-        for (Player p: getPlayerList()) {
+        for (Player p : getPlayerList()) {
             msg = new SendDataToClient(SEND_OTHER_SHELF, p.getNickname(), null, null, p.getShelf().toString(), null, null, null, false, null, null);
             setChangedAndNotifyObservers(msg);
             System.out.println("Send shelf of " + p.getNickname());
@@ -710,8 +718,8 @@ public class Game extends ObservableModel<Message> {              //extends Obse
 
         setNumPendingItems(0);
         setColumnChosen(-1);
-        for(Player user: playerList) {
-            msg = new SendDataToClient(IN_GAME, user.getNickname(), getBoard().sendToString(), user.getPersonalGoal().sendToString(),  user.getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), getCurrentPlayer().getNickname(), user == getCurrentPlayer(), null, null);
+        for (Player user : playerList) {
+            msg = new SendDataToClient(IN_GAME, user.getNickname(), getBoard().sendToString(), user.getPersonalGoal().sendToString(), user.getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), getCurrentPlayer().getNickname(), user == getCurrentPlayer(), null, null);
             setChangedAndNotifyObservers(msg);
         }
         System.out.println("Current player: " + getCurrentPlayer().getNickname());
@@ -756,7 +764,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
             }
         }
         System.out.println("Final shelves:");
-        for (Player p: getPlayerList()) {
+        for (Player p : getPlayerList()) {
             System.out.println(p.getNickname() + ":\n" + p.getShelf().toString());
         }
         for (Pair<String, Integer> p : getGameResult()) {
@@ -842,7 +850,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         return ranking.toString();
     }
 
-    public void sendChat(String from,String to, String text) {
+    public void sendChat(String from, String to, String text) {
         Message msg = new SendChatMessage(CHAT_MESSAGE, from, to, text);
         setChangedAndNotifyObservers(msg);
     }

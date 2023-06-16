@@ -107,6 +107,7 @@ public class GUI extends View {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
                             controller.updateModel(this.nickname, arg);
                             controller.assignPersonalGoal(arg);
+                            //controller.updatePlayerList(this.chatDests);
                             if (arg.getOrderedRanking() != null && arg.getOrderedRanking().equals("1")) {
                                 controller.setThisFirst();
                             }
@@ -136,7 +137,6 @@ public class GUI extends View {
                             controller.letSelectItemsOnBoard();
                             controller.setInstructions("It's your turn, select 1 to 3 items and then click 'confirm'");
                             System.out.println("Message: " + msg.toString() + " " + arg.getNickname() + " then");
-                            controller.updatePlayerList(this.chatDests);
                         });
                     } else {
                         Platform.runLater(() -> {
@@ -144,23 +144,27 @@ public class GUI extends View {
                             controller.updateNotMyTurn(this.nickname, arg);
                             controller.setInstructions("It's " + arg.getNickname() + " turn, we are waiting for him");
                             System.out.println("Message: " + msg.toString() + " " + arg.getNickname() + " else");
-                            controller.updatePlayerList(this.chatDests);
                         });
                     }
                     lock.notifyAll();
                     break;
 
                 case PLAYER_LIST:
-                    if (this.nickname == null || this.chatDests == null) break;
-                    chatDests = new ArrayList<>();
-                    if (arg.getNickname() != null && !arg.getNickname().equals(this.nickname))
-                        chatDests.add(arg.getNickname());
-                    if (arg.getBoard() != null && !arg.getBoard().equals(this.nickname))
-                        chatDests.add(arg.getBoard());
-                    if (arg.getPersonal() != null && !arg.getPersonal().equals(this.nickname))
-                        chatDests.add(arg.getPersonal());
-                    if (arg.getShelf() != null && !arg.getShelf().equals(this.nickname))
-                        chatDests.add(arg.getShelf());
+                    if (this.nickname == null || this.chatDests != null) break;
+                    Platform.runLater(() -> {
+                        chatDests = new ArrayList<>();
+                        if (arg.getNickname() != null && !arg.getNickname().equals(this.nickname))
+                            chatDests.add(arg.getNickname());
+                        if (arg.getBoard() != null && !arg.getBoard().equals(this.nickname))
+                            chatDests.add(arg.getBoard());
+                        if (arg.getPersonal() != null && !arg.getPersonal().equals(this.nickname))
+                            chatDests.add(arg.getPersonal());
+                        if (arg.getShelf() != null && !arg.getShelf().equals(this.nickname))
+                            chatDests.add(arg.getShelf());
+                        System.out.println("Message: " + msg.toString() + " " + arg.getNickname());
+                        PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                        controller.updatePlayerList(this.chatDests);
+                    });
                     break;
 
                 case SELECTED:
