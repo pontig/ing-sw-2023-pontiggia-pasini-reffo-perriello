@@ -8,6 +8,7 @@ import it.polimi.ingsw.tuples.Pair;
 import it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
@@ -207,7 +208,6 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         SceneController.getActiveScene().setOnKeyPressed(this::onKeyPressed);
         screen.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> chatContainer.setVisible(true));
         chatDest.getItems().add("Everyone");
-        //chatDest.getItems().addAll(SceneController.getNicknamesList());
         chatContainer.setVisible(false);
         screen.setVisible(false);
     }
@@ -243,6 +243,10 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     }
 
+    public void updatePlayerList(List<String> p) {
+        chatDest.getItems().addAll(p);
+    }
+
     private void hideChat() {
         chatContainer.setVisible(false);
         screen.setVisible(false);
@@ -268,12 +272,16 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     public void addMessage(String from, String to, String msg) {
         Label text = new Label();
         text.setText("from " + from + " to " + to + ": " + msg);
+        HBox box = new HBox();
+        box.getChildren().add(text);
         if (from.equals("you")) {
             text.getStyleClass().add("chatMessageYou");
+            box.alignmentProperty().setValue(Pos.TOP_RIGHT);
         } else {
             text.getStyleClass().add("chatMessage");
+            box.alignmentProperty().setValue(Pos.TOP_LEFT);
         }
-        chatList.getChildren().add(text);
+        chatList.getChildren().add(box);
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
                     @Override
@@ -465,7 +473,6 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         if (initialized) {
             title.setText( nickname + "'s dashboard");
             this.nickname = nickname;
-            chatDest.getItems().remove(nickname);
 
             // Update board
             if (model.getBoard() != null) fillBoard(model);
@@ -678,8 +685,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     public void updateOtherShelf(String nickname, String shelf) {
         ImageView[][] shelfToUpdate;
-        if (!chatDest.getItems().contains(nickname))
-            chatDest.getItems().add(nickname);
+        //if (!chatDest.getItems().contains(nickname))
+        //    chatDest.getItems().add(nickname);
         if (otherPlayerShelves.containsKey(nickname)) {
             shelfToUpdate = otherPlayerShelves.get(nickname).getX();
         } else {

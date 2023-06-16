@@ -504,6 +504,21 @@ public class Game extends ObservableModel<Message> {              //extends Obse
 
         if (getNumberOfPlayers() == getPlayerList().size()) {
             for(Player user: playerList) {
+                String p1 = null, p2 = null, p3 = null, p4 = null;
+                switch (getNumberOfPlayers()) {
+                    case 4:
+                        p4 = getPlayerList().get(3).getNickname();
+                    case 3:
+                        p3 = getPlayerList().get(2).getNickname();
+                    case 2:
+                        p2 = getPlayerList().get(1).getNickname();
+                        p1 = getPlayerList().get(0).getNickname();
+                        break;
+                    default:
+                        break;
+                }
+                msg = new SendDataToClient(PLAYER_LIST, p1, p2, p3, p4, null, null, null, false, null, null);
+                setChangedAndNotifyObservers(msg);
                 msg = new SendDataToClient(GAME_READY, user.getNickname(), getBoard().sendToString(), user.getPersonalGoal().sendToString(),  user.getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), getCurrentPlayer().getNickname(), user == getCurrentPlayer(), user.getNickname().equals(getPlayerList().get(0).getNickname()) ? "1" : null, null);
                 setChangedAndNotifyObservers(msg);
             }

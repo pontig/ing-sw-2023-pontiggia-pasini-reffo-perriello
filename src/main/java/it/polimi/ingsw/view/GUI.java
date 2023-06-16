@@ -14,6 +14,8 @@ import it.polimi.ingsw.view.gui.scene.PlaySceneController;
 import javafx.application.Application;
 import javafx.application.Platform;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import static it.polimi.ingsw.enums.State.GAME_READY;
@@ -28,6 +30,7 @@ public class GUI extends View {
     private String nickname;
     private Boolean isGameEnded = false;
     private Boolean isThisPlayerFirst = false;
+    private List<String> chatDests = null;
 
 
     public GUI() {
@@ -64,7 +67,6 @@ public class GUI extends View {
                     Platform.runLater(() -> {
                         SceneController.changeRootPane(getObservers(), "WaitingScene.fxml");
                         System.out.println("Message: " + msg.toString() + " " + nickname);
-                        SceneController.addNickname(nickname);
                     });
                     lock.notifyAll();
                     break;
@@ -126,6 +128,7 @@ public class GUI extends View {
                     break;
 
                 case SEND_MODEL:
+                    if (this.nickname == null) break;
                     if (this.nickname.equals(arg.getNickname())) {
                         Platform.runLater(() -> {
                             PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
@@ -133,6 +136,7 @@ public class GUI extends View {
                             controller.letSelectItemsOnBoard();
                             controller.setInstructions("It's your turn, select 1 to 3 items and then click 'confirm'");
                             System.out.println("Message: " + msg.toString() + " " + arg.getNickname() + " then");
+                            controller.updatePlayerList(this.chatDests);
                         });
                     } else {
                         Platform.runLater(() -> {
@@ -140,9 +144,23 @@ public class GUI extends View {
                             controller.updateNotMyTurn(this.nickname, arg);
                             controller.setInstructions("It's " + arg.getNickname() + " turn, we are waiting for him");
                             System.out.println("Message: " + msg.toString() + " " + arg.getNickname() + " else");
+                            controller.updatePlayerList(this.chatDests);
                         });
                     }
                     lock.notifyAll();
+                    break;
+
+                case PLAYER_LIST:
+                    if (this.nickname == null || this.chatDests == null) break;
+                    chatDests = new ArrayList<>();
+                    if (arg.getNickname() != null && !arg.getNickname().equals(this.nickname))
+                        chatDests.add(arg.getNickname());
+                    if (arg.getBoard() != null && !arg.getBoard().equals(this.nickname))
+                        chatDests.add(arg.getBoard());
+                    if (arg.getPersonal() != null && !arg.getPersonal().equals(this.nickname))
+                        chatDests.add(arg.getPersonal());
+                    if (arg.getShelf() != null && !arg.getShelf().equals(this.nickname))
+                        chatDests.add(arg.getShelf());
                     break;
 
                 case SELECTED:

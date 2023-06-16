@@ -23,7 +23,6 @@ public class SceneController {
     private static String currFxml = "";
     private static Stage mainStage;
     private static GenericSceneController activeController;
-    private static List<String> nicknamesList = new ArrayList<>();
 
 
     public static String getCurrFxml() {
@@ -117,14 +116,6 @@ public class SceneController {
             Scene scene = new Scene(parent);
 
         });
-    }
-
-    public static void addNickname(String nickname) {
-        nicknamesList.add(nickname);
-    }
-
-    public static List<String> getNicknamesList() {
-        return nicknamesList;
     }
 
 }
