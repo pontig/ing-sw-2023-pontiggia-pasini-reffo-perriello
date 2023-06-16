@@ -13,6 +13,9 @@ public class AskNumPlayersSceneController extends ObservableView implements Gene
     private Button twoPlayersButton, threePlayersButton, fourPlayersButton;
     private String nickname;
 
+    /**
+     * Initializes the controller setting the event handler for the buttons
+     */
     @FXML
     public void initialize()  {
         twoPlayersButton.setOnAction(event -> send(2));
@@ -21,15 +24,21 @@ public class AskNumPlayersSceneController extends ObservableView implements Gene
 
     }
 
+    /**
+     * Sends the number of players chosen by the user to the server
+     * @param n the number of players chosen by the user
+     */
     private void send(int n) {
         Message msg = new SendDataToServer(SET_NUMPLAYERS,  nickname, n, 0, false);
         System.out.println("AskNumPlayersSceneController: " + n + " from " + nickname);
         setChangedView();
         notifyObserversView(msg);
-        // close this scene
-        //twoPlayersButton.getScene().getWindow().hide();
     }
 
+    /**
+     * Sets the nickname of the player
+     * @param nickname the nickname of the player
+     */
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.scene;
 
 import it.polimi.ingsw.enums.CommonGoalName;
+import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendChatMessage;
 import it.polimi.ingsw.network.messages.SendDataToServer;
@@ -137,6 +138,10 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     private String nickname;
 
 
+    /**
+     * Initializes the controller class.
+     * adds every event handler to the grid cells
+     */
     @FXML
     public synchronized void initialize() {
         livingroomGrid.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onLivingroomGridClick);
@@ -212,6 +217,10 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         screen.setVisible(false);
     }
 
+    /**
+     * Method called when a player clicks on a shelf cell
+     * @param event the event that triggered the method
+     */
     @FXML
     public void onKeyPressed(KeyEvent event) {
         KeyCode pressed = event.getCode();
@@ -243,16 +252,29 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     }
 
+    /**
+     * Sets the choice box for the destination of the message
+     * @param p the list of players' nicknames
+     */
     public void updatePlayerList(List<String> p) {
         chatDest.getItems().addAll(p);
     }
 
+    /**
+     * Hides the chat box
+     */
     private void hideChat() {
         chatContainer.setVisible(false);
         screen.setVisible(false);
         chatMsg.setText("");
     }
 
+    /**
+     * Method called when a player receives a message
+     * @param from the sender's nickname
+     * @param to the receiver's nickname (you : everyone)
+     * @param msg the message
+     */
     public void newMessage(String from, String to, String msg) {
         chatPopupText.setText(from + ": " + msg);
         screen.setVisible(true);
@@ -269,6 +291,12 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         chatScroll.setVvalue(1);
     }
 
+    /**
+     * Adds a message to the chat box
+     * @param from the sender's nickname
+     * @param to the receiver's nickname (you : everyone)
+     * @param msg the message
+     */
     public void addMessage(String from, String to, String msg) {
         Label text = new Label();
         text.setText("from " + from + " to " + to + ": " + msg);
@@ -295,15 +323,25 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     }
 
+    /**
+     * Method that shows to the player what it's happening: if it is another player's turn or if it is his turn
+     * @param s the string to show
+     */
     public void setInstructions(String s) {
         instructions.setText(s);
     }
 
+    /**
+     * Method that let the player select the items to insert in the shelf
+     */
     public void letSelectItemsOnBoard() {
         livingroomGrid.setDisable(false);
         shelfGrid.setDisable(true);
     }
 
+    /**
+     * Method that let the player select the column where to insert the items and order them
+     */
     public void letOrderAndInsert(String unorderedString, String orderedString) {
         livingroomGrid.setDisable(true);
         shelfGrid.setDisable(false);
@@ -365,6 +403,11 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     }
 
+    /**
+     * Method that let the player select the column where to insert the items, by not allowing him to select the other columns
+     * @param cols the string that contains the columns that can be selected
+     * @see Shelf#getInsertableColumns()
+     */
     public void disableOthers(String cols) {
         Arrays.stream(chooseColumns).forEach(c -> {
             c.setImage(new Image(PlaySceneController.class.getResourceAsStream("/images/thisColumn.png")));
@@ -379,6 +422,10 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         }
     }
 
+    /**
+     * Method that enlight the column chosen by the player and disable the others
+     * @param n the column to enlight
+     */
     public void enlightColumn(int n) {
         Arrays.stream(chooseColumns).filter(c -> c.getOpacity() == 1).forEach(c -> {
             c.setImage(new Image(PlaySceneController.class.getResourceAsStream("/images/thisColumn.png")));
@@ -388,22 +435,38 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         chooseColumns[n].setImage(new Image(PlaySceneController.class.getResourceAsStream("/images/thisColumnSelected.png")));
     }
 
+    /**
+     * Method that let the player select the items selected on the board
+     */
     public void letConfirm() {
         confirmSelectButton.setVisible(true);
     }
 
+    /**
+     * Method that doesn't let the player select the items selected on the board
+     */
     public void dontLetConfirm() {
         confirmSelectButton.setVisible(false);
     }
 
+    /**
+     * Method that let the player insert the items in the shelf
+     */
     public void letInsert() {
         confirmInsertButton.setVisible(true);
     }
 
+    /**
+     * Method that doesn't let the player insert the items in the shelf
+     */
     public void dontLetInsert() {
         confirmInsertButton.setVisible(false);
     }
 
+    /**
+     * Method that handles the click on an item on the board
+     * @param event the mouse event that triggered the method
+     */
     @FXML
     private void onLivingroomGridClick(MouseEvent event) {
         System.out.println("Livingroom grid clicked");
@@ -420,6 +483,10 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     }
 
+    /**
+     * Method that handles the click on a column of the shelf
+     * @param colIndex the column clicked
+     */
     @FXML
     private void onShelfGridClick(int colIndex) {
         // click on descendant node
@@ -431,6 +498,11 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         // Arrays.stream(chooseColumns).forEach(c -> c.setImage(new Image("file:src/main/resources/images/thisColumn.png")));
     }
 
+    /**
+     * Method that handles the sort of the items to put in the shelf
+     * @param action the list from which the item is taken (ordered or unordered)
+     * @param pos the position of the item in the list
+     */
     @FXML
     private void onOrderingClick(int action, int pos) {
         Message msg = new SendDataToServer(ORDER_ITEM, null, action, pos, false);
@@ -453,6 +525,9 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     }
 
+    /**
+     * Method that handles the click on the confirm button, confirming the insertion of the items in the shelf
+     */
     @FXML
     private void onConfirmInsertClick() {
         Message msg = new SendDataToServer(CONFIRM_INSERTION, null, 0, 0, true);
@@ -462,6 +537,9 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         selectColumnBox.setVisible(false);
     }
 
+    /**
+     * Method that handles the click on the confirm button, confirming the selection of the items on the board
+     */
     @FXML
     private void onConfirmSelectClick() {
         Message msg = new SendDataToServer(CONFIRM_ITEMS, null, 0, 0, true);
@@ -469,6 +547,11 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         notifyObserversView(msg);
     }
 
+    /**
+     * Updates the model of the view
+     * @param nickname the nickname of the player owning this view
+     * @param model the model to update the view with
+     */
     public synchronized void updateModel(String nickname, Message model) {
         if (initialized) {
             title.setText( nickname + "'s dashboard");
@@ -487,6 +570,10 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         }
     }
 
+    /**
+     * Chooses the right image for the personal goal card
+     * @param model the full model of the game
+     */
     public synchronized void assignPersonalGoal(Message model) {
         String pg = model.getPersonal();
         int number = Integer.parseInt(pg.split("~")[1]);
@@ -497,11 +584,20 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         }
     }
 
+    /**
+     * Shows the first player's chair
+     */
     public void setThisFirst() {
         isThisFirst = true;
         customImg.setVisible(true);
     }
 
+    /**
+     * Splits a string in chunks of a given size (used to render the model)
+     * @param input the string to split
+     * @param chunkSize the size of the chunks
+     * @return an array of strings, each one representing a chunk of the input string
+     */
     private String[] splitString(String input, int chunkSize) {
         if (input == null) return null;
         int length = input.length();
@@ -517,6 +613,11 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         return chunks;
     }
 
+    /**
+     * Updates the board and the common goals when it's not this player's turn
+     * @param nickname the nickname of the player that is playing
+     * @param model the full model of the game
+     */
     public void updateNotMyTurn(String nickname, Message model) {
         if (initialized) {
             fillBoard(model);
@@ -524,6 +625,10 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         }
     }
 
+    /**
+     * Updates the board
+     * @param model the full model of the game
+     */
     private void fillBoard(Message model) {
         String board = model.getBoard();
         String[] boardRows = board.split("\n");
@@ -589,6 +694,11 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     }
 
+    /**
+     * Updates the shelf of a player
+     * @param shelf the shelf to update
+     * @param target the grid of the shelf to update (could be another player's shelf)
+     */
     private void fillShelf(String shelf, ImageView[][] target) {
 
         shelf = shelf.substring(1);
@@ -642,6 +752,10 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         }
     }
 
+    /**
+     * Updates the common goals
+     * @param model the full model of the game
+     */
     private void fillCommonGoals(Message model) {
         String[] goals = {model.getFirstCommon(), model.getSecondCommon()};
         Arrays.stream(commonWrap).flatMap(Arrays::stream).filter(Objects::nonNull).forEach(node -> node.setVisible(false));
@@ -663,11 +777,19 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         }
     }
 
+    /**
+     * Resets the view when a player has finished his turn
+     */
     public void endTurn() {
         orderingBox.setVisible(false);
         Arrays.stream(orderingBoxChildren).flatMap(Arrays::stream).forEach(node -> node.setImage(null));
     }
 
+    /**
+     * Assigns a common goal token to a player that earned it
+     * @param which the index of the common goal
+     * @param points the points of the common goal
+     */
     public void setCommon(int which, int points) {
         ImageView toShow = commonTokensTaken[which];
         System.out.println("Common goal " + points + " taken");
@@ -679,10 +801,18 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         if (which == 2) endGameTokenImg.setVisible(false);
     }
 
+    /**
+     * Assigns the end game token
+     */
     public void endGameTaken() {
         endGameTokenImg.setVisible(false);
     }
 
+    /**
+     * Updates the shelf of the player that is not the current player when he has finished his turn
+     * @param nickname the nickname of the player
+     * @param shelf the shelf of the player
+     */
     public void updateOtherShelf(String nickname, String shelf) {
         ImageView[][] shelfToUpdate;
         //if (!chatDest.getItems().contains(nickname))

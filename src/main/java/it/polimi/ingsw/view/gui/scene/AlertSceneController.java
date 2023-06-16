@@ -16,6 +16,9 @@ public class AlertSceneController {
     @FXML
     private Button okButton;
 
+    /**
+     * Creates a new AlertSceneController instance
+     */
     public AlertSceneController() {
         this.stage = new Stage();
         stage.setWidth(500);
@@ -25,27 +28,49 @@ public class AlertSceneController {
         stage.initModality(Modality.APPLICATION_MODAL);
     }
 
+    /**
+     * Initializes the controller setting the event handler for the okButton
+     */
     @FXML
     public void initialize() {
         okButton.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onClick);
     }
 
+    /**
+     * Sets the alert text
+     * @param alertText the alert text in a FXML Label
+     */
     public void setAlertText(Label alertText) {
         this.alertText = alertText;
     }
 
+    /**
+     * Sets the scene
+     * @param scene the scene to be set
+     */
     public void setScene(Scene scene) {
         stage.setScene(scene);
     }
 
+    /**
+     * Handles the click on the okButton closing the stage
+     * @param e the MouseEvent that triggered the event handler
+     */
     private void onClick(Event e) {
         stage.close();
     }
 
+    /**
+     * Sets the alert text
+     * @param text the alert text, as a String
+     */
     public void setAlertText(String text) {
         alertText.setText(text);
     }
 
+    /**
+     * Shows the stage
+     */
     public void showAlert() {
         try {
             stage.showAndWait();

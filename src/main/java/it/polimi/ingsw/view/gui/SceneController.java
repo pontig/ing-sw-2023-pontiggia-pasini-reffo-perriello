@@ -25,34 +25,63 @@ public class SceneController {
     private static GenericSceneController activeController;
 
 
+    /**
+     * @return the current fxml
+     */
     public static String getCurrFxml() {
         return currFxml;
     }
 
+    /**
+     * @return the active scene
+     */
     public static Scene getActiveScene() {
         return activeScene;
     }
 
+    /**
+     * Sets the active scene
+     * @param activeScene the active scene to be set
+     */
     public static void setActiveScene(Scene activeScene) {
         SceneController.activeScene = activeScene;
     }
 
+    /**
+     * @return the main stage
+     */
     public static Stage getMainStage() {
         return mainStage;
     }
 
+    /**
+     * Sets the main stage
+     * @param mainStage the main stage to be set
+     */
     public static void setMainStage(Stage mainStage) {
         SceneController.mainStage = mainStage;
     }
 
+    /**
+     * @return the active scene controller
+     */
     public static GenericSceneController getActiveController() {
         return activeController;
     }
 
+    /**
+     * Sets the active scene controller
+     * @param activeController the scene controller to be set
+     */
     public static void setActiveController(GenericSceneController activeController) {
         SceneController.activeController = activeController;
     }
 
+    /**
+     * Changes the root pane to be showed
+     * @param observerList the list of observers of the view
+     * @param fxml the name of the fxml to load
+     */
     public static void changeRootPane(Vector<ObserverView<? extends ObservableView<Message>, Message>> observerList, String fxml) {
 
         try {
@@ -79,6 +108,10 @@ public class SceneController {
         }
     }
 
+    /**
+     * Shows an alert message
+     * @param message the message to be shown
+     */
     public static void showMessage(String message) {
         Platform.runLater(() -> {
             FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/AlertScene.fxml"));
@@ -99,23 +132,4 @@ public class SceneController {
             alertSceneController.showAlert();
         });
     }
-
-    public static void askForNumPlayer() {
-        Platform.runLater(() -> {
-            FXMLLoader loader = new FXMLLoader();
-
-            Parent parent;
-            try {
-                parent = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
-            }
-
-            AskNumPlayersSceneController askNumPlayersController = loader.getController();
-            Scene scene = new Scene(parent);
-
-        });
-    }
-
 }

@@ -12,11 +12,18 @@ public class EndGameSceneController extends ObservableView implements GenericSce
     private Label firstRank, secondRank, thirdRank, fourthRank;
     private Label[] podium;
 
+    /**
+     * Initializes the controller
+     */
     @FXML
     public void initialize() {
         podium = new Label[]{firstRank, secondRank, thirdRank, fourthRank};
     }
 
+    /**
+     * Assigns the ranks to the players
+     * @param model the model containing the results of the game
+     */
     public void assignRanks(String model) {
         String results = model;
         Pair[] ranks = Arrays.stream(results.split("\n"))

@@ -37,6 +37,9 @@ public class GUI extends View {
         super();
     }
 
+    /**
+     * stops the thread
+     */
     public void stop() {
         isRunning = false;
         synchronized (lock) {
@@ -44,16 +47,27 @@ public class GUI extends View {
         }
     }
 
+    /**
+     * Sets the nickname of the owner of this GUI
+     * @param nickname the nickname String of the player
+     */
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
+    /**
+     * @see View#run()
+     */
     @Override
     public void run() {
         JavaFXGui.setCustomClassInstance(this);
         Application.launch(JavaFXGui.class);
     }
 
+    /**
+     * @see View#update(Server, Message)
+     */
+    @Override
     public void update(Server o, Message arg) {
         if (!isGameEnded) synchronized (lock) {
             State msg = arg.getInfo();
@@ -150,6 +164,7 @@ public class GUI extends View {
                     break;
 
                 case PLAYER_LIST:
+                    // TODO: if the players are two avoid this message?
                     if (this.nickname == null || this.chatDests != null) break;
                     Platform.runLater(() -> {
                         chatDests = new ArrayList<>();
@@ -325,6 +340,16 @@ public class GUI extends View {
                         }
                     });
                     lock.notifyAll();
+                    break;
+
+                case NACK_NICKNAME:
+                    if(SceneController.getCurrFxml().equals("")) {
+                        Platform.runLater(() -> {
+                            SceneController.showMessage("We are sorry, but there already is a game in progress, try again later");
+                            NicknameSceneController controller = (NicknameSceneController) SceneController.getActiveController();
+                            controller.letReSubmit();
+                        });
+                    }
                     break;
 
                 default:

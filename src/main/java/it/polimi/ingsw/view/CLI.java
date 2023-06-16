@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.enums.State;
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.network.server.Server;
@@ -35,6 +37,9 @@ public class CLI extends View {
         super();
     }
 
+    /**
+     * stops the thread
+     */
     public void stop() {
         isRunning = false;
         synchronized (lock) {
@@ -42,6 +47,9 @@ public class CLI extends View {
         }
     }
 
+    /**
+     * @see View#run()
+     */
     @Override
     public void run() {
         System.out.println("\nCLI RUNNING CORRECTLY");
@@ -231,6 +239,9 @@ public class CLI extends View {
         }
     }
 
+    /**
+     * @see View#update(Server, Message)
+     */
     public void update(Server o, Message arg) {
         synchronized (lock) {
             State msg = arg.getInfo();
@@ -482,6 +493,11 @@ public class CLI extends View {
         }
     }
 
+    /**
+     * Renders correctly the board
+     * @param board the encoded board
+     * @see Board#toString()
+     */
     private void showBoard(String board) {
         System.out.print("  ");
         for (int i = 0; i < 9; i++) System.out.print(i + "  ");
@@ -526,6 +542,7 @@ public class CLI extends View {
         }
     }
 
+ // TODO: not sure what is  this
     public void showItems(String items) {
         boolean columnChoosen = false;
         for (int i = 0; i < items.length(); i++) {

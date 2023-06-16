@@ -145,9 +145,10 @@ public class Shelf {
     }
 
     /**
-     * getInsertableColumns gives back the list created by the previous method( "setInsertableColumns" )
+     * getInsertableColumns gives back the list created by the previous method
      *
      * @return the list "insertableColumns", that contains the columns where it is possible to insert a certain number of items
+     * @see Shelf#setInsertableColumns(int)
      */
     public List<Integer> getInsertableColumns() {
         return this.insertableColumns;
