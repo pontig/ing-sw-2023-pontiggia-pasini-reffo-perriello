@@ -4,6 +4,12 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.observer.ObservableView;
 
+/**
+ * Abstract class that represents the view of the MVC pattern
+ * @see it.polimi.ingsw.model
+ * @see it.polimi.ingsw.controller
+ * @see it.polimi.ingsw.network.client
+ */
 public abstract class View extends ObservableView<Message> implements Runnable {
     /**
      * Overrides the Runnable run method

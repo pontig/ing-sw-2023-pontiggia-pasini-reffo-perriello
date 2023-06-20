@@ -18,6 +18,10 @@ import java.util.*;
 import static it.polimi.ingsw.enums.State.*;
 import static it.polimi.ingsw.enums.Type.*;
 
+/**
+ * Game is a class that represents a game
+ * it contains every method that modifies the model
+ */
 public class Game extends ObservableModel<Message> {              //extends Observable
     private List<Player> playerList;
     private int numberOfPlayers;
@@ -51,9 +55,9 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     /**
      * Game constructor
      *
-     * @param board
-     * @param commonGoals
-     * @param personalGoalList
+     * @param board            the board of the game
+     * @param commonGoals      the common goals of the game
+     * @param personalGoalList the personal goals of the game
      */
     public Game(Board board, List<CommonGoalName> commonGoals, List<PersonalGoal> personalGoalList) {
         this.playerList = new ArrayList<>();
@@ -74,6 +78,14 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     }
 
 
+    /**
+     * Game constructor
+     *
+     * @param nickName       the nickname of the player that creates the game
+     * @param numberOfPlayer the number of players of the game
+     * @param board          the board of the game
+     * @param commonGoals    the common goals of the game
+     */
     public Game(String nickName, int numberOfPlayer, Board board, List<CommonGoalName> commonGoals) {
         this.playerList = new ArrayList<>();
         this.numberOfPlayers = numberOfPlayer;
@@ -110,12 +122,23 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     //TODO - SEND_MODEL che manda il personal a tutti
 
 
+    /**
+     * Draws random personal goal
+     *
+     * @return the personal goal drawn
+     */
     private PersonalGoal assignPersonalGoal() {
         Random random = new Random();
         int randomInt = random.nextInt(this.personalGoals.size());
         return personalGoals.remove(randomInt);
     }
 
+    /**
+     * Draws a common goal for the game
+     *
+     * @param which the number of the common goal (first or second)
+     * @return the common goal drawn
+     */
     private CommonGoalAbstract assignCommonGoal(int which) {
         Random random = new Random();
         int randomInt = random.nextInt(this.commonGoals.size());
@@ -195,112 +218,242 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         return new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'v', 6, 2);
     }
 
+    /*===========================================
+    =            Getters and Setters            =
+    ========================================== */
+
+    /**
+     * Getter for the player list
+     *
+     * @return the player list
+     */
     public List<Player> getPlayerList() {
         return playerList;
     }
 
+    /**
+     * Getter of the state of the player
+     *
+     * @return the state of the player
+     */
     public StateTurn getPlayerState() {
         return playerState;
     }
 
+    /**
+     * Getter of the number of players
+     *
+     * @return the number of players
+     */
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
+    /**
+     * Getter of the personal goals deck
+     *
+     * @return the personal goals deck
+     */
     public List<PersonalGoal> getPersonalGoals() {
         return personalGoals;
     }
 
+    /**
+     * Getter of the common goals deck
+     *
+     * @return the common goals deck
+     */
     public List<CommonGoalName> getCommonGoals() {
         return commonGoals;
     }
 
+    /**
+     * Getter of the current player
+     *
+     * @return the current player
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Getter of the first common goal
+     *
+     * @return the first common goal
+     */
     public CommonGoalAbstract getFirstCommonGoal() {
         return firstCommonGoal;
     }
 
+    /**
+     * Getter of the second common goal
+     *
+     * @return the second common goal
+     */
     public CommonGoalAbstract getSecondCommonGoal() {
         return secondCommonGoal;
     }
 
+    /**
+     * Getter of the board
+     *
+     * @return the board
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Getter of the end game token
+     *
+     * @return the end game token
+     */
     public boolean getEndGame() {
         return endGame;
     }
 
+    /**
+     * Getter of the confirmed items
+     *
+     * @return the confirmed items
+     */
     @JsonIgnore
     public boolean getCanConfirmItems() {
         return canConfirmItem;
     }
 
+    /**
+     * Getter if the order of the items is correct
+     *
+     * @return true if the order is correct, false otherwise
+     */
     public boolean getOrderOK() {
         return orderOK;
     }
 
+    /**
+     * Getter if the column chosen is correct
+     *
+     * @return true if the column is correct, false otherwise
+     */
     public boolean getColumnOK() {
         return columnOK;
     }
 
+    /**
+     * Getter of the number of pending items
+     *
+     * @return the number of pending items
+     */
     public int getNumPendingItems() {
         return numPendingItems;
     }
 
+    /**
+     * Getter of the confirmed items
+     *
+     * @return the confirmed items
+     */
     public List<Item> getConfirmedItems() {
         return confirmedItems;
     }
 
+    /**
+     * Getter of the temporary ordered items
+     *
+     * @return the temporary ordered items
+     */
     public List<Item> getTmpOrderedItems() {
         return tmpOrderedItems;
     }
 
+    /**
+     * Getter of the column chosen
+     *
+     * @return the column chosen
+     */
     public int getColumnChosen() {
         return columnChosen;
     }
 
+    /**
+     * Getter of the game results
+     *
+     * @return the game results
+     */
     public List<Pair<String, Integer>> getGameResult() {
         return gameResult;
     }
 
+    /**
+     * Getter of the bag
+     *
+     * @return the bag
+     */
     public Bag getBag() {
         return this.bag;
     }
 
+    /**
+     * Getter of the first common goal in string format
+     *
+     * @return the first common goal in string format
+     */
     public String getFirstCommonGoalString() {
         return this.firstCommonGoalString;
     }
 
+    /**
+     * Getter of the second common goal in string format
+     *
+     * @return the second common goal in string format
+     */
     public String getSecondCommonGoalString() {
         return this.secondCommonGoalString;
     }
 
+    /**
+     * Game constructor
+     */
     public Game() {
     }
 
     /**
-     * setter
-     **/
+     * Setter of the player list
+     *
+     * @param playerList the player list
+     */
     @JsonProperty("playerList")
     public void setPlayerList(List<Player> playerList) {
         this.playerList = new ArrayList<>(playerList);
     }
 
+    /**
+     * Setter of the first common goal, restored from the json file
+     *
+     * @param ref the reference to the first common goal
+     */
     @JsonProperty("firstCommonGoal")
     public void restoreFirstCommon(Map<String, Object> ref) {
         restoreCommons(ref, 1);
     }
 
+    /**
+     * Setter of the second common goal, restored from the json file
+     *
+     * @param ref the reference to the second common goal
+     */
     @JsonProperty("secondCommonGoal")
     public void restoreSecondCommon(Map<String, Object> ref) {
         restoreCommons(ref, 2);
     }
 
+    /**
+     * Restores the common goals after the json file is loaded
+     *
+     * @param ref   the reference to the common goals
+     * @param which the number of the common goal (first or second)
+     */
     private void restoreCommons(Map<String, Object> ref, int which) {
         String goal = which == 1 ? firstCommonGoalString : secondCommonGoalString;
         //CommonGoalAbstract d = which;
@@ -365,75 +518,161 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         else secondCommonGoal = c;
     }
 
+    /**
+     * Setter of the state of the player
+     *
+     * @param playerState the state of the player
+     */
     public void setPlayerState(StateTurn playerState) {
         this.playerState = playerState;
     }
 
+    /**
+     * Setter of the personal goals
+     *
+     * @param personalGoals the personal goals
+     */
     public void setPersonalGoals(List<PersonalGoal> personalGoals) {
         this.personalGoals = personalGoals;
     }
 
+    /**
+     * Setter of the common goals
+     *
+     * @param commonGoals the common goals
+     */
     public void setCommonGoals(List<CommonGoalName> commonGoals) {
         this.commonGoals = commonGoals;
     }
 
+    /**
+     * Setter of the current player
+     *
+     * @param currentPlayer the current player
+     */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
+    /**
+     * Setter of the board
+     *
+     * @param board the board
+     */
     public void setBoard(Board board) {
         this.board = board;
     }
 
+    /**
+     * Setter of the end game token
+     *
+     * @param endGame the end game token
+     */
     public void setEndGame(boolean endGame) {
         this.endGame = endGame;
     }
 
+    /**
+     * Setter of the flag to confirm the items
+     *
+     * @param canConfirmItem the flag to confirm the items
+     */
     public void setCanConfirmItem(boolean canConfirmItem) {
         this.canConfirmItem = canConfirmItem;
     }
 
+    /**
+     * Setters of the flag to confirm the order of the items
+     *
+     * @param orderOK the flag to confirm the order of the items
+     */
     public void setOrderOK(boolean orderOK) {
         this.orderOK = orderOK;
     }
 
+    /**
+     * Setter of the flag to confirm the column
+     *
+     * @param columnOK the flag to confirm the column
+     */
     public void setColumnOK(boolean columnOK) {
         this.columnOK = columnOK;
     }
 
+    /**
+     * Setter of the number of pending items
+     *
+     * @param numPendingItems the number of pending items
+     */
     public void setNumPendingItems(int numPendingItems) {
         this.numPendingItems = numPendingItems;
     }
 
+    /**
+     * Setter of the confirmed items
+     *
+     * @param confirmedItems the confirmed items
+     */
     public void setConfirmedItems(List<Item> confirmedItems) {
         this.confirmedItems = confirmedItems;
     }
 
+    /**
+     * Setter of the temporary ordered items
+     *
+     * @param tmpOrderedItems the temporary ordered items
+     */
     public void setTmpOrderedItems(List<Item> tmpOrderedItems) {
         this.tmpOrderedItems = tmpOrderedItems;
     }
 
+    /**
+     * Setter of the column chosen
+     *
+     * @param columnChosen the column chosen
+     */
     public void setColumnChosen(int columnChosen) {
         this.columnChosen = columnChosen;
     }
 
+    /**
+     * Setter of the game results
+     *
+     * @param gameResult the game results
+     */
     public void setGameResult(List<Pair<String, Integer>> gameResult) {
         this.gameResult = gameResult;
     }
 
+    /**
+     * Setter of the bag
+     *
+     * @param bag the bag
+     */
     public void setBag(Bag bag) {
         this.bag = bag;
     }
 
+    /**
+     * Notifies that the game is resumed after a server crash
+     */
     public void notFromScratch() {
         this.fromScratch = false;
         this.playersToReconnect.addAll(playerList);
 
     }
 
+    /*===========================================
+    =                 Game logic                =
+    ========================================== */
+
     /**
-     * methods
-     **/
+     * Inserts a new player if the nickname isn't already taken
+     * <p>
+     * If the game isn't from scratch, handles the reconnection of the players
+     *
+     * @param nickname the nickname of the player to add
+     */
     public void insertPlayer(String nickname) {
         if (fromScratch) {
             boolean sameNickname = false;
@@ -491,6 +730,12 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         }
     }
 
+    /**
+     * The first player logged in chooses the number of players of the game
+     *
+     * @param nickname        the players that selected the number of players
+     * @param numberOfPlayers the number of players
+     */
     public void setNumberOfPlayers(String nickname, int numberOfPlayers) {
         if (getNumberOfPlayers() != 0)
             msg = new SendDataToClient(NACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);
@@ -508,6 +753,10 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         setChangedAndNotifyObservers(msg);
     }
 
+
+    /**
+     * Starts the game and sends the initial data to the clients
+     */
     public void startGame() {
 
         if (getNumberOfPlayers() == getPlayerList().size()) {
@@ -538,6 +787,12 @@ public class Game extends ObservableModel<Message> {              //extends Obse
 
     }
 
+    /**
+     * Handles the selection of an item
+     *
+     * @param x the x coordinate of the item
+     * @param y the y coordinate of the item
+     */
     public void itemClick(int x, int y) {
         Pair<Integer, Integer> cell = new Pair<>(x, y);
         boolean contains = false;
@@ -564,6 +819,9 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         setChangedAndNotifyObservers(msg);
     }
 
+    /**
+     * Handles the confirmation of the selected items
+     */
     public void confirmItems() {
         setCanConfirmItem(false);
         setConfirmedItems(getBoard().removePendingItems());
@@ -573,10 +831,17 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         setChangedAndNotifyObservers(msg);
     }
 
-    public void orderSelectedItem(int position, int action) {        // 0 - deseleziono da tmpOrderedItems, 1 - seleziono da confirmedItems
+    /**
+     * Handles the re-ordering of the selected items
+     *
+     * @param position the position of the item in the list
+     * @param action   0 from ordered to pending, 1 from pending to ordered
+     */
+    public void orderSelectedItem(int position, int action) {
         Item tmpItem;
 
-        if (action == 0) {                                            // deselezione dagli ordinati
+        if (action == 0) {
+            // from ordered to pending
             if (getTmpOrderedItems() == null || getTmpOrderedItems().size() == 0) {
                 msg = new SendDataToClient(NACK_ORDER, getCurrentPlayer().getNickname(), null, null, null, null, null, null, false, null, null);
                 setChangedAndNotifyObservers(msg);
@@ -587,11 +852,13 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                     setChangedAndNotifyObservers(msg);
                     return;
                 } else {
-                    tmpItem = getTmpOrderedItems().remove(position);        //rimuove e ritorna l'elemento in posizione "position", fa scalare di una posizione tutti gli elementi successivi
+                    // removes the item from the ordered list, filling the gap with the following items and adds it to the pending list
+                    tmpItem = getTmpOrderedItems().remove(position);
                     getConfirmedItems().add(tmpItem);
                 }
             }
-        } else if (action == 1) {                                   // selezione dai disordinati
+        } else if (action == 1) {
+            // from pending to ordered
             if (getConfirmedItems() == null || getConfirmedItems().size() == 0) {
                 msg = new SendDataToClient(NACK_ORDER, getCurrentPlayer().getNickname(), null, null, null, null, null, null, false, null, null);
                 setChangedAndNotifyObservers(msg);
@@ -602,6 +869,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                     setChangedAndNotifyObservers(msg);
                     return;
                 } else {
+                    // removes the item from the pending list, filling the gap with the following items and adds it to the ordered list
                     tmpItem = getConfirmedItems().remove(position);
                     getTmpOrderedItems().add(tmpItem);
                 }
@@ -613,6 +881,11 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         setChangedAndNotifyObservers(msg);
     }
 
+    /**
+     * Handles the selection of a column
+     *
+     * @param column the column to be selected
+     */
     public void selectColumn(int column) {
         boolean columnFind = false;
         for (int c : getCurrentPlayer().getShelf().getInsertableColumns()) {
@@ -630,7 +903,10 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         setChangedAndNotifyObservers(msg);
     }
 
-    public void confirmInsertion() {        // la VIEW controlla i due booleani OK per mostrare il pulsante
+    /**
+     * Inserts the selected items in the selected column in the correct order and notifies the clients
+     */
+    public void confirmInsertion() {
         setOrderOK(false);
         setColumnOK(false);
         getCurrentPlayer().getShelf().insertItems(getTmpOrderedItems(), columnChosen);
@@ -644,6 +920,13 @@ public class Game extends ObservableModel<Message> {              //extends Obse
 
     }
 
+    // TODO: is this what it actually does?
+
+    /**
+     * Handles the end of the turn, eventually re filling the board and checking if the game is over
+     *
+     * @return true if the game is over, false otherwise
+     */
     public boolean endTurnCheck() {
         boolean closeGame;
         getTmpOrderedItems().clear();
@@ -657,6 +940,9 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         }
     }
 
+    /**
+     * Checks the common goals for the current player and update the client if one is taken
+     */
     private void commonGoalCheck() {
         int oldC1 = getCurrentPlayer().getFirstCommonScore();
         int oldC2 = getCurrentPlayer().getSecondCommonScore();
@@ -684,9 +970,15 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         System.out.println("Ho controllato i common goal di " + getCurrentPlayer().getNickname() + " --> primo: " + getCurrentPlayer().getFirstCommonScore() + " secondo: " + getCurrentPlayer().getSecondCommonScore());
     }
 
+    /**
+     * Checks if the game is over
+     *
+     * @return true if the game is over, false otherwise
+     */
     private boolean endGameCheck() {
         if (!getEndGame()) {
-            if (getCurrentPlayer().getShelf().getMaxFreeSpace() == 0) {          //shelf pieno se non ho spazi liberi per le tessere
+            if (getCurrentPlayer().getShelf().getMaxFreeSpace() == 0) {
+                // The player has no more free space in his shelf
                 getCurrentPlayer().setEndGameToken(1);
                 setEndGame(true);
                 msg = new SendDataToClient(TOKEN_END_GAME, getCurrentPlayer().getNickname(), null, null, null, null, null, null, false, null, null);       //mando il messaggio di fine gioco
@@ -697,6 +989,9 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         return getEndGame() && getCurrentPlayer().equals(getPlayerList().get(getPlayerList().size() - 1));        //se true si va poi a endGame altrimenti se false a nextPlayer deciso dal controller
     }
 
+    /**
+     * Refills the board
+     */
     private void refillBoard() {
         if (getBoard().needToRefill()) {
             getBoard().fill(getPlayerList().size(), getBag());
@@ -704,6 +999,9 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         }
     }
 
+    /**
+     * Give the turn to the next player
+     */
     public void nextPlayer() {
         int indexCurrentPlayer = -1;
 
@@ -734,6 +1032,9 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         setChangedAndNotifyObservers(msg);
     }
 
+    /**
+     * Ends the game and computes the final score
+     */
     public void endGame() {
         (new File("status.json")).delete();
         Pair<String, Integer> partecipant;
@@ -774,11 +1075,21 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         setChangedAndNotifyObservers(msg);
     }
 
+    /**
+     * Notifies the observers that the model has changed
+     *
+     * @param arg the message to send to the observers
+     */
     private void setChangedAndNotifyObservers(Message arg) {
         setChangedModel();
         notifyObserversModel(arg);
     }
 
+    /**
+     * Sends the confirmed items to the client in a format printable by the cli
+     *
+     * @return the string to send to the client
+     */
     private String confirmedItemsToString() {
         StringBuilder unordered = new StringBuilder(" ");
         for (int i = 0; i < getConfirmedItems().size(); i++) {
@@ -809,6 +1120,11 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         return unordered.toString();
     }
 
+    /**
+     * Sends the ordered items to the client in a format printable by the cli
+     *
+     * @return the string to send to the client
+     */
     private String orderedItemsToString() {
         StringBuilder ordered = new StringBuilder(" ");
         for (int i = 0; i < getTmpOrderedItems().size(); i++) {
@@ -839,6 +1155,11 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         return ordered.toString();
     }
 
+    /**
+     * Sends the game result to the client in a format printable by the cli
+     *
+     * @return the string to send to the client
+     */
     private String gameResultToString() {
         StringBuilder ranking = new StringBuilder("MATCH RANKING: \n");
         int i = 1;
@@ -850,6 +1171,13 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         return ranking.toString();
     }
 
+    /**
+     * Hendles the chat message
+     *
+     * @param from the sender
+     * @param to   the receiver
+     * @param text the text of the message
+     */
     public void sendChat(String from, String to, String text) {
         Message msg = new SendChatMessage(CHAT_MESSAGE, from, to, text);
         setChangedAndNotifyObservers(msg);

@@ -1,5 +1,10 @@
 package it.polimi.ingsw.model;
 
+/** Cell is a class that represents a cell of the board
+ *  It contains the item that is on the cell and the circumstance of the cell
+ *  <p>
+ *  The circumstance is an int (0, 2, 3, 4) which indicates whether that cell will be used based on the number of players
+ */
 public class Cell {
     private Item content;
     private int circumstance;

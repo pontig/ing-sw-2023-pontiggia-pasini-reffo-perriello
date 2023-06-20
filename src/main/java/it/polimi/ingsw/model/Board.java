@@ -11,6 +11,12 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Board is the class that represents the board of the game
+ * <p>
+ * It contains the matrix of cells that represents the board, the set of items that are currently pending and the
+ * methods to manage them
+ */
 public class Board {
 
     private Cell[][] disposition;

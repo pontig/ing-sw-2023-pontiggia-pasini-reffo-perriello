@@ -3,6 +3,13 @@ package it.polimi.ingsw.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.enums.Type;
 
+/**
+ * Item is a class that represents an item to be placed on the shelf
+ * It contains the type of the item and the variant of the item
+ * <p>
+ * The type is an enum (Ammo, Weapon, PowerUp)
+ * The variant is an int (0, 1, 2) which identifies different images of items of the same type
+ */
 public final class Item {
 
     private Type type;

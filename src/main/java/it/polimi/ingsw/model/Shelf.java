@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Shelf is a class that represents the shelf of a player
+ * It contains a matrix of items and a list of insertable columns
+ */
 public class Shelf {
 
     /* ============ SHELF: ============
@@ -21,6 +25,9 @@ public class Shelf {
     private Item[][] items;
     private List<Integer> insertableColumns;
 
+    /**
+     * Constructor of Shelf
+     */
     public Shelf() {
         this.items = new Item[5][6];
         for (int i = 0; i < 5; i++) {

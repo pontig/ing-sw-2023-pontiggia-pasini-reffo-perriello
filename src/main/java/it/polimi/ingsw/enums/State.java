@@ -1,5 +1,8 @@
 package it.polimi.ingsw.enums;
 
+/**
+ * Purposes of the messages exchanged between client and server and vice versa
+ */
 public enum State {
     /* =================================================================================================================
                                            ---CLIENT TO SERVER---

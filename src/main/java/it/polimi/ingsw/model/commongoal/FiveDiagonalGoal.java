@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.Item;
 
 import it.polimi.ingsw.model.Shelf;
 
+/**
+ * Five tiles of the same type forming a diagonal.
+ */
 public class FiveDiagonalGoal extends CommonGoalAbstract {
     public FiveDiagonalGoal(int numberPlayers){ super(numberPlayers); }
 

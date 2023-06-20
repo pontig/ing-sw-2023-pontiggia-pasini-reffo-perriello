@@ -3,7 +3,9 @@ package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Shelf;
 
-
+/**
+ * Five tiles of the same type forming an X
+ */
 public class FiveXGoal extends CommonGoalAbstract {
 
     /**
@@ -15,7 +17,6 @@ public class FiveXGoal extends CommonGoalAbstract {
     }
 
     /**
-     * Checks if the shelf has five tiles of the same type forming an X
      * @param shelf the shelf to check
      * @return if the shelf has five tiles of the same type forming an X
      */

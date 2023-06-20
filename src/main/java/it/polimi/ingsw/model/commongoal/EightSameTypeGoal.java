@@ -7,14 +7,17 @@ import it.polimi.ingsw.enums.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Eight tiles of the same type. There are no restrictions on the locations of these tiles
+ */
 public class EightSameTypeGoal extends CommonGoalAbstract {
 
-    /** Constructor EightSameTypeGoal
+    /**
+     * Constructor EightSameTypeGoal
+     *
      * @param numberPlayers
      * this CommonGoal returns true if there are 8 tiles of the same type
      */
-
-    //Eight tiles of the same type. There are no restrictions on the locations of these tiles
     List<Type> types;
 
     public EightSameTypeGoal(int numberPlayers) {
@@ -78,7 +81,7 @@ public class EightSameTypeGoal extends CommonGoalAbstract {
             }
             counter = 0;
         }
-           return false;
+        return false;
     }
 }
 

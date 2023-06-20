@@ -15,6 +15,10 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Player is a class that represents a player
+ * it contains every information about the player
+ */
 public class Player {
     private  String nickname;
     private Shelf shelf;
@@ -164,6 +168,10 @@ public class Player {
         return res;
     }
 
+    /**
+     * Helps the deserialization of the class
+     * @param which the personal goal of the player
+     */
     @JsonProperty("personalGoal")
     public void setPersonalGoal (Map<String, Object> which) {
         PersonalGoalJson[] personalGoalJsonArray;

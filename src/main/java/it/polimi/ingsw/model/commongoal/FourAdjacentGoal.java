@@ -2,6 +2,10 @@ package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Shelf;
 
+/**
+ * Four groups each containing at least 4 tiles of the same type
+ * The tiles of one group can be different from those of another group.
+ */
 public class FourAdjacentGoal extends CommonGoalAbstract {
 
     public FourAdjacentGoal(int numberPlayers) {
@@ -9,7 +13,6 @@ public class FourAdjacentGoal extends CommonGoalAbstract {
     }
 
     /**
-     * Checks if there are at least two groups of four adjacent items of the same type
      * @param shelf the shelf to check
      * @return if there are at least two groups of four adjacent items of the same type
      * @throws IllegalArgumentException if the shelf is null

@@ -20,6 +20,9 @@ import java.util.Scanner;
 
 import static it.polimi.ingsw.enums.State.GAME_READY;
 
+/**
+ * This class is the GUI view of the MVC pattern
+ */
 public class GUI extends View {
 
     int state = 0;
@@ -32,7 +35,9 @@ public class GUI extends View {
     private Boolean isThisPlayerFirst = false;
     private List<String> chatDests = null;
 
-
+    /**
+     * Constructor of the class
+     */
     public GUI() {
         super();
     }
@@ -49,6 +54,7 @@ public class GUI extends View {
 
     /**
      * Sets the nickname of the owner of this GUI
+     *
      * @param nickname the nickname String of the player
      */
     public void setNickname(String nickname) {
@@ -343,7 +349,7 @@ public class GUI extends View {
                     break;
 
                 case NACK_NICKNAME:
-                    if(SceneController.getCurrFxml().equals("")) {
+                    if (SceneController.getCurrFxml().equals("")) {
                         Platform.runLater(() -> {
                             SceneController.showMessage("We are sorry, but there already is a game in progress, try again later");
                             NicknameSceneController controller = (NicknameSceneController) SceneController.getActiveController();

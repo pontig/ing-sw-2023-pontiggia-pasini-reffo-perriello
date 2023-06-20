@@ -7,6 +7,14 @@ import it.polimi.ingsw.enums.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+/**
+ * Covers more than one goal:
+ * Two columns each formed by 6 different types of tiles
+ * Three columns each formed by 6 tiles of maximum three different types. One column can show the same or a different combination of another column
+ * Two lines each formed by 5 different types of tiles. One line can show the same or a different combination of the other line
+ * Four lines each formed by 5 tiles of
+ * maximum three different types. One line can show the same or a different combination of another line.
+ */
 public class AdjacentDifferentItemsGoal extends CommonGoalAbstract {
     private char direction; // h for horizontal, v for vertical
     private int variety; // number of different items in a row or column

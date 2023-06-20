@@ -7,7 +7,10 @@ import it.polimi.ingsw.tuples.Pair;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
+/**
+ * Bag is the class that represents the bag of the game
+ * It contains all the items that will be drawn during the game
+ */
 public class Bag {
 
     private List<Pair<Item, Integer>> items;
@@ -32,6 +35,10 @@ public class Bag {
         this.items = items;
     }
 
+    /**
+     * Restore the items in the bag after a crash of the server
+     * @param items the list of the items before the crash
+     */
     @JsonProperty("items")
     public void restoreItems(List<Object> items) {
         this.items = items.stream()

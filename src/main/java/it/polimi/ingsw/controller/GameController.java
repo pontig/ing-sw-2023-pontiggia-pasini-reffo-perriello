@@ -10,63 +10,139 @@ public class GameController {                                                   
     private Game game;
     private StateGame currentStateGame;
 
-    //Costruttore
+    /**
+     * Constructor of GameController
+     *
+     * @param model  game model
+     * @param client client
+     */
     public GameController(Game model, Client client) {
         this.game = model;
     }
 
-    //getter
+    /**
+     * Getter of the game
+     *
+     * @return game
+     */
     public Game getGame() {
         return this.game;
     }
 
+    /**
+     * Getter of the current state of the game
+     *
+     * @return current state of the game
+     */
     public StateGame getCurrentStateGame() {
         return this.currentStateGame;
     }
 
     //setter
+
+    /**
+     * Setter of the game
+     *
+     * @param game the game to set
+     */
     public void setGame(Game game) {
         this.game = game;
     }
 
+    /**
+     * Setter of the current state of the game
+     *
+     * @param currentStateGame the current state of the game to set
+     */
     public void setCurrentStateGame(StateGame currentStateGame) {
         this.currentStateGame = currentStateGame;
     }
 
-    //metodi, INGAME state in base al messaggio chiamerà una delle funzioni
+    /**
+     * Insert a new player in the game
+     *
+     * @param nickname nickname of the player
+     * @see Game#insertPlayer(String)
+     */
     public void setPlayer(String nickname) {
         getGame().insertPlayer(nickname);
     }
 
+    /**
+     * Set the number of players in the game
+     *
+     * @param nickname   nickname of the player
+     * @param numPlayers number of players
+     * @see Game#setNumberOfPlayers(String, int)
+     */
     public void setNumPlayers(String nickname, int numPlayers) {
         getGame().setNumberOfPlayers(nickname, numPlayers);
     }
 
+    /**
+     * Starts the game
+     *
+     * @see Game#startGame()
+     */
     public void gameReadyToStart() {
         getGame().startGame();
     }
 
+    /**
+     * Event handler for the selection of one item on the board
+     *
+     * @param x x coordinate of the item
+     * @param y y coordinate of the item
+     * @see Game#itemClick(int, int)
+     */
     public void onItemClick(int x, int y) {
         getGame().itemClick(x, y);
     }
 
+    /**
+     * Event handler for the confirmation of the selected items
+     *
+     * @see Game#confirmItems()
+     */
     public void onConfirmItems() {
         getGame().confirmItems();
     }
 
+    /**
+     * Event handler for the ordering of the selected items
+     *
+     * @param position position of the item
+     * @param action   action to perform
+     * @see Game#orderSelectedItem(int, int)
+     */
     public void onOrderItem(int position, int action) {             //=> UML inserire action nel controller
         getGame().orderSelectedItem(position, action);
     }
 
+    /**
+     * Event handler for the selection of a column
+     *
+     * @param column column to select
+     * @see Game#selectColumn(int)
+     */
     public void onColumnSelection(int column) {
         getGame().selectColumn(column);
     }
 
+    /**
+     * Event handler for the confirmation of the insertion of the items in the shelf
+     *
+     * @see Game#confirmInsertion()
+     * @see GameController#endTurnCheck()
+     */
     public void onConfirmInsertion() {
         getGame().confirmInsertion();
         endTurnCheck();
     }
 
+    /**
+     * Checks if the game has to end and if not, passes the turn to the next player
+     */
     private void endTurnCheck() {
         if (getGame().endTurnCheck())
             endGame();
@@ -74,22 +150,49 @@ public class GameController {                                                   
             nextPlayer();
     }
 
+    /**
+     * Passes the turn to the next player
+     *
+     * @see Game#nextPlayer()
+     */
     private void nextPlayer() {
         getGame().nextPlayer();
     }
 
+    /**
+     * Ends the game
+     */
     private void endGame() {
         getGame().endGame();
     }
 
+    /**
+     * Updates the observer
+     *
+     * @param o   the client that has to be updated
+     * @param arg the message to send
+     */
     public void update(Client o, Message arg) {
         play(arg);
     }
 
+    /**
+     * Event handler for the chat message
+     *
+     * @param from sender of the message
+     * @param to   receiver of the message
+     * @param text text of the message
+     * @see Game#sendChat(String, String, String)
+     */
     private void onChatMessage(String from, String to, String text) {
         getGame().sendChat(from, to, text);
     }
 
+    /**
+     * Handles the message received from the client
+     *
+     * @param arg the message received
+     */
     private void play(Message arg) {
         State msg = arg.getInfo();
         switch (msg) {

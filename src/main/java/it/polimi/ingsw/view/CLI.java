@@ -449,7 +449,7 @@ public class CLI extends View {
                     state = 20;
                     break;
 
-                case FIRSTCOMMONGOAL_TAKEN:      //avviso che un giocatore ha preso un obiettivo comune
+                case FIRSTCOMMONGOAL_TAKEN:
                     arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
                         System.out.print("You ");
@@ -469,7 +469,7 @@ public class CLI extends View {
                     System.out.println(arg.getNickname() + "obtained: " + arg.getSecondCommon() + " points from the second common goal");
                     break;
 
-                case TOKEN_END_GAME:    //avviso che il giocatore corrente ha preso il token di fine gioco
+                case TOKEN_END_GAME:
                     arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
                         System.out.print("You ");

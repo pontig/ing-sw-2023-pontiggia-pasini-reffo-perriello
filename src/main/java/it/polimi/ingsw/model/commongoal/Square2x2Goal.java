@@ -7,9 +7,14 @@ import it.polimi.ingsw.enums.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Square2x2Goal extends CommonGoalAbstract{
+/**
+ * Two groups each containing 4 tiles of the same type in a 2x2 square
+ * The tiles of one square can be different from those of the other square.
+ */
+public class Square2x2Goal extends CommonGoalAbstract {
     List<Type> types;
-    public Square2x2Goal(int numberPlayers){
+
+    public Square2x2Goal(int numberPlayers) {
         super(numberPlayers);
         types = new ArrayList<>();
         types.add(Type.BOOK);
@@ -31,27 +36,27 @@ public class Square2x2Goal extends CommonGoalAbstract{
     c
     */
 
-    public boolean specificGoal(Shelf shelf){
+    public boolean specificGoal(Shelf shelf) {
         int counter = 0;
         Shelf shelfClone;
         Item[][] playerShelf;
 
-        for(Type item: types) {
+        for (Type item : types) {
             shelfClone = shelf.clone();
             playerShelf = shelfClone.getItems();
-            for(int r = 5; r > 0; r--) {
-                for(int c = 0; c < 4; c++) {
-                    if(playerShelf[c][r] == null || playerShelf[c+1][r] == null || playerShelf[c][r-1] == null || playerShelf[c+1][r-1] == null)
+            for (int r = 5; r > 0; r--) {
+                for (int c = 0; c < 4; c++) {
+                    if (playerShelf[c][r] == null || playerShelf[c + 1][r] == null || playerShelf[c][r - 1] == null || playerShelf[c + 1][r - 1] == null)
                         continue;
 
-                    if(item.equals(playerShelf[c][r].getType()) && item.equals(playerShelf[c+1][r].getType())
-                            && item.equals(playerShelf[c][r-1].getType()) && item.equals(playerShelf[c+1][r-1].getType())) {
+                    if (item.equals(playerShelf[c][r].getType()) && item.equals(playerShelf[c + 1][r].getType())
+                            && item.equals(playerShelf[c][r - 1].getType()) && item.equals(playerShelf[c + 1][r - 1].getType())) {
                         counter++;
                         playerShelf[c][r] = null;
-                        playerShelf[c+1][r] = null;
-                        playerShelf[c][r-1] = null;
-                        playerShelf[c+1][r-1] = null;
-                        if(counter == 2)
+                        playerShelf[c + 1][r] = null;
+                        playerShelf[c][r - 1] = null;
+                        playerShelf[c + 1][r - 1] = null;
+                        if (counter == 2)
                             return true;
                     }
                 }

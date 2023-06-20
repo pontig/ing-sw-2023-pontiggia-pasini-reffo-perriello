@@ -7,6 +7,11 @@ import java.util.Stack;
 public abstract class CommonGoalAbstract {
     String description = null;
     private Stack<Integer> points;
+
+    /**
+     * Constructor: fills the stack with the correct set of points
+     * @param numberPlayers the number of players of the game
+     */
     public CommonGoalAbstract(int numberPlayers){
         points = new Stack<>();
         switch (numberPlayers){

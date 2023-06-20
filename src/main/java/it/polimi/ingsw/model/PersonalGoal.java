@@ -7,19 +7,29 @@ import it.polimi.ingsw.tuples.Triplet;
 
 import java.util.Set;
 
+/**
+ * PersonalGoal is a class that represents a personal goal of a player
+ */
 public final class PersonalGoal {
     public final Set<Triplet<Integer, Integer, Type>> pg;
     public final int which;
 
-
+    /**
+     * constructor of the class
+     *
+     * @param pg     set of triplets that represent the personal goal
+     * @param number number of the personal goal [used for choosing the right image]
+     */
     public PersonalGoal(Set<Triplet<Integer, Integer, Type>> pg, int number) {
         this.pg = pg;
         this.which = number;
     }
 
-
-
-
+    /**
+     * sendToString is used to send the personal goal to the client visible in the CLI
+     *
+     * @return a string that represents the personal goal
+     */
     public String sendToString() {
         boolean item = false;
         StringBuilder personalGoal = new StringBuilder();

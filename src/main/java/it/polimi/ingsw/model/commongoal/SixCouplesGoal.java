@@ -8,6 +8,11 @@ import it.polimi.ingsw.enums.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Six groups each containing at least 2 tiles of the same type
+ * The tiles of one group can be different from those of another group
+ */
+
 public class SixCouplesGoal extends CommonGoalAbstract {
     List<Type> types;
 
@@ -29,21 +34,20 @@ public class SixCouplesGoal extends CommonGoalAbstract {
         int columnFirst = 0;
 
 
-        for(Type color: types){
+        for (Type color : types) {
             shelfClone = shelf.clone();
             playerShelf = shelfClone.getItems();
             //rowfirst
-            for(int i = 0; i < 6; i++){
-                for(int j = 0; j < 5; j++){
-                    if(playerShelf[j][i] != null && playerShelf[j][i].getType().equals(color)){
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < 5; j++) {
+                    if (playerShelf[j][i] != null && playerShelf[j][i].getType().equals(color)) {
                         playerShelf[j][i] = null;
-                        if(j < 4 && playerShelf[j+1][i] != null && playerShelf[j+1][i].getType().equals(color)){
-                            playerShelf[j+1][i] = null;
+                        if (j < 4 && playerShelf[j + 1][i] != null && playerShelf[j + 1][i].getType().equals(color)) {
+                            playerShelf[j + 1][i] = null;
                             rowFirst++;
                             continue;
-                        }
-                        else if(i < 5 && playerShelf[j][i+1] != null && playerShelf[j][i+1].getType().equals(color)){
-                            playerShelf[j][i+1] = null;
+                        } else if (i < 5 && playerShelf[j][i + 1] != null && playerShelf[j][i + 1].getType().equals(color)) {
+                            playerShelf[j][i + 1] = null;
                             rowFirst++;
                             continue;
                         }
@@ -51,24 +55,23 @@ public class SixCouplesGoal extends CommonGoalAbstract {
                 }
             }
 
-            if(rowFirst >= 6)
+            if (rowFirst >= 6)
                 return true;
 
 
             shelfClone = shelf.clone();
             playerShelf = shelfClone.getItems();
             //columnfirst
-            for(int i = 0; i < 6; i++){
-                for(int j = 0; j < 5; j++){
-                    if(playerShelf[j][i] != null && playerShelf[j][i].getType().equals(color)){
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < 5; j++) {
+                    if (playerShelf[j][i] != null && playerShelf[j][i].getType().equals(color)) {
                         playerShelf[j][i] = null;
-                        if(i < 5 && playerShelf[j][i+1] != null && playerShelf[j][i+1].getType().equals(color)){
-                            playerShelf[j][i+1] = null;
+                        if (i < 5 && playerShelf[j][i + 1] != null && playerShelf[j][i + 1].getType().equals(color)) {
+                            playerShelf[j][i + 1] = null;
                             columnFirst++;
                             continue;
-                        }
-                        else if(j < 4 && playerShelf[j+1][i] != null && playerShelf[j+1][i].getType().equals(color)){
-                            playerShelf[j+1][i] = null;
+                        } else if (j < 4 && playerShelf[j + 1][i] != null && playerShelf[j + 1][i].getType().equals(color)) {
+                            playerShelf[j + 1][i] = null;
                             columnFirst++;
                             continue;
                         }
@@ -76,7 +79,7 @@ public class SixCouplesGoal extends CommonGoalAbstract {
                 }
             }
 
-            if(columnFirst >= 6)
+            if (columnFirst >= 6)
                 return true;
 
             rowFirst = 0;
