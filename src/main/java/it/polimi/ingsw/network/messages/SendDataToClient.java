@@ -65,6 +65,22 @@ public class SendDataToClient implements Message{
     public String getOrderedRanking() { return orderedRanking; }
     @Override
     public String getColumns() { return columns; }
+
+    @Override
+    public String getTo() {
+        return null;
+    }
+
+    @Override
+    public String getFrom() {
+        return null;
+    }
+
+    @Override
+    public String getText() {
+        return null;
+    }
+
     @Override
     public String getNickname() {
         return nickname;

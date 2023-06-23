@@ -20,4 +20,8 @@ public interface Message extends Serializable {
     String getShelf();
     String getOrderedRanking();
     String getColumns();
+
+    String getTo();
+    String getFrom();
+    String getText();
 }

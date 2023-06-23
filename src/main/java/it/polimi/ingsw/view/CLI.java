@@ -2,14 +2,19 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.enums.State;
 import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.network.server.Server;
-import it.polimi.ingsw.observer.ObservableView;
-import it.polimi.ingsw.observer.ObserverView;
+import it.polimi.ingsw.view.cliChat.ThreadRead;
+import it.polimi.ingsw.view.cliChat.ThreadSend;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import static it.polimi.ingsw.enums.State.*;
@@ -18,23 +23,40 @@ public class CLI extends View {
     // Reset
     public static final String RESET = "\033[0m";  // Text Reset
     // Regular Colors
-    public static final String BLACK = "\033[0;30m";   // BLACK
-    public static final String RED = "\033[0;91m";     // RED
-    public static final String GREEN = "\033[0;92m";   // GREEN
-    public static final String YELLOW = "\033[0;93m";  // YELLOW
-    public static final String BLUE = "\033[0;94m";    // BLUE
-    public static final String PURPLE = "\033[0;95m";  // PURPLE
-    public static final String CYAN = "\033[0;36m";    // CYAN
-    public static final String WHITE = "\033[0;97m";   // WHITE
+    public static final String BLACK = "\033[38;5;232m";   // BLACK
+    public static final String RED = "\033[38;5;196m";     // RED
+    public static final String GREEN = "\033[38;5;46m";   // GREEN
+    public static final String YELLOW = "\033[38;5;226m";  // YELLOW
+    public static final String BLUE = "\033[38;5;21m";    // BLUE
+    public static final String PURPLE = "\033[38;5;129m";  // PURPLE
+    public static final String CYAN = "\033[38;5;51m";    // CYAN
+    public static final String WHITE = "\033[38;5;231m";   // WHITE
     int state = 20;
     Scanner terminal = new Scanner(System.in);
     private final Object lock = new Object();
     private volatile boolean isRunning = true;
     Message msg = null;
-    String nickname;
+    private String nickname;
+    int networkProtocol;
+    StringBuilder playerList = new StringBuilder("╬");
+    boolean chatOpen = false;
+    boolean waiting = false;
+    boolean alreadyDone = false;
+    boolean end = false;
+    Socket socket = null;
+    List<String> otherShelf = new ArrayList<>();
+    ThreadRead userInput;
 
     public CLI() {
         super();
+    }
+
+    public String getNickname(){
+        return this.nickname;
+    }
+
+    public void setNetwork(int networkClient) {
+        this.networkProtocol = networkClient;
     }
 
     /**
@@ -55,14 +77,14 @@ public class CLI extends View {
         System.out.println("\nCLI RUNNING CORRECTLY");
 
         System.out.println(YELLOW + "\n" + "ooo        ooooo                   .oooooo..o oooo                  oooo   .o88o.  o8o              \n" +
-                "`88.       .888'                  d8P'    `Y8 `888                  `888   888 `\"  `\"'            \n" +
-                " 888b     d'888  oooo    ooo      Y88bo.       888 .oo.    .ooooo.   888  o888oo  oooo   .ooooo.    \n" +
-                " 8 Y88. .P  888   `88.  .8'        `\"Y8888o.   888P\"Y88b  d88' `88b  888   888    `888  d88' `88b \n" +
-                " 8  `888'   888    `88..8'             `\"Y88b  888   888  888ooo888  888   888     888  888ooo888  \n" +
-                " 8    Y     888     `888'         oo     .d8P  888   888  888    .o  888   888     888  888    .o   \n" +
-                "o8o        o888o     .8'          8\"\"88888P'  o888o o888o `Y8bod8P' o888o o888o   o888o `Y8bod8P' \n" +
-                "                 .o..P'                                                                             \n" +
-                "                 `Y8P'                                                                              \n" + RESET);
+                                           "`88.       .888'                  d8P'    `Y8 `888                  `888   888 `\"  `\"'            \n" +
+                                           " 888b     d'888  oooo    ooo      Y88bo.       888 .oo.    .ooooo.   888  o888oo  oooo   .ooooo.    \n" +
+                                           " 8 Y88. .P  888   `88.  .8'        `\"Y8888o.   888P\"Y88b  d88' `88b  888   888    `888  d88' `88b \n" +
+                                           " 8  `888'   888    `88..8'             `\"Y88b  888   888  888ooo888  888   888     888  888ooo888  \n" +
+                                           " 8    Y     888     `888'         oo     .d8P  888   888  888    .o  888   888     888  888    .o   \n" +
+                                           "o8o        o888o     .8'          8\"\"88888P'  o888o o888o `Y8bod8P' o888o o888o   o888o `Y8bod8P' \n" +
+                                           "                 .o..P'                                                                             \n" +
+                                           "                 `Y8P'                                                                              \n" + RESET);
 
         System.out.print("Please enter a nickname: ");
         nickname = terminal.next();
@@ -71,7 +93,7 @@ public class CLI extends View {
         notifyObserversView(msg);
 
         while (isRunning) {
-            System.out.println("Stato: " + state);
+            //System.out.println("Stato: " + state);
             switch (state) {
                 case 0:
                     //Form to enter a new nickname because someone already have the one expressed before
@@ -81,17 +103,26 @@ public class CLI extends View {
                     setChangedView();
                     notifyObserversView(msg);
                     msg = null;
+                    if (networkProtocol == 1)
+                        state = 20;
                     break;
                 case 1:
                     //All the players required are in game so no more are needed
-                    System.out.println("No more players are required in this game, we are sorry, you will be disconnected");
+                    if (!end)
+                        System.out.println("No more players are required in this game, we are sorry, you will be disconnected");
+                    else
+                        System.out.println("Game ended, gooda bye");
+
                     stop();
                     break;
                 case 2:
                     //Waiting for player and waiting
                     synchronized (lock) {
                         try {
-                            System.out.print("\n\n ~ WAITING FOR PLAYERS ~ \n\n");
+                            if (!waiting) {
+                                System.out.print("\n\n ~ WAITING FOR PLAYERS ~ \n\n");
+                                waiting = true;
+                            }
                             lock.wait();        //possibile lock per tutti i giocatori -> da inviare una richiesta al server se i due numeri sono uguali
                             msg = null;
                         } catch (InterruptedException e) {
@@ -117,6 +148,8 @@ public class CLI extends View {
                     setChangedView();
                     notifyObserversView(msg);
                     msg = null;
+                    if (networkProtocol == 1)
+                        state = 20;
                     break;
                 case -1:
                     //Check if the game should begin
@@ -124,6 +157,8 @@ public class CLI extends View {
                     setChangedView();
                     notifyObserversView(msg);
                     msg = null;
+                    if (networkProtocol == 1)
+                        state = 20;
                     break;
                 case 4:
                     //Selecting an items from board by typing its coordinated ros first followed by the column
@@ -155,6 +190,8 @@ public class CLI extends View {
                     setChangedView();
                     notifyObserversView(msg);
                     msg = null;
+                    if (networkProtocol == 1)
+                        state = 20;
                     break;
 
                 case 5:
@@ -163,6 +200,8 @@ public class CLI extends View {
                     setChangedView();
                     notifyObserversView(msg);
                     msg = null;
+                    if (networkProtocol == 1)
+                        state = 20;
                     break;
 
                 case 6:
@@ -210,6 +249,8 @@ public class CLI extends View {
                     setChangedView();
                     notifyObserversView(msg);
                     msg = null;
+                    if (networkProtocol == 1)
+                        state = 20;
                     break;
 
                 case 7:
@@ -218,6 +259,8 @@ public class CLI extends View {
                     setChangedView();
                     notifyObserversView(msg);
                     msg = null;
+                    if (networkProtocol == 1)
+                        state = 20;
                     break;
 
                 case 20:
@@ -235,7 +278,10 @@ public class CLI extends View {
                     System.out.println("Error");
                     break;
             }
-
+            if (socket != null){
+                userInput = new ThreadRead(this.socket, this);
+                userInput.start();
+            }
         }
     }
 
@@ -256,18 +302,25 @@ public class CLI extends View {
                 case SAME_NICKNAME:
                     arg.printMsg();
                     state = 0;
+                    if(networkProtocol == 1)
+                        lock.notifyAll();
                     break;
 
                 case NACK_NICKNAME:
                     arg.printMsg();
                     state = 1;
+                    if(networkProtocol == 1)
+                        lock.notifyAll();
                     break;
 
                 case NACK_NUMPLAYERS:
                     arg.printMsg();
-                    if (arg.getNickname().equals(this.nickname))
+                    if (arg.getNickname().equals(this.nickname)) {
                         System.out.println("Someone has already chosen the number of players, you will be added to that game");
-                    state = -1;
+                        state = -1;
+                    }
+                    if(networkProtocol == 1)
+                        lock.notifyAll();
                     break;
 
                 case ASK_NUMPLAYERS:
@@ -280,68 +333,143 @@ public class CLI extends View {
                     break;
 
                 case GAME_READY:
+                case IN_GAME:
                     arg.printMsg();
                     if(nickname.equals(arg.getNickname())){
-                        System.out.println("Board");
+                        System.out.println(RED + "\nThis is the board: " + RESET);
                         showBoard(arg.getBoard());
-                        System.out.print("First");
+                        System.out.print(RED + "\nThis is the first common goal: " + RESET);
                         System.out.print(arg.getFirstCommon());
-                        System.out.print("Second");
+                        System.out.print(RED + "\nThis is the second common goal: " + RESET);
                         System.out.print(arg.getSecondCommon());
-                        System.out.println("Personal");
-                        showItems(arg.getPersonal());
-                        System.out.println("Shelf");
-                        showItems(arg.getShelf());
+                        System.out.println(RED + "\nYour shelf:             Your personal goal: " + RESET);
+                        showPersonalAndShelf(arg.getPersonal(), arg.getShelf());
+
+                        if(msg == IN_GAME){
+                            System.out.println();
+                            for(int i = 0; i*2 < otherShelf.size(); i++) {
+                                System.out.print(RED + otherShelf.get(i * 2) + "'s shelf:" + RESET);
+                                for(int j = 0; j < 15-otherShelf.get(i*2).length(); j++)
+                                    System.out.print(" ");
+                            }
+                            System.out.println();
+                            showOtherShelf(otherShelf);
+                            otherShelf.clear();
+                        }
+
+                        if(arg.getConfirm()){
+                            System.out.println("\n\nIt is your turn " + arg.getNickname() + "!!");
+                            System.out.println("To select a tile you must enter the couple Row - Column, if you wanna deselect it you can do it during the next submission by typing the same couple Row - Column.");
+                            System.out.println("Each time you choose a tile press enter key to submit.");
+                            state = 4;
+                        }
                     }
-                    if(arg.getConfirm()){
-                        System.out.println("\n\nIt is your turn " + arg.getNickname() + "!!");
-                        System.out.println("To select a tile you must enter the couple Row - Column, if you wanna deselect it you can do it during the next submission by typing the same couple Row - Column.");
-                        System.out.println("Each time you choose a tile press enter key to submit.");
-                        state = 4;
-                    } else{
-                        System.out.println("\n\nIt is " + arg.getNickname() + "'s turn, let's wait for your turn!!");
-                        state = 20;
+                    if(networkProtocol == 1)
+                        lock.notifyAll();
+                    break;
+
+                case PLAYER_LIST:
+                    arg.printMsg();
+                    int j = 1;
+                    for(int i = 1; i < 5; i++){
+                        switch(i) {
+                            case 1:
+                                if (arg.getNickname() != null && !arg.getNickname().equals(nickname)){
+                                    playerList.append(j).append(" - ").append(arg.getNickname());
+                                    j++;
+                                }
+                                break;
+
+                            case 2:
+                                if(arg.getBoard() != null && !arg.getBoard().equals(nickname)){
+                                    playerList.append(" - ").append(j).append(" - ").append(arg.getBoard());
+                                    j++;
+                                }
+                                break;
+
+                            case 3:
+                                if(arg.getPersonal() != null && !arg.getPersonal().equals(nickname)){
+                                    playerList.append(" - ").append(j).append(" - ").append(arg.getPersonal());
+                                    j++;
+                                }
+                                break;
+                            case 4:
+                                if(arg.getShelf() != null && !arg.getShelf().equals(nickname)){
+                                    playerList.append(" - ").append(j).append(" - ").append(arg.getShelf());
+                                    j++;
+                                }
+                                break;
+
+                            default:
+                                System.out.println(RED + "Error" + RESET);
+                                break;
+                        }
                     }
+                    playerList.append("\n");
                     break;
 
                 case SEND_MODEL:
                     arg.printMsg();
+                    if(!chatOpen) {
+                        try {
+                            int port = -1;
+                           // String command = "x-terminal-emulator -e java -jar /home/tommi/Scrivania/ChatProva/TerminalServer.jar";
+                           // Process process = Runtime.getRuntime().exec(command);
 
-                    try {
-                        String os = System.getProperty("os.name").toLowerCase();
-                        Runtime runtime = Runtime.getRuntime();
+                            Thread.sleep(2000);
 
-                        if (os.contains("win")) {
-                            runtime.exec("cmd /c start");
-                        } else if (os.contains("nix") || os.contains("nux")) {
-                            runtime.exec("gnome-terminal");
-                        } else if (os.contains("mac")) {
-                            runtime.exec("open -a Terminal");
-                        } else {
-                            System.out.println("Impossibile aprire il terminale. Sistema operativo non supportato.");
+                            try (BufferedReader reader = new BufferedReader(new FileReader("port.txt"))) {
+                                String line = " ";
+                                do {
+                                    line = reader.readLine();
+                                } while (line != null && line.equals("-"));
+
+                                port = Integer.parseInt(line);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            Thread.sleep(2000);
+
+                            System.out.println("Connecting to server on port: " + port);
+                            this.socket = new Socket("localhost", port);
+                            String players = playerList.toString();                                          //Send the list of players to the chat so it can show it
+                            System.out.println(players);
+
+                            Thread.sleep(2000);
+
+                            //TODO - da sistemare
+                            //String p = "╬1 - Tommi - 2 - Ale\n";                           //Send the list of players to the chat so it can show it
+                            //socket.getOutputStream().write(p.getBytes());
+                            socket.getOutputStream().write(players.getBytes());
+                            //socket.getOutputStream().flush();
+
+                            userInput = new ThreadRead(this.socket, this);
+                            userInput.start();
+                            /*
+                            String os = System.getProperty("os.name").toLowerCase();
+                            Runtime runtime = Runtime.getRuntime();
+
+                            if (os.contains("win"))
+                                runtime.exec("cmd /c start");
+                            else if (os.contains("nix") || os.contains("nux"))
+                                runtime.exec("gnome-terminal");
+                            else if (os.contains("mac"))
+                                runtime.exec("open -a Terminal");
+                            else
+                                System.out.println(RED + "Impossible to open a terminal there was an issue" + RESET);
+                            */
+                            chatOpen = true;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
-
-                    System.out.println(RED + "\nThis is the board: " + RESET);
-                    showBoard(arg.getBoard());
-                    System.out.print(RED + "\nThis is the first common goal: " + RESET);
-                    System.out.print(arg.getFirstCommon());
-                    System.out.print(RED + "\nThis is the second common goal: " + RESET);
-                    System.out.print(arg.getSecondCommon());
-                    if (this.nickname.equals(arg.getNickname())) {
-                        System.out.println(RED + "\nThis is your own personal goal: " + RESET);
-                        showItems(arg.getPersonal());
-                        System.out.println(RED + "\nThis is your own shelf: " + RESET);
-                        showItems(arg.getShelf());
-                        System.out.println("\n\nIt is your turn " + arg.getNickname() + "!!");
-                        System.out.println("To select a tile you must enter the couple Row - Column, if you wanna deselect it you can do it during the next submission by typing the same couple Row - Column.");
-                        System.out.println("Each time you choose a tile press enter key to submit.");
-                        state = 4;
-                    } else {
+                    if(!nickname.equals(arg.getNickname()) && !alreadyDone) {
                         System.out.println("\n\nIt is " + arg.getNickname() + "'s turn, let's wait for your turn!!");
                         state = 20;
+                        alreadyDone = true;
                     }
                     lock.notifyAll();
                     break;
@@ -356,10 +484,14 @@ public class CLI extends View {
                         if (arg.getConfirm()) {
                             System.out.println("\nIf you wanna confirm you selection enter \"YES\" otherwise \"NO\": -- (default \"NO\")");
                             String confirmation = terminal.next();
-                            if (confirmation.equals("Y") || confirmation.equals("y") || confirmation.equals("yes") || confirmation.equals("YES") || confirmation.equals("Yes"))
+                            if (confirmation.equals("Y") || confirmation.equals("y") || confirmation.equals("yes") || confirmation.equals("YES") || confirmation.equals("Yes")){
                                 state = 5;
-                        } else
-                            state = 4;
+                                if(networkProtocol == 1)
+                                    lock.notifyAll();
+                                break;
+                            }
+                        }
+                        state = 4;
                     }
                     lock.notifyAll();
                     break;
@@ -371,14 +503,14 @@ public class CLI extends View {
                     else System.out.println(arg.getNickname() + "'s choice" + RESET);
                     showBoard(arg.getBoard());
                     if (arg.getNickname().equals(this.nickname)) {
-                        System.out.println(RED + "\nThis is your own personal goal: " + RESET);
-                        showItems(arg.getPersonal());
-                        System.out.print(RED + "\nThis is your own shelf, you can put the tiles only in the columns where there is a red arrow\n " + RESET);
+                        System.out.print(RED + "\nYour shelf:             Your personal goal: \n " + RESET);
                         for (int i = 0; i < 5; i++) System.out.print(i + " ");
                         System.out.print("\n");
-                        showItems(arg.getShelf());
+                        showPersonalAndShelf(arg.getPersonal(), arg.getShelf());
                         showItems(arg.getColumns());
-                        System.out.print(RED + "\n\nThese two are the lists of items you selected:" + RESET);
+                        System.out.print(RED + "\nYou can put tiles only in the columns where there is a red arrow" + RESET);
+
+                        System.out.print(RED + "\n\nThese are the lists of items you selected:" + RESET);
                         System.out.print("\n                   ");
                         for (int i = 0; i < 3; i++) System.out.print(i + " ");
                         System.out.print(RED + "\nUNORDERED ITEMS:" + RESET + " 1");
@@ -390,19 +522,21 @@ public class CLI extends View {
                         System.out.println("Type \"C\" for choosing the column or type \"O\" for ordering the tiles: -- (default \"O\")");
                         state = 6;
                     }
+                    if(networkProtocol == 1)
+                        lock.notifyAll();
                     break;
 
                 case ACK_ORDER_n_COLUMN:
                     arg.printMsg();
                     if (arg.getNickname().equals(nickname)) {
-                        System.out.println(RED + "\nThis is your own personal goal: " + RESET);
-                        showItems(arg.getPersonal());
-                        System.out.print(RED + "\nThis is your shelf and the columns you chose is highlighted with a red harrow.\n " + RESET);
+                        System.out.print(RED + "\nYour shelf:             Your personal goal: \n " + RESET);
                         for (int i = 0; i < 5; i++) System.out.print(i + " ");
                         System.out.print("\n");
-                        showItems(arg.getShelf());
+                        showPersonalAndShelf(arg.getPersonal(), arg.getShelf());
                         showItems(arg.getColumns());
-                        System.out.print(RED + "\n\nThese two are the lists of items you selected:" + RESET);
+                        System.out.print(RED + "\nYou can put tiles only in the columns where there is a red arrow" + RESET);
+
+                        System.out.print(RED + "\n\nThese are the lists of items you selected:" + RESET);
                         System.out.print("\n                   ");
                         for (int i = 0; i < 3; i++) System.out.print(i + " ");
                         System.out.print(RED + "\nUNORDERED ITEMS:" + RESET + " 1");
@@ -412,13 +546,18 @@ public class CLI extends View {
                         if (arg.getConfirm()) {
                             System.out.println("\nIf you wanna confirm you selection enter \"YES\" otherwise \"NO\": -- (default \"NO\")");
                             String insert = terminal.next();
-                            if (insert.equals("Y") || insert.equals("y") || insert.equals("yes") || insert.equals("YES") || insert.equals("Yes"))
+                            if (insert.equals("Y") || insert.equals("y") || insert.equals("yes") || insert.equals("YES") || insert.equals("Yes")){
                                 state = 7;
-                        } else {
-                            System.out.println("\nType \"C\" for choosing the column or type \"O\" for ordering the tiles: -- (default \"O\")");
-                            state = 6;
+                                if(networkProtocol == 1)
+                                    lock.notifyAll();
+                                break;
+                            }
                         }
+                        System.out.println("\nType \"C\" for choosing the column or type \"O\" for ordering the tiles: -- (default \"O\")");
+                        state = 6;
                     }
+                    if(networkProtocol == 1)
+                        lock.notifyAll();
                     break;
 
                 case NACK_COLUMN:
@@ -428,6 +567,8 @@ public class CLI extends View {
                         System.out.println("\nFor changing column type \"C\" -- For ordering items type \"O\": ");
                         state = 6;
                     }
+                    if(networkProtocol == 1)
+                        lock.notifyAll();
                     break;
 
                 case NACK_ORDER:
@@ -437,6 +578,8 @@ public class CLI extends View {
                         System.out.println("\nFor changing column type \"C\" -- For ordering items type \"O\": ");
                         state = 6;
                     }
+                    if(networkProtocol == 1)
+                        lock.notifyAll();
                     break;
 
                 case INSERTION_DONE:
@@ -447,6 +590,17 @@ public class CLI extends View {
                         System.out.println("\n\nYour turn is now finished!!");
                     }
                     state = 20;
+                    if(networkProtocol == 1)
+                        lock.notifyAll();
+                    break;
+
+                case SEND_OTHER_SHELF:
+                    arg.printMsg();
+                    if(!arg.getNickname().equals(nickname)){
+                        otherShelf.add(arg.getNickname());
+                        otherShelf.add(arg.getShelf());
+                        alreadyDone = false;
+                    }
                     break;
 
                 case FIRSTCOMMONGOAL_TAKEN:
@@ -457,6 +611,8 @@ public class CLI extends View {
                         System.out.print(arg.getNickname() + " ");
                     }
                     System.out.println("obtained: " + arg.getFirstCommon() + " points from the first common goal");
+                    if(networkProtocol == 1)
+                        lock.notifyAll();
                     break;
 
                 case SECONDCOMMONGOAL_TAKEN:
@@ -467,6 +623,8 @@ public class CLI extends View {
                         System.out.print(arg.getNickname() + " ");
                     }
                     System.out.println(arg.getNickname() + "obtained: " + arg.getSecondCommon() + " points from the second common goal");
+                    if(networkProtocol == 1)
+                        lock.notifyAll();
                     break;
 
                 case TOKEN_END_GAME:
@@ -477,6 +635,8 @@ public class CLI extends View {
                         System.out.print(arg.getNickname() + " ");
                     }
                     System.out.println(arg.getNickname() + "completed Shelf and obtained endGame's point");
+                    if(networkProtocol == 1)
+                        lock.notifyAll();
                     break;
 
                 case RESULTS:
@@ -484,6 +644,25 @@ public class CLI extends View {
                     System.out.println(RED + arg.getOrderedRanking() + RESET);
                     state = 1;
                     lock.notifyAll();
+                    break;
+
+                case CHAT_MESSAGE:
+                    arg.getInfo();
+                    try {
+                        OutputStream outputStream = socket.getOutputStream();
+                        StringBuilder message = new StringBuilder();
+                        if(!arg.getFrom().equals(nickname)) {
+                            if (arg.getTo() == null)
+                                message.append("P-").append(arg.getFrom()).append("-").append(arg.getTo()).append(arg.getText()).append("-P");
+                            else
+                                message.append("A-").append(arg.getFrom()).append(arg.getText()).append("-A");
+
+                            outputStream.write((message + "\n").getBytes());
+                            outputStream.flush();
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
 
                 default:
@@ -542,6 +721,55 @@ public class CLI extends View {
         }
     }
 
+    private void showOtherShelf(List<String> otherShelf){
+        int numShelf = otherShelf.size() / 2;
+        switch(numShelf){
+            case 1:
+                showItems(otherShelf.get(1));
+                break;
+
+            case 2:
+                for(int i = 0; i < otherShelf.get(1).length(); i++){
+                    if(i == 6)
+                        break;
+                    showItems(otherShelf.get(1).split("\n")[i]);
+                    System.out.print("             ");
+                    showItems(otherShelf.get(3).split("\n")[i]);
+                    System.out.print("\n");
+                }
+                break;
+
+            case 3:
+                for(int i = 0; i < otherShelf.get(1).length(); i++){
+                    if(i == 6)
+                        break;
+                    showItems(otherShelf.get(1).split("\n")[i]);
+                    System.out.print("             ");
+                    showItems(otherShelf.get(3).split("\n")[i]);
+                    System.out.print("             ");
+                    showItems(otherShelf.get(5).split("\n")[i]);
+                    System.out.print("\n");
+                }
+                break;
+
+            default:
+                System.out.println("Error showing others shelf");
+                break;
+        }
+    }
+
+    private void showPersonalAndShelf(String personalGoals, String ownShelf){
+        String[] personal = personalGoals.split("\n");
+        String[] shelf = ownShelf.split("\n");
+
+        for(int i = 0; i < shelf.length; i++){
+            showItems(shelf[i]);
+            System.out.print("             ");
+            showItems(personal[i]);
+            System.out.print("\n");
+        }
+    }
+
  // TODO: not sure what is  this
     public void showItems(String items) {
         boolean columnChoosen = false;
@@ -580,8 +808,16 @@ public class CLI extends View {
                         System.out.print(RED + items.charAt(j) + RESET);
                         break;
                     case '0':
-                    case '2':
                     case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                    case '~':
                         System.out.print(" ");
                         break;
                     default:

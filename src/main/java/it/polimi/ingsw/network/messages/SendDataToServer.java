@@ -72,4 +72,19 @@ public class SendDataToServer implements Message{
     public String getOrderedRanking() { return null;}
     @Override
     public String getColumns() { return null; }
+
+    @Override
+    public String getTo() {
+        return null;
+    }
+
+    @Override
+    public String getFrom() {
+        return null;
+    }
+
+    @Override
+    public String getText() {
+        return null;
+    }
 }

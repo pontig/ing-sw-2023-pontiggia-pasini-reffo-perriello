@@ -30,4 +30,8 @@ public abstract class View extends ObservableView<Message> implements Runnable {
     // TODO: dont'know what to say in the javadocs
     public void setNetwork(int networkClient) {
     }
+
+    public String getNickname() {
+        return null;
+    }
 }
