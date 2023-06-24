@@ -120,7 +120,6 @@ public class ConnectionHandler extends Thread {
                     String list = message.replace("╬", "");
                     TerminalServer.setPlayers(list);
                     TerminalServer.setPlayersCode(list);
-                    System.out.println("List:" + list);
                     continue;
                 }
 

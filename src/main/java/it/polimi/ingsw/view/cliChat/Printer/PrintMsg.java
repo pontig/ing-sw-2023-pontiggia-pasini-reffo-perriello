@@ -19,11 +19,22 @@ public class PrintMsg {
     }
 
     //Printer for messages from players
-    public void printMsgPlayers(String message){
+    public void printMsgPlayers(String message){            //Type-From-Text-Type
         String[] msg = message.split("-");
 
         if (msg[0].equals("P"))
             System.out.print(PINK + "Message from " + msg[1] + " to you -> " + WHITE +  msg[2] + "\n" + RESET);
+        else if (msg[0].equals("A"))
+            System.out.print(PINK + "Message from " + msg[1] + " to everybody -> " + WHITE +  msg[2] + "\n" + RESET);
+        else
+            printError("Message format is not accepted");
+    }
+
+    public void printOwnMsg(String message){            //Type-From-To-Text-Type
+        String[] msg = message.split("-");
+
+        if (msg[0].equals("P"))
+            System.out.print(PINK + "Message from " + msg[1] + " to " + msg[2] + " -> " + WHITE +  msg[3] + "\n" + RESET);
         else if (msg[0].equals("A"))
             System.out.print(PINK + "Message from " + msg[1] + " to everybody -> " + WHITE +  msg[2] + "\n" + RESET);
         else

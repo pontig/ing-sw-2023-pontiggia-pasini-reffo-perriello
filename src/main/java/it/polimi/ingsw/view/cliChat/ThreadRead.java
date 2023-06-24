@@ -30,14 +30,15 @@ public class ThreadRead extends Thread{
             Message msg;
             while ((message = reader.readLine()) != null) {
                 String[] split = message.split("-");
-                if(split[0].equals("P")) {
-                    msg = new SendChatMessage(CHAT_MESSAGE, cli.getNickname(), split[1], split[3]);
-                } else {
+
+                if(split[0].equals("P"))
+                    msg = new SendChatMessage(CHAT_MESSAGE, cli.getNickname(), split[1], split[2]);
+                else
                     msg = new SendChatMessage(CHAT_MESSAGE, cli.getNickname(), null, split[1]);
-                }
+
                 cli.setChangedView();
                 cli.notifyObserversView(msg);
-                System.out.println("Message from server: -> " + message);
+                //System.out.println("Message from chat terminal: -> " + message);
             }
         } catch (IOException e) {
             e.printStackTrace();

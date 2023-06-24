@@ -294,27 +294,27 @@ public class CLI extends View {
             switch (msg) {
                 case ACK_NICKNAME:
                 case ACK_NUMPLAYERS:
-                    arg.printMsg();
+                    //arg.printMsg();
                     state = 2;
                     lock.notifyAll();
                     break;
 
                 case SAME_NICKNAME:
-                    arg.printMsg();
+                    //arg.printMsg();
                     state = 0;
                     if(networkProtocol == 1)
                         lock.notifyAll();
                     break;
 
                 case NACK_NICKNAME:
-                    arg.printMsg();
+                    //arg.printMsg();
                     state = 1;
                     if(networkProtocol == 1)
                         lock.notifyAll();
                     break;
 
                 case NACK_NUMPLAYERS:
-                    arg.printMsg();
+                    //arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
                         System.out.println("Someone has already chosen the number of players, you will be added to that game");
                         state = -1;
@@ -325,7 +325,7 @@ public class CLI extends View {
 
                 case ASK_NUMPLAYERS:
                 case OUT_BOUND_NUMPLAYERS:
-                    arg.printMsg();
+                    //arg.printMsg();
                     if (msg == OUT_BOUND_NUMPLAYERS && arg.getNickname().equals(this.nickname))
                         System.out.println("Enter a valid number of player!!");
                     state = 3;
@@ -334,7 +334,7 @@ public class CLI extends View {
 
                 case GAME_READY:
                 case IN_GAME:
-                    arg.printMsg();
+                    //arg.printMsg();
                     if(nickname.equals(arg.getNickname())){
                         System.out.println(RED + "\nThis is the board: " + RESET);
                         showBoard(arg.getBoard());
@@ -369,33 +369,33 @@ public class CLI extends View {
                     break;
 
                 case PLAYER_LIST:
-                    arg.printMsg();
+                    //arg.printMsg();
                     int j = 1;
                     for(int i = 1; i < 5; i++){
                         switch(i) {
                             case 1:
                                 if (arg.getNickname() != null && !arg.getNickname().equals(nickname)){
-                                    playerList.append(j).append(" - ").append(arg.getNickname());
+                                    playerList.append(j).append(" - ").append(arg.getNickname()).append(" - ");
                                     j++;
                                 }
                                 break;
 
                             case 2:
                                 if(arg.getBoard() != null && !arg.getBoard().equals(nickname)){
-                                    playerList.append(" - ").append(j).append(" - ").append(arg.getBoard());
+                                    playerList.append(j).append(" - ").append(arg.getBoard()).append(" - ");
                                     j++;
                                 }
                                 break;
 
                             case 3:
                                 if(arg.getPersonal() != null && !arg.getPersonal().equals(nickname)){
-                                    playerList.append(" - ").append(j).append(" - ").append(arg.getPersonal());
+                                    playerList.append(j).append(" - ").append(arg.getPersonal()).append(" - ");
                                     j++;
                                 }
                                 break;
                             case 4:
                                 if(arg.getShelf() != null && !arg.getShelf().equals(nickname)){
-                                    playerList.append(" - ").append(j).append(" - ").append(arg.getShelf());
+                                    playerList.append(j).append(" - ").append(arg.getShelf()).append(" - ");
                                     j++;
                                 }
                                 break;
@@ -409,7 +409,7 @@ public class CLI extends View {
                     break;
 
                 case SEND_MODEL:
-                    arg.printMsg();
+                    //arg.printMsg();
                     if(!chatOpen) {
                         try {
                             int port = -1;
@@ -434,15 +434,11 @@ public class CLI extends View {
                             System.out.println("Connecting to server on port: " + port);
                             this.socket = new Socket("localhost", port);
                             String players = playerList.toString();                                          //Send the list of players to the chat so it can show it
-                            System.out.println(players);
 
                             Thread.sleep(2000);
 
-                            //TODO - da sistemare
-                            //String p = "╬1 - Tommi - 2 - Ale\n";                           //Send the list of players to the chat so it can show it
-                            //socket.getOutputStream().write(p.getBytes());
                             socket.getOutputStream().write(players.getBytes());
-                            //socket.getOutputStream().flush();
+                            socket.getOutputStream().flush();
 
                             userInput = new ThreadRead(this.socket, this);
                             userInput.start();
@@ -475,7 +471,7 @@ public class CLI extends View {
                     break;
 
                 case SELECTED:
-                    arg.printMsg();
+                    //arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
                         System.out.println(RED + "\nIn the board, if you chose a valid item, it is highlight in red" + RESET);
                         showBoard(arg.getBoard());
@@ -497,7 +493,7 @@ public class CLI extends View {
                     break;
 
                 case ORDER_n_COLUMN:
-                    arg.printMsg();
+                    //arg.printMsg();
                     System.out.print(RED + "\nIt follows the current state of the board, it is without ");
                     if (arg.getNickname().equals(this.nickname)) System.out.println("your choice" + RESET);
                     else System.out.println(arg.getNickname() + "'s choice" + RESET);
@@ -527,7 +523,7 @@ public class CLI extends View {
                     break;
 
                 case ACK_ORDER_n_COLUMN:
-                    arg.printMsg();
+                    //arg.printMsg();
                     if (arg.getNickname().equals(nickname)) {
                         System.out.print(RED + "\nYour shelf:             Your personal goal: \n " + RESET);
                         for (int i = 0; i < 5; i++) System.out.print(i + " ");
@@ -561,7 +557,7 @@ public class CLI extends View {
                     break;
 
                 case NACK_COLUMN:
-                    arg.printMsg();
+                    //arg.printMsg();
                     if (arg.getNickname().equals(nickname)) {
                         System.out.println("\nPlease enter a valid column number!");
                         System.out.println("\nFor changing column type \"C\" -- For ordering items type \"O\": ");
@@ -572,7 +568,7 @@ public class CLI extends View {
                     break;
 
                 case NACK_ORDER:
-                    arg.printMsg();
+                    //arg.printMsg();
                     if (arg.getNickname().equals(nickname)) {
                         System.out.println("\nPlease enter a valid item number or select a non empty list!");
                         System.out.println("\nFor changing column type \"C\" -- For ordering items type \"O\": ");
@@ -583,7 +579,7 @@ public class CLI extends View {
                     break;
 
                 case INSERTION_DONE:
-                    arg.printMsg();
+                    //arg.printMsg();
                     if (arg.getNickname().equals(nickname)) {
                         System.out.println("\nYour shelf now is:");
                         showItems(arg.getShelf());
@@ -595,7 +591,7 @@ public class CLI extends View {
                     break;
 
                 case SEND_OTHER_SHELF:
-                    arg.printMsg();
+                    //arg.printMsg();
                     if(!arg.getNickname().equals(nickname)){
                         otherShelf.add(arg.getNickname());
                         otherShelf.add(arg.getShelf());
@@ -604,7 +600,7 @@ public class CLI extends View {
                     break;
 
                 case FIRSTCOMMONGOAL_TAKEN:
-                    arg.printMsg();
+                    //arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
                         System.out.print("You ");
                     } else {
@@ -616,7 +612,7 @@ public class CLI extends View {
                     break;
 
                 case SECONDCOMMONGOAL_TAKEN:
-                    arg.printMsg();
+                    //arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
                         System.out.print("You ");
                     } else {
@@ -628,7 +624,7 @@ public class CLI extends View {
                     break;
 
                 case TOKEN_END_GAME:
-                    arg.printMsg();
+                    //arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
                         System.out.print("You ");
                     } else {
@@ -640,24 +636,27 @@ public class CLI extends View {
                     break;
 
                 case RESULTS:
-                    arg.getInfo();
+                    //arg.printMsg();
                     System.out.println(RED + arg.getOrderedRanking() + RESET);
                     state = 1;
                     lock.notifyAll();
                     break;
 
                 case CHAT_MESSAGE:
-                    arg.getInfo();
+                    //arg.printMsg();
                     try {
                         OutputStream outputStream = socket.getOutputStream();
-                        StringBuilder message = new StringBuilder();
+                        StringBuilder message = new StringBuilder("");
+                        String chatMsg;
                         if(!arg.getFrom().equals(nickname)) {
-                            if (arg.getTo() == null)
-                                message.append("P-").append(arg.getFrom()).append("-").append(arg.getTo()).append(arg.getText()).append("-P");
+                            if (arg.getTo() != null && arg.getTo().equals(nickname))
+                                message.append("P-").append(arg.getFrom()).append("-").append(arg.getText()).append("-P");
+                            else if(arg.getTo() == null)
+                                message.append("A-").append(arg.getFrom()).append("-").append(arg.getText()).append("-A");
                             else
-                                message.append("A-").append(arg.getFrom()).append(arg.getText()).append("-A");
-
-                            outputStream.write((message + "\n").getBytes());
+                                break;
+                            chatMsg = message.toString();
+                            outputStream.write((chatMsg + "\n").getBytes());
                             outputStream.flush();
                         }
                     } catch (IOException e) {

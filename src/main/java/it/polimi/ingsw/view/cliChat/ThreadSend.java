@@ -25,14 +25,14 @@ public class ThreadSend extends Thread {
         try {
             String nicknameReciever;
             String textMessage;
-            String chatSender = " ";
+            String chatSender = "";
 
             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader userInputReader = new BufferedReader(new InputStreamReader(System.in));
 
             String userInput;
             while ((userInput = userInputReader.readLine()) != null) {
-                boolean notValid = false;
+                boolean notValid;
                 if(userInput.equals("+privateMessage")){                                        //Syntax: P-N° player to send-Message-P
                     TerminalServer.setUserIsWriting(true);
                     chatSender += "P-";
@@ -51,12 +51,16 @@ public class ThreadSend extends Thread {
                         }
                     } while(notValid || !TerminalServer.isValidCode(Integer.parseInt(nicknameReciever)));
 
-                    chatSender += nicknameReciever + "-";
+                    int index = Integer.parseInt(nicknameReciever);
+                    index -= 1;
+                    String to = TerminalServer.getPlayers().split("-")[index*2+1].replace(" ", "");
+                    chatSender += to + "-";
 
                     printer.printMsgServer("Enter the message you wanna send: ");
                     textMessage = chat.nextLine();
                     chatSender += textMessage + "-P";
                     writer.println(chatSender);
+                    printer.printOwnMsg("P-you-" + to + "-" + textMessage + "-P");
                 } else if(userInput.equals("+message")){                                         //Syntax: A-Message-A
                     TerminalServer.setUserIsWriting(true);
                     chatSender += "A-";
@@ -64,6 +68,7 @@ public class ThreadSend extends Thread {
                     textMessage = chat.nextLine();
                     chatSender += textMessage + "-A";
                     writer.println(chatSender);
+                    printer.printOwnMsg("A-you-" + textMessage + "-A");
                 } else {
                     printer.printError("This is not a valid input!!");
                     printer.printMsgServer("For private messages type \"+privateMessage\" " +
