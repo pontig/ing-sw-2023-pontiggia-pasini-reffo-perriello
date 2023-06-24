@@ -28,7 +28,7 @@ public class TerminalServer {
     //setter
     public static void setPlayers(String listPlayers) {
         players = listPlayers;
-        System.out.println(players);
+        //System.out.println(players);
     }
     public static void setPlayersCode(String listPlayers) {
         String tmp = listPlayers.replace(" ", "");

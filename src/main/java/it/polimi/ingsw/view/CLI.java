@@ -6,7 +6,7 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.view.cliChat.ThreadRead;
-import it.polimi.ingsw.view.cliChat.ThreadSend;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -46,6 +46,7 @@ public class CLI extends View {
     Socket socket = null;
     List<String> otherShelf = new ArrayList<>();
     ThreadRead userInput;
+    int yourNumber = 0;
 
     public CLI() {
         super();
@@ -288,7 +289,7 @@ public class CLI extends View {
     /**
      * @see View#update(Server, Message)
      */
-    public void update(Server o, Message arg) {
+    public void update(Server o, @NotNull Message arg) {
         synchronized (lock) {
             State msg = arg.getInfo();
             switch (msg) {
@@ -358,10 +359,10 @@ public class CLI extends View {
                         }
 
                         if(arg.getConfirm()){
-                            System.out.println("\n\nIt is your turn " + arg.getNickname() + "!!");
-                            System.out.println("To select a tile you must enter the couple Row - Column, if you wanna deselect it you can do it during the next submission by typing the same couple Row - Column.");
-                            System.out.println("Each time you choose a tile press enter key to submit.");
-                            state = 4;
+                            //System.out.println("\n\nIt is your turn " + arg.getNickname() + "!!");
+                            //System.out.println("To select a tile you must enter the couple Row - Column, if you wanna deselect it you can do it during the next submission by typing the same couple Row - Column.");
+                            //System.out.println("Each time you choose a tile press enter key to submit.");
+                            //state = 4;
                         }
                     }
                     if(networkProtocol == 1)
@@ -378,6 +379,8 @@ public class CLI extends View {
                                     playerList.append(j).append(" - ").append(arg.getNickname()).append(" - ");
                                     j++;
                                 }
+                                if(arg.getNickname() != null && arg.getNickname().equals(nickname))
+                                    this.yourNumber = i;
                                 break;
 
                             case 2:
@@ -385,6 +388,8 @@ public class CLI extends View {
                                     playerList.append(j).append(" - ").append(arg.getBoard()).append(" - ");
                                     j++;
                                 }
+                                if(arg.getBoard() != null && arg.getBoard().equals(nickname))
+                                    this.yourNumber = i;
                                 break;
 
                             case 3:
@@ -392,12 +397,16 @@ public class CLI extends View {
                                     playerList.append(j).append(" - ").append(arg.getPersonal()).append(" - ");
                                     j++;
                                 }
+                                if(arg.getPersonal() != null && arg.getPersonal().equals(nickname))
+                                    this.yourNumber = i;
                                 break;
                             case 4:
                                 if(arg.getShelf() != null && !arg.getShelf().equals(nickname)){
                                     playerList.append(j).append(" - ").append(arg.getShelf()).append(" - ");
                                     j++;
                                 }
+                                if(arg.getShelf() != null && arg.getShelf().equals(nickname))
+                                    this.yourNumber = i;
                                 break;
 
                             default:
@@ -413,29 +422,35 @@ public class CLI extends View {
                     if(!chatOpen) {
                         try {
                             int port = -1;
-                           // String command = "x-terminal-emulator -e java -jar /home/tommi/Scrivania/ChatProva/TerminalServer.jar";
-                           // Process process = Runtime.getRuntime().exec(command);
+                            //String command = "x-terminal-emulator -e java -jar ./TerminalServer.jar";
+                            //Process process = Runtime.getRuntime().exec(command);
 
-                            Thread.sleep(2000);
+                            if(networkProtocol == 1) {
+                                int time = 3500*yourNumber;
+                                Thread.sleep(time);
+                            } else
+                                Thread.sleep(1500);
 
                             try (BufferedReader reader = new BufferedReader(new FileReader("port.txt"))) {
-                                String line = " ";
+                                String line;
+
                                 do {
                                     line = reader.readLine();
                                 } while (line != null && line.equals("-"));
 
-                                port = Integer.parseInt(line);
+                                if(line != null)
+                                    port = Integer.parseInt(line);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
 
-                            Thread.sleep(2000);
+                            //Thread.sleep(2000);
 
-                            System.out.println("Connecting to server on port: " + port);
+                            System.out.print(RED + "\nConnected to server chat at port: " + port + RESET);
                             this.socket = new Socket("localhost", port);
-                            String players = playerList.toString();                                          //Send the list of players to the chat so it can show it
+                            String players = playerList.toString();                                          //Send the list of players to the chat, so it can show it
 
-                            Thread.sleep(2000);
+                            //Thread.sleep(2000);
 
                             socket.getOutputStream().write(players.getBytes());
                             socket.getOutputStream().flush();
@@ -465,6 +480,12 @@ public class CLI extends View {
                     if(!nickname.equals(arg.getNickname()) && !alreadyDone) {
                         System.out.println("\n\nIt is " + arg.getNickname() + "'s turn, let's wait for your turn!!");
                         state = 20;
+                        alreadyDone = true;
+                    } else if(nickname.equals(arg.getNickname()) && !alreadyDone){
+                        System.out.println("\n\nIt is your turn " + arg.getNickname() + "!!");
+                        System.out.println("To select a tile you must enter the couple Row - Column, if you wanna deselect it you can do it during the next submission by typing the same couple Row - Column.");
+                        System.out.println("Each time you choose a tile press enter key to submit.");
+                        state = 4;
                         alreadyDone = true;
                     }
                     lock.notifyAll();
