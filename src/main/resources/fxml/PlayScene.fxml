@@ -20,9 +20,9 @@
 
 <StackPane stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.PlaySceneController">
    <children>
-      <BorderPane maxHeight="1080.0" maxWidth="1920.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1300.0" styleClass="playingPane">
+      <BorderPane maxHeight="1080.0" maxWidth="1920.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="811.0" prefWidth="1300.0" styleClass="playingPane">
          <center>
-            <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0" prefWidth="200.0" spacing="30.0" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" fillHeight="false" prefHeight="550.0" prefWidth="1300.0" spacing="30.0" BorderPane.alignment="CENTER">
                <children>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="45.0">
                      <children>
@@ -278,7 +278,7 @@
                         </StackPane>
                      </children>
                   </VBox>
-                  <VBox>
+                  <VBox prefHeight="508.0" prefWidth="360.0">
                      <children>
                         <HBox fx:id="selectColumnBox" alignment="CENTER" prefHeight="121.0" prefWidth="360.0" spacing="10.0">
                            <children>
@@ -401,7 +401,7 @@
          <bottom>
             <HBox alignment="CENTER" BorderPane.alignment="CENTER">
                <children>
-                  <StackPane layoutX="919.0" layoutY="10.0" prefHeight="207.0" prefWidth="205.0">
+                  <StackPane fx:id="bottomShelf1" layoutX="919.0" layoutY="10.0" prefHeight="207.0" prefWidth="205.0">
                      <children>
                         <GridPane id="bookshelf" fx:id="otherPlayerShelf1" prefHeight="267.0" prefWidth="269.0">
                            <columnConstraints>
@@ -473,7 +473,7 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                   </StackPane>
-                  <StackPane layoutX="275.0" layoutY="10.0" prefHeight="207.0" prefWidth="205.0">
+                  <StackPane fx:id="bottomShelf2" layoutX="275.0" layoutY="10.0" prefHeight="207.0" prefWidth="205.0">
                      <children>
                         <GridPane id="bookshelf" fx:id="otherPlayerShelf2" prefHeight="267.0" prefWidth="269.0">
                            <columnConstraints>
@@ -562,7 +562,7 @@
                         <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
                      </padding>
                </StackPane>
-                  <StackPane layoutX="402.0" layoutY="10.0" prefHeight="207.0" prefWidth="205.0">
+                  <StackPane fx:id="bottomShelf3" layoutX="402.0" layoutY="10.0" prefHeight="207.0" prefWidth="205.0">
                      <children>
                         <GridPane id="bookshelf" fx:id="shelfGrid121" prefHeight="267.0" prefWidth="269.0">
                            <columnConstraints>

@@ -170,20 +170,27 @@ public class GUI extends View {
                     break;
 
                 case PLAYER_LIST:
-                    // TODO: if the players are two avoid this message?
                     if (this.nickname == null || this.chatDests != null) break;
                     Platform.runLater(() -> {
                         chatDests = new ArrayList<>();
-                        if (arg.getNickname() != null && !arg.getNickname().equals(this.nickname))
-                            chatDests.add(arg.getNickname());
-                        if (arg.getBoard() != null && !arg.getBoard().equals(this.nickname))
-                            chatDests.add(arg.getBoard());
-                        if (arg.getPersonal() != null && !arg.getPersonal().equals(this.nickname))
-                            chatDests.add(arg.getPersonal());
-                        if (arg.getShelf() != null && !arg.getShelf().equals(this.nickname))
-                            chatDests.add(arg.getShelf());
-                        System.out.println("Message: " + msg.toString() + " " + arg.getNickname());
                         PlaySceneController controller = (PlaySceneController) SceneController.getActiveController();
+                        if (arg.getNickname() != null && !arg.getNickname().equals(this.nickname)) {
+                            chatDests.add(arg.getNickname());
+                            controller.updateOtherShelf(arg.getNickname(), "");
+                        }
+                        if (arg.getBoard() != null && !arg.getBoard().equals(this.nickname)) {
+                            chatDests.add(arg.getBoard());
+                            controller.updateOtherShelf(arg.getBoard(), "");
+                        }
+                        if (arg.getPersonal() != null && !arg.getPersonal().equals(this.nickname)) {
+                            chatDests.add(arg.getPersonal());
+                            controller.updateOtherShelf(arg.getPersonal(), "");
+                        }
+                        if (arg.getShelf() != null && !arg.getShelf().equals(this.nickname)) {
+                            chatDests.add(arg.getShelf());
+                            controller.updateOtherShelf(arg.getShelf(), "");
+                        }
+                        System.out.println("Message: " + msg.toString() + " " + arg.getNickname());
                         controller.updatePlayerList(this.chatDests);
                     });
                     break;

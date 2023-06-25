@@ -909,8 +909,8 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     public void confirmInsertion() {
         setOrderOK(false);
         setColumnOK(false);
-        getCurrentPlayer().getShelf().insertItems(getTmpOrderedItems(), columnChosen);
-        msg = new SendDataToClient(INSERTION_DONE, getCurrentPlayer().getNickname(), null, null, getCurrentPlayer().getShelf().toString(), null, null, null, false, null, null);
+        getPlayerByNickname(getCurrentPlayer().getNickname()).getShelf().insertItems(getTmpOrderedItems(), columnChosen);
+        msg = new SendDataToClient(INSERTION_DONE, getCurrentPlayer().getNickname(), null, null, getPlayerByNickname(getCurrentPlayer().getNickname()).getShelf().toString(), null, null, null, false, null, null);
         setChangedAndNotifyObservers(msg);
         for (Player p : getPlayerList()) {
             msg = new SendDataToClient(SEND_OTHER_SHELF, p.getNickname(), null, null, p.getShelf().toString(), null, null, null, false, null, null);
@@ -918,6 +918,15 @@ public class Game extends ObservableModel<Message> {              //extends Obse
             System.out.println("Send shelf of " + p.getNickname());
         }
 
+    }
+
+    /**
+     * Finds the player with the given nickname
+     * @param nickname the nickname of the player
+     * @return the player with the given nickname
+     */
+    private Player getPlayerByNickname(String nickname) {
+        return getPlayerList().stream().filter(p -> p.getNickname().equals(nickname)).findFirst().orElse(null);
     }
 
     // TODO: is this what it actually does?

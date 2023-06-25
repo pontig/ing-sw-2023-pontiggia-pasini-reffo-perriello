@@ -8,7 +8,7 @@
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <center>
-            <Label text="In quanti vogliamo giocare?" textFill="#e3d7c9" BorderPane.alignment="CENTER">
+bug fi            <Label text="How many players?" textFill="#e3d7c9" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Comic Sans MS" size="27.0" />
                </font></Label>

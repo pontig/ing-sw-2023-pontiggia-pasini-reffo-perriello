@@ -23,7 +23,7 @@ public abstract class View extends ObservableView<Message> implements Runnable {
      * @param o the server that invoked the update
      * @param arg the information of the update (aka the model)
      * @see it.polimi.ingsw.observer
-     * @see it.polimi.ingsw.enums.State for the meaning of the messages
+     * @see it.polimi.ingsw.enums.State State for the meaning of the messages
      */
     public abstract void update(Server o, Message arg);
 
