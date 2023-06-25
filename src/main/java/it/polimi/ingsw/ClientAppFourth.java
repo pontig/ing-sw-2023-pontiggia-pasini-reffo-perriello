@@ -17,6 +17,7 @@ import java.util.Enumeration;
 import java.util.Scanner;
 
 public class ClientAppFourth {
+    private static final long CHECK_INTERVAL = 60000; // Interval in milliseconds between connection checks
     public static void main( String[] args ) throws RemoteException, NotBoundException, SocketException, IOException {
         Scanner terminal = new Scanner(System.in);
         int networkClient = -1;
@@ -98,6 +99,30 @@ public class ClientAppFourth {
             Registry registry = LocateRegistry.getRegistry(ip, port);
             ServerAbst server = (ServerAbst) registry.lookup("server");
             ClientImpl client = new ClientImpl(server.connect(), typeView, networkClient);
+
+            // Create and start a separate thread for connection monitoring
+            Thread connectionMonitorThread = new Thread(() -> {
+                while (true) {
+                    try {
+                        // Perform a simple operation to check the connection
+                        client.ping(server.connect());
+                        //System.out.println("Connection is active.");
+                    } catch (RemoteException e) {
+                        // Connection lost, handle the situation accordingly
+                        System.err.println("\nCannot receive from server. \nThe match has been stopped :(, reload client to continue the game");
+                        // Terminate the client
+                        System.exit(1);
+                    }
+
+                    try {
+                        Thread.sleep(CHECK_INTERVAL);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            connectionMonitorThread.start();
+
             client.run();
         }
         else if(networkClient == 1){
@@ -108,7 +133,7 @@ public class ClientAppFourth {
                     try {
                         serverStub.receive(client);
                     } catch (RemoteException e) {
-                        System.err.println("Cannot receive from server. The match has been stopped :(");
+                        System.err.println("\nCannot receive from server. \nThe match has been stopped :(, reload client to continue the game");
                         try {
                             serverStub.close();
                         } catch (RemoteException ex) {

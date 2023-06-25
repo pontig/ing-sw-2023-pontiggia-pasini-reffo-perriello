@@ -43,5 +43,5 @@ public enum State {
     TOKENS_TAKEN,           // Another player obtained a token
     PLAYER_LIST,            // The player list for the select box in the GUI chat
     CHAT_MESSAGE,           // New message in the chat
-    IN_GAME, // TODO: don t know
+    IN_GAME, PING, // TODO: don t know
 }

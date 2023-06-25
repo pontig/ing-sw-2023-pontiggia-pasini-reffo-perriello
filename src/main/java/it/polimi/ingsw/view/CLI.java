@@ -23,7 +23,7 @@ public class CLI extends View {
     // Reset
     public static final String RESET = "\033[0m";  // Text Reset
     // Regular Colors
-    public static final String BLACK = "\033[38;5;232m";   // BLACK
+    public static final String BLACK = "\033[38;5;238m";   // BLACK
     public static final String RED = "\033[38;5;196m";     // RED
     public static final String GREEN = "\033[38;5;46m";   // GREEN
     public static final String YELLOW = "\033[38;5;226m";  // YELLOW
@@ -284,6 +284,7 @@ public class CLI extends View {
                 userInput.start();
             }
         }
+        System.exit(1);
     }
 
     /**
@@ -293,6 +294,7 @@ public class CLI extends View {
         synchronized (lock) {
             State msg = arg.getInfo();
             switch (msg) {
+                case RECONNECTED:
                 case ACK_NICKNAME:
                 case ACK_NUMPLAYERS:
                     //arg.printMsg();
@@ -300,6 +302,7 @@ public class CLI extends View {
                     lock.notifyAll();
                     break;
 
+                case NOT_IN_PREV_GAME:
                 case SAME_NICKNAME:
                     //arg.printMsg();
                     state = 0;
@@ -356,13 +359,6 @@ public class CLI extends View {
                             System.out.println();
                             showOtherShelf(otherShelf);
                             otherShelf.clear();
-                        }
-
-                        if(arg.getConfirm()){
-                            //System.out.println("\n\nIt is your turn " + arg.getNickname() + "!!");
-                            //System.out.println("To select a tile you must enter the couple Row - Column, if you wanna deselect it you can do it during the next submission by typing the same couple Row - Column.");
-                            //System.out.println("Each time you choose a tile press enter key to submit.");
-                            //state = 4;
                         }
                     }
                     if(networkProtocol == 1)
@@ -422,8 +418,28 @@ public class CLI extends View {
                     if(!chatOpen) {
                         try {
                             int port = -1;
-                            //String command = "x-terminal-emulator -e java -jar ./TerminalServer.jar";
-                            //Process process = Runtime.getRuntime().exec(command);
+
+                            String os = System.getProperty("os.name").toLowerCase();
+
+                            String command;
+
+                            if (os.contains("win")) {
+                                //On Windows
+                                command = "cmd /c start java -jar TerminalServer.jar";
+                            } else if (os.contains("nix") || os.contains("nux")) {
+                                //On Linux
+                                //TODO - command = "x-terminal-emulator -e java -jar ./TerminalServer.jar";
+                                command = "x-terminal-emulator -e java -jar /home/tommi/Scrivania/IngSW_Tommi/MyShelfie/TerminalServer.jar";
+
+                            } else if (os.contains("mac")) {
+                                //On macOS
+                                command = "open -a Terminal.app java -jar ./TerminalServer.jar";
+                            } else {
+                                //Error
+                                throw new UnsupportedOperationException("Sistema operativo non supportato");
+                            }
+
+                            Process process = Runtime.getRuntime().exec(command);
 
                             if(networkProtocol == 1) {
                                 int time = 3500*yourNumber;
@@ -457,19 +473,7 @@ public class CLI extends View {
 
                             userInput = new ThreadRead(this.socket, this);
                             userInput.start();
-                            /*
-                            String os = System.getProperty("os.name").toLowerCase();
-                            Runtime runtime = Runtime.getRuntime();
 
-                            if (os.contains("win"))
-                                runtime.exec("cmd /c start");
-                            else if (os.contains("nix") || os.contains("nux"))
-                                runtime.exec("gnome-terminal");
-                            else if (os.contains("mac"))
-                                runtime.exec("open -a Terminal");
-                            else
-                                System.out.println(RED + "Impossible to open a terminal there was an issue" + RESET);
-                            */
                             chatOpen = true;
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -623,11 +627,11 @@ public class CLI extends View {
                 case FIRSTCOMMONGOAL_TAKEN:
                     //arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
-                        System.out.print("You ");
+                        System.out.print(RED + "\nYou");
                     } else {
-                        System.out.print(arg.getNickname() + " ");
+                        System.out.print(RED + "\n" + arg.getNickname());
                     }
-                    System.out.println("obtained: " + arg.getFirstCommon() + " points from the first common goal");
+                    System.out.println("obtained: " + arg.getFirstCommon() + " points from the first common goal" + RESET);
                     if(networkProtocol == 1)
                         lock.notifyAll();
                     break;
@@ -635,11 +639,11 @@ public class CLI extends View {
                 case SECONDCOMMONGOAL_TAKEN:
                     //arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
-                        System.out.print("You ");
+                        System.out.print(RED + "\nYou");
                     } else {
-                        System.out.print(arg.getNickname() + " ");
+                        System.out.print(RED + "\n" + arg.getNickname());
                     }
-                    System.out.println(arg.getNickname() + "obtained: " + arg.getSecondCommon() + " points from the second common goal");
+                    System.out.println(" obtained: " + arg.getSecondCommon() + " points from the second common goal" + RESET);
                     if(networkProtocol == 1)
                         lock.notifyAll();
                     break;
@@ -647,11 +651,11 @@ public class CLI extends View {
                 case TOKEN_END_GAME:
                     //arg.printMsg();
                     if (arg.getNickname().equals(this.nickname)) {
-                        System.out.print("You ");
+                        System.out.print(RED + "\nYou");
                     } else {
-                        System.out.print(arg.getNickname() + " ");
+                        System.out.print(RED + "\n" + arg.getNickname());
                     }
-                    System.out.println(arg.getNickname() + "completed Shelf and obtained endGame's point");
+                    System.out.println("completed Shelf and obtained endGame's point!" + RESET);
                     if(networkProtocol == 1)
                         lock.notifyAll();
                     break;
@@ -659,6 +663,7 @@ public class CLI extends View {
                 case RESULTS:
                     //arg.printMsg();
                     System.out.println(RED + arg.getOrderedRanking() + RESET);
+                    end = true;
                     state = 1;
                     lock.notifyAll();
                     break;

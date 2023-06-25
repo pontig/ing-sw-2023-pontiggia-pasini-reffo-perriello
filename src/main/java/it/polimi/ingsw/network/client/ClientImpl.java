@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.enums.State;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.view.*;
 import it.polimi.ingsw.view.gui.JavaFXGui;
@@ -41,6 +43,13 @@ public class ClientImpl extends UnicastRemoteObject implements Client, Runnable 
         view.update(server, arg);
     } //passo alla view il messaggio ricevuto dal server, con arg per le info da prendere -> se faccio un messaggio custom per ognuno si può togliere arg forse
 
+    public void ping(Server server) {
+        try {
+            server.updateModel(this, new SendDataToServer(State.PING, null, 0,0, false));           //arg è messaggio da view a controller - INIT per nome e num players
+        } catch (RemoteException e) {
+            System.err.println("Unable to update the server: " + e.getMessage() + ". Skipping the update...");
+        }
+    }
     public void run() {
         view.run();
     }
