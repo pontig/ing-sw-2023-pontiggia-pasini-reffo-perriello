@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.scene;
 
 import it.polimi.ingsw.enums.CommonGoalName;
 import it.polimi.ingsw.model.Shelf;
+import it.polimi.ingsw.model.commongoal.*;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendChatMessage;
 import it.polimi.ingsw.network.messages.SendDataToServer;
@@ -21,6 +22,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
+import javax.tools.Tool;
 import java.util.*;
 
 import static it.polimi.ingsw.enums.State.*;
@@ -223,7 +225,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         chatScroll.setCursor(Cursor.DEFAULT);
 
         chatContainer.setOnMouseDragged(event -> {
-            chatContainer.setTranslateX(event.getSceneX() - chatContainer.getWidth() );
+            chatContainer.setTranslateX(event.getSceneX() - chatContainer.getWidth());
             chatContainer.setTranslateY(event.getSceneY() - chatContainer.getHeight());
             event.consume();
         });
@@ -299,6 +301,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
     /**
      * Shows a popup in the bottom right corner that disappears in a few seconds
+     *
      * @param info the text to display
      */
     private void popup(String info) {
@@ -730,7 +733,6 @@ public class PlaySceneController extends GUI implements GenericSceneController {
                 }
             }
         }
-
     }
 
     /**
@@ -804,17 +806,76 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         for (int i = 0; i < 2; i++) {
             String goal = goals[i];
             String name = goal.split("\n")[0];
+            String thisTooltip = null;
+            switch (CommonGoalName.valueOf(name)) {
+                case FIVEX:
+                    thisTooltip = "Five tiles of the same type forming an X";
+                    break;
+
+                case FOURANGLES:
+                    thisTooltip = "Four tiles of the same type in the four corners of the bookshelf";
+                    break;
+
+                case SIXCOUPLES:
+                    thisTooltip = "Six groups each containing at least 2 tiles of the same type\n" +
+                            " The tiles of one group can be different from those of another group";
+                    break;
+
+                case FIVEDIAGONAL:
+                    thisTooltip = "Five tiles of the same type forming a diagonal";
+                    break;
+
+                case SQUARE2X2:
+                    thisTooltip = "Two groups each containing 4 tiles of the same type in a 2x2 square\n" +
+                            " The tiles of one square can be different from those of the other square.";
+                    break;
+
+                case FOURADJACENT:
+                    thisTooltip = "Four groups each containing at least 4 tiles of the same type\n" +
+                            " The tiles of one group can be different from those of another group.";
+                    break;
+
+                case EIGHTSAMETYPE:
+                    thisTooltip = "Eight tiles of the same type";
+                    break;
+
+                case FIVEDECRESING:
+                    thisTooltip = "Five columns of increasing or decreasing height: starting with the first column to the left or right,\n" +
+                            " each subsequent column must consist of one more tile. Tiles can be of any type.";
+                    break;
+
+                case ROW4ITEMS5:
+                    thisTooltip = "Four lines each formed by 5 tiles of maximum three different types.\n" +
+                            "One line can show the same or a different combination of another line";
+                    break;
+
+                case COLUMNS3ITEMS6:
+                    thisTooltip = "Three columns each formed by 6 tiles of maximum three different types." +
+                            " One column can show the same or a different combination of another column";
+                    break;
+
+                case ROW2ITEMS5DIFFERENT:
+                    thisTooltip = "Two lines each formed by 5 different types of tiles." +
+                            "One line can show the same or a different combination of the other line";
+                    break;
+
+                case COLUMNS2ITEMS6DIFFERENT:
+                    thisTooltip = "Two columns each formed by 6 different types of tiles";
+                    break;
+
+            }
             int which = CommonGoalName.valueOf(name).ordinal() + 1;
             String url = "/images/commonGoals/" + which + ".jpg";
             commonWrap[i][0].setImage(new Image(PlaySceneController.class.getResourceAsStream(url)));
             commonWrap[i][0].setVisible(true);
+            Tooltip.install(commonWrap[i][0], new Tooltip(thisTooltip));
             String[] exploded = goal.split("are: ");
             String[] tokenRemaining = exploded[1].split(" ");
             for (int j = 0; j < tokenRemaining.length - 1; j++) {
                 String token = tokenRemaining[j];
                 commonWrap[i][Integer.parseInt(token)].setVisible(true);
+                Tooltip.install(commonWrap[i][Integer.parseInt(token)], new Tooltip(thisTooltip));
             }
-
         }
     }
 

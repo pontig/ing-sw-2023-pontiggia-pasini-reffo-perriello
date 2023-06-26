@@ -35,6 +35,7 @@ Button {
 }
 .numPlayersButton {
     -fx-background-color: #E3D7C9;
+    -fx-text-fill: black;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 30, 0, 0, 0);
     -fx-font-size: 27px;
     -fx-pref-width: 100px;

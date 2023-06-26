@@ -99,6 +99,7 @@ public class SceneController {
                 mainStage.setMaximized(true);
             }
             if (fxml.equals("EndGameScene.fxml")) {
+                mainStage.setMaximized(false);
                 mainStage.setWidth(1300);
                 mainStage.setHeight(820);
                 mainStage.setResizable(false);

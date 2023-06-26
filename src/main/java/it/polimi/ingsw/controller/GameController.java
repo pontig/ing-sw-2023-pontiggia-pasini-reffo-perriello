@@ -8,7 +8,6 @@ import it.polimi.ingsw.network.messages.SendChatMessage;
 
 public class GameController {                                                                   //extends Observer
     private Game game;
-    private StateGame currentStateGame;
 
     /**
      * Constructor of GameController
@@ -29,15 +28,6 @@ public class GameController {                                                   
         return this.game;
     }
 
-    /**
-     * Getter of the current state of the game
-     *
-     * @return current state of the game
-     */
-    public StateGame getCurrentStateGame() {
-        return this.currentStateGame;
-    }
-
     //setter
 
     /**
@@ -47,15 +37,6 @@ public class GameController {                                                   
      */
     public void setGame(Game game) {
         this.game = game;
-    }
-
-    /**
-     * Setter of the current state of the game
-     *
-     * @param currentStateGame the current state of the game to set
-     */
-    public void setCurrentStateGame(StateGame currentStateGame) {
-        this.currentStateGame = currentStateGame;
     }
 
     /**

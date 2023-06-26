@@ -12,8 +12,7 @@ import java.util.HashSet;
  * Two columns each formed by 6 different types of tiles
  * Three columns each formed by 6 tiles of maximum three different types. One column can show the same or a different combination of another column
  * Two lines each formed by 5 different types of tiles. One line can show the same or a different combination of the other line
- * Four lines each formed by 5 tiles of
- * maximum three different types. One line can show the same or a different combination of another line.
+ * Four lines each formed by 5 tiles of maximum three different types. One line can show the same or a different combination of another line.
  */
 public class AdjacentDifferentItemsGoal extends CommonGoalAbstract {
     private char direction; // h for horizontal, v for vertical

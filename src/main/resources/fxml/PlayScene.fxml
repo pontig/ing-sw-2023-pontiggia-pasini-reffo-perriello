@@ -708,7 +708,7 @@
             </Label>
          </top>
       </BorderPane>
-      <AnchorPane fx:id="screen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="280.0" styleClass="chatPopup" StackPane.alignment="BOTTOM_RIGHT">
+      <AnchorPane fx:id="screen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="97.0" prefWidth="280.0" styleClass="chatPopup" StackPane.alignment="BOTTOM_RIGHT">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -716,7 +716,7 @@
             <Insets bottom="100.0" />
          </StackPane.margin>
          <children>
-            <Label fx:id="chatPopupText" layoutX="14.0" layoutY="24.0" text="Label" textFill="WHITE" />
+            <Label fx:id="chatPopupText" layoutX="14.0" layoutY="24.0" text="Label" textFill="WHITE" AnchorPane.topAnchor="24.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="chatContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="692.0" styleClass="chat">
