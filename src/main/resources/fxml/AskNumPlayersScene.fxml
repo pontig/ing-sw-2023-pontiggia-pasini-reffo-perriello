@@ -4,22 +4,26 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:controller="it.polimi.ingsw.view.gui.scene.AskNumPlayersSceneController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="generic" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0">
-         <center>
-bug fi            <Label text="How many players?" textFill="#e3d7c9" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="Comic Sans MS" size="27.0" />
-               </font></Label>
-         </center>
-      </BorderPane>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
-         <children>
-            <Button fx:id="twoPlayersButton" mnemonicParsing="false" styleClass="numPlayersButton" text="2" />
-            <Button fx:id="threePlayersButton" mnemonicParsing="false" styleClass="numPlayersButton" text="3" />
-            <Button fx:id="fourPlayersButton" mnemonicParsing="false" styleClass="numPlayersButton" text="4" />
-         </children>
-      </HBox>
-   </children>
+<VBox fx:controller="it.polimi.ingsw.view.gui.scene.AskNumPlayersSceneController" maxHeight="-Infinity"
+      maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+      styleClass="generic" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
+      xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <BorderPane prefHeight="200.0" prefWidth="200.0">
+            <center>
+                <Label text="How many players?" textFill="#e3d7c9" BorderPane.alignment="CENTER">
+                    <font>
+                        <Font name="Comic Sans MS" size="27.0"/>
+                    </font>
+                </Label>
+            </center>
+        </BorderPane>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+            <children>
+                <Button fx:id="twoPlayersButton" mnemonicParsing="false" styleClass="numPlayersButton" text="2"/>
+                <Button fx:id="threePlayersButton" mnemonicParsing="false" styleClass="numPlayersButton" text="3"/>
+                <Button fx:id="fourPlayersButton" mnemonicParsing="false" styleClass="numPlayersButton" text="4"/>
+            </children>
+        </HBox>
+    </children>
 </VBox>

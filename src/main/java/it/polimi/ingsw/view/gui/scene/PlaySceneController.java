@@ -10,6 +10,7 @@ import it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
@@ -217,6 +218,15 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         chatDest.getItems().add("Everyone");
         chatContainer.setVisible(false);
         screen.setVisible(false);
+
+        chatContainer.setCursor(Cursor.MOVE);
+        chatScroll.setCursor(Cursor.DEFAULT);
+
+        chatContainer.setOnMouseDragged(event -> {
+            chatContainer.setTranslateX(event.getSceneX() - chatContainer.getWidth() );
+            chatContainer.setTranslateY(event.getSceneY() - chatContainer.getHeight());
+            event.consume();
+        });
     }
 
     /**
@@ -281,9 +291,20 @@ public class PlaySceneController extends GUI implements GenericSceneController {
      * @param msg  the message
      */
     public void newMessage(String from, String to, String msg) {
-        chatPopupText.setText(from + ": " + msg);
+        popup(from + ": " + msg);
         screen.setVisible(true);
         addMessage(from, to, msg);
+        chatScroll.setVvalue(1);
+    }
+
+    /**
+     * Shows a popup in the bottom right corner that disappears in a few seconds
+     * @param info the text to display
+     */
+    private void popup(String info) {
+        chatPopupText.setText(info);
+        chatPopupText.setWrapText(true);
+        screen.setVisible(true);
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
                     @Override
@@ -293,7 +314,6 @@ public class PlaySceneController extends GUI implements GenericSceneController {
                 },
                 5000
         );
-        chatScroll.setVvalue(1);
     }
 
     /**
@@ -306,6 +326,8 @@ public class PlaySceneController extends GUI implements GenericSceneController {
     public void addMessage(String from, String to, String msg) {
         Label text = new Label();
         text.setText("from " + from + " to " + to + ": " + msg);
+        //text.setMaxWidth(500);
+        text.setWrapText(true);
         HBox box = new HBox();
         box.getChildren().add(text);
         if (from.equals("you")) {
@@ -819,6 +841,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
         }
         toShow.setImage(new Image(PlaySceneController.class.getResourceAsStream("/images/commonGoals/scores/scoring_" + points + ".jpg")));
         if (which == 2) endGameTokenImg.setVisible(false);
+        popup("Oops! someone else took " + points + " from a common goal :(");
     }
 
     /**
