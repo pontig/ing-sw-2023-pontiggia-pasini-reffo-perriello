@@ -100,7 +100,7 @@ Create a folder called 'MyShelfie' and put inside:
 
 &emsp;&nbsp;i. The SDK folder previously dowloaded (unzip it if necessary)
 
-&emsp;ii. The JAR file from the [artifacts' folder](artifacts)               //Need to update the folder
+&emsp;ii. The JAR file from the [artifacts' folder](artifacts)               
 
 &emsp; **My Shelfie Server:**
 
