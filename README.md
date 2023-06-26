@@ -65,8 +65,8 @@ The documentation includes descriptions for the majority of the utilized classes
 It can be accessed either by generating it from the code or by visiting [JavaDOC]()       //Need to update the folder
 
 **Test Coverage** - (Server side)
-- [Model Test](src/main/test/java/it/polimi/ingsw/model)
-- [Controller Test](src/main/test/java/it/polimi/ingsw)                             //Need to update the folder
+- [Model Test](src/test/java/it/polimi/ingsw/model) - X %
+- [Controller Test](src/test/java/it/polimi/ingsw) - X %                            //Need to update the folder
 
 **Libraries and Plugins** 
 | Library/Plugin                     | Description                                                            |
@@ -77,26 +77,39 @@ It can be accessed either by generating it from the code or by visiting [JavaDOC
 
 ## Run the game
 
-**Java**
+**1. Java**
 
-- Installare java jre
-- Installare java jdk
+To run the game you need a runtime environment for applications written in the Java language
 
-**JavaFX**
+- [_Install Java Runtime Environment (JRE)_](https://www.java.com/it/download/manual.jsp) - Choose the right version for your Operating System
 
-- Installare javafx sdk
+Upon successfully installing Java Runtime Environment (JRE) on your personal computer, you can verify its proper installation by entering the following command in the terminal:
+```bash
+java -version
+```
 
-**Windows**
+**2. JavaFX**
 
-- Se windows 10 o minore attivare ANSI color
+- [_Download JavaFX Software Development Kit (SDK)_]() - Choose the right version for your Operating System
 
-**Ubuntu**
+**3. Run locally on your operating system**
+
+a. Windows
+
+If you are utilizing Windows 10 or a later version, you may encounter difficulties in properly rendering ANSI colors when using the command-line interface (CLI).
+
+To resolve this issue, please execute the following command in the terminal:
+```bash
+reg add HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1
+```
+
+b. Ubuntu
 
 - Capire se funziona correttamente
 
-**MacOS**
+c. MacOS
 
-We were unable to test it as such a machine was not available
+- We were unable to test it as such a machine was not available
 
 ## How to play
 - [Written rules](game_materials/rules)
