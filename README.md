@@ -132,7 +132,7 @@ java --module-path <Name of SDK folder>/lib --add-modules javafx.controls,javafx
   ```
 
 &emsp; *B -* Linux
-- Need to see if works with the right SDK
+- No issues found yet
   
 &emsp; *C -* MacOS
 - We were unable to test it as such a machine was not available
