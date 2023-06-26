@@ -25,13 +25,13 @@ Interactions and gameplay can take place through a command-line interface (CLI) 
 
   Email: tommaso.reffo@mail.polimi.it
   
-- [Maurizio Perriello](https://github.com/MaurizioPerriello16) - 
+- [Maurizio Perriello](https://github.com/MaurizioPerriello16) - 10739075
 
   Email: maurizio.perriello@mail.polimi.it
   
 ## Project requirements
 
-Here you can find the complete specifications: [Project Requirements](game materials/project_requirement.pdf)
+Here you can find the complete specifications: [Project Requirements](game_materials/project_requirement.pdf)
 
 | Functionality                       | State                                                    |
 | :---                                | :---:                                                    |
@@ -65,8 +65,8 @@ The documentation includes descriptions for the majority of the utilized classes
 It can be accessed either by generating it from the code or by visiting [JavaDOC]()       //Need to update the folder
 
 **Test Coverage** - (Server side)
-- [Model Test](src/main/test/java/it/polimi/ingsw/model)
-- [Controller Test]()                             //Need to update the folder
+- [Model Test](src/test/java/it/polimi/ingsw/model) - X %
+- [Controller Test](src/test/java/it/polimi/ingsw) - X %                            //Need to update the folder
 
 **Libraries and Plugins** 
 | Library/Plugin                     | Description                                                            |
@@ -77,11 +77,69 @@ It can be accessed either by generating it from the code or by visiting [JavaDOC
 
 ## Run the game
 
-**Windows**
+**1. Java**
 
-**Ubuntu**
+To run the game you need a runtime environment for applications written in the Java language:
 
-**MacOS**
+- [_Install Java Runtime Environment (JRE)_](https://www.java.com/it/download/manual.jsp) - Choose the right version for your Operating System
+
+Upon successfully installing Java Runtime Environment (JRE) on your personal computer, you can verify its proper installation by entering the following command in the terminal:
+```bash
+java -version
+```
+
+**2. JavaFX**
+
+To visualize the graphical user interface (GUI) properly, you need command-line tools and technologies that allow you to develop expressive content for applications deployed to browsers, desktops, and mobile devices:
+
+- [_Download JavaFX Software Development Kit (SDK)_](https://gluonhq.com/products/javafx/) - Choose the right version for your Operating System
+
+**3. Run locally**
+
+Create a folder called 'MyShelfie' and put inside:
+
+&emsp;&nbsp;i. The SDK folder previously dowloaded (unzip it if necessary)
+
+&emsp;ii. The JAR file from the [artifacts' folder](artifacts)               
+
+&emsp; **My Shelfie Server:**
+
+&emsp;&ensp; Open a terminal and change directory till you are in MyShelfie folder
+
+&emsp;&ensp; Now you can start the server by typing:
+```bash
+java -jar Server.jar 
+```
+
+&emsp; **My Shelfie Client:**
+
+&emsp;&ensp; Open a second terminal and change directory till you are in MyShelfie folder
+
+&emsp;&ensp; Now you can start the client by typing:
+```bash
+java --module-path <Name of SDK folder>/lib --add-modules javafx.controls,javafx.fxml -jar Client.jar 
+
+#Remember to change <Name of SDK folder> (it should be something like 'javafx-sdk-20.0.1')
+```
+
+**Issues you could encounter**
+
+&emsp; *A -* Windows
+- If you are utilizing Windows 10 or a later version, you may encounter difficulties in properly rendering ANSI colors when using the command-line interface (CLI). To resolve this issue, please execute the following command in the terminal:
+  
+  ```bash
+  reg add HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1
+  ```
+
+&emsp; *B -* Linux
+- No issues found yet
+  
+&emsp; *C -* MacOS
+- We were unable to test it as such a machine was not available
+
+## How to play
+- [Written rules](game_materials/rules)
+- [Video rules](https://www.youtube.com/watch?v=BNzV1NHd-To&t=75s) - [ITA]
 
 ## Other info
 - Supervisor: [Prof. G. Cugola](https://cugola.faculty.polimi.it/)
