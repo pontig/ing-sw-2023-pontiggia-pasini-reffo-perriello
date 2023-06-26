@@ -25,7 +25,7 @@ Interactions and gameplay can take place through a command-line interface (CLI) 
 
   Email: tommaso.reffo@mail.polimi.it
   
-- [Maurizio Perriello](https://github.com/MaurizioPerriello16) - 
+- [Maurizio Perriello](https://github.com/MaurizioPerriello16) - 10739075
 
   Email: maurizio.perriello@mail.polimi.it
   
@@ -82,6 +82,8 @@ It can be accessed either by generating it from the code or by visiting [JavaDOC
 **Ubuntu**
 
 **MacOS**
+
+We were unable to test it as such a machine was not available
 
 ## Other info
 - Supervisor: [Prof. G. Cugola](https://cugola.faculty.polimi.it/)
