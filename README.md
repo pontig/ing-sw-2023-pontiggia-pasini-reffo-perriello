@@ -31,7 +31,7 @@ Interactions and gameplay can take place through a command-line interface (CLI) 
   
 ## Project requirements
 
-Here you can find the complete specifications: [Project Requirements](game materials/project_requirement.pdf)
+Here you can find the complete specifications: [Project Requirements](game_materials/project_requirement.pdf)
 
 | Functionality                       | State                                                    |
 | :---                                | :---:                                                    |
@@ -66,7 +66,7 @@ It can be accessed either by generating it from the code or by visiting [JavaDOC
 
 **Test Coverage** - (Server side)
 - [Model Test](src/main/test/java/it/polimi/ingsw/model)
-- [Controller Test]()                             //Need to update the folder
+- [Controller Test](src/main/test/java/it/polimi/ingsw)                             //Need to update the folder
 
 **Libraries and Plugins** 
 | Library/Plugin                     | Description                                                            |
@@ -99,7 +99,7 @@ It can be accessed either by generating it from the code or by visiting [JavaDOC
 We were unable to test it as such a machine was not available
 
 ## How to play
-- [Written rules](game materials/rules)
+- [Written rules](game_materials/rules)
 - [Video rules](https://www.youtube.com/watch?v=BNzV1NHd-To&t=75s) - [ITA]
 
 ## Other info
