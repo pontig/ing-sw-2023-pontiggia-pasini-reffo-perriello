@@ -79,7 +79,7 @@ It can be accessed either by generating it from the code or by visiting [JavaDOC
 
 **1. Java**
 
-To run the game you need a runtime environment for applications written in the Java language
+To run the game you need a runtime environment for applications written in the Java language:
 
 - [_Install Java Runtime Environment (JRE)_](https://www.java.com/it/download/manual.jsp) - Choose the right version for your Operating System
 
@@ -90,25 +90,51 @@ java -version
 
 **2. JavaFX**
 
-- [_Download JavaFX Software Development Kit (SDK)_]() - Choose the right version for your Operating System
+To visualize the graphical user interface (GUI) properly, you need command-line tools and technologies that allow you to develop expressive content for applications deployed to browsers, desktops, and mobile devices:
 
-**3. Run locally on your operating system**
+- [_Download JavaFX Software Development Kit (SDK)_](https://gluonhq.com/products/javafx/) - Choose the right version for your Operating System
 
-a. Windows
+**3. Run locally**
 
-If you are utilizing Windows 10 or a later version, you may encounter difficulties in properly rendering ANSI colors when using the command-line interface (CLI).
+Create a folder called 'MyShelfie' and put inside:
 
-To resolve this issue, please execute the following command in the terminal:
+&emsp;&nbsp;i. The SDK folder previously dowloaded (unzip it if necessary)
+
+&emsp;ii. The JAR file from the [artifacts' folder](artifacts)               //Need to update the folder
+
+&emsp; **My Shelfie Server:**
+
+&emsp;&ensp; Open a terminal and change directory till you are in MyShelfie folder
+
+&emsp;&ensp; Now you can start the server by typing:
 ```bash
-reg add HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1
+java -jar Server.jar 
 ```
 
-b. Ubuntu
+&emsp; **My Shelfie Client:**
 
-- Capire se funziona correttamente
+&emsp;&ensp; Open a second terminal and change directory till you are in MyShelfie folder
 
-c. MacOS
+&emsp;&ensp; Now you can start the client by typing:
+```bash
+java --module-path <Name of SDK folder>/lib --add-modules javafx.controls,javafx.fxml -jar Client.jar 
 
+#Remember to change <Name of SDK folder> (it should be something like 'javafx-sdk-20.0.1')
+```
+
+**Issues you could encounter**
+
+&emsp; *A -* Windows
+- If you are utilizing Windows 10 or a later version, you may encounter difficulties in properly rendering ANSI colors when using the command-line interface (CLI). To resolve this issue, please execute the following command in the terminal:
+  
+  ```bash
+  reg add HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1
+  ```
+
+&emsp; *B -* Linux
+- Need to see if works with the right SDK
+  
+&emsp; *C -* MacOS
 - We were unable to test it as such a machine was not available
 
 ## How to play
