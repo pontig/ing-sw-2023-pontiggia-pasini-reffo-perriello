@@ -77,13 +77,30 @@ It can be accessed either by generating it from the code or by visiting [JavaDOC
 
 ## Run the game
 
+**Java**
+
+- Installare java jre
+- Installare java jdk
+
+**JavaFX**
+
+- Installare javafx sdk
+
 **Windows**
 
+- Se windows 10 o minore attivare ANSI color
+
 **Ubuntu**
+
+- Capire se funziona correttamente
 
 **MacOS**
 
 We were unable to test it as such a machine was not available
+
+## How to play
+- [Written rules](game materials/rules)
+- [Video rules](https://www.youtube.com/watch?v=BNzV1NHd-To&t=75s) - [ITA]
 
 ## Other info
 - Supervisor: [Prof. G. Cugola](https://cugola.faculty.polimi.it/)
