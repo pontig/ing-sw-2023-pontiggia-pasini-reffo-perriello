@@ -827,7 +827,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
 
                 case SQUARE2X2:
                     thisTooltip = "Two groups each containing 4 tiles of the same type in a 2x2 square\n" +
-                            " The tiles of one square can be different from those of the other square.";
+                            " The tiles of one square has to be the same from those of the other square.";
                     break;
 
                 case FOURADJACENT:

@@ -343,9 +343,13 @@ public class CLI extends View {
                         System.out.println(RED + "\nThis is the board: " + RESET);
                         showBoard(arg.getBoard());
                         System.out.print(RED + "\nThis is the first common goal: " + RESET);
-                        System.out.print(arg.getFirstCommon());
+                        String[] splitGoal = arg.getFirstCommon().split("\n");
+                        writeCommon(splitGoal[0]);
+                        System.out.println(splitGoal[1]);
                         System.out.print(RED + "\nThis is the second common goal: " + RESET);
-                        System.out.print(arg.getSecondCommon());
+                        splitGoal = arg.getSecondCommon().split("\n");
+                        writeCommon(splitGoal[0]);
+                        System.out.println(splitGoal[1]);
                         System.out.println(RED + "\nYour shelf:             Your personal goal: " + RESET);
                         showPersonalAndShelf(arg.getPersonal(), arg.getShelf());
 
@@ -359,6 +363,40 @@ public class CLI extends View {
                             System.out.println();
                             showOtherShelf(otherShelf);
                             otherShelf.clear();
+                        }
+
+                        if(!chatOpen){
+                            String os = System.getProperty("os.name").toLowerCase();
+
+                            String command;
+
+                            if (os.contains("win")) {
+                                //On Windows
+                                command = "cmd /c start java -jar TerminalServer.jar";
+                            } else if (os.contains("nix") || os.contains("nux")) {
+                                //On Linux
+                                //command = "x-terminal-emulator -e java -jar ./TerminalServer.jar";
+                                command = "x-terminal-emulator -e java -jar /home/tommi/Scrivania/IngSW_Tommi/MyShelfie/TerminalServer.jar";
+
+                            } else if (os.contains("mac")) {
+                                //On macOS
+                                command = "open -a Terminal.app java -jar ./TerminalServer.jar";
+                            } else {
+                                //Error
+                                throw new UnsupportedOperationException("Sistema operativo non supportato");
+                            }
+
+                            try {
+                                Process process = Runtime.getRuntime().exec(command);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
                     if(networkProtocol == 1)
@@ -419,33 +457,16 @@ public class CLI extends View {
                         try {
                             int port = -1;
 
-                            String os = System.getProperty("os.name").toLowerCase();
-
-                            String command;
-
-                            if (os.contains("win")) {
-                                //On Windows
-                                command = "cmd /c start java -jar TerminalServer.jar";
-                            } else if (os.contains("nix") || os.contains("nux")) {
-                                //On Linux
-                                //TODO - command = "x-terminal-emulator -e java -jar ./TerminalServer.jar";
-                                command = "x-terminal-emulator -e java -jar /home/tommi/Scrivania/IngSW_Tommi/MyShelfie/TerminalServer.jar";
-
-                            } else if (os.contains("mac")) {
-                                //On macOS
-                                command = "open -a Terminal.app java -jar ./TerminalServer.jar";
+                          /*  if(networkProtocol == 1) {
+                                int timeGUI = 8000*yourNumber;
+                                Thread.sleep(timeGUI);
                             } else {
-                                //Error
-                                throw new UnsupportedOperationException("Sistema operativo non supportato");
-                            }
+                                int timeCLI = 2000 * yourNumber;
+                                Thread.sleep(timeCLI);
+                            }*/
 
-                            Process process = Runtime.getRuntime().exec(command);
-
-                            if(networkProtocol == 1) {
-                                int time = 3500*yourNumber;
-                                Thread.sleep(time);
-                            } else
-                                Thread.sleep(1500);
+                            int timeCLI = 2000 * yourNumber;
+                            Thread.sleep(timeCLI);
 
                             try (BufferedReader reader = new BufferedReader(new FileReader("port.txt"))) {
                                 String line;
@@ -690,6 +711,14 @@ public class CLI extends View {
                     }
                     break;
 
+                case TOKENS_TAKEN:
+                    //arg.printMsg();
+                    break;
+
+                case PING:
+                    arg.printMsg();
+                    break;
+
                 default:
                     System.err.println("Ignoring event from " + msg + ": " + arg);
                     break;
@@ -746,6 +775,8 @@ public class CLI extends View {
         }
     }
 
+
+
     private void showOtherShelf(List<String> otherShelf){
         int numShelf = otherShelf.size() / 2;
         switch(numShelf){
@@ -779,6 +810,66 @@ public class CLI extends View {
 
             default:
                 System.out.println("Error showing others shelf");
+                break;
+        }
+    }
+
+    private void writeCommon(String commonGoal){
+        //System.out.println(commonGoal);
+        switch (commonGoal) {
+            case "FIVEX":
+                System.out.println("Five tiles of the same type forming an X");
+                break;
+
+            case "FOURANGLES":
+                System.out.println("Four tiles of the same type in the four corners of the bookshelf");
+                break;
+
+            case "SIXCOUPLES":
+                System.out.println("Six groups each containing at least 2 tiles of the same type\n" +
+                        "                               The tiles of one group can be different from those of another group");
+                break;
+
+            case "FIVEDIAGONAL":
+                System.out.println("Five tiles of the same type forming a diagonal");
+                break;
+
+            case "SQUARE2X2":
+                System.out.println("Two groups each containing 4 tiles of the same type in a 2x2 square\n" +
+                        "                               The tiles of one square has to be the same from those of the other square.");
+                break;
+
+            case "FOURADJACENT":
+                System.out.println("Four groups each containing at least 4 tiles of the same type\n" +
+                        "                               The tiles of one group can be different from those of another group.");
+                break;
+
+            case "EIGHTSAMETYPE":
+                System.out.println("Eight tiles of the same type");
+                break;
+
+            case "FIVEDECRESING":
+                System.out.println("Five columns of increasing or decreasing height: starting with the first column to the left or right,\n" +
+                        "                               each subsequent column must consist of one more tile. Tiles can be of any type.");
+                break;
+
+            case "ROW4ITEMS5":
+                System.out.println("Four lines each formed by 5 tiles of maximum three different types.\n" +
+                        "                               One line can show the same or a different combination of another line");
+                break;
+
+            case "COLUMNS3ITEMS6":
+                System.out.println("Three columns each formed by 6 tiles of maximum three different types." +
+                        "                               One column can show the same or a different combination of another column");
+                break;
+
+            case "ROW2ITEMS5DIFFERENT":
+                System.out.println("Two lines each formed by 5 different types of tiles." +
+                        "                               One line can show the same or a different combination of the other line");
+                break;
+
+            case "COLUMNS2ITEMS6DIFFERENT":
+                System.out.println("Two columns each formed by 6 different types of tiles");
                 break;
         }
     }

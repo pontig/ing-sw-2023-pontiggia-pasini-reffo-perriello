@@ -132,8 +132,8 @@ class SixCouplesGoalTest {
         playerShelf.setItem(4, 3, new Item(PLANTS, 2));
         playerShelf.setItem(4, 4, new Item(GAME, 3));
         playerShelf.setItem(4, 5, new Item(BOOK, 1));
-        assertEquals(false, twoPlayers.specificGoal(playerShelf));
-        assertEquals(false, threePlayers.specificGoal(playerShelf));
-        assertEquals(false, fourPlayers.specificGoal(playerShelf));
+        assertEquals(true, twoPlayers.specificGoal(playerShelf));
+        assertEquals(true, threePlayers.specificGoal(playerShelf));
+        assertEquals(true, fourPlayers.specificGoal(playerShelf));
     }
 }

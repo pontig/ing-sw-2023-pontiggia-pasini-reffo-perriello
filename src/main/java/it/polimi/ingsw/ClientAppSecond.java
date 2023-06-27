@@ -110,6 +110,7 @@ public class ClientAppSecond {
                     } catch (RemoteException e) {
                         // Connection lost, handle the situation accordingly
                         System.err.println("\nCannot receive from server. \nThe match has been stopped :(, reload client to continue the game");
+                        System.err.println("\nIf you were playing throw CLI, please close the Chat terminal");
                         // Terminate the client
                         System.exit(1);
                     }
@@ -134,6 +135,7 @@ public class ClientAppSecond {
                         serverStub.receive(client);
                     } catch (RemoteException e) {
                         System.err.println("\nCannot receive from server. \nThe match has been stopped :(, reload client to continue the game");
+                        System.err.println("\nIf you were playing throw CLI, please close the Chat terminal");
                         try {
                             serverStub.close();
                         } catch (RemoteException ex) {

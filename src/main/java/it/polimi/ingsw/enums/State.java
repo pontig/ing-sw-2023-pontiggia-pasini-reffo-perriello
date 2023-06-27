@@ -43,5 +43,7 @@ public enum State {
     TOKENS_TAKEN,           // Another player obtained a token
     PLAYER_LIST,            // The player list for the select box in the GUI chat
     CHAT_MESSAGE,           // New message in the chat
-    IN_GAME, PING, // TODO: don t know
+    IN_GAME,                // Send all the data about each player during the game
+    CLIENT_DOWN,            // Notification that the client is disconnected
+    PING,                   // Ping used to see if the server is working in RMI
 }

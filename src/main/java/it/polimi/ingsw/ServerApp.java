@@ -1,5 +1,9 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.network.server.ClientSkeleton;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.network.server.ServerImpl;
@@ -14,12 +18,16 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static it.polimi.ingsw.enums.State.CLIENT_DOWN;
+
 
 public class ServerApp extends UnicastRemoteObject implements ServerAbst {
+    private static final long CHECK_INTERVAL = 60000; // Interval in milliseconds between connection checks
     private static ServerApp instance = null;
     private static Server s = null;
     private final ExecutorService executorService = Executors.newCachedThreadPool();
@@ -118,7 +126,7 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
                 System.out.print("Enter a 4 digit number only: ");
         } while (port.toString().length() != 4);
         portSocket = port;
-        //RMI
+        /* RMI */
         Thread rmiThread = new Thread(() -> {
             try {
                 startRMI(portRMI);
@@ -163,15 +171,18 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
             while (true) {
                 Socket socket = serverSocket.accept();
                 instanceSocket.executorService.submit(() -> {
+                    ClientSkeleton c = null;
                     try {
                         ClientSkeleton clientSkeleton = new ClientSkeleton(socket);
                         Server server = getInstance().connect();
                         server.register(clientSkeleton);
+                        c = clientSkeleton;
                         while (true) {
                             clientSkeleton.receive(server);
                         }
                     } catch (RemoteException e) {
-                        System.err.println("Cannot receive from client. Closing this connection...");
+                        System.err.println("Cannot receive from client: " + c + "\nClosing the connection form server all the client will be disconnected");
+                        System.exit(1);
                     } finally {
                         try {
                             socket.close();
@@ -191,10 +202,35 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
     public Server connect() throws RemoteException {
         File f = new File("status.json");
         boolean fromScratch = !f.exists() || f.length() == 0;
-        if (s == null)
+        if (s == null) {
             if (fromScratch)
                 s = new ServerImpl(true);
             else s = new ServerImpl(false);
+
+            //TODO - aggiunto questo
+            // Create and start a separate thread for connection monitoring, it pings the server every minute to check the server status
+            Thread connectionMonitorThread = new Thread(() -> {
+                while (true) {
+                    try {
+                        // Perform a simple operation to check the connection
+                        s.ping();
+                        //System.out.println("Connection is active.");
+                    } catch (RemoteException e) {
+                        // Connection lost, handle the situation accordingly
+                        System.err.println("Cannot receive from client \nClosing the connection form server all the client will be disconnected");
+                        // Terminate the client
+                        System.exit(1);
+                    }
+
+                    try {
+                        Thread.sleep(CHECK_INTERVAL);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            connectionMonitorThread.start();
+        }
 
         return s;
     }

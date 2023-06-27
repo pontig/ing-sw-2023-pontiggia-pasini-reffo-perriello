@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.enums.*;
 import it.polimi.ingsw.model.commongoal.*;
 
+import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.*;
 import it.polimi.ingsw.observer.ObservableModel;
 import it.polimi.ingsw.tuples.Pair;
@@ -50,6 +51,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     private Message msg = null;
     private boolean fromScratch = true;
     private List<Player> playersToReconnect = new ArrayList<>();
+    //private List<Client> clientList = new ArrayList<>();
 
 
     /**
@@ -79,7 +81,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
 
 
     /**
-     * Game constructor
+     * Game constructor for test purpose only
      *
      * @param nickName       the nickname of the player that creates the game
      * @param numberOfPlayer the number of players of the game
@@ -118,9 +120,6 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         this.columnChosen = 0;
         this.gameResult = new ArrayList<>();
     }
-
-    //TODO - SEND_MODEL che manda il personal a tutti
-
 
     /**
      * Draws random personal goal
@@ -230,6 +229,13 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     public List<Player> getPlayerList() {
         return playerList;
     }
+
+    /**
+     * Getter for the cleint list
+     *
+     * @return the client list
+     */
+    //public List<Client> getClientList() { return clientList; }
 
     /**
      * Getter of the state of the player
@@ -673,7 +679,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
      *
      * @param nickname the nickname of the player to add
      */
-    public void insertPlayer(String nickname) {
+    public void insertPlayer(String nickname, Client client) {
         if (fromScratch) {
             boolean sameNickname = false;
 
@@ -690,13 +696,15 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                 if (getNumberOfPlayers() == 0 || getPlayerList() == null) {
                     Player p = new Player(nickname, assignPersonalGoal());
                     getPlayerList().add(p);
+                    //getClientList().add(client);
                     msg = new SendDataToClient(ASK_NUMPLAYERS, null, null, null, null, null, null, null, false, null, null);
                 } else {
                     if (getNumberOfPlayers() == getPlayerList().size()) {
                         msg = new SendDataToClient(NACK_NICKNAME, null, null, null, null, null, null, null, false, null, null);
                     } else if (getNumberOfPlayers() > getPlayerList().size()) {
-                        Player p = new Player(nickname, assignPersonalGoal()); //da sostituire con assignPersonal()
+                        Player p = new Player(nickname, assignPersonalGoal());
                         getPlayerList().add(p);
+                        //getClientList().add(client);
                         this.startGame();
                     }
                 }
@@ -1191,5 +1199,4 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         Message msg = new SendChatMessage(CHAT_MESSAGE, from, to, text);
         setChangedAndNotifyObservers(msg);
     }
-
 }

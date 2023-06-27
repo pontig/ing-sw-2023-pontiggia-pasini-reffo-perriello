@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.server.ClientSkeleton;
 import it.polimi.ingsw.network.server.Server;
@@ -10,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.List;
 
 public class ServerStub implements Server {
     private final int port;
@@ -65,6 +68,7 @@ public class ServerStub implements Server {
         } catch (IOException | ClassNotFoundException e) {
             throw new RemoteException("Cannot receive or cast event: " + e.getMessage());
         }
+        //arg.printMsg();
         client.updateView(server, arg);
     }
 
@@ -75,4 +79,7 @@ public class ServerStub implements Server {
             throw new RemoteException("Cannot close socket", e);
         }
     }
+
+    @Override
+    public void ping() throws RemoteException { }
 }

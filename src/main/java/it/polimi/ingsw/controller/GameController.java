@@ -2,9 +2,12 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.enums.State;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendChatMessage;
+
+import java.util.List;
 
 public class GameController {                                                                   //extends Observer
     private Game game;
@@ -43,10 +46,10 @@ public class GameController {                                                   
      * Insert a new player in the game
      *
      * @param nickname nickname of the player
-     * @see Game#insertPlayer(String)
+     * @see Game#insertPlayer(String, Client)
      */
-    public void setPlayer(String nickname) {
-        getGame().insertPlayer(nickname);
+    public void setPlayer(String nickname, Client c) {
+        getGame().insertPlayer(nickname, c);
     }
 
     /**
@@ -154,7 +157,7 @@ public class GameController {                                                   
      * @param arg the message to send
      */
     public void update(Client o, Message arg) {
-        play(arg);
+        play(arg, o);
     }
 
     /**
@@ -174,12 +177,12 @@ public class GameController {                                                   
      *
      * @param arg the message received
      */
-    private void play(Message arg) {
+    private void play(Message arg, Client o) {
         State msg = arg.getInfo();
         switch (msg) {
             case SET_NICKNAME:
                 arg.printMsg();
-                setPlayer(arg.getNickname());
+                setPlayer(arg.getNickname(), o);
                 break;
             case SET_NUMPLAYERS:
                 arg.printMsg();
@@ -213,6 +216,14 @@ public class GameController {                                                   
                 arg.printMsg();
                 onChatMessage(((SendChatMessage) arg).getFrom(), ((SendChatMessage) arg).getTo(), ((SendChatMessage) arg).getText());
                 break;
+            case CLIENT_DOWN:
+                arg.printMsg();
+                System.out.println("Client disconnected: " + arg.getNickname());
+                break;
+            case PING:
+                arg.printMsg();
+                break;
+
             default:
                 System.err.println("Ignoring event from " + msg + ": " + arg);
                 break;

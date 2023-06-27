@@ -135,7 +135,8 @@ public class ClientApp {
                     try {
                         serverStub.receive(client);
                     } catch (RemoteException e) {
-                        System.err.println("Cannot receive from server. The match has been stopped :(, reload client to continue the game");
+                        System.err.println("\nCannot receive from server. \nThe match has been stopped :(, reload client to continue the game");
+                        System.err.println("\nIf you were playing throw CLI, please close the Chat terminal");
                         try {
                             serverStub.close();
                         } catch (RemoteException ex) {

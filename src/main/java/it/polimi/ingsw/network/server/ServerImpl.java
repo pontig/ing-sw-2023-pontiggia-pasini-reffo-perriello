@@ -5,17 +5,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.assets.PersonalGoalJson;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.enums.CommonGoalName;
+import it.polimi.ingsw.enums.State;
 import it.polimi.ingsw.enums.Type;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.PersonalGoal;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.tuples.Triplet;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -24,9 +25,10 @@ import java.util.Set;
 
 public class ServerImpl extends UnicastRemoteObject implements Server {
     private static GameController controller;
-    //private List<GameController> matches; da capire se è impl che crea più match oppure se il server
     private static Game match = null;
     private boolean fromScratch;
+    private static List<Client> clientList = new ArrayList<>();
+    private static int numPlayers = 0;
 
     public ServerImpl(boolean fromScratch) throws RemoteException {
         super();
@@ -52,13 +54,16 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
             }
 
             controller = new GameController(match, client);
-            System.out.println("Game e controller creati da " + client);//da creare sistemare con più client
+            System.out.println("Game e controller creati da " + client);
         }
+
         match.addObserverModel((o, arg) -> {
             try {
                 client.updateView(this, arg);                          //creo init connecting to server
             } catch (RemoteException e) {
                 System.err.println("Unable to update the client: " + e.getMessage() + ". Skipping the update...");
+                //TODO - ssitem exit
+                //System.exit(1);
             }
         });
     }
@@ -104,7 +109,26 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     }
 
     public void updateModel(Client client, Message arg) {     //ViewChange invia già modifiche e dati forse un messaggio?
+        //TODO -- aggiunto questo
+        if(arg.getInfo() == State.SET_NICKNAME) {
+            if(match.getNumberOfPlayers() == 0 || match.getNumberOfPlayers() > clientList.size()){
+                if(!clientList.contains(client))
+                    clientList.add(client);
+            } else {
+                System.out.println("Error list client");
+            }
+        }
+
         controller.update(client, arg);
     }
 
+    //TODO - aggiunto questo
+    public void ping() throws RemoteException {
+            if (clientList != null || !clientList.isEmpty()) {
+                for (Client c : clientList) {
+                    c.updateView(this, new SendDataToServer(State.PING, null, 0, 0, false));           //arg è messaggio da view a controller - INIT per nome e num players
+                    System.out.println("Client: " + c + "ping dal server");
+                }
+            }
+    }
 }

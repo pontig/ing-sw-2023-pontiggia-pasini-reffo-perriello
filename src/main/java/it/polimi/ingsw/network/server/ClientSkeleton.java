@@ -2,12 +2,16 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.SendDataToServer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.Objects;
+
+import static it.polimi.ingsw.enums.State.ACK_NICKNAME;
 
 public class ClientSkeleton implements Client {
     private final ObjectOutputStream objectOutputStream;

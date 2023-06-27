@@ -32,6 +32,7 @@ public class SixCouplesGoal extends CommonGoalAbstract {
         Item[][] playerShelf;
         int rowFirst = 0;
         int columnFirst = 0;
+        int couples = 0;
 
 
         for (Type color : types) {
@@ -45,19 +46,13 @@ public class SixCouplesGoal extends CommonGoalAbstract {
                         if (j < 4 && playerShelf[j + 1][i] != null && playerShelf[j + 1][i].getType().equals(color)) {
                             playerShelf[j + 1][i] = null;
                             rowFirst++;
-                            continue;
                         } else if (i < 5 && playerShelf[j][i + 1] != null && playerShelf[j][i + 1].getType().equals(color)) {
                             playerShelf[j][i + 1] = null;
                             rowFirst++;
-                            continue;
                         }
                     }
                 }
             }
-
-            if (rowFirst >= 6)
-                return true;
-
 
             shelfClone = shelf.clone();
             playerShelf = shelfClone.getItems();
@@ -69,23 +64,24 @@ public class SixCouplesGoal extends CommonGoalAbstract {
                         if (i < 5 && playerShelf[j][i + 1] != null && playerShelf[j][i + 1].getType().equals(color)) {
                             playerShelf[j][i + 1] = null;
                             columnFirst++;
-                            continue;
                         } else if (j < 4 && playerShelf[j + 1][i] != null && playerShelf[j + 1][i].getType().equals(color)) {
                             playerShelf[j + 1][i] = null;
                             columnFirst++;
-                            continue;
                         }
                     }
                 }
             }
 
-            if (columnFirst >= 6)
-                return true;
+            if(rowFirst > columnFirst)
+                couples = couples + rowFirst;
+            else
+                couples = couples + columnFirst;
 
             rowFirst = 0;
             columnFirst = 0;
         }
-        return false;
+
+        return couples >= 6;
     }
 }
 
