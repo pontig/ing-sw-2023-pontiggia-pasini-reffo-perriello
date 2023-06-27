@@ -162,7 +162,7 @@ public class CLI extends View {
                         state = 20;
                     break;
                 case 4:
-                    //Selecting an items from board by typing its coordinated ros first followed by the column
+                    //Selecting an items from board by typing its coordinated row first followed by the column
                     int row = -1;
                     int column = -1;
                     System.out.println("\nEnter the coordinates of the item you wanna select: ");

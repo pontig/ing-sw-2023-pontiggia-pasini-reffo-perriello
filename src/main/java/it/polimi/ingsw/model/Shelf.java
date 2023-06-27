@@ -138,7 +138,6 @@ public class Shelf {
                 }
                 if (count >= numItems) {
                     this.insertableColumns.add(i);
-                    count = 0;
                     break;
                 }
             }

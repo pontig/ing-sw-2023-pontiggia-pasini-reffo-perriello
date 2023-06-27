@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.Shelf;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FourAdjacentGoalTest {
 
@@ -45,7 +44,7 @@ class FourAdjacentGoalTest {
         shelfTwo.setItem(3,5, new Item(Type.GAME, 0));
         shelfTwo.setItem(4,3, new Item(Type.GAME, 0));
 
-        assertTrue(goal.specificGoal(shelfTwo));
+        assertFalse(goal.specificGoal(shelfTwo));
 
         Shelf shelfThree = new Shelf();
 

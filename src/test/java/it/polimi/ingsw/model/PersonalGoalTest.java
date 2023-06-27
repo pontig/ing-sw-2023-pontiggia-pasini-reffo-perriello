@@ -6,20 +6,17 @@ import it.polimi.ingsw.enums.Type;
 import it.polimi.ingsw.tuples.Triplet;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class PersonalGoalTest {
+public class PersonalGoalTest {
 
     @Test
     void sendToString() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        PersonalGoalJson[] personalGoalJsonArray = objectMapper.readValue(PersonalGoalTest.class.getResourceAsStream("src/main/resources/json/personalGoals.json"), PersonalGoalJson[].class);
+        PersonalGoalJson[] personalGoalJsonArray = objectMapper.readValue(PersonalGoalTest.class.getResourceAsStream("/json/personalGoals.json"), PersonalGoalJson[].class);
 
         List<PersonalGoal> personalGoalList = new ArrayList<>();
         int i = 0;

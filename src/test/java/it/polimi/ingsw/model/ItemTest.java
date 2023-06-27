@@ -88,4 +88,11 @@ class ItemTest {
             }
         }
     }
+
+    @Test
+    void setType1(){
+        Item testItem = new Item();
+        testItem.setType("BOOK");
+        assertEquals(Type.BOOK, testItem.getType());
+    }
 }

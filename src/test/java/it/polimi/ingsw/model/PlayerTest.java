@@ -75,8 +75,7 @@ class PlayerTest {
     }
 
     @Test
-    void getShelf() {
-    }
+    void getShelf() {}
 
     @Test
     void computeFinalScore() {
