@@ -676,13 +676,14 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     public void insertPlayer(String nickname) {
         if (fromScratch) {
             boolean sameNickname = false;
-
+              if(getPlayerList()!=null) {            //cambiato dopo 27/06
             for (Player p : getPlayerList()) {
                 if (p.getNickname().equals(nickname)) {
                     sameNickname = true;
                     break;
                 }
-            }
+             }
+           }
 
             if (sameNickname)
                 msg = new SendDataToClient(SAME_NICKNAME, nickname, null, null, null, null, null, null, false, null, null);
