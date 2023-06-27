@@ -679,7 +679,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
      *
      * @param nickname the nickname of the player to add
      */
-    public void insertPlayer(String nickname, Client client) {
+    public void insertPlayer(String nickname) {
         if (fromScratch) {
             boolean sameNickname = false;
             for (Player p : getPlayerList()) {
@@ -695,7 +695,6 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                 if (getNumberOfPlayers() == 0 || getPlayerList() == null) {
                     Player p = new Player(nickname, assignPersonalGoal());
                     getPlayerList().add(p);
-                    //getClientList().add(client);
                     msg = new SendDataToClient(ASK_NUMPLAYERS, null, null, null, null, null, null, null, false, null, null);
                 } else {
                     if (getNumberOfPlayers() == getPlayerList().size()) {
@@ -703,7 +702,6 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                     } else if (getNumberOfPlayers() > getPlayerList().size()) {
                         Player p = new Player(nickname, assignPersonalGoal());
                         getPlayerList().add(p);
-                        //getClientList().add(client);
                         this.startGame();
                     }
                 }

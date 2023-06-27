@@ -44,10 +44,10 @@ public class GameController {                                                   
      * Insert a new player in the game
      *
      * @param nickname nickname of the player
-     * @see Game#insertPlayer(String, Client)
+     * @see Game#insertPlayer(String)
      */
-    public void setPlayer(String nickname, Client c) {
-        getGame().insertPlayer(nickname, c);
+    public void setPlayer(String nickname) {
+        getGame().insertPlayer(nickname);
     }
 
     /**
@@ -155,7 +155,7 @@ public class GameController {                                                   
      * @param arg the message to send
      */
     public void update(Client o, Message arg) {
-        play(arg, o);
+        play(arg);
     }
 
     /**
@@ -175,12 +175,12 @@ public class GameController {                                                   
      *
      * @param arg the message received
      */
-    private void play(Message arg, Client o) {
+    private void play(Message arg) {
         State msg = arg.getInfo();
         switch (msg) {
             case SET_NICKNAME:
                 arg.printMsg();
-                setPlayer(arg.getNickname(), o);
+                setPlayer(arg.getNickname());
                 break;
             case SET_NUMPLAYERS:
                 arg.printMsg();

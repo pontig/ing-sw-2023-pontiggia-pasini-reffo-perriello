@@ -716,7 +716,7 @@ public class CLI extends View {
                     break;
 
                 case PING:
-                    arg.printMsg();
+                    //arg.printMsg();
                     break;
 
                 default:
@@ -886,7 +886,7 @@ public class CLI extends View {
         }
     }
 
- // TODO: not sure what is  this
+
     public void showItems(String items) {
         boolean columnChoosen = false;
         for (int i = 0; i < items.length(); i++) {
