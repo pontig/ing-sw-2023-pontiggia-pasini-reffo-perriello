@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 class ShelfTest {
 
     @Test
@@ -150,7 +151,6 @@ class ShelfTest {
          count = 0;
        }
      }
-
     @Test
     void getInsertableColumns() {
         Shelf shelf = new Shelf();

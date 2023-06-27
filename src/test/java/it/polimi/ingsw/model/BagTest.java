@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class BagTest {
 
@@ -74,6 +75,33 @@ class BagTest {
 
     @Test
     void restoreItems(){
-
+        Bag testBag = new Bag();
+        List<Pair<Item, Integer>> itemsBeforeCrash = new ArrayList<>();
+        itemsBeforeCrash.add(new Pair<>(new Item(Type.CAT,0),3));
+        itemsBeforeCrash.add(new Pair<>(new Item(Type.BOOK,2),5));
+        List<Object> objectBeforeCrash = new ArrayList<>();
+        for(Pair<Item, Integer> pair : itemsBeforeCrash){
+            Object obj = new Object(){
+                public String toString(){
+                    return pair.getX() + "-" + pair.getY();
+                }
+            };
+            objectBeforeCrash.add(obj);
+        }
+        testBag.restoreItems(objectBeforeCrash);
+        List<Pair<Item, Integer>> expectedItems = new ArrayList<>();
+        expectedItems.add(new Pair<>(new Item(Type.CAT,0),3));
+        expectedItems.add(new Pair<>(new Item(Type.BOOK,2),5));
+        List<Object> objectAfterCrash = new ArrayList<>();
+        for(Pair<Item, Integer> pair : expectedItems){
+            Object obj1 = new Object(){
+                public String toString(){
+                    return pair.getX() + "-" + pair.getY();
+                }
+            };
+            objectAfterCrash.add(obj1);
+        }
+        assertEquals(expectedItems, testBag.getItems());
     }
+
 }

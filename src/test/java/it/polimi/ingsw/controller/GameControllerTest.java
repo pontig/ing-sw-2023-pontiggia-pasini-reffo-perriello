@@ -71,6 +71,7 @@ class GameControllerTest {
 
     @Test
     void onConfirmInsertion() {
+
     }
 
     @Test

@@ -1,18 +1,16 @@
 package it.polimi.ingsw.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.glass.ui.Clipboard;
 import it.polimi.ingsw.enums.CommonGoalName;
-import it.polimi.ingsw.enums.Type;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.enums.Type.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class GameTest {
 
@@ -53,8 +51,7 @@ class GameTest {
     Game gameFourPlayers = new Game("Mauri", 4, initializeBoard(), initializeCommonGoals());
 
     @Test
-    void getPlayerList() {
-    }
+    void getPlayerList() {}
 
     @Test
     void getPlayerState() {

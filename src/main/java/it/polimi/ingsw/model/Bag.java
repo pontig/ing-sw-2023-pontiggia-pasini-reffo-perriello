@@ -67,6 +67,7 @@ public class Bag {
      */
     public Item draw() {
         Random generator = new Random();
+
         Pair<Item, Integer> randomItem = items.get(Math.abs(generator.nextInt() % items.size()));
         randomItem.setY(randomItem.getY() - 1);
         return randomItem.getX();

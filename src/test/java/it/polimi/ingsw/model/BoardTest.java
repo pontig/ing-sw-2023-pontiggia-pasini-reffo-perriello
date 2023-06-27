@@ -8,10 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -48,8 +45,6 @@ class BoardTest {
             }
         }
     }
-
-
     @Test
     void getDisposition() {
         Cell[][] test = new Cell[9][9];
