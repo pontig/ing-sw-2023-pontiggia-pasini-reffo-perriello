@@ -28,8 +28,6 @@ public class GameController {                                                   
         return this.game;
     }
 
-    //setter
-
     /**
      * Setter of the game
      *
