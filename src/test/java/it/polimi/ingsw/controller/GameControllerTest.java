@@ -1,53 +1,56 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.Game;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.assets.PersonalGoalJson;
+import it.polimi.ingsw.enums.Type;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.tuples.Triplet;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GameControllerTest {
 
-    private GameController gameController;
-    private Game game;
-    private Client client;
-    private Message message;
-
     @Test
     void getGame() {
-        game = new Game();
-        gameController = new GameController(game, client);
-        Game result = gameController.getGame();
-        assertEquals(game, result);
+        Game game = new Game();
+        GameController gameController = new GameController(game, null);
+        gameController.setGame(game);
+        assertEquals(game, gameController.getGame());
     }
-
     @Test
     void setGame() {
-        game = new Game();
-        gameController = new GameController(game, client);
-        Game testGame = new Game();
-        gameController.setGame(testGame);
-        assertEquals(testGame, gameController.getGame());
+        Game game = new Game();
+        GameController gameController = new GameController(game, null);
+        gameController.setGame(game);
+        assertEquals(game, gameController.getGame());
     }
-
     @Test
     void setPlayer() {
-        game = new Game();                                      //Problemi
-        gameController = new GameController(game, client);
-        String nickname = "Player1";
+        Game game = new Game();
+        GameController gameController = new GameController(game, null);      //chiedi agli altri
+        gameController.setGame(game);
+        String nickname = "nickname";
         gameController.setPlayer(nickname);
+        assertEquals(nickname, gameController.getGame().getPlayerList().get(0).getNickname());
     }
-
     @Test
     void setNumPlayers() {
-        game = new Game();                                      //Problemi
-        gameController = new GameController(game, client);
-        String nickname = "Player1";
-        int numPlayers = 4;
+        Game game = new Game();
+        GameController gameController = new GameController(game, null);
+        gameController.setGame(game);
+        String nickname = "nickname";
+        int numPlayers = 2;
         gameController.setNumPlayers(nickname, numPlayers);
+        assertEquals(numPlayers, gameController.getGame().getNumberOfPlayers());
     }
-
     @Test
     void gameReadyToStart() {
 
@@ -77,4 +80,6 @@ class GameControllerTest {
     @Test
     void update() {
     }
+
+
 }
