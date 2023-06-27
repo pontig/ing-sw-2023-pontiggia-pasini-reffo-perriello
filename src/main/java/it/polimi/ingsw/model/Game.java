@@ -195,12 +195,12 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                 return c;
 
             case ROW4ITEMS5:
-                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'h', 5, 4);
+                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'h', 3, 4);
                 c.setDescription(goal.toString());
                 return c;
 
             case COLUMNS3ITEMS6:
-                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'v', 6, 3);
+                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'v', 3, 3);
                 c.setDescription(goal.toString());
                 return c;
 
@@ -498,11 +498,11 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                 c.setDescription(goal.toString());
                 break;
             case "ROW4ITEMS5":
-                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'h', 5, 4);
+                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'h', 3, 4);
                 c.setDescription(goal.toString());
                 break;
             case "COLUMNS3ITEMS6":
-                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'v', 6, 3);
+                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, 'v', 3, 3);
                 c.setDescription(goal.toString());
                 break;
             case "ROW2ITEMS5DIFFERENT":
@@ -766,6 +766,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
 
         if (getNumberOfPlayers() == getPlayerList().size()) {
             String p1 = null, p2 = null, p3 = null, p4 = null;
+            Collections.shuffle(getPlayerList());
             for (Player user : playerList) {
                 switch (getNumberOfPlayers()) {
                     case 4:

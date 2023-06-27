@@ -22,7 +22,7 @@
 #bookshelf {
     -fx-background-image: url("../images/bookshelf.png");
 }
-.generic, .chatPopup {
+.generic, #chatPopupText {
     -fx-background-image: url("../images/generic.png");
 }
 Button {

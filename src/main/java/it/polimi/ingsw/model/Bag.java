@@ -46,7 +46,6 @@ public class Bag {
                     Integer second = ((LinkedHashMap<String, Integer>) e).get("y");
                     Type t = Type.valueOf((String) ((LinkedHashMap<String, String>) ((LinkedHashMap<String, Object>) e).get("x")).get("type"));
                     Integer v = ((LinkedHashMap<String, Integer>) ((LinkedHashMap<String, Object>) e).get("x")).get("variant");
-
                     return (new Pair<Item, Integer>(new Item(t,v), second));
                 }).collect(Collectors.toList());
     }

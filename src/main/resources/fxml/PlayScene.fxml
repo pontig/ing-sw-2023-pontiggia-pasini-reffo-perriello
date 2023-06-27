@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<StackPane stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.PlaySceneController">
+<StackPane stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.PlaySceneController">
    <children>
       <BorderPane maxHeight="1080.0" maxWidth="1920.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="811.0" prefWidth="1300.0" styleClass="playingPane">
          <center>
@@ -19,7 +31,7 @@
                               <ImageView fx:id="firstCommonImg" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <ImageView fx:id="first2token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
+                                    <ImageView fx:id="first2token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
                                        <image>
                                           <Image url="@../images/commonGoals/scores/scoring_2.jpg" />
                                        </image>
@@ -28,7 +40,7 @@
                               </AnchorPane>
                               <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <ImageView fx:id="first4token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
+                                    <ImageView fx:id="first4token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
                                        <image>
                                           <Image url="@../images/commonGoals/scores/scoring_4.jpg" />
                                        </image>
@@ -37,7 +49,7 @@
                               </AnchorPane>
                               <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <ImageView fx:id="first6token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
+                                    <ImageView fx:id="first6token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
                                        <image>
                                           <Image url="@../images/commonGoals/scores/scoring_6.jpg" />
                                        </image>
@@ -46,7 +58,7 @@
                               </AnchorPane>
                               <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <ImageView fx:id="first8token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
+                                    <ImageView fx:id="first8token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
                                        <image>
                                           <Image url="@../images/commonGoals/scores/scoring_8.jpg" />
                                        </image>
@@ -60,7 +72,7 @@
                               <ImageView fx:id="secondCommonImg" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <ImageView fx:id="second2token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
+                                    <ImageView fx:id="second2token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
                                        <image>
                                           <Image url="@../images/commonGoals/scores/scoring_2.jpg" />
                                        </image>
@@ -69,7 +81,7 @@
                               </AnchorPane>
                               <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <ImageView fx:id="second4token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
+                                    <ImageView fx:id="second4token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
                                        <image>
                                           <Image url="@../images/commonGoals/scores/scoring_4.jpg" />
                                        </image>
@@ -78,7 +90,7 @@
                               </AnchorPane>
                               <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <ImageView fx:id="second6token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
+                                    <ImageView fx:id="second6token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
                                        <image>
                                           <Image url="@../images/commonGoals/scores/scoring_6.jpg" />
                                        </image>
@@ -87,7 +99,7 @@
                               </AnchorPane>
                               <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <ImageView fx:id="second8token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
+                                    <ImageView fx:id="second8token" fitHeight="75.0" fitWidth="66.0" layoutX="115.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" rotate="-9.8">
                                        <image>
                                           <Image url="@../images/commonGoals/scores/scoring_8.jpg" />
                                        </image>
@@ -393,10 +405,10 @@
                      <children>
                         <GridPane id="bookshelf" fx:id="otherPlayerShelf1" prefHeight="267.0" prefWidth="269.0">
                            <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="74.0" minWidth="10.0" prefWidth="33.66666666666666" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="86.33333333333331" minWidth="10.0" prefWidth="28.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="97.33333333333334" minWidth="10.0" prefWidth="38.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="79.0" minWidth="0.3333333333333428" prefWidth="34.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="74.0" minWidth="10.0" prefWidth="28.5" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="86.33333333333331" minWidth="10.0" prefWidth="34.66667175292969" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="97.33333333333334" minWidth="10.0" prefWidth="33.49999491373697" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="79.0" minWidth="0.3333333333333428" prefWidth="33.16667175292969" />
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.99999999999997" minWidth="10.0" prefWidth="30.666666666666657" />
                               <ColumnConstraints />
                            </columnConstraints>
@@ -466,10 +478,10 @@
                         <GridPane id="bookshelf" fx:id="otherPlayerShelf2" prefHeight="267.0" prefWidth="269.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="74.0" minWidth="10.0" prefWidth="29.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="86.33333333333331" minWidth="10.0" prefWidth="35.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="97.33333333333334" minWidth="10.0" prefWidth="33.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="79.0" minWidth="0.3333333333333428" prefWidth="34.66666666666666" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.99999999999997" minWidth="10.0" prefWidth="30.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="86.33333333333331" minWidth="10.0" prefWidth="35.166676839192704" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="97.33333333333334" minWidth="10.0" prefWidth="33.49998982747397" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="79.0" minWidth="0.3333333333333428" prefWidth="34.16665649414064" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.99999999999997" minWidth="10.0" prefWidth="28.666666666666657" />
                               <ColumnConstraints maxWidth="6.0" minWidth="0.0" prefWidth="0.0" />
                            </columnConstraints>
                            <rowConstraints>
@@ -556,8 +568,8 @@
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="74.0" minWidth="10.0" prefWidth="33.66666666666666" />
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="86.33333333333331" minWidth="10.0" prefWidth="34.33333333333334" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="97.33333333333334" minWidth="10.0" prefWidth="34.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="79.0" minWidth="0.3333333333333428" prefWidth="33.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="97.33333333333334" minWidth="10.0" prefWidth="32.83331298828125" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="79.0" minWidth="0.3333333333333428" prefWidth="32.50002034505209" />
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.99999999999997" minWidth="10.0" prefWidth="30.333333333333343" />
                               <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0" />
                            </columnConstraints>
@@ -716,7 +728,10 @@
             <Insets bottom="100.0" />
          </StackPane.margin>
          <children>
-            <Label fx:id="chatPopupText" layoutX="14.0" layoutY="24.0" text="Label" textFill="WHITE" AnchorPane.topAnchor="24.0" />
+            <Label fx:id="chatPopupText" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="187.0" layoutY="15.0" maxWidth="260.0" nodeOrientation="RIGHT_TO_LEFT" text="Label" textAlignment="RIGHT" textFill="WHITE" wrapText="true" AnchorPane.rightAnchor="5.0">
+               <padding>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </padding></Label>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="chatContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="692.0" styleClass="chat">

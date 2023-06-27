@@ -910,6 +910,7 @@ public class PlaySceneController extends GUI implements GenericSceneController {
      */
     public void endGameTaken() {
         endGameTokenImg.setVisible(false);
+        popup("Someone has completed his shelf!\nThis is gonna be the last round!");
     }
 
     /**
