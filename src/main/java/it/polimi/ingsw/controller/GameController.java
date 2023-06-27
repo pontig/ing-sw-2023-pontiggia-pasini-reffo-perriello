@@ -43,9 +43,7 @@ public class GameController {                                                   
      * @param nickname nickname of the player
      * @see Game#insertPlayer(String)
      */
-    public void setPlayer(String nickname) {
-        getGame().insertPlayer(nickname);
-    }
+    public void setPlayer(String nickname) {getGame().insertPlayer(nickname);}
 
     /**
      * Set the number of players in the game
@@ -54,9 +52,7 @@ public class GameController {                                                   
      * @param numPlayers number of players
      * @see Game#setNumberOfPlayers(String, int)
      */
-    public void setNumPlayers(String nickname, int numPlayers) {
-        getGame().setNumberOfPlayers(nickname, numPlayers);
-    }
+    public void setNumPlayers(String nickname, int numPlayers) {getGame().setNumberOfPlayers(nickname, numPlayers);}
 
     /**
      * Starts the game

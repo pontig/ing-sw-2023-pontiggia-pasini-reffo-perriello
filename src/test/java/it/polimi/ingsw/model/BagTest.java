@@ -71,4 +71,9 @@ class BagTest {
         Item randomItem = testBag.draw();
         assertNotNull(randomItem);
     }
+
+    @Test
+    void restoreItems(){
+
+    }
 }
