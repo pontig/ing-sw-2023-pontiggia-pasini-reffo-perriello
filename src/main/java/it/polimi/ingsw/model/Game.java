@@ -3,11 +3,9 @@ package it.polimi.ingsw.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.ServerApp;
 import it.polimi.ingsw.enums.*;
 import it.polimi.ingsw.model.commongoal.*;
 
-import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.*;
 import it.polimi.ingsw.observer.ObservableModel;
 import it.polimi.ingsw.tuples.Pair;
@@ -52,8 +50,6 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     private Message msg = null;
     private boolean fromScratch = true;
     private List<Player> playersToReconnect = new ArrayList<>();
-    //private List<Client> clientList = new ArrayList<>();
-
 
     /**
      * Game constructor
@@ -230,13 +226,6 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     public List<Player> getPlayerList() {
         return playerList;
     }
-
-    /**
-     * Getter for the cleint list
-     *
-     * @return the client list
-     */
-    //public List<Client> getClientList() { return clientList; }
 
     /**
      * Getter of the state of the player
@@ -743,15 +732,28 @@ public class Game extends ObservableModel<Message> {              //extends Obse
      * @param numberOfPlayers the number of players
      */
     public void setNumberOfPlayers(String nickname, int numberOfPlayers) {
-        if (getNumberOfPlayers() != 0)
-            msg = new SendDataToClient(NACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);
-        else {
+        if (getNumberOfPlayers() != 0) {
+            if (getNumberOfPlayers() == getPlayerList().size()) {
+                if(numPendingItems > 1){
+                    msg = new SendDataToClient(ACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);
+                    setNumPendingItems(numPendingItems - 1);
+                } else {
+                    msg = new SendDataToClient(NACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);
+                    setNumPendingItems(0);
+                }
+            } else if(getNumberOfPlayers() > getPlayerList().size())
+                msg = new SendDataToClient(ACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);
+            else
+                msg = new SendDataToClient(TOO_MANY, null, null, null, null, null, null, null, false, null, null);
+
+        } else {
             if (numberOfPlayers < 5 && numberOfPlayers > 1) {
                 this.numberOfPlayers = numberOfPlayers;
                 getBoard().fill(numberOfPlayers, getBag());
                 this.firstCommonGoal = assignCommonGoal(1);
                 this.secondCommonGoal = assignCommonGoal(2);
                 setCurrentPlayer(getPlayerList().get(0));
+                setNumPendingItems(numberOfPlayers - 1);
                 msg = new SendDataToClient(ACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);
             } else
                 msg = new SendDataToClient(OUT_BOUND_NUMPLAYERS, null, null, null, null, null, null, null, false, null, null);
@@ -936,8 +938,6 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         return getPlayerList().stream().filter(p -> p.getNickname().equals(nickname)).findFirst().orElse(null);
     }
 
-    // TODO: is this what it actually does?
-
     /**
      * Handles the end of the turn, eventually re filling the board and checking if the game is over
      *
@@ -1098,9 +1098,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
      */
     private void setChangedAndNotifyObservers(Message arg) {
         setChangedModel();
-        //if(arg.getInfo() == NACK_NICKNAME)
-        //    ServerApp.setNack(true);
-        System.out.println("\n\nMessaggio da server a client: " + arg.getInfo() + " NACK: ");
+        System.out.println("\n\nMessaggio da server a client: " + arg.getInfo());
         notifyObserversModel(arg);
     }
 

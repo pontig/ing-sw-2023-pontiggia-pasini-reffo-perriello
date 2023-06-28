@@ -52,7 +52,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, Runnable 
      */
     private void initialize(Server server) throws RemoteException{
         if(server.register(this)) {
-            System.out.println("True");
+            //System.out.println("True");
             this.view.addObserverView((o, arg) -> {
                 try {
                     server.updateModel(this, arg);           //arg è messaggio da view a controller - INIT per nome e num players
@@ -61,7 +61,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, Runnable 
                 }
             });
         } else {
-            System.out.println("False");
+            //System.out.println("False");
             this.updateView(server, new SendDataToClient(NACK_NICKNAME, null, null, null, null, null, null, null, false, null, null));
         }
     }

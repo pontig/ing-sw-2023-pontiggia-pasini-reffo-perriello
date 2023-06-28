@@ -165,12 +165,15 @@ public class CLI extends View {
                             System.out.print("You entered an invalid character, please enter a number (2 / 3 / 4): ");
                         }
                     } while (!okNumber);
-                    msg = new SendDataToServer(SET_NUMPLAYERS, this.nickname, numberPlayers, 0, false);
-                    setChangedView();
-                    notifyObserversView(msg);
-                    msg = null;
-                    if (networkProtocol == 1)
-                        state = 20;
+
+                    if(okNumber) {
+                        msg = new SendDataToServer(SET_NUMPLAYERS, this.nickname, numberPlayers, 0, false);
+                        setChangedView();
+                        notifyObserversView(msg);
+                        msg = null;
+                        if (networkProtocol == 1)
+                            state = 20;
+                    }
                     break;
                 case -1:
                     //Check if the game should begin
@@ -477,16 +480,16 @@ public class CLI extends View {
                         try {
                             int port = -1;
 
-                          /*  if(networkProtocol == 1) {
+                            if(networkProtocol == 1) {
                                 int timeGUI = 8000*yourNumber;
                                 Thread.sleep(timeGUI);
                             } else {
                                 int timeCLI = 2000 * yourNumber;
                                 Thread.sleep(timeCLI);
-                            }*/
+                            }
 
-                            int timeCLI = 2000 * yourNumber;
-                            Thread.sleep(timeCLI);
+                            /*int timeCLI = 2000 * yourNumber;
+                            Thread.sleep(timeCLI);*/
 
                             try (BufferedReader reader = new BufferedReader(new FileReader("port.txt"))) {
                                 String line;
@@ -736,11 +739,14 @@ public class CLI extends View {
                     break;
 
                 case TOKENS_TAKEN:
+                case PING:
                     //arg.printMsg();
                     break;
 
-                case PING:
+                case TOO_MANY:
                     //arg.printMsg();
+                    System.out.println("\n\n Too many players are trying to access this game, you will be disconnected \n\n");
+                    System.exit(1);
                     break;
 
                 default:
@@ -892,12 +898,12 @@ public class CLI extends View {
                 break;
 
             case "COLUMNS3ITEMS6":
-                System.out.println("Three columns each formed by 6 tiles of maximum three different types." +
+                System.out.println("Three columns each formed by 6 tiles of maximum three different types.\n" +
                         "                               One column can show the same or a different combination of another column");
                 break;
 
             case "ROW2ITEMS5DIFFERENT":
-                System.out.println("Two lines each formed by 5 different types of tiles." +
+                System.out.println("Two lines each formed by 5 different types of tiles.\n" +
                         "                               One line can show the same or a different combination of the other line");
                 break;
 

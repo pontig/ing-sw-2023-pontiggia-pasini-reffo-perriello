@@ -45,5 +45,6 @@ public enum State {
     CHAT_MESSAGE,           // New message in the chat
     IN_GAME,                // Send all the data about each player during the game
     CLIENT_DOWN,            // Notification that the client is disconnected
-    PING,                   // Ping used to see if the server is working in RMI
+    PING,                   // Ping used to see if the server or the client is working in RMI
+    TOO_MANY,               // Close the connection if more client are in the game then the actual expected number
 }

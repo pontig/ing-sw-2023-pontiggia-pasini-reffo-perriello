@@ -77,8 +77,8 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
         //TODO - da sistemare l'accesso di altr utenti alla riconnessione e con socket anche su serverstub
         if(match.getNumberOfPlayers() == 0 || match.getNumberOfPlayers() > match.getPlayerList().size() || (!fromScratch && countClient < match.getNumberOfPlayers())) {
-            System.out.println("true");
-            System.out.println("Player lsit size" + match.getPlayerList().size());
+            //System.out.println("true");
+            //System.out.println("Player lsit size" + match.getPlayerList().size());
             match.addObserverModel((o, arg) -> {
                 try {
                     client.updateView(this, arg);                          //creo init connecting to server
@@ -89,7 +89,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
             countClient++;
             return true;
         } else {
-            System.out.println("false");
+            //System.out.println("false");
             return false;
         }
     }
@@ -161,11 +161,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         //TODO -- aggiunto questo
         if(arg.getInfo() == State.SET_NICKNAME) {
             if(match.getNumberOfPlayers() == 0 || match.getNumberOfPlayers() > clientList.size()){
-                System.out.println("Numero player: " + match.getNumberOfPlayers()  + " Client list: " + clientList.size());
+                //System.out.println("Numero player: " + match.getNumberOfPlayers()  + " Client list: " + clientList.size());
                 if(!clientList.contains(client)) {
                     clientList.add(client);
-                    System.out.println("Appena aggiunto: " + client);
-                    System.out.println("Clientlist appena aggiunto: " + clientList.size());
+                    //System.out.println("Appena aggiunto: " + client);
+                    //System.out.println("Clientlist appena aggiunto: " + clientList.size());
                 }
             } else {
                 System.out.println("Error list client");
@@ -184,7 +184,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
             if (clientList != null || !clientList.isEmpty()) {
                 for (Client c : clientList) {
                     c.updateView(this, new SendDataToServer(State.PING, null, 0, 0, false));           //arg è messaggio da view a controller - INIT per nome e num players
-                    System.out.println("Client: " + c + "ping dal server");
+                    //System.out.println("Client: " + c + "ping dal server");
                 }
             }
     }

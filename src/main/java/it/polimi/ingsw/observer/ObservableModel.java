@@ -58,15 +58,16 @@ public class ObservableModel<Message> {
         synchronized (this) {
             if (!changed)
                 return;
+
             arrLocal = observers.toArray();
             clearChangedModel();
         }
 
         for (int i = arrLocal.length-1; i>=0; i--) {
-            System.out.println("Notifico observer client " + i + " = " + ((ObserverModel<ObservableModel<Message>, Message>) arrLocal[i]));
+            //System.out.println("Notifico observer client " + i + " = " + ((ObserverModel<ObservableModel<Message>, Message>) arrLocal[i]));
             ((ObserverModel<ObservableModel<Message>, Message>) arrLocal[i]).updateS(this, arg);
         }
-        System.out.println("\n\n");
+        //System.out.println("\n\n");
     }
 
     /**
