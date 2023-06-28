@@ -1,7 +1,12 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,11 +28,16 @@ class GameControllerTest {
     }
     @Test
     void setPlayer() {
-        Game game = new Game();
+        Game game = new Game("Test", 3, null, null);
         GameController gameController = new GameController(game, null);      //chiedi agli altri
-        String nickname = "nickname";
+        String nickname = "test2";
         gameController.setPlayer(nickname);
-        assertEquals(nickname, gameController.getGame().getPlayerList().get(0).getNickname());
+        List<Player> expected = new ArrayList<>();
+        expected.add(new Player("Test", null));
+        expected.add(new Player(nickname, null));
+        List<String> expectedNicknames = expected.stream().map(Player::getNickname).collect(Collectors.toList());
+        List<String> inGame = game.getPlayerList().stream().map(Player::getNickname).collect(Collectors.toList());
+        assertEquals(expectedNicknames, inGame);
     }
     @Test
     void setNumPlayers() {

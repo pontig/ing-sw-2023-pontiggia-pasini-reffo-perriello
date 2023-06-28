@@ -13,6 +13,9 @@ import it.polimi.ingsw.view.gui.scene.NicknameSceneController;
 import it.polimi.ingsw.view.gui.scene.PlaySceneController;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -357,12 +360,25 @@ public class GUI extends View {
 
                 case NACK_NICKNAME:
                     if (SceneController.getCurrFxml().equals("")) {
+                        new JFXPanel();
                         Platform.runLater(() -> {
-                            SceneController.showMessage("We are sorry, but there already is a game in progress, try again later");
-                            NicknameSceneController controller = (NicknameSceneController) SceneController.getActiveController();
-                            controller.letReSubmit();
+                            System.err.println("We are sorry, but there already is a game in progress, try again later");
+                            if (SceneController.getMainStage() != null)
+                                SceneController.getMainStage().close();
+                            System.exit(0);
                         });
                     }
+                    break;
+
+                case TOO_MANY:
+                    Platform.runLater(() -> {
+                        SceneController.showMessage("We are sorry, but there are already too many players in the game, try again later");
+                        Stage stage = SceneController.getMainStage();
+                        stage.close();
+                    });
+                    break;
+
+                case PING:
                     break;
 
                 default:
