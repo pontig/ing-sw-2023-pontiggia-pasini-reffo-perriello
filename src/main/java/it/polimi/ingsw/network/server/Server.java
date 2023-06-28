@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
@@ -15,7 +16,7 @@ public interface Server extends Remote {
      * Register a client to the server
      * @param client the client to register
      */
-    void register(Client client) throws RemoteException;
+    boolean register(Client client) throws RemoteException;
 
     /**
      * Notify the server that a client has made a choice

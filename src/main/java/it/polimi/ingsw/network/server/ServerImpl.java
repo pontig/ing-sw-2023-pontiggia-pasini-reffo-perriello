@@ -11,7 +11,10 @@ import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.PersonalGoal;
 import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.network.client.ClientImpl;
+import it.polimi.ingsw.network.client.ServerStub;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.SendDataToClient;
 import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.tuples.Triplet;
 
@@ -23,12 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static it.polimi.ingsw.enums.State.NACK_NICKNAME;
+
 public class ServerImpl extends UnicastRemoteObject implements Server {
     private static GameController controller;
-    private static Game match = null;
-    private boolean fromScratch;
-    private static List<Client> clientList = new ArrayList<>();
-    private static int numPlayers = 0;
+    private static Game match;
+    private final boolean fromScratch;
+    private static final List<Client> clientList = new ArrayList<>();
 
     public ServerImpl(boolean fromScratch) throws RemoteException {
         super();
@@ -38,7 +42,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     //nella registrazione posso semplicamente fare l'add observer, inviare un messaggio che richiede nome e numero giocatori
     @Override
-    public void register(Client client) throws RemoteException {
+    public boolean register(Client client) throws RemoteException {
         if (match == null) {
             try {
                 if (fromScratch) {
@@ -48,7 +52,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
                     match = (new ObjectMapper()).readValue((new File("status.json")), Game.class);
                     match.notFromScratch();
                 }
-
+                //System.out.println("Set match " + match);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -57,15 +61,23 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
             System.out.println("Game e controller creati da " + client);
         }
 
-        match.addObserverModel((o, arg) -> {
-            try {
-                client.updateView(this, arg);                          //creo init connecting to server
-            } catch (RemoteException e) {
-                System.err.println("Unable to update the client: " + e.getMessage() + ". Skipping the update...");
-                //TODO - ssitem exit
-                //System.exit(1);
-            }
-        });
+        System.out.print("Controllo match - ");
+
+        //TODO - da sistemare l'accesso di altr utenti alla riconnessione e con socket anche su serverstub
+        if(match.getNumberOfPlayers() == 0 || match.getNumberOfPlayers() > match.getPlayerList().size() || !fromScratch) {
+            System.out.println("true");
+            match.addObserverModel((o, arg) -> {
+                try {
+                    client.updateView(this, arg);                          //creo init connecting to server
+                } catch (RemoteException e) {
+                    System.err.println("Unable to update the client: " + e.getMessage() + ". Skipping the update...");
+                }
+            });
+            return true;
+        } else {
+            System.out.println("false");
+            return false;
+        }
     }
 
     private Board getBoard() {
@@ -112,13 +124,16 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         //TODO -- aggiunto questo
         if(arg.getInfo() == State.SET_NICKNAME) {
             if(match.getNumberOfPlayers() == 0 || match.getNumberOfPlayers() > clientList.size()){
-                if(!clientList.contains(client))
+                System.out.println("Numero player: " + match.getNumberOfPlayers()  + " Client list: " + clientList.size());
+                if(!clientList.contains(client)) {
                     clientList.add(client);
+                    System.out.println("Appena aggiunto: " + client);
+                    System.out.println("Clientlist appena aggiunto: " + clientList.size());
+                }
             } else {
                 System.out.println("Error list client");
             }
         }
-
         controller.update(client, arg);
     }
 

@@ -207,7 +207,7 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
                 s = new ServerImpl(true);
             else s = new ServerImpl(false);
 
-            // Create and start a separate thread for connection monitoring, it pings the server every minute to check the server status
+            // Create and start a separate thread for connection monitoring, it pings the client every minute to check the server status
             Thread connectionMonitorThread = new Thread(() -> {
                 while (true) {
                     try {

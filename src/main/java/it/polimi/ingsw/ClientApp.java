@@ -127,7 +127,7 @@ public class ClientApp {
 
             client.run();
         }
-        else if(networkClient == 1){
+        else if(networkClient == 1) {
             ServerStub serverStub = new ServerStub(ip, port);              //da modifiare per ermettere di metterlo in rete
             ClientImpl client = new ClientImpl(serverStub, typeView, networkClient);
             new Thread(() -> {

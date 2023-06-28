@@ -698,7 +698,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                     msg = new SendDataToClient(ASK_NUMPLAYERS, null, null, null, null, null, null, null, false, null, null);
                 } else {
                     if (getNumberOfPlayers() == getPlayerList().size()) {
-                        msg = new SendDataToClient(NACK_NICKNAME, null, null, null, null, null, null, null, false, null, null);
+                        msg = new SendDataToClient(NACK_NICKNAME, nickname, null, null, null, null, null, null, false, null, null);
                     } else if (getNumberOfPlayers() > getPlayerList().size()) {
                         Player p = new Player(nickname, assignPersonalGoal());
                         getPlayerList().add(p);

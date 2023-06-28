@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.server.Server;
 
@@ -12,6 +13,7 @@ public interface Client extends Remote {
      * @param arg   The causing event
      */
     void updateView(Server o, Message arg) throws RemoteException;    //Messaggio o => dati del model per la view
-                                                                            //ModelChanged => Cosa è cambiato nel model
+
+    //ModelChanged => Cosa è cambiato nel model
                                                                             //"o" ha getter, in base ad "arg" si chiama il getter corretto di "o"
 }

@@ -1,7 +1,9 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.enums.State;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.SendDataToClient;
 import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.view.*;
@@ -10,6 +12,8 @@ import javafx.application.Application;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+
+import static it.polimi.ingsw.enums.State.NACK_NICKNAME;
 
 public class ClientImpl extends UnicastRemoteObject implements Client, Runnable {
     //View view = null;
@@ -29,14 +33,19 @@ public class ClientImpl extends UnicastRemoteObject implements Client, Runnable 
     }
 
     private void initialize(Server server) throws RemoteException{
-        server.register(this);
-        this.view.addObserverView((o, arg) -> {
-            try {
-                server.updateModel(this, arg);           //arg è messaggio da view a controller - INIT per nome e num players
-            } catch (RemoteException e) {
-                System.err.println("Unable to update the server: " + e.getMessage() + ". Skipping the update...");
-            }
-        });
+        if(server.register(this)) {
+            System.out.println("True");
+            this.view.addObserverView((o, arg) -> {
+                try {
+                    server.updateModel(this, arg);           //arg è messaggio da view a controller - INIT per nome e num players
+                } catch (RemoteException e) {
+                    System.err.println("Unable to update the server: " + e.getMessage() + ". Skipping the update...");
+                }
+            });
+        } else {
+            System.out.println("False");
+            this.updateView(server, new SendDataToClient(NACK_NICKNAME, null, null, null, null, null, null, null, false, null, null));
+        }
     }
     @Override
     public void updateView(Server server, Message arg) {     //message mantiene i dati, event definisce quali dati prendere

@@ -43,6 +43,7 @@ public class CLI extends View {
     boolean waiting = false;
     boolean alreadyDone = false;
     boolean end = false;
+    boolean canNotPlay = false;
     Socket socket = null;
     List<String> otherShelf = new ArrayList<>();
     ThreadRead userInput;
@@ -109,11 +110,13 @@ public class CLI extends View {
                     break;
                 case 1:
                     //All the players required are in game so no more are needed
-                    if (!end)
+                    if (!end) {
                         System.out.println("No more players are required in this game, we are sorry, you will be disconnected");
-                    else
+                        chatOpen = true;
+                        canNotPlay = true;
+                    } else {
                         System.out.println("Game ended, gooda bye");
-
+                    }
                     stop();
                     break;
                 case 2:
@@ -502,18 +505,20 @@ public class CLI extends View {
                             throw new RuntimeException(e);
                         }
                     }
-                    if(!nickname.equals(arg.getNickname()) && !alreadyDone) {
-                        System.out.println("\n\nIt is " + arg.getNickname() + "'s turn, let's wait for your turn!!");
-                        state = 20;
-                        alreadyDone = true;
-                    } else if(nickname.equals(arg.getNickname()) && !alreadyDone){
-                        System.out.println("\n\nIt is your turn " + arg.getNickname() + "!!");
-                        System.out.println("To select a tile you must enter the couple Row - Column, if you wanna deselect it you can do it during the next submission by typing the same couple Row - Column.");
-                        System.out.println("Each time you choose a tile press enter key to submit.");
-                        state = 4;
-                        alreadyDone = true;
+                    if(!canNotPlay) {
+                        if (!nickname.equals(arg.getNickname()) && !alreadyDone) {
+                            System.out.println("\n\nIt is " + arg.getNickname() + "'s turn, let's wait for your turn!!");
+                            state = 20;
+                            alreadyDone = true;
+                        } else if (nickname.equals(arg.getNickname()) && !alreadyDone) {
+                            System.out.println("\n\nIt is your turn " + arg.getNickname() + "!!");
+                            System.out.println("To select a tile you must enter the couple Row - Column, if you wanna deselect it you can do it during the next submission by typing the same couple Row - Column.");
+                            System.out.println("Each time you choose a tile press enter key to submit.");
+                            state = 4;
+                            alreadyDone = true;
+                        }
+                        lock.notifyAll();
                     }
-                    lock.notifyAll();
                     break;
 
                 case SELECTED:
@@ -540,32 +545,34 @@ public class CLI extends View {
 
                 case ORDER_n_COLUMN:
                     //arg.printMsg();
-                    System.out.print(RED + "\nIt follows the current state of the board, it is without ");
-                    if (arg.getNickname().equals(this.nickname)) System.out.println("your choice" + RESET);
-                    else System.out.println(arg.getNickname() + "'s choice" + RESET);
-                    showBoard(arg.getBoard());
-                    if (arg.getNickname().equals(this.nickname)) {
-                        System.out.print(RED + "\nYour shelf:             Your personal goal: \n " + RESET);
-                        for (int i = 0; i < 5; i++) System.out.print(i + " ");
-                        System.out.print("\n");
-                        showPersonalAndShelf(arg.getPersonal(), arg.getShelf());
-                        showItems(arg.getColumns());
-                        System.out.print(RED + "\nYou can put tiles only in the columns where there is a red arrow" + RESET);
+                    if(!canNotPlay) {
+                        System.out.print(RED + "\nIt follows the current state of the board, it is without ");
+                        if (arg.getNickname().equals(this.nickname)) System.out.println("your choice" + RESET);
+                        else System.out.println(arg.getNickname() + "'s choice" + RESET);
+                        showBoard(arg.getBoard());
+                        if (arg.getNickname().equals(this.nickname)) {
+                            System.out.print(RED + "\nYour shelf:             Your personal goal: \n " + RESET);
+                            for (int i = 0; i < 5; i++) System.out.print(i + " ");
+                            System.out.print("\n");
+                            showPersonalAndShelf(arg.getPersonal(), arg.getShelf());
+                            showItems(arg.getColumns());
+                            System.out.print(RED + "\nYou can put tiles only in the columns where there is a red arrow" + RESET);
 
-                        System.out.print(RED + "\n\nThese are the lists of items you selected:" + RESET);
-                        System.out.print("\n                   ");
-                        for (int i = 0; i < 3; i++) System.out.print(i + " ");
-                        System.out.print(RED + "\nUNORDERED ITEMS:" + RESET + " 1");
-                        showItems(arg.getSelected());
-                        System.out.print(RED + "\n  ORDERED ITEMS:" + RESET + " 0");
-                        showItems(arg.getOrderedRanking());
+                            System.out.print(RED + "\n\nThese are the lists of items you selected:" + RESET);
+                            System.out.print("\n                   ");
+                            for (int i = 0; i < 3; i++) System.out.print(i + " ");
+                            System.out.print(RED + "\nUNORDERED ITEMS:" + RESET + " 1");
+                            showItems(arg.getSelected());
+                            System.out.print(RED + "\n  ORDERED ITEMS:" + RESET + " 0");
+                            showItems(arg.getOrderedRanking());
 
-                        System.out.println("\n\nNow you must select a column in the shelf and order the tile that will be inserted in it.");
-                        System.out.println("Type \"C\" for choosing the column or type \"O\" for ordering the tiles: -- (default \"O\")");
-                        state = 6;
+                            System.out.println("\n\nNow you must select a column in the shelf and order the tile that will be inserted in it.");
+                            System.out.println("Type \"C\" for choosing the column or type \"O\" for ordering the tiles: -- (default \"O\")");
+                            state = 6;
+                        }
+                        if (networkProtocol == 1)
+                            lock.notifyAll();
                     }
-                    if(networkProtocol == 1)
-                        lock.notifyAll();
                     break;
 
                 case ACK_ORDER_n_COLUMN:
