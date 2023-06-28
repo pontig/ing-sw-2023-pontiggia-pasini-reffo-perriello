@@ -19,6 +19,10 @@ import java.util.Scanner;
 
 import static it.polimi.ingsw.enums.State.*;
 
+/**
+ * The CLI class represents the Command-Line Interface (CLI) view in the application
+ * It extends the View class and provides methods for interacting with the user through the command line
+ */
 public class CLI extends View {
     // Reset
     public static final String RESET = "\033[0m";  // Text Reset
@@ -49,14 +53,27 @@ public class CLI extends View {
     ThreadRead userInput;
     int yourNumber = 0;
 
+    /**
+     * Constructs a new CLI view
+     */
     public CLI() {
         super();
     }
 
+    /**
+     * Gets the nickname of the user
+     *
+     * @return the nickname
+     */
     public String getNickname(){
         return this.nickname;
     }
 
+    /**
+     * Sets the network protocol
+     *
+     * @param networkClient the network protocol value
+     */
     public void setNetwork(int networkClient) {
         this.networkProtocol = networkClient;
     }
@@ -735,6 +752,7 @@ public class CLI extends View {
 
     /**
      * Renders correctly the board
+     *
      * @param board the encoded board
      * @see Board#toString()
      */
@@ -782,8 +800,11 @@ public class CLI extends View {
         }
     }
 
-
-
+    /**
+     * Displays the other players' shelves
+     *
+     * @param otherShelf the list of strings representing the other players' shelves
+     */
     private void showOtherShelf(List<String> otherShelf){
         int numShelf = otherShelf.size() / 2;
         switch(numShelf){
@@ -821,6 +842,11 @@ public class CLI extends View {
         }
     }
 
+    /**
+     * Writes a description of a common goal based on the provided goal identifier
+     *
+     * @param commonGoal the identifier of the common goal
+     */
     private void writeCommon(String commonGoal){
         //System.out.println(commonGoal);
         switch (commonGoal) {
@@ -881,6 +907,12 @@ public class CLI extends View {
         }
     }
 
+    /**
+     * Displays the personal goals and the player's own shelf in a formatted manner
+     *
+     * @param personalGoals the string representing the personal goals
+     * @param ownShelf the string representing the player's own shelf
+     */
     private void showPersonalAndShelf(String personalGoals, String ownShelf){
         String[] personal = personalGoals.split("\n");
         String[] shelf = ownShelf.split("\n");
@@ -893,7 +925,11 @@ public class CLI extends View {
         }
     }
 
-
+    /**
+     * Displays the items in the specified format
+     *
+     * @param items the items to display
+     */
     public void showItems(String items) {
         boolean columnChoosen = false;
         for (int i = 0; i < items.length(); i++) {
