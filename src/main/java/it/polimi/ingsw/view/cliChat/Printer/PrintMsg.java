@@ -1,5 +1,8 @@
 package it.polimi.ingsw.view.cliChat.Printer;
 
+/**
+ * A utility class for printing messages with ANSI colors
+ */
 public class PrintMsg {
     //ANSI Colors
     public static final String RESET = "\033[0m";               //Reset to normal color
@@ -8,17 +11,29 @@ public class PrintMsg {
     public static final String PINK = "\033[38;5;164m";         //Messages from players
     public static final String WHITE = "\033[38;5;231m";        //Content of player message
 
-    //Printer for errors
+    /**
+     * Prints an error message in red color
+     *
+     * @param error the error message to print
+     */
     public void printError(String error){
         System.out.println(RED + error + RESET);
     }
 
-    //Printer for messages from server
+    /**
+     * Prints a message from the server in green color
+     *
+     * @param msg the message to print
+     */
     public void printMsgServer(String msg){
         System.out.println(GREEN + msg + RESET);
     }
 
-    //Printer for messages from players
+    /**
+     * Prints a message from a player in pink color
+     *
+     * @param message the message to print (Type-From-Text-Type)
+     */
     public void printMsgPlayers(String message){            //Type-From-Text-Type
         String[] msg = message.split("-");
 
@@ -30,6 +45,11 @@ public class PrintMsg {
             printError("Message format is not accepted");
     }
 
+    /**
+     * Prints a player's own message in pink color
+     *
+     * @param message the message to print (Type-From-To-Text-Type)
+     */
     public void printOwnMsg(String message){            //Type-From-To-Text-Type
         String[] msg = message.split("-");
 
