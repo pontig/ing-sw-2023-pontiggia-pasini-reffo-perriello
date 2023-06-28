@@ -18,13 +18,14 @@ import java.util.Scanner;
 
 /**
  * The ClientApp class is the main class for the client. It's the entry point for the client application.
+ * It represents one of the four clients that can connect to the server.
  * It provides a command line interface for the user to choose the type of connection (RMI or Socket) and the type of view: CLI (Command Line Interface) or GUI (Graphical User Interface) or GUI (Graphical User Interface).
  */
 public class ClientApp {
     private static final long CHECK_INTERVAL = 60000; // Interval in milliseconds between connection checks
 
     /**
-     * The main method of the client application.
+     * The main method of the ClientApp.
      *
      * @param args Command line arguments.
      * @throws RemoteException     If a communication-related exception occurs.
