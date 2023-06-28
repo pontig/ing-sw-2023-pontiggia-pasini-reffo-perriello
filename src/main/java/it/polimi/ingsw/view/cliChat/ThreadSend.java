@@ -11,15 +11,32 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * This class represents the thread that sends the messages to the server
+ */
 public class ThreadSend extends Thread {
     private final Scanner chat = new Scanner(System.in);
     private final PrintMsg printer = new PrintMsg();
     private final Socket socket;
+
+    /**
+     *
+     * @param socket
+     */
     public ThreadSend(Socket socket){
         this.socket = socket;
     }
 
-    //Read the input from the user in the chat
+
+
+    /**
+     * Reads user input from the command line and sends messages to the socket's output stream.
+     * Depending on the user's input, it constructs and sends either private or public chat messages
+     * to the server using the socket's output stream.
+     * Messages are formatted according to specific syntax conventions.
+     * The method also handles printing of messages to the terminal based on the received input and
+     * the buffer of incoming messages from the server.
+     */
     @Override
     public void run() {
         try {

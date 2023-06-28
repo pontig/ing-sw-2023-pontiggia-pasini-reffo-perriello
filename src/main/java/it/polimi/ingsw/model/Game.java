@@ -103,11 +103,14 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         this.playerList.add(this.currentPlayer);
         this.board = board;
         this.bag = new Bag();
-        this.board.fill(this.numberOfPlayers, this.bag);
+        if (board != null)
+            this.board.fill(this.numberOfPlayers, this.bag);
 
         this.commonGoals = commonGoals;
-        this.firstCommonGoal = assignCommonGoal(1);
-        this.secondCommonGoal = assignCommonGoal(2);
+        if (this.commonGoals != null) {
+            this.firstCommonGoal = assignCommonGoal(1);
+            this.secondCommonGoal = assignCommonGoal(2);
+        }
 
         this.endGame = false;
         this.canConfirmItem = false;
@@ -126,8 +129,10 @@ public class Game extends ObservableModel<Message> {              //extends Obse
      * @return the personal goal drawn
      */
     private PersonalGoal assignPersonalGoal() {
-        Random random = new Random();
-        int randomInt = random.nextInt(this.personalGoals.size());
+        if (this.personalGoals == null) return null;
+                Random random = new Random();
+        int randomInt;
+        randomInt = random.nextInt(this.personalGoals.size());
         return personalGoals.remove(randomInt);
     }
 
@@ -697,7 +702,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                     sameNickname = true;
                     break;
                 }
-             }
+            }
 
             if (sameNickname)
                 msg = new SendDataToClient(SAME_NICKNAME, nickname, null, null, null, null, null, null, false, null, null);
@@ -754,14 +759,14 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     public void setNumberOfPlayers(String nickname, int numberOfPlayers) {
         if (getNumberOfPlayers() != 0) {
             if (getNumberOfPlayers() == getPlayerList().size()) {
-                if(numPendingItems > 1){
+                if (getPlayerConnection() > 1) {
                     msg = new SendDataToClient(ACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);
                     setPlayerConnection(getPlayerConnection() - 1);
                 } else {
                     msg = new SendDataToClient(NACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);
                     setPlayerConnection(0);
                 }
-            } else if(getNumberOfPlayers() > getPlayerList().size())
+            } else if (getNumberOfPlayers() > getPlayerList().size())
                 msg = new SendDataToClient(ACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);
             else
                 msg = new SendDataToClient(TOO_MANY, null, null, null, null, null, null, null, false, null, null);
@@ -769,11 +774,14 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         } else {
             if (numberOfPlayers < 5 && numberOfPlayers > 1) {
                 this.numberOfPlayers = numberOfPlayers;
-                getBoard().fill(numberOfPlayers, getBag());
-                this.firstCommonGoal = assignCommonGoal(1);
-                this.secondCommonGoal = assignCommonGoal(2);
-                setCurrentPlayer(getPlayerList().get(0));
-                setPlayerConnection(numberOfPlayers - 1);
+                if (getBoard() != null) {
+                    getBoard().fill(numberOfPlayers, getBag());
+                    this.firstCommonGoal = assignCommonGoal(1);
+                    this.secondCommonGoal = assignCommonGoal(2);
+                    setCurrentPlayer(getPlayerList().get(0));
+                    setPlayerConnection(numberOfPlayers - 1);
+                    setNumPendingItems(numberOfPlayers - 1);
+                }
                 msg = new SendDataToClient(ACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);
             } else
                 msg = new SendDataToClient(OUT_BOUND_NUMPLAYERS, null, null, null, null, null, null, null, false, null, null);
@@ -790,6 +798,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         if (getNumberOfPlayers() == getPlayerList().size()) {
             String p1 = null, p2 = null, p3 = null, p4 = null;
             Collections.shuffle(getPlayerList());
+            this.currentPlayer = getPlayerList().get(0);
             for (Player user : playerList) {
                 switch (getNumberOfPlayers()) {
                     case 4:
@@ -951,6 +960,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
 
     /**
      * Finds the player with the given nickname
+     *
      * @param nickname the nickname of the player
      * @return the player with the given nickname
      */

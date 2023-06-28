@@ -1,0 +1,16 @@
+it.polimi.ingsw
+it.polimi.ingsw.assets
+it.polimi.ingsw.controller
+it.polimi.ingsw.enums
+it.polimi.ingsw.model
+it.polimi.ingsw.model.commongoal
+it.polimi.ingsw.network.client
+it.polimi.ingsw.network.messages
+it.polimi.ingsw.network.server
+it.polimi.ingsw.observer
+it.polimi.ingsw.tuples
+it.polimi.ingsw.view
+it.polimi.ingsw.view.cliChat
+it.polimi.ingsw.view.cliChat.Printer
+it.polimi.ingsw.view.gui
+it.polimi.ingsw.view.gui.scene
