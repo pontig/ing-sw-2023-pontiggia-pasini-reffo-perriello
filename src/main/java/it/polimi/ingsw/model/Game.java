@@ -51,6 +51,8 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     private boolean fromScratch = true;
     private List<Player> playersToReconnect = new ArrayList<>();
 
+    private int playerConnection = 0;
+
     /**
      * Game constructor
      *
@@ -400,6 +402,15 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     }
 
     /**
+     * Getter of the integer playerConnection used during initial phase of the game
+     *
+     * @return the number of players that need to connect
+     */
+    public int getPlayerConnection(){
+        return this.playerConnection;
+    }
+
+    /**
      * Getter of the second common goal in string format
      *
      * @return the second common goal in string format
@@ -605,6 +616,15 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     }
 
     /**
+     * Setter of the integer playerConnection used during initial phase of the game
+     *
+     * @param pCon number of players that need to connect
+     */
+    public void setPlayerConnection(int pCon){
+        this.playerConnection = pCon;
+    }
+
+    /**
      * Setter of the confirmed items
      *
      * @param confirmedItems the confirmed items
@@ -736,10 +756,10 @@ public class Game extends ObservableModel<Message> {              //extends Obse
             if (getNumberOfPlayers() == getPlayerList().size()) {
                 if(numPendingItems > 1){
                     msg = new SendDataToClient(ACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);
-                    setNumPendingItems(numPendingItems - 1);
+                    setPlayerConnection(getPlayerConnection() - 1);
                 } else {
                     msg = new SendDataToClient(NACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);
-                    setNumPendingItems(0);
+                    setPlayerConnection(0);
                 }
             } else if(getNumberOfPlayers() > getPlayerList().size())
                 msg = new SendDataToClient(ACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);
@@ -753,7 +773,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
                 this.firstCommonGoal = assignCommonGoal(1);
                 this.secondCommonGoal = assignCommonGoal(2);
                 setCurrentPlayer(getPlayerList().get(0));
-                setNumPendingItems(numberOfPlayers - 1);
+                setPlayerConnection(numberOfPlayers - 1);
                 msg = new SendDataToClient(ACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);
             } else
                 msg = new SendDataToClient(OUT_BOUND_NUMPLAYERS, null, null, null, null, null, null, null, false, null, null);
