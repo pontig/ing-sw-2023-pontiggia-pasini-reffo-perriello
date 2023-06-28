@@ -25,7 +25,9 @@ import java.util.concurrent.Executors;
 
 import static it.polimi.ingsw.enums.State.CLIENT_DOWN;
 
-
+/** ServerApp class is the main class of the server side of the application. It contains the main method and the
+ *  methods to start the server and to handle the connection with the clients.
+ */
 public class ServerApp extends UnicastRemoteObject implements ServerAbst {
     private static final long CHECK_INTERVAL = 60000; // Interval in milliseconds between connection checks
     private static ServerApp instance = null;
@@ -44,10 +46,23 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
         return instance;
     }
 
+    /** the Getter of the Server Interface
+     *
+     * @return the Server Interface
+     */
     public Server getS() {
         return s;
     }
 
+    /** Main method of the ServerApp class. It starts the server and the RMI registry.
+     * It's possible to choose if start the server with RMI or Socket connection.
+     *
+     * It also handles the connection with the clients.
+     *
+     * @param args
+     * @throws InterruptedException
+     * @throws IOException
+     */
     public static void main(String[] args) throws InterruptedException, IOException {
 
         // iterate over the network interfaces known to java
@@ -155,17 +170,35 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
     }
 
     //RMI start
+    /**
+     * Starts the RMI (Remote Method Invocation) server on the specified port.
+     * This method creates a registry, binds the server instance to a name, and sets the RMI server hostname.
+     *
+     * @param port The port number on which to start the RMI server.
+     * @throws RemoteException If a communication-related exception occurs during the RMI operation.
+     */
     private static void startRMI(int port) throws RemoteException {
         System.out.println("RMI started");
+        //Get the instance of the serverApp
         ServerApp instanceRMI = getInstance();
         System.setProperty("java.rmi.server.hostname", serverIP);
+        //Create the registry on the specified port
         Registry registry = LocateRegistry.createRegistry(port);
+        // Bind the server instance to the "server" name in the registry
         registry.rebind("server", instanceRMI);
     }
 
     //SOCKET start
+    /**
+     * This method starts the socket server on the specified port.
+     * It creates a server socket, accepts incoming client connections, and handles client communication using separate threads.
+     *
+     * @param port The port number on which to start the socket server.
+     * @throws RemoteException If a communication-related exception occurs during the socket operation.
+     */
     public static void startSocket(int port) throws RemoteException {
         System.out.println("Socket started");
+         //Get the instance of the serverApp
         ServerApp instanceSocket = getInstance();
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             while (true) {
@@ -198,6 +231,14 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
     }
 
     //Crea un server implementato
+
+    /**
+     * This method connects to the Server and returns an instance of the Server interface.
+     * If file status.json is empty or does not exist, it creates a new Server instance from scratch.
+     * A separate thread is created to monitor the connection status by pinging the client periodically.
+     * @return instance of the Server interface
+     * @throws RemoteException If a communication-related exception occurs during the socket operation.
+     */
     @Override
     public Server connect() throws RemoteException {
         File f = new File("status.json");
@@ -216,7 +257,7 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
                         //System.out.println("Connection is active.");
                     } catch (RemoteException e) {
                         // Connection lost, handle the situation accordingly
-                        System.err.println("Cannot receive from client \nClosing the connection form server all the client will be disconnected");
+                        System.err.println("Cannot receive from client \nClosing the connection from server all the client will be disconnected");
                         // Terminate the client
                         System.exit(1);
                     }
