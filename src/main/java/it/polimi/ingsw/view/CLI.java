@@ -379,7 +379,7 @@ public class CLI extends View {
                         if(msg == IN_GAME){
                             System.out.println();
                             for(int i = 0; i*2 < otherShelf.size(); i++) {
-                                System.out.print(RED + otherShelf.get(i * 2) + "'s shelf:" + RESET);
+                                System.out.print(RED + otherShelf.get(i * 2) + "'s shelf: " + RESET);
                                 for(int j = 0; j < 15-otherShelf.get(i*2).length(); j++)
                                     System.out.print(" ");
                             }
