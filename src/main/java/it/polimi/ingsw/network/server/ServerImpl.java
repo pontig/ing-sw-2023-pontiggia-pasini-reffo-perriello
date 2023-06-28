@@ -33,6 +33,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     private static Game match;
     private final boolean fromScratch;
     private static final List<Client> clientList = new ArrayList<>();
+    private static int countClient = 0;
 
     public ServerImpl(boolean fromScratch) throws RemoteException {
         super();
@@ -64,8 +65,9 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         System.out.print("Controllo match - ");
 
         //TODO - da sistemare l'accesso di altr utenti alla riconnessione e con socket anche su serverstub
-        if(match.getNumberOfPlayers() == 0 || match.getNumberOfPlayers() > match.getPlayerList().size() || !fromScratch) {
+        if(match.getNumberOfPlayers() == 0 || match.getNumberOfPlayers() > match.getPlayerList().size() || (!fromScratch && countClient < match.getNumberOfPlayers())) {
             System.out.println("true");
+            System.out.println("Player lsit size" + match.getPlayerList().size());
             match.addObserverModel((o, arg) -> {
                 try {
                     client.updateView(this, arg);                          //creo init connecting to server
@@ -73,6 +75,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
                     System.err.println("Unable to update the client: " + e.getMessage() + ". Skipping the update...");
                 }
             });
+            countClient++;
             return true;
         } else {
             System.out.println("false");

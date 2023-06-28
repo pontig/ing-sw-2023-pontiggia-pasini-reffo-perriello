@@ -36,8 +36,11 @@ public class ObservableModel<Message> {
             clearChangedModel();
         }
 
-        for (int i = arrLocal.length-1; i>=0; i--)
-            ((ObserverModel<ObservableModel<Message>, Message>)arrLocal[i]).updateS(this, arg);
+        for (int i = arrLocal.length-1; i>=0; i--) {
+            System.out.println("Notifico observer client " + i + " = " + ((ObserverModel<ObservableModel<Message>, Message>) arrLocal[i]));
+            ((ObserverModel<ObservableModel<Message>, Message>) arrLocal[i]).updateS(this, arg);
+        }
+        System.out.println("\n\n");
     }
 
     protected synchronized void setChangedModel() {

@@ -16,10 +16,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -35,6 +32,7 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
     private final ExecutorService executorService = Executors.newCachedThreadPool();
     private static String serverIP;
     private boolean fromScratch;
+    private List<ClientSkeleton> socketClients = new ArrayList<>();
 
     protected ServerApp() throws RemoteException {
     }
@@ -205,16 +203,21 @@ public class ServerApp extends UnicastRemoteObject implements ServerAbst {
                 Socket socket = serverSocket.accept();
                 instanceSocket.executorService.submit(() -> {
                     ClientSkeleton c = null;
+                    boolean stopClient;
                     try {
                         ClientSkeleton clientSkeleton = new ClientSkeleton(socket);
                         Server server = getInstance().connect();
-                        server.register(clientSkeleton);
-                        c = clientSkeleton;
-                        while (true) {
-                            clientSkeleton.receive(server);
+                        stopClient = server.register(clientSkeleton);
+                        if(stopClient){
+                            c = clientSkeleton;
+                            while (true) {
+                                clientSkeleton.receive(server);
+                            }
+                        } else {
+                            System.out.println("No more players are required in this game, we are sorry, you will be disconnected");
                         }
                     } catch (RemoteException e) {
-                        System.err.println("Cannot receive from client: " + c + "\nClosing the connection form server all the client will be disconnected");
+                        System.err.println("Cannot receive from client: " + c + "\nClosing the connection from server all the client will be disconnected");
                         System.exit(1);
                     } finally {
                         try {

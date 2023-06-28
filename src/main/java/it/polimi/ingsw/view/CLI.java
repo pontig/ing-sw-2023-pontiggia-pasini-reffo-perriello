@@ -305,7 +305,6 @@ public class CLI extends View {
                     lock.notifyAll();
                     break;
 
-                case NOT_IN_PREV_GAME:
                 case SAME_NICKNAME:
                     //arg.printMsg();
                     state = 0;
@@ -313,6 +312,7 @@ public class CLI extends View {
                         lock.notifyAll();
                     break;
 
+                case NOT_IN_PREV_GAME:
                 case NACK_NICKNAME:
                     //arg.printMsg();
                     state = 1;

@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.ServerApp;
 import it.polimi.ingsw.enums.*;
 import it.polimi.ingsw.model.commongoal.*;
 
@@ -1097,6 +1098,9 @@ public class Game extends ObservableModel<Message> {              //extends Obse
      */
     private void setChangedAndNotifyObservers(Message arg) {
         setChangedModel();
+        //if(arg.getInfo() == NACK_NICKNAME)
+        //    ServerApp.setNack(true);
+        System.out.println("\n\nMessaggio da server a client: " + arg.getInfo() + " NACK: ");
         notifyObserversModel(arg);
     }
 
