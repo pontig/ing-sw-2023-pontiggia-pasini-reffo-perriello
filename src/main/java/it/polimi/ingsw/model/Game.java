@@ -778,6 +778,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         if (getNumberOfPlayers() == getPlayerList().size()) {
             String p1 = null, p2 = null, p3 = null, p4 = null;
             Collections.shuffle(getPlayerList());
+            this.currentPlayer = getPlayerList().get(0);
             for (Player user : playerList) {
                 switch (getNumberOfPlayers()) {
                     case 4:
