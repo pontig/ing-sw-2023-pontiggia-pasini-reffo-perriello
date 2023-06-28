@@ -16,8 +16,23 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Scanner;
 
+/**
+ * The ClientApp class is the main class for the client. It's the entry point for the client application.
+ * It represents one of the four clients that can connect to the server.
+ * It provides a command line interface for the user to choose the type of connection (RMI or Socket) and the type of view: CLI (Command Line Interface) or GUI (Graphical User Interface) or GUI (Graphical User Interface).
+ */
 public class ClientAppFourth {
     private static final long CHECK_INTERVAL = 60000; // Interval in milliseconds between connection checks
+
+    /**
+     * The main method of the ClientAppFourth.
+     *
+     * @param args Command line arguments.
+     * @throws RemoteException     If a communication-related exception occurs.
+     * @throws NotBoundException   If a bound exception occurs during RMI registry lookup.
+     * @throws SocketException     If a socket-related exception occurs.
+     * @throws IOException         If an IO-related exception occurs.
+     */
     public static void main( String[] args ) throws RemoteException, NotBoundException, SocketException, IOException {
         Scanner terminal = new Scanner(System.in);
         int networkClient = -1;
