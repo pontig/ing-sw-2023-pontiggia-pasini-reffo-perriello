@@ -9,6 +9,9 @@ import java.net.Socket;
 
 import static java.lang.String.valueOf;
 
+/**
+ * This class handles the connection with the client
+ */
 public class ConnectionHandler extends Thread {
     //private ServerSocket serverSocket;
     private final Socket socket;
@@ -16,6 +19,14 @@ public class ConnectionHandler extends Thread {
     private final PrintMsg printer = new PrintMsg();
     private boolean exist = false;
     private static int port;
+
+    /**
+     * Constructs a new ConnectionHandler object.
+     *
+     * @param serverSocket The ServerSocket object used for accepting client connections.
+     * @param portSocket   The port number to be set if it is not already set.
+     * @throws IOException If an I/O error occurs while handling the connection.
+     */
     public ConnectionHandler(ServerSocket serverSocket, int portSocket) throws IOException {
         if(port == 0) {
             setPort(portSocket);
@@ -54,14 +65,27 @@ public class ConnectionHandler extends Thread {
 
     }
 
+    /**
+     * Returns the socket of the connection.
+     * @return
+     */
     public Socket getSocket(){
         return this.socket;
     }
 
+    /**
+     * set the port number
+     * @param value
+     */
     public static void setPort(int value){
         port = value;
     }
 
+    /**
+     * Handles the port file.
+     * Looks for the "port.txt" file in the current folder and sets the existence flag accordingly.
+     * If the file exists, it adds the port number to the file.
+     */
     public void portFileHandler(){
         //Look at all the files in the folder where the jar is to find port.txt
         File folder = new File(".");                                                     //Look for file in the current folder
@@ -108,6 +132,14 @@ public class ConnectionHandler extends Thread {
         }
     }
 
+    /**
+     * This method represents the execution logic of the ConnectionHandler thread.
+     * It reads incoming messages from the socket's input stream.
+     * If a message starts with the character '╬', it is considered a special message for updating player information.
+     * Otherwise, the message is printed or added to the buffer based on the state of the TerminalServer.
+     * When an IOException occurs, it is printed to the standard error stream.
+     * Finally, it ensures that the reader and socket are properly closed.
+     */
     @Override
     public void run() {
         try {
