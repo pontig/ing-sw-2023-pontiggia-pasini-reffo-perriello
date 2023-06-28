@@ -11,10 +11,7 @@ import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.PersonalGoal;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.client.ClientImpl;
-import it.polimi.ingsw.network.client.ServerStub;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.SendDataToClient;
 import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.tuples.Triplet;
 
@@ -26,8 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static it.polimi.ingsw.enums.State.NACK_NICKNAME;
-
+/**
+ * The ServerImpl class implements the Server interface and provides the implementation for server-side operations
+ */
 public class ServerImpl extends UnicastRemoteObject implements Server {
     private static GameController controller;
     private static Game match;
@@ -35,12 +33,25 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     private static final List<Client> clientList = new ArrayList<>();
     private static int countClient = 0;
 
+    /**
+     * Constructs a ServerImpl object
+     *
+     * @param fromScratch indicates whether the server is created from scratch or loaded from a file
+     * @throws RemoteException if an error occurs during remote method invocation
+     */
     public ServerImpl(boolean fromScratch) throws RemoteException {
         super();
         this.fromScratch = fromScratch;
         //matches = new ArrayList<>();
     }
 
+    /**
+     * Registers a client to the server
+     *
+     * @param client the client to register
+     * @return true if the registration is successful, false otherwise
+     * @throws RemoteException if an error occurs during remote method invocation
+     */
     //nella registrazione posso semplicamente fare l'add observer, inviare un messaggio che richiede nome e numero giocatori
     @Override
     public boolean register(Client client) throws RemoteException {
@@ -83,6 +94,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         }
     }
 
+    /**
+     * Retrieves the board from a JSON file and returns it
+     *
+     * @return the board object
+     */
     private Board getBoard() {
         ObjectMapper mapper = new ObjectMapper();
 
@@ -97,6 +113,12 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         return boardGame;
     }
 
+    /**
+     * Retrieves the list of commonGoals from a JSON file and returns it
+     *
+     * @return the list of commonGoals
+     * @throws IOException if an error occurs while reading the JSON file
+     */
     private List<CommonGoalName> getCommons() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         List<String> goals = objectMapper.readValue(ServerImpl.class.getResourceAsStream("/json/commonGoals.json"), new TypeReference<List<String>>() {
@@ -108,6 +130,12 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         return commonGoals;
     }
 
+    /**
+     * Retrieves the list of personalGoals from a JSON file and returns it
+     *
+     * @return the list of personalGoals
+     * @throws IOException if an error occurs while reading the JSON file
+     */
     private List<PersonalGoal> getPersonals() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         PersonalGoalJson[] personalGoalJsonArray = objectMapper.readValue(ServerImpl.class.getResourceAsStream("/json/personalGoals.json"), PersonalGoalJson[].class);
@@ -123,6 +151,12 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         return personalGoalList;
     }
 
+    /**
+     * Updates the model based on the client's action
+     *
+     * @param client the client who performed the action
+     * @param arg the message containing the action details
+     */
     public void updateModel(Client client, Message arg) {     //ViewChange invia già modifiche e dati forse un messaggio?
         //TODO -- aggiunto questo
         if(arg.getInfo() == State.SET_NICKNAME) {
@@ -140,6 +174,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         controller.update(client, arg);
     }
 
+    /**
+     * Sends a ping message to all connected clients
+     *
+     * @throws RemoteException if an error occurs during remote method invocation
+     */
     //TODO - aggiunto questo
     public void ping() throws RemoteException {
             if (clientList != null || !clientList.isEmpty()) {

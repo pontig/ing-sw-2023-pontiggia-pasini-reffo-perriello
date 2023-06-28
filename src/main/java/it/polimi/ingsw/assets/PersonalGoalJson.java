@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.Set;
 
 public class PersonalGoalJson {
+
     public List<Triplet<Integer, Integer, String>> pg;
 
     /**
      * Converts the list of triplets to a set of triplets
+     *
      * @return set of triplets
      */
     public Set<Triplet<Integer, Integer, Type>> toSet() {

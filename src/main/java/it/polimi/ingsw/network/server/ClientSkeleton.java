@@ -1,23 +1,28 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.SendDataToServer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.Objects;
 
-import static it.polimi.ingsw.enums.State.ACK_NICKNAME;
-
+/**
+ * The ClientSkeleton class implements the Client interface and represents the client-side skeleton
+ * It is responsible for communication with the server
+ */
 public class ClientSkeleton implements Client {
     private final ObjectOutputStream objectOutputStream;
     private final ObjectInputStream objectInputStream;
 
+    /**
+     * Constructs a ClientSkeleton object with the specified socket
+     *
+     * @param socket the socket for communication with the server
+     * @throws RemoteException if an error occurs while creating the input/output streams
+     */
     public ClientSkeleton(Socket socket) throws RemoteException {
         try{
             this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -31,6 +36,13 @@ public class ClientSkeleton implements Client {
         }
     }
 
+    /**
+     * Updates the view with the specified server and message
+     *
+     * @param o   the server object
+     * @param arg the message object
+     * @throws RemoteException if an error occurs while sending the event
+     */
     @Override
     public void updateView(Server o, Message arg) throws RemoteException {
         try {
@@ -45,6 +57,12 @@ public class ClientSkeleton implements Client {
         }
     }
 
+    /**
+     * Receives the message from the server and updates the model accordingly
+     *
+     * @param server the server object
+     * @throws RemoteException if an error occurs while receiving or casting the event
+     */
     public void receive(Server server) throws RemoteException {
         Message arg;
         try {

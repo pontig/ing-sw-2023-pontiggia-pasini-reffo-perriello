@@ -1,21 +1,19 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.server.ClientSkeleton;
 import it.polimi.ingsw.network.server.Server;
-import it.polimi.ingsw.network.server.ServerImpl;
-import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.List;
 
+
+/**
+ * Implementation of the Server interface that represents a stub for a remote server.
+ */
 public class ServerStub implements Server {
     private final int port;
     private final String ip;
@@ -24,11 +22,26 @@ public class ServerStub implements Server {
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
 
+
+    /**
+     * Constructs a new ServerStub object with the specified IP address and port.
+     *
+     * @param ip   the IP address of the server.
+     * @param port the port number of the server.
+     */
     public ServerStub(String ip, int port) {
         this.ip = ip;
         this.port = port;
     }
 
+
+    /**
+     * Registers the client with the server.
+     *
+     * @param client the client to register.
+     * @return true if the registration is successful, false otherwise.
+     * @throws RemoteException if a remote communication error occurs.
+     */
     @Override
     public boolean register(Client client) throws RemoteException {
         //TODO - sistemare riconnessione con socket
@@ -59,6 +72,13 @@ public class ServerStub implements Server {
         }*/
     }
 
+    /**
+     * Updates the server's model with the specified client and message argument.
+     *
+     * @param client the client that initiated the update.
+     * @param arg    the message argument to update the model.
+     * @throws RemoteException if a remote communication error occurs.
+     */
     @Override
     public void updateModel(Client client, Message arg) throws RemoteException {
         try {
@@ -68,6 +88,12 @@ public class ServerStub implements Server {
         }
     }
 
+    /**
+     * Receives a message from the server and updates the client's view.
+     *
+     * @param client the client to update the view.
+     * @throws RemoteException if a remote communication error occurs.
+     */
     public void receive(Client client) throws RemoteException {
         Server server;
         try {
@@ -85,6 +111,11 @@ public class ServerStub implements Server {
         client.updateView(server, arg);
     }
 
+    /**
+     * Closes the socket connection.
+     *
+     * @throws RemoteException if a remote communication error occurs.
+     */
     public void close() throws RemoteException{
         try {
             socket.close();
@@ -93,6 +124,11 @@ public class ServerStub implements Server {
         }
     }
 
+    /**
+     * Pings the server.
+     *
+     * @throws RemoteException if a remote communication error occurs.
+     */
     @Override
     public void ping() throws RemoteException { }
 }
