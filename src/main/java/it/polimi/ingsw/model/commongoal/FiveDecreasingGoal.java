@@ -17,10 +17,19 @@ import it.polimi.ingsw.model.Shelf;
 
 public class FiveDecreasingGoal extends CommonGoalAbstract {
 
+    /**
+     * Constructor of FiveDecreasingGoal
+     * @param numbPlayers the number of players
+     */
     public FiveDecreasingGoal(int numbPlayers) {
         super(numbPlayers);
     }
 
+    /**
+     * @param shelf the shelf to check
+     * @return if the shelf has five columns of increasing or decreasing height
+     * @throws IllegalArgumentException if the shelf is null
+     */
     public boolean specificGoal(Shelf shelf) throws IllegalArgumentException {
 
         int i;

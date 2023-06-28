@@ -1,18 +1,7 @@
 package it.polimi.ingsw.controller;
 
-import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.assets.PersonalGoalJson;
-import it.polimi.ingsw.enums.Type;
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.tuples.Triplet;
+import it.polimi.ingsw.model.Game;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -36,7 +25,6 @@ class GameControllerTest {
     void setPlayer() {
         Game game = new Game();
         GameController gameController = new GameController(game, null);      //chiedi agli altri
-        gameController.setGame(game);
         String nickname = "nickname";
         gameController.setPlayer(nickname);
         assertEquals(nickname, gameController.getGame().getPlayerList().get(0).getNickname());
@@ -45,7 +33,6 @@ class GameControllerTest {
     void setNumPlayers() {
         Game game = new Game();
         GameController gameController = new GameController(game, null);
-        gameController.setGame(game);
         String nickname = "nickname";
         int numPlayers = 2;
         gameController.setNumPlayers(nickname, numPlayers);
@@ -66,6 +53,7 @@ class GameControllerTest {
 
     @Test
     void onOrderItem() {
+
     }
 
     @Test
@@ -74,7 +62,6 @@ class GameControllerTest {
 
     @Test
     void onConfirmInsertion() {
-
     }
 
     @Test

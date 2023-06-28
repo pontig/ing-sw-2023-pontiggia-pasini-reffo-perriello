@@ -9,7 +9,6 @@ import it.polimi.ingsw.tuples.Pair;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Board is the class that represents the board of the game
@@ -23,9 +22,13 @@ public class Board {
     private static Cell[][] emptyBoard = new Cell[9][9];
     @JsonIgnore private Set<Pair<Integer, Integer>> pendingCells;
 
+    /**
+     * Constructs a new Board based on the provided matrix.
+     *
+     * @param matrix The matrix representing the board, where each value represents the circumstance of a cell.
+     *               Use 0 for unusable, 2 for two players, etc.
+     */
     public Board(int[][] matrix) {
-        // matrix represents the board: for every cell, the value represent the circumstance (0 for unusable, 2 for two
-        // players etc.)
         emptyBoard = new Cell[9][9];
 
         for (int i = 0; i < 9; i++) {
@@ -35,6 +38,13 @@ public class Board {
         }
     }
 
+    /**
+     * Constructs a new Board object.
+     *
+     * If the initial emptyBoard is not initialized, it loads the board matrix from a JSON file.
+     * The matrix represents the board: for every cell, the value represents the circumstance (0 for unusable, 2 for two players, etc.).
+     * The disposition of the board is then initialized based on the emptyBoard matrix, and pendingCells are set to an empty HashSet.
+     */
     public Board() {
 
         if (emptyBoard[0][0] == null) {
@@ -69,6 +79,11 @@ public class Board {
         this.disposition = disposition;
     }
 
+    /**
+     * Sets the disposition of the board based on the provided JSON representation.
+     *
+     * @param JSONdisposition The JSON representation of the board's disposition.
+     */
     @JsonProperty("disposition")
     public void setDisposition(Object[][] JSONdisposition) {
         this.disposition = new Cell[9][9];
@@ -96,12 +111,28 @@ public class Board {
         return this.disposition;
     }
 
+    /**
+     * Retrieves the cell at the specified coordinates on the board.
+     * This method should only be used for testing purposes.
+     *
+     * @param x The x-coordinate of the cell.
+     * @param y The y-coordinate of the cell.
+     * @return The cell at the specified coordinates.
+     */
     public Cell getCell(int x, int y) {
-        // WARNING: Must be used only for setCell's test
         return disposition[y][x];
     }
+
+    /**
+     * Sets the specified cell on the board with the given item and circumstance.
+     * This method should only be used for testing purposes.
+     *
+     * @param x           The x-coordinate of the cell.
+     * @param y           The y-coordinate of the cell.
+     * @param item        The item to be set in the cell.
+     * @param circumstance The circumstance value to be set for the cell.
+     */
     public void setCell(int x, int y, Item item, int circumstance) {
-        // WARNING: Must be used only for testing purposes
         this.disposition[y][x] = new Cell(circumstance);
         disposition[y][x].setContent(item);
     }
@@ -392,6 +423,11 @@ public class Board {
         }
     }
 
+    /**
+     * Creates and returns a clone of the board.
+     *
+     * @return A clone of the board, with the same cell circumstances and item contents.
+     */
     public Board clone() {
         Board clone = new Board();
         for (int i = 0; i < 9; i++) {
@@ -405,6 +441,11 @@ public class Board {
         return clone;
     }
 
+    /**
+     * sendToString is used to have a representation of the board as a string
+     *
+     * @return The string representation of the send board, showing the items and their variants.
+     * */
     public String sendToString() {
         StringBuilder board = new StringBuilder(" ");
         boolean selected = false;
@@ -454,6 +495,11 @@ public class Board {
         return board.toString();
     }
 
+    /**
+     * pendingToString is used to have a representation of pending cells ad a string
+     *
+     * @return a string representation of the pendindg cells, showing the items and their variants.
+     */
     public String pendingToString() {
         StringBuilder pendingStr = new StringBuilder(" ");
         for (Pair<Integer, Integer> p : getPendingCells()) {

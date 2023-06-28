@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.enums.Type;
 import it.polimi.ingsw.tuples.Pair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -15,6 +18,16 @@ public class Bag {
 
     private List<Pair<Item, Integer>> items;
 
+    /**
+     * Constructs a new bag
+     *
+     * Initializes the items in the bag with their initial quantities.
+     * The bag contains a predetermined number of items for each type and variant.
+     * The quantities are initialized as follows:
+     * - 7 items of variant 0 for each type
+     * - 7 items of variant 1 for each type
+     * - 8 items of variant 2 for each type
+     */
     public Bag() {
 
         this.items = new ArrayList<>();
@@ -29,7 +42,7 @@ public class Bag {
     /**
      * setItems is used to fill the bag with all the items at the start of the game
      *
-     * @param items: map of items that will be put in the bag (Integer indicates how many items of a certain variant will be contained in the bag)
+     * @param items: List of items that will be put in the bag (Integer indicates how many items of a certain variant will be contained in the bag)
      */
     public void setItems(List<Pair<Item, Integer>> items) {
         this.items = items;
@@ -37,9 +50,10 @@ public class Bag {
 
     /**
      * Restore the items in the bag after a crash of the server
+     *
      * @param items the list of the items before the crash
      */
-    @JsonProperty("items")
+    @JsonProperty
     public void restoreItems(List<Object> items) {
         this.items = items.stream()
                 .map(e -> {
@@ -53,7 +67,7 @@ public class Bag {
     /**
      * getItems is used to get all the items contained in the bag
      *
-     * @return a Map of items
+     * @return a List of items
      */
     public List<Pair<Item, Integer>> getItems() {
         return this.items;

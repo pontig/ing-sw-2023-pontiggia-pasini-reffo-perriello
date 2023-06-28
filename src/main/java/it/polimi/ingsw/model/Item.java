@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.enums.Type;
 
 /**
@@ -16,10 +15,20 @@ public final class Item {
 
     private int variant;
 
+    /**
+     * Constructs a new item with the specified type and variant.
+     *
+     * @param type the type of the item
+     * @param variant the variant of the item (an int (0, 1, 2) which identifies different images of items of the same type)
+     */
     public Item(Type type, int variant) {
         this.type = type;
         this.variant = variant;
     }
+
+    /**
+     * Constructor Item
+     */
     public Item() {}
 
     /**
@@ -40,15 +49,23 @@ public final class Item {
         return this.variant;
     }
 
+    /**
+     * setType is used to set the type of a certain item
+     */
     public void setType(Type type) {
         this.type = type;
     }
 
+    /**
+     * setVariant is used to set the variant of a certain item (variants identify different images of items of the same type)
+     */
     public void setVariant(int variant) {
         this.variant = variant;
     }
 
-    @JsonProperty("type")
+    /**
+     * setType is used to set the type of a certain item (JsonProperty)
+     */
     public void setType(String type) {
         this.type = Type.valueOf(type);
     }

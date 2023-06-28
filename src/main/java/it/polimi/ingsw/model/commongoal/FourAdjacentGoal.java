@@ -8,6 +8,10 @@ import it.polimi.ingsw.model.Shelf;
  */
 public class FourAdjacentGoal extends CommonGoalAbstract {
 
+    /**
+     * Constructor of FourAdjacentGoal
+     * @param numberPlayers the number of players
+     */
     public FourAdjacentGoal(int numberPlayers) {
         super(numberPlayers);
     }

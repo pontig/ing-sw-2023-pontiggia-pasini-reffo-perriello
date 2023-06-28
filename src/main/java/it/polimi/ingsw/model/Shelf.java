@@ -26,7 +26,10 @@ public class Shelf {
     private List<Integer> insertableColumns;
 
     /**
-     * Constructor of Shelf
+     * Constructs a new Shelf object.
+     *
+     * Initializes the items array with null values for each slot.
+     * Initializes the insertableColumns list as an empty list.
      */
     public Shelf() {
         this.items = new Item[5][6];
@@ -77,12 +80,12 @@ public class Shelf {
 
     /**
      * setItems sets on the shelf a matrix of items
+     * Must be used only for testing purposes
      *
      * @param items : matrix of items to be set
      */
 
     public void setItems(Item[][] items) {
-        // WARNING: Must be used only for testing purposes
         this.items = items;
     }
 
@@ -145,6 +148,10 @@ public class Shelf {
         }
     }
 
+    /**
+     * Sets the columns where it is possible to insert items
+     * @param cols is an array of insertablecolumns
+     */
     @JsonProperty("insertableColumns")
     public void setInsertableColumns(int[] cols) {
         this.insertableColumns = new ArrayList<>();
@@ -272,6 +279,11 @@ public class Shelf {
         }
     }
 
+    /**
+     * toString it's used to have a representation of the shelf as a string
+     *
+     * @return The string representation of the shelf, showing the items present on each position.
+     */
     public String toString() {
         StringBuilder shelf = new StringBuilder(" ");
         for (int i = 0; i < 6; i++) {
@@ -311,8 +323,9 @@ public class Shelf {
 
     /**
      * columnsToString creates a string that represents the columns of the shelf
-     * @param choice
-     * @return
+     *
+     * @param choice the selected column
+     * @return the string representation of the insertable columns, with a special symbol for the selected column.
      */
     public String columnsToString(int choice) {
         StringBuilder columns = new StringBuilder(" ");

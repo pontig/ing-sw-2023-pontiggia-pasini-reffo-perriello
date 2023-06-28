@@ -14,6 +14,10 @@ import java.util.List;
 public class Square2x2Goal extends CommonGoalAbstract {
     List<Type> types;
 
+    /**
+     * Constructor of Square2x2Goal: initializes and fills a list of type
+     * @param numberPlayers the number of players
+     */
     public Square2x2Goal(int numberPlayers) {
         super(numberPlayers);
         types = new ArrayList<>();
@@ -36,6 +40,10 @@ public class Square2x2Goal extends CommonGoalAbstract {
     c
     */
 
+    /**
+     * @param shelf the shelf to check
+     * @return if the shelf has two groups each containing 4 tiles of the same type in a 2x2 square (The tiles of one square are the same from those of the other square.)
+     */
     public boolean specificGoal(Shelf shelf) {
         int counter = 0;
         Shelf shelfClone;

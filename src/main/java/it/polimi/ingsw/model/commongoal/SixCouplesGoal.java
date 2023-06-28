@@ -16,6 +16,10 @@ import java.util.List;
 public class SixCouplesGoal extends CommonGoalAbstract {
     List<Type> types;
 
+    /**
+     * Constructor of SixCouplesGoal: initializes and fills a list
+     * @param numberPlayers the number of players
+     */
     public SixCouplesGoal(int numberPlayers) {
         super(numberPlayers);
         types = new ArrayList<>();
@@ -27,6 +31,10 @@ public class SixCouplesGoal extends CommonGoalAbstract {
         types.add(Type.TROPHY);
     }
 
+    /**
+     * @param shelf the shelf to check
+     * @return if the shelf has six groups each containing at least 2 tiles of the same type (The tiles of one group can be different from those of another group)
+     */
     public boolean specificGoal(Shelf shelf) throws IllegalArgumentException {
         Shelf shelfClone;
         Item[][] playerShelf;

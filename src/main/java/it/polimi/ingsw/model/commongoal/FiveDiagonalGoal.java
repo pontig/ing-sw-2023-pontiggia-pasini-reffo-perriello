@@ -8,6 +8,10 @@ import it.polimi.ingsw.model.Shelf;
  * Five tiles of the same type forming a diagonal.
  */
 public class FiveDiagonalGoal extends CommonGoalAbstract {
+    /**
+     * Constructor of FiveDiagonalGoal
+     * @param numberPlayers the number of players
+     */
     public FiveDiagonalGoal(int numberPlayers){ super(numberPlayers); }
 
     /*
@@ -20,6 +24,11 @@ public class FiveDiagonalGoal extends CommonGoalAbstract {
        5 x x x x a         5 a x x x x
 
     */
+
+    /**
+     * @param shelf the shelf to check
+     * @return if the shelf has five tiles of the same type forming a diagonal
+     */
     @Override
     public boolean specificGoal(Shelf shelf) {
         int counter = 1;
