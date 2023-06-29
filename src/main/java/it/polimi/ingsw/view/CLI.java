@@ -398,8 +398,8 @@ public class CLI extends View {
                                 command = "cmd /c start java -jar TerminalServer.jar";
                             } else if (os.contains("nix") || os.contains("nux")) {
                                 //On Linux
-                                //command = "x-terminal-emulator -e java -jar ./TerminalServer.jar";
-                                command = "x-terminal-emulator -e java -jar /home/tommi/Scrivania/IngSW_Tommi/MyShelfie/TerminalServer.jar";
+                                command = "x-terminal-emulator -e java -jar ./TerminalServer.jar";
+                                //command = "x-terminal-emulator -e java -jar /home/tommi/Scrivania/IngSW_Tommi/MyShelfie/TerminalServer.jar";
 
                             } else if (os.contains("mac")) {
                                 //On macOS
