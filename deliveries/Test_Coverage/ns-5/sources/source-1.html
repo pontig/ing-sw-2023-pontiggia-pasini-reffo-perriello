@@ -1,0 +1,192 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Bag</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Bag (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Bag</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (4/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    65%
+  </span>
+  <span class="absValue">
+    (13/20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.model;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonProperty;
+&nbsp;import it.polimi.ingsw.enums.Type;
+&nbsp;import it.polimi.ingsw.tuples.Pair;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.LinkedHashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Random;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * Bag is the class that represents the bag of the game
+&nbsp; * It contains all the items that will be drawn during the game
+&nbsp; */
+&nbsp;public class Bag {
+&nbsp;
+&nbsp;    private List&lt;Pair&lt;Item, Integer&gt;&gt; items;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructs a new bag
+&nbsp;     *
+&nbsp;     * Initializes the items in the bag with their initial quantities.
+&nbsp;     * The bag contains a predetermined number of items for each type and variant.
+&nbsp;     * The quantities are initialized as follows:
+&nbsp;     * - 7 items of variant 0 for each type
+&nbsp;     * - 7 items of variant 1 for each type
+&nbsp;     * - 8 items of variant 2 for each type
+&nbsp;     */
+<b class="fc">&nbsp;    public Bag() {</b>
+&nbsp;
+<b class="fc">&nbsp;        this.items = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        Type[] types = Type.values();</b>
+<b class="fc">&nbsp;        for (Type type : types) {</b>
+<b class="fc">&nbsp;            items.add(new Pair&lt;&gt;(new Item(type, 0), 7));</b>
+<b class="fc">&nbsp;            items.add(new Pair&lt;&gt;(new Item(type, 1), 7));</b>
+<b class="fc">&nbsp;            items.add(new Pair&lt;&gt;(new Item(type, 2), 8));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * setItems is used to fill the bag with all the items at the start of the game
+&nbsp;     *
+&nbsp;     * @param items: List of items that will be put in the bag (Integer indicates how many items of a certain variant will be contained in the bag)
+&nbsp;     */
+&nbsp;    public void setItems(List&lt;Pair&lt;Item, Integer&gt;&gt; items) {
+<b class="fc">&nbsp;        this.items = items;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Restore the items in the bag after a crash of the server
+&nbsp;     *
+&nbsp;     * @param items the list of the items before the crash
+&nbsp;     */
+&nbsp;    @JsonProperty
+&nbsp;    public void restoreItems(List&lt;Object&gt; items) {
+<b class="nc">&nbsp;        this.items = items.stream()</b>
+<b class="nc">&nbsp;                .map(e -&gt; {</b>
+<b class="nc">&nbsp;                    Integer second = ((LinkedHashMap&lt;String, Integer&gt;) e).get(&quot;y&quot;);</b>
+<b class="nc">&nbsp;                    Type t = Type.valueOf((String) ((LinkedHashMap&lt;String, String&gt;) ((LinkedHashMap&lt;String, Object&gt;) e).get(&quot;x&quot;)).get(&quot;type&quot;));</b>
+<b class="nc">&nbsp;                    Integer v = ((LinkedHashMap&lt;String, Integer&gt;) ((LinkedHashMap&lt;String, Object&gt;) e).get(&quot;x&quot;)).get(&quot;variant&quot;);</b>
+<b class="nc">&nbsp;                    return (new Pair&lt;Item, Integer&gt;(new Item(t,v), second));</b>
+<b class="nc">&nbsp;                }).collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getItems is used to get all the items contained in the bag
+&nbsp;     *
+&nbsp;     * @return a List of items
+&nbsp;     */
+&nbsp;    public List&lt;Pair&lt;Item, Integer&gt;&gt; getItems() {
+<b class="fc">&nbsp;        return this.items;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * draw is used to draw a random element from the bag
+&nbsp;     *
+&nbsp;     * @return a certain item drawn from the bag
+&nbsp;     */
+&nbsp;    public Item draw() {
+<b class="fc">&nbsp;        Random generator = new Random();</b>
+&nbsp;
+<b class="fc">&nbsp;        Pair&lt;Item, Integer&gt; randomItem = items.get(Math.abs(generator.nextInt() % items.size()));</b>
+<b class="fc">&nbsp;        randomItem.setY(randomItem.getY() - 1);</b>
+<b class="fc">&nbsp;        return randomItem.getX();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

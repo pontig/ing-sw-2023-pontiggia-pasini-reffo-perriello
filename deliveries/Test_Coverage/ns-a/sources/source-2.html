@@ -1,0 +1,208 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ObservableView</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.observer</a>
+</div>
+
+<h1>Coverage Summary for Class: ObservableView (it.polimi.ingsw.observer)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ObservableView</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.observer;
+&nbsp;
+&nbsp;import java.util.Vector;
+&nbsp;
+&nbsp;/**
+&nbsp; * The ObservableView class represents an observable view in the observer pattern
+&nbsp; *
+&nbsp; * @param &lt;Message&gt; the type of the message sent to the observers
+&nbsp; */
+&nbsp;public class ObservableView&lt;Message&gt; {
+<b class="nc">&nbsp;    private boolean changed = false;</b>
+&nbsp;    private Vector&lt;ObserverView&lt;? extends ObservableView&lt;Message&gt;, Message&gt;&gt; observers;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructs a new ObservableView
+&nbsp;     */
+<b class="nc">&nbsp;    public ObservableView() {</b>
+<b class="nc">&nbsp;        observers = new Vector&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds an observer to the observable view
+&nbsp;     *
+&nbsp;     * @param o the observer to add
+&nbsp;     */
+&nbsp;    public synchronized void addObserverView(ObserverView&lt;? extends ObservableView&lt;Message&gt;, Message&gt; o) {
+<b class="nc">&nbsp;        if (o == null)</b>
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+<b class="nc">&nbsp;        if (!observers.contains(o)) {</b>
+<b class="nc">&nbsp;            observers.addElement(o);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Deletes an observer from the observable view
+&nbsp;     *
+&nbsp;     * @param o the observer to delete
+&nbsp;     */
+&nbsp;    public synchronized void deleteObserverView(ObserverView&lt;? extends ObservableView&lt;Message&gt;, Message&gt; o) {
+<b class="nc">&nbsp;        observers.removeElement(o);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Notifies all observers without passing any message
+&nbsp;     */
+&nbsp;    public void notifyObserversView() {
+<b class="nc">&nbsp;        notifyObserversView(null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Notifies all observers with the specified message
+&nbsp;     *
+&nbsp;     * @param arg the message to pass to the observers
+&nbsp;     */
+&nbsp;    public void notifyObserversView(Message arg) {
+&nbsp;        Object[] arrLocal;
+&nbsp;
+<b class="nc">&nbsp;        synchronized (this) {</b>
+<b class="nc">&nbsp;            if (!changed)</b>
+<b class="nc">&nbsp;                return;</b>
+<b class="nc">&nbsp;            arrLocal = observers.toArray();</b>
+<b class="nc">&nbsp;            clearChangedView();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        //System.out.println(&quot;Sono nell&#39;observer&quot;);
+&nbsp;        //for (int i = arrLocal.length - 1; i &gt;= 0; i--)
+&nbsp;        //    System.out.println((ObserverView&lt;ObservableView&lt;Message&gt;, Message&gt;) arrLocal[i]);
+&nbsp;        //System.out.println(&quot;Fine&quot;);
+<b class="nc">&nbsp;        for (int i = arrLocal.length - 1; i &gt;= 0; i--)</b>
+<b class="nc">&nbsp;            ((ObserverView&lt;ObservableView&lt;Message&gt;, Message&gt;) arrLocal[i]).updateC(this, arg);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the changed flag to indicate that this observable view has changed
+&nbsp;     */
+&nbsp;    public synchronized void setChangedView() {
+<b class="nc">&nbsp;        changed = true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if this observable view has changed
+&nbsp;     *
+&nbsp;     * @return true if the view has changed, false otherwise
+&nbsp;     */
+&nbsp;    public synchronized boolean hasChangedView() {
+<b class="nc">&nbsp;        return changed;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Clears the changed flag to indicate that this observable view has no longer changed
+&nbsp;     */
+&nbsp;    protected synchronized void clearChangedView() {
+<b class="nc">&nbsp;        changed = false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the list of observers of this observable view
+&nbsp;     *
+&nbsp;     * @return the list of observers
+&nbsp;     */
+&nbsp;    public Vector&lt;ObserverView&lt;? extends ObservableView&lt;Message&gt;, Message&gt;&gt; getObservers() {
+<b class="nc">&nbsp;        return observers;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

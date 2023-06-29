@@ -1,0 +1,476 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Shelf</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Shelf (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Shelf</td>
+<td class="coverageStat">
+  <span class="percent">
+    89,5%
+  </span>
+  <span class="absValue">
+    (17/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96,4%
+  </span>
+  <span class="absValue">
+    (108/112)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Shelf$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (18/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96,5%
+  </span>
+  <span class="absValue">
+    (109/113)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.model;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonIgnore;
+&nbsp;import com.fasterxml.jackson.annotation.JsonProperty;
+&nbsp;import it.polimi.ingsw.enums.Type;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;/**
+&nbsp; * Shelf is a class that represents the shelf of a player
+&nbsp; * It contains a matrix of items and a list of insertable columns
+&nbsp; */
+&nbsp;public class Shelf {
+&nbsp;
+&nbsp;    /* ============ SHELF: ============
+&nbsp;    [ [0][0] [1][0] [2][0] [3][0] [4][0]
+&nbsp;      [0][1] [1][1] [2][1] [3][1] [4][1]
+&nbsp;      [0][2] [1][2] [2][2] [3][2] [4][2]
+&nbsp;      [0][3] [1][3] [2][3] [3][3] [4][3]
+&nbsp;      [0][4] [1][4] [2][4] [3][4] [4][4]
+&nbsp;      [0][5] [1][5] [2][5] [3][5] [4][5] ]
+&nbsp;    ======================================= */
+&nbsp;    private Item[][] items;
+&nbsp;    private List&lt;Integer&gt; insertableColumns;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructs a new Shelf object.
+&nbsp;     *
+&nbsp;     * Initializes the items array with null values for each slot.
+&nbsp;     * Initializes the insertableColumns list as an empty list.
+&nbsp;     */
+<b class="fc">&nbsp;    public Shelf() {</b>
+<b class="fc">&nbsp;        this.items = new Item[5][6];</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 5; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; 6; j++) {</b>
+<b class="fc">&nbsp;                items[i][j] = null;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        this.insertableColumns = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * clone creates a copy of the shelf
+&nbsp;     *
+&nbsp;     * @return a clone of the shelf
+&nbsp;     */
+&nbsp;
+&nbsp;    public Shelf clone() {
+<b class="fc">&nbsp;        Shelf clone = new Shelf();</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 5; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; 6; j++) {</b>
+<b class="fc">&nbsp;                clone.setItem(i, j, this.getItem(i, j));</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return clone;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * clear empties the shelf setting all the items to null
+&nbsp;     */
+&nbsp;    public void clear() {
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 5; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; 6; j++) {</b>
+<b class="fc">&nbsp;                setItem(i, j, null);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getItems is used to get a group of items from the shelf
+&nbsp;     *
+&nbsp;     * @return a matrix of items
+&nbsp;     */
+&nbsp;
+&nbsp;    public Item[][] getItems() {
+<b class="fc">&nbsp;        return this.items;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * setItems sets on the shelf a matrix of items
+&nbsp;     * Must be used only for testing purposes
+&nbsp;     *
+&nbsp;     * @param items : matrix of items to be set
+&nbsp;     */
+&nbsp;
+&nbsp;    public void setItems(Item[][] items) {
+<b class="fc">&nbsp;        this.items = items;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * insertItems inserts a list of items in a specific column of the shelf
+&nbsp;     *
+&nbsp;     * @param insertableItems : list of items to be inserted
+&nbsp;     * @param Column          : column where the items will be inserted
+&nbsp;     */
+&nbsp;    public void insertItems(List&lt;Item&gt; insertableItems, int Column) {
+<b class="fc">&nbsp;        for (int r = 5; r &gt;= 0; r--) {</b>
+<b class="fc">&nbsp;            if (items[Column][r] == null) {</b>
+<b class="fc">&nbsp;                int index = 0;</b>
+<b class="fc">&nbsp;                for (int j = r; j &gt; r - insertableItems.size(); j--) {</b>
+<b class="fc">&nbsp;                    items[Column][j] = insertableItems.get(index);</b>
+<b class="fc">&nbsp;                    index++;</b>
+&nbsp;                }
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        this.insertableColumns.clear();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * insertItem is the same as the previous one, but it inserts only one item(used for testing)
+&nbsp;     *
+&nbsp;     * @param item   : item to be inserted
+&nbsp;     * @param column : column where the item will be inserted
+&nbsp;     */
+&nbsp;    public void insertItem(Item item, int column) {
+<b class="fc">&nbsp;        for (int r = 5; r &gt;= 0; r--) {</b>
+<b class="fc">&nbsp;            if (items[column][r] == null) {</b>
+<b class="fc">&nbsp;                items[column][r] = item;</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * setInsertableColumns sets a list called &quot;insertableColumns&quot;, which contains the columns  where it is possible to insert
+&nbsp;     * a certain number of items
+&nbsp;     *
+&nbsp;     * @param numItems : number of items to be inserted
+&nbsp;     */
+&nbsp;    public void setInsertableColumns(int numItems) {
+<b class="fc">&nbsp;        int count = 0;</b>
+<b class="fc">&nbsp;        this.insertableColumns.clear();</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 5; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; 6; j++) {</b>
+<b class="fc">&nbsp;                if (items[i][j] == null) {</b>
+<b class="fc">&nbsp;                    count++;</b>
+&nbsp;                }
+<b class="fc">&nbsp;                if (count &gt;= numItems) {</b>
+<b class="fc">&nbsp;                    this.insertableColumns.add(i);</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            count = 0;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the columns where it is possible to insert items
+&nbsp;     * @param cols is an array of insertablecolumns
+&nbsp;     */
+&nbsp;    @JsonProperty(&quot;insertableColumns&quot;)
+&nbsp;    public void setInsertableColumns(int[] cols) {
+<b class="nc">&nbsp;        this.insertableColumns = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getInsertableColumns gives back the list created by the previous method
+&nbsp;     *
+&nbsp;     * @return the list &quot;insertableColumns&quot;, that contains the columns where it is possible to insert a certain number of items
+&nbsp;     * @see Shelf#setInsertableColumns(int)
+&nbsp;     */
+&nbsp;    public List&lt;Integer&gt; getInsertableColumns() {
+<b class="fc">&nbsp;        return this.insertableColumns;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getMaxFreeSpace checks row by row, what is the maximum number of free spaces in a column of the shelf;
+&nbsp;     * then it compares this number with 3
+&nbsp;     *
+&nbsp;     * @return this number if it is less than 3, otherwise it returns 3
+&nbsp;     */
+&nbsp;    @JsonIgnore
+&nbsp;    public int getMaxFreeSpace() {
+<b class="fc">&nbsp;        int countFreeSpace = 0;</b>
+<b class="fc">&nbsp;        int maxFreeColumn = 0;</b>
+<b class="fc">&nbsp;        for (int c = 0; c &lt; 5; c++) {</b>
+<b class="fc">&nbsp;            for (int r = 0; r &lt; 6; r++) {</b>
+<b class="fc">&nbsp;                if (items[c][r] == null) {</b>
+<b class="fc">&nbsp;                    countFreeSpace++;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            if (countFreeSpace &gt; maxFreeColumn) {</b>
+<b class="fc">&nbsp;                maxFreeColumn = countFreeSpace;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            countFreeSpace = 0;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return Math.min(maxFreeColumn, 3);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * dummy method, just to make the ObjectMapper work
+&nbsp;     *
+&nbsp;     * @param n whatever the json gives me
+&nbsp;     */
+&nbsp;    @JsonProperty(&quot;maxFreeSpace&quot;)
+&nbsp;    public void setMaxFreeSpace(int n) {
+<b class="nc">&nbsp;        return;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * setItem sets an item in a certain position (x, y) of the shelf
+&nbsp;     *
+&nbsp;     * @param x    : column
+&nbsp;     * @param y    : row
+&nbsp;     * @param item : item to be inserted
+&nbsp;     */
+&nbsp;    public void setItem(int x, int y, Item item) {
+<b class="fc">&nbsp;        this.items[x][y] = item;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getItem gives back the item in a certain position of the shelf
+&nbsp;     *
+&nbsp;     * @param x : column
+&nbsp;     * @param y : row
+&nbsp;     * @return the item in the position (x, y) of the shelf
+&nbsp;     */
+&nbsp;    public Item getItem(int x, int y) {
+<b class="fc">&nbsp;        return this.items[x][y];</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getColumns creates a List of columns, where each column is a List of items
+&nbsp;     *
+&nbsp;     * @return an ArrayList of ArrayLists of items, where each ArrayList contains the items of a column
+&nbsp;     */
+&nbsp;    public ArrayList&lt;ArrayList&lt;Item&gt;&gt; getColumns() {
+<b class="fc">&nbsp;        ArrayList&lt;ArrayList&lt;Item&gt;&gt; columns = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 5; i++) {</b>
+<b class="fc">&nbsp;            ArrayList&lt;Item&gt; column = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; 6; j++) {</b>
+<b class="fc">&nbsp;                column.add(items[i][j]);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            columns.add(column);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return columns;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getRows creates a List of rows, where each row is a List of items
+&nbsp;     *
+&nbsp;     * @return an ArrayList of ArrayLists of items, where each ArrayList contains the items of a row
+&nbsp;     */
+&nbsp;    public ArrayList&lt;ArrayList&lt;Item&gt;&gt; getRows() {
+<b class="fc">&nbsp;        ArrayList&lt;ArrayList&lt;Item&gt;&gt; rows = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (int r = 0; r &lt; 6; r++) {</b>
+<b class="fc">&nbsp;            ArrayList&lt;Item&gt; row = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;            for (int c = 0; c &lt; 5; c++) {</b>
+<b class="fc">&nbsp;                row.add(items[c][r]);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            rows.add(row);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return rows;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * adjacent analyzes the items of the shelf and counts how many items of a certain type are adjacent to each other
+&nbsp;     *
+&nbsp;     * @param x    : column
+&nbsp;     * @param y    : row
+&nbsp;     * @param type : type of the items to be analyzed
+&nbsp;     * @return the number of adjacent items of a certain type
+&nbsp;     */
+&nbsp;    public int adjacent(int x, int y, Type type) {
+<b class="fc">&nbsp;        if (x &lt; 0 || x &gt; 4 || y &lt; 0 || y &gt; 5 || this.getItem(x, y) == null ||</b>
+<b class="fc">&nbsp;                !Objects.equals(this.getItem(x, y).getType(), type)) {</b>
+<b class="fc">&nbsp;            return 0;</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            this.setItem(x, y, null);</b>
+<b class="fc">&nbsp;            int up = adjacent(x, y - 1, type);</b>
+<b class="fc">&nbsp;            int down = adjacent(x, y + 1, type);</b>
+<b class="fc">&nbsp;            int left = adjacent(x - 1, y, type);</b>
+<b class="fc">&nbsp;            int right = adjacent(x + 1, y, type);</b>
+<b class="fc">&nbsp;            return 1 + up + down + left + right;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * toString it&#39;s used to have a representation of the shelf as a string
+&nbsp;     *
+&nbsp;     * @return The string representation of the shelf, showing the items present on each position.
+&nbsp;     */
+&nbsp;    public String toString() {
+<b class="fc">&nbsp;        StringBuilder shelf = new StringBuilder(&quot; &quot;);</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 6; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; 5; j++) {</b>
+<b class="fc">&nbsp;                if (getItems()[j][i] != null) {</b>
+<b class="fc">&nbsp;                    switch (getItems()[j][i].getType()) {</b>
+&nbsp;                        case BOOK:
+<b class="fc">&nbsp;                            shelf.append(&quot;W&quot;).append(getItems()[j][i].getVariant());</b>
+<b class="fc">&nbsp;                            break;</b>
+&nbsp;                        case CAT:
+<b class="fc">&nbsp;                            shelf.append(&quot;G&quot;).append(getItems()[j][i].getVariant());</b>
+<b class="fc">&nbsp;                            break;</b>
+&nbsp;                        case FRAME:
+<b class="fc">&nbsp;                            shelf.append(&quot;B&quot;).append(getItems()[j][i].getVariant());</b>
+<b class="fc">&nbsp;                            break;</b>
+&nbsp;                        case GAME:
+<b class="fc">&nbsp;                            shelf.append(&quot;Y&quot;).append(getItems()[j][i].getVariant());</b>
+<b class="fc">&nbsp;                            break;</b>
+&nbsp;                        case PLANTS:
+<b class="fc">&nbsp;                            shelf.append(&quot;P&quot;).append(getItems()[j][i].getVariant());</b>
+<b class="fc">&nbsp;                            break;</b>
+&nbsp;                        case TROPHY:
+<b class="fc">&nbsp;                            shelf.append(&quot;L&quot;).append(getItems()[j][i].getVariant());</b>
+<b class="fc">&nbsp;                            break;</b>
+&nbsp;                        default:
+<b class="nc">&nbsp;                            System.out.println(&quot;Error&quot;);</b>
+<b class="nc">&nbsp;                            break;</b>
+&nbsp;                    }
+&nbsp;                } else
+<b class="fc">&nbsp;                    shelf.append(&#39;■&#39;).append(&quot; &quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (i != 5) shelf.append(&quot;\n &quot;);</b>
+<b class="fc">&nbsp;            else shelf.append(&quot;\n&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return shelf.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * columnsToString creates a string that represents the columns of the shelf
+&nbsp;     *
+&nbsp;     * @param choice the selected column
+&nbsp;     * @return the string representation of the insertable columns, with a special symbol for the selected column.
+&nbsp;     */
+&nbsp;    public String columnsToString(int choice) {
+<b class="fc">&nbsp;        StringBuilder columns = new StringBuilder(&quot; &quot;);</b>
+<b class="fc">&nbsp;        boolean equals = false;</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 5; i++) {</b>
+<b class="fc">&nbsp;            for (int c : getInsertableColumns()) {</b>
+<b class="fc">&nbsp;                if (c == i) {</b>
+<b class="fc">&nbsp;                    if (c == choice) columns.append(&quot;#&quot;).append(&quot; &quot;);</b>
+<b class="fc">&nbsp;                    else columns.append(&quot;▲&quot;).append(&quot; &quot;);</b>
+<b class="fc">&nbsp;                    equals = true;</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;            if (!equals) columns.append(&quot;  &quot;);</b>
+<b class="fc">&nbsp;            equals = false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return columns.toString();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

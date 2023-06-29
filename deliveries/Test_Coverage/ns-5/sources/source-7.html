@@ -1,0 +1,293 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Player</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Player (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Player</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86,7%
+  </span>
+  <span class="absValue">
+    (13/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    79,2%
+  </span>
+  <span class="absValue">
+    (38/48)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.model;
+&nbsp;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonProperty;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;import it.polimi.ingsw.assets.PersonalGoalJson;
+&nbsp;import it.polimi.ingsw.enums.Type;
+&nbsp;import it.polimi.ingsw.network.server.ServerImpl;
+&nbsp;import it.polimi.ingsw.tuples.Triplet;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Objects;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * Player is a class that represents a player
+&nbsp; * it contains every information about the player
+&nbsp; */
+&nbsp;public class Player {
+&nbsp;    private  String nickname;
+&nbsp;    private Shelf shelf;
+&nbsp;    private PersonalGoal personalGoal;
+&nbsp;    private int firstCommonScore;
+&nbsp;    private int secondCommonScore;
+&nbsp;    private int endGameToken;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor of Player
+&nbsp;     * @param nickname the nickname of the player
+&nbsp;     * @param personalGoal the personal goal of the player
+&nbsp;     */
+<b class="fc">&nbsp;    public Player(String nickname, PersonalGoal personalGoal) {</b>
+<b class="fc">&nbsp;        this.nickname = nickname;</b>
+<b class="fc">&nbsp;        this.shelf = new Shelf();</b>
+<b class="fc">&nbsp;        this.personalGoal = personalGoal;</b>
+<b class="fc">&nbsp;        this.firstCommonScore = 0;</b>
+<b class="fc">&nbsp;        this.secondCommonScore = 0;</b>
+<b class="fc">&nbsp;        this.endGameToken = 0;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    public Player() {}</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the nickname
+&nbsp;     * @return the nickname of the player
+&nbsp;     */
+&nbsp;    public String getNickname() {
+<b class="fc">&nbsp;        return this.nickname;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the personal goal
+&nbsp;     * @return the personal goal of the player
+&nbsp;     */
+&nbsp;    public PersonalGoal getPersonalGoal() {
+<b class="fc">&nbsp;        return this.personalGoal;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the shelf
+&nbsp;     * @return the shelf of the player
+&nbsp;     */
+&nbsp;    public Shelf getShelf() {
+<b class="fc">&nbsp;        return this.shelf;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the first common score
+&nbsp;     * @return the first common score of the player
+&nbsp;     */
+&nbsp;    public int getFirstCommonScore() {
+<b class="fc">&nbsp;        return this.firstCommonScore;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the first common score
+&nbsp;     * @param firstCommonScore the first common score of the player
+&nbsp;     */
+&nbsp;    public void setFirstCommonScore(int firstCommonScore) {
+<b class="fc">&nbsp;        this.firstCommonScore = firstCommonScore;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the second common score
+&nbsp;     * @return the second common score of the player
+&nbsp;     */
+&nbsp;    public int getSecondCommonScore() {
+<b class="fc">&nbsp;        return this.secondCommonScore;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the second common score
+&nbsp;     * @param secondCommonScore the second common score of the player
+&nbsp;     */
+&nbsp;    public void setSecondCommonScore(int secondCommonScore) {
+<b class="fc">&nbsp;        this.secondCommonScore = secondCommonScore;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the end game token
+&nbsp;     * @return the end game token of the player
+&nbsp;     */
+&nbsp;    public int getEndGameToken() {
+<b class="fc">&nbsp;        return this.endGameToken;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the end game token
+&nbsp;     * @param endGameToken the end game token of the player
+&nbsp;     */
+&nbsp;    public void setEndGameToken(int endGameToken) {
+<b class="fc">&nbsp;        this.endGameToken = endGameToken;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * At the end of the match, the method computes the final score of the player
+&nbsp;     * @return the final score of the player
+&nbsp;     */
+&nbsp;    public int computeFinalScore() {
+<b class="fc">&nbsp;        int pg = this.personalGoalCheck();</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Player: &quot; + getNickname() +</b>
+&nbsp;                            &quot;\nFirst: &quot; + this.firstCommonScore +
+&nbsp;                            &quot;\nSecond: &quot; + this.secondCommonScore +
+&nbsp;                            &quot;\nEndGame: &quot; + this.endGameToken +
+&nbsp;                            &quot;\nPersonal: &quot; + pg +
+<b class="fc">&nbsp;                            &quot;\nAdiacenze: &quot; + this.adjacentScore());</b>
+<b class="fc">&nbsp;        return this.firstCommonScore</b>
+&nbsp;                + this.secondCommonScore
+&nbsp;                + this.endGameToken
+&nbsp;                + pg
+<b class="fc">&nbsp;                + this.adjacentScore();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The method checks if the player has completed the personal goal
+&nbsp;     * @return the number of points obtained by the player
+&nbsp;     */
+&nbsp;    private int personalGoalCheck() {
+<b class="fc">&nbsp;        int[] pointGrid = new int[]{0, 1, 2, 4, 6, 9, 12};</b>
+<b class="fc">&nbsp;        int obtained = personalGoal.pg</b>
+<b class="fc">&nbsp;                .stream()</b>
+<b class="fc">&nbsp;                .mapToInt(a -&gt; (shelf.getItem(a._x, a._y) != null &amp;&amp; shelf.getItem(a._x, a._y).getType() == a._z) ? 1 : 0)</b>
+<b class="fc">&nbsp;                .sum();</b>
+<b class="fc">&nbsp;        return pointGrid[obtained];</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that counts the number of adjacent items of the same type and assigns points accordingly
+&nbsp;     * @return the total number of points obtained by the player for the adjacent items
+&nbsp;     */
+&nbsp;    private int adjacentScore() {
+&nbsp;        // create a copy of the shelf
+<b class="fc">&nbsp;        Shelf copy = shelf.clone();</b>
+<b class="fc">&nbsp;        int res = 0;</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 5; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; 6; j++) {</b>
+<b class="fc">&nbsp;                if (copy.getItem(i, j) != null) {</b>
+<b class="fc">&nbsp;                    int adj = copy.adjacent(i, j, copy.getItem(i, j).getType());</b>
+<b class="fc">&nbsp;                    if (adj == 3) res += 2;</b>
+<b class="fc">&nbsp;                    else if (adj == 4) res += 3;</b>
+<b class="fc">&nbsp;                    else if (adj == 5) res += 5;</b>
+<b class="fc">&nbsp;                    else if (adj &gt;= 6) res += 8;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return res;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Helps the deserialization of the class
+&nbsp;     * @param which the personal goal of the player
+&nbsp;     */
+&nbsp;    @JsonProperty(&quot;personalGoal&quot;)
+&nbsp;    public void setPersonalGoal (Map&lt;String, Object&gt; which) {
+&nbsp;        PersonalGoalJson[] personalGoalJsonArray;
+<b class="nc">&nbsp;        int cardinality = (int) which.get(&quot;which&quot;);</b>
+<b class="nc">&nbsp;        ObjectMapper objectMapper = new ObjectMapper();</b>
+&nbsp;        try {
+<b class="nc">&nbsp;             personalGoalJsonArray = objectMapper.readValue(ServerImpl.class.getResourceAsStream(&quot;/json/personalGoals.json&quot;), PersonalGoalJson[].class);</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        PersonalGoalJson personalGoalJson = personalGoalJsonArray[cardinality-1];</b>
+<b class="nc">&nbsp;        Set&lt;Triplet&lt;Integer, Integer, Type&gt;&gt; pg = personalGoalJson.toSet();</b>
+<b class="nc">&nbsp;        this.personalGoal = new PersonalGoal(pg, cardinality);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

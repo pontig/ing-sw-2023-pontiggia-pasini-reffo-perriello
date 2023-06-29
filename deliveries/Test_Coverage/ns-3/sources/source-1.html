@@ -1,0 +1,359 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GameController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: GameController (it.polimi.ingsw.controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameController</td>
+<td class="coverageStat">
+  <span class="percent">
+    94,1%
+  </span>
+  <span class="absValue">
+    (16/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83,6%
+  </span>
+  <span class="absValue">
+    (46/55)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GameController$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    94,4%
+  </span>
+  <span class="absValue">
+    (17/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83,9%
+  </span>
+  <span class="absValue">
+    (47/56)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.controller;
+&nbsp;
+&nbsp;import it.polimi.ingsw.enums.State;
+&nbsp;import it.polimi.ingsw.model.Game;
+&nbsp;import it.polimi.ingsw.model.Player;
+&nbsp;import it.polimi.ingsw.network.client.Client;
+&nbsp;import it.polimi.ingsw.network.messages.Message;
+&nbsp;import it.polimi.ingsw.network.messages.SendChatMessage;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public class GameController {                                                                   //extends Observer
+&nbsp;    private Game game;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor of GameController
+&nbsp;     *
+&nbsp;     * @param model  game model
+&nbsp;     * @param client client
+&nbsp;     */
+<b class="fc">&nbsp;    public GameController(Game model, Client client) {</b>
+<b class="fc">&nbsp;        this.game = model;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the game
+&nbsp;     *
+&nbsp;     * @return game
+&nbsp;     */
+&nbsp;    public Game getGame() {
+<b class="fc">&nbsp;        return this.game;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the game
+&nbsp;     *
+&nbsp;     * @param game the game to set
+&nbsp;     */
+&nbsp;    public void setGame(Game game) {
+<b class="fc">&nbsp;        this.game = game;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Insert a new player in the game
+&nbsp;     *
+&nbsp;     * @param nickname nickname of the player
+&nbsp;     * @see Game#insertPlayer(String)
+&nbsp;     */
+&nbsp;    public void setPlayer(String nickname) {
+<b class="fc">&nbsp;        getGame().insertPlayer(nickname);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the number of players in the game
+&nbsp;     *
+&nbsp;     * @param nickname   nickname of the player
+&nbsp;     * @param numPlayers number of players
+&nbsp;     * @see Game#setNumberOfPlayers(String, int)
+&nbsp;     */
+&nbsp;    public void setNumPlayers(String nickname, int numPlayers) {
+<b class="fc">&nbsp;        getGame().setNumberOfPlayers(nickname, numPlayers);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Starts the game
+&nbsp;     *
+&nbsp;     * @see Game#startGame()
+&nbsp;     */
+&nbsp;    public void gameReadyToStart() {
+<b class="fc">&nbsp;        getGame().startGame();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Event handler for the selection of one item on the board
+&nbsp;     *
+&nbsp;     * @param x x coordinate of the item
+&nbsp;     * @param y y coordinate of the item
+&nbsp;     * @see Game#itemClick(int, int)
+&nbsp;     */
+&nbsp;    public void onItemClick(int x, int y) {
+<b class="fc">&nbsp;        getGame().itemClick(x, y);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Event handler for the confirmation of the selected items
+&nbsp;     *
+&nbsp;     * @see Game#confirmItems()
+&nbsp;     */
+&nbsp;    public void onConfirmItems() {
+<b class="fc">&nbsp;        getGame().confirmItems();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Event handler for the ordering of the selected items
+&nbsp;     *
+&nbsp;     * @param position position of the item
+&nbsp;     * @param action   action to perform
+&nbsp;     * @see Game#orderSelectedItem(int, int)
+&nbsp;     */
+&nbsp;    public void onOrderItem(int position, int action) {             //=&gt; UML inserire action nel controller
+<b class="fc">&nbsp;        getGame().orderSelectedItem(position, action);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Event handler for the selection of a column
+&nbsp;     *
+&nbsp;     * @param column column to select
+&nbsp;     * @see Game#selectColumn(int)
+&nbsp;     */
+&nbsp;    public void onColumnSelection(int column) {
+<b class="fc">&nbsp;        getGame().selectColumn(column);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Event handler for the confirmation of the insertion of the items in the shelf
+&nbsp;     *
+&nbsp;     * @see Game#confirmInsertion()
+&nbsp;     * @see GameController#endTurnCheck()
+&nbsp;     */
+&nbsp;    public void onConfirmInsertion() {
+<b class="fc">&nbsp;        getGame().confirmInsertion();</b>
+<b class="fc">&nbsp;        endTurnCheck();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if the game has to end and if not, passes the turn to the next player
+&nbsp;     */
+&nbsp;    private void endTurnCheck() {
+<b class="fc">&nbsp;        if (getGame().endTurnCheck())</b>
+<b class="nc">&nbsp;            endGame();</b>
+&nbsp;        else
+<b class="fc">&nbsp;            nextPlayer();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Passes the turn to the next player
+&nbsp;     *
+&nbsp;     * @see Game#nextPlayer()
+&nbsp;     */
+&nbsp;    private void nextPlayer() {
+<b class="fc">&nbsp;        getGame().nextPlayer();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ends the game
+&nbsp;     */
+&nbsp;    private void endGame() {
+<b class="nc">&nbsp;        getGame().endGame();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the observer
+&nbsp;     *
+&nbsp;     * @param o   the client that has to be updated
+&nbsp;     * @param arg the message to send
+&nbsp;     */
+&nbsp;    public void update(Client o, Message arg) {
+<b class="fc">&nbsp;        play(arg);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Event handler for the chat message
+&nbsp;     *
+&nbsp;     * @param from sender of the message
+&nbsp;     * @param to   receiver of the message
+&nbsp;     * @param text text of the message
+&nbsp;     * @see Game#sendChat(String, String, String)
+&nbsp;     */
+&nbsp;    private void onChatMessage(String from, String to, String text) {
+<b class="fc">&nbsp;        getGame().sendChat(from, to, text);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles the message received from the client
+&nbsp;     *
+&nbsp;     * @param arg the message received
+&nbsp;     */
+&nbsp;    private void play(Message arg) {
+<b class="fc">&nbsp;        State msg = arg.getInfo();</b>
+<b class="fc">&nbsp;        switch (msg) {</b>
+&nbsp;            case SET_NICKNAME:
+<b class="fc">&nbsp;                arg.printMsg();</b>
+<b class="fc">&nbsp;                setPlayer(arg.getNickname());</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            case SET_NUMPLAYERS:
+<b class="fc">&nbsp;                arg.printMsg();</b>
+<b class="fc">&nbsp;                setNumPlayers(arg.getNickname(), arg.getNumRowAction());</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            case GAME_READY:
+<b class="fc">&nbsp;                arg.printMsg();</b>
+<b class="fc">&nbsp;                gameReadyToStart();</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            case SELECT_ITEM:
+<b class="fc">&nbsp;                arg.printMsg();</b>
+<b class="fc">&nbsp;                onItemClick(arg.getColumnPos(), arg.getNumRowAction());</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            case CONFIRM_ITEMS:
+<b class="nc">&nbsp;                arg.printMsg();</b>
+<b class="nc">&nbsp;                onConfirmItems();</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            case SELECT_COLUMN:
+<b class="fc">&nbsp;                arg.printMsg();</b>
+<b class="fc">&nbsp;                onColumnSelection(arg.getColumnPos());</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            case ORDER_ITEM:
+<b class="fc">&nbsp;                arg.printMsg();</b>
+<b class="fc">&nbsp;                onOrderItem(arg.getColumnPos(), arg.getNumRowAction());</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            case CONFIRM_INSERTION:
+<b class="nc">&nbsp;                arg.printMsg();</b>
+<b class="nc">&nbsp;                onConfirmInsertion();</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            case CHAT_MESSAGE:
+<b class="fc">&nbsp;                arg.printMsg();</b>
+<b class="fc">&nbsp;                onChatMessage(((SendChatMessage) arg).getFrom(), ((SendChatMessage) arg).getTo(), ((SendChatMessage) arg).getText());</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            case CLIENT_DOWN:
+<b class="fc">&nbsp;                arg.printMsg();</b>
+<b class="fc">&nbsp;                System.out.println(&quot;Client disconnected: &quot; + arg.getNickname());</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            case PING:
+<b class="fc">&nbsp;                arg.printMsg();</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;
+&nbsp;            default:
+<b class="nc">&nbsp;                System.err.println(&quot;Ignoring event from &quot; + msg + &quot;: &quot; + arg);</b>
+&nbsp;                break;
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

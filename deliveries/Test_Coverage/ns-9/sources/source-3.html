@@ -1,0 +1,104 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Server</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.network.server</a>
+</div>
+
+<h1>Coverage Summary for Class: Server (it.polimi.ingsw.network.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Server</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.network.server;
+&nbsp;
+&nbsp;import it.polimi.ingsw.network.client.Client;
+&nbsp;import it.polimi.ingsw.network.messages.Message;
+&nbsp;
+&nbsp;import java.rmi.Remote;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;
+&nbsp;/**
+&nbsp; * The Server interface defines the operations that can be performed on the server-side.
+&nbsp; */
+&nbsp;public interface Server extends Remote {
+&nbsp;    /**
+&nbsp;     * Register a client to the server
+&nbsp;     *
+&nbsp;     * @param client the client to register
+&nbsp;     * @return true if the registration is successful, false otherwise
+&nbsp;     * @throws RemoteException if an error occurs during the remote method invocation
+&nbsp;     */
+&nbsp;    boolean register(Client client) throws RemoteException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Notify the server that a client has made a choice
+&nbsp;     *
+&nbsp;     * @param client  the client that generated the event
+&nbsp;     * @param arg     the choice made by the client
+&nbsp;     * @throws RemoteException if an error occurs during the remote method invocation
+&nbsp;     */
+&nbsp;    void updateModel(Client client, Message arg) throws RemoteException;  //Choice =&gt; definisce i messaggi view controller
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Pings the server to check its availability.
+&nbsp;     *
+&nbsp;     * @throws RemoteException if an error occurs during the remote method invocation
+&nbsp;     */
+&nbsp;    void ping() throws RemoteException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

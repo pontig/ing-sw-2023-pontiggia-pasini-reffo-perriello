@@ -1,0 +1,270 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SendDataToServer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.network.messages</a>
+</div>
+
+<h1>Coverage Summary for Class: SendDataToServer (it.polimi.ingsw.network.messages)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SendDataToServer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (6/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    57,1%
+  </span>
+  <span class="absValue">
+    (16/28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.network.messages;
+&nbsp;
+&nbsp;import it.polimi.ingsw.enums.State;
+&nbsp;
+&nbsp;/**
+&nbsp; * The SendDataToServer class represents a message sent from the client to the server
+&nbsp; * It implements the Message interface
+&nbsp; */
+&nbsp;public class SendDataToServer implements Message{
+<b class="fc">&nbsp;    State info = null;</b>
+<b class="fc">&nbsp;    String nickname = null;</b>
+<b class="fc">&nbsp;    int players_row_action = 0;</b>
+<b class="fc">&nbsp;    int column_position = 0;</b>
+<b class="fc">&nbsp;    boolean confirm = false;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructs a SendDataToServer object with the specified information
+&nbsp;     *
+&nbsp;     * @param info              the state information of the message
+&nbsp;     * @param nickname          the nickname associated with the message
+&nbsp;     * @param players_row_action the number of row action
+&nbsp;     * @param column_position   the column position
+&nbsp;     * @param confirm           the confirmation flag
+&nbsp;     */
+<b class="fc">&nbsp;    public SendDataToServer(State info, String nickname, int players_row_action, int column_position, boolean confirm){</b>
+<b class="fc">&nbsp;        this.info = info;</b>
+<b class="fc">&nbsp;        this.nickname = nickname;</b>
+<b class="fc">&nbsp;        this.players_row_action = players_row_action;</b>
+<b class="fc">&nbsp;        this.column_position = column_position;</b>
+<b class="fc">&nbsp;        this.confirm = confirm;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the state information associated with the message
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public State getInfo() {
+<b class="fc">&nbsp;        return this.info;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the nickname associated with the message
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getNickname() {
+<b class="fc">&nbsp;        return this.nickname;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the number of row action associated with the message
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int getNumRowAction() {
+<b class="fc">&nbsp;        return this.players_row_action;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the column position associated with the message
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int getColumnPos() {
+<b class="fc">&nbsp;        return this.column_position;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the confirmation flag associated with the message
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean getConfirm() {
+<b class="nc">&nbsp;        return this.confirm;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the message information
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void printMsg() {
+<b class="fc">&nbsp;        System.out.println(&quot;INFO Message: &quot; + getInfo());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the board information associated with the message
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getBoard() {
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the first commonGoal information associated with the message
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getFirstCommon() {
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the second commonGoal information associated with the message
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getSecondCommon() {
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the personalGoal information associated with the message
+&nbsp;     */
+&nbsp;    @Override
+<b class="nc">&nbsp;    public String getPersonal() {return null;}</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the selected information associated with the message
+&nbsp;     */
+&nbsp;    @Override
+<b class="nc">&nbsp;    public String getSelected() { return null; }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the shelf information associated with the message
+&nbsp;     */
+&nbsp;    @Override
+<b class="nc">&nbsp;    public String getShelf() { return null; }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the orderedRanking information associated with the message
+&nbsp;     */
+&nbsp;    @Override
+<b class="nc">&nbsp;    public String getOrderedRanking() { return null;}</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the columns information associated with the message
+&nbsp;     */
+&nbsp;    @Override
+<b class="nc">&nbsp;    public String getColumns() { return null; }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the &quot;to&quot; field of the message
+&nbsp;     * This method always returns null for the SendDataToClient class
+&nbsp;     *
+&nbsp;     * @return the &quot;to&quot; field of the message
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getTo() {
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the &quot;from&quot; field of the message
+&nbsp;     * This method always returns null for the SendDataToClient class
+&nbsp;     *
+&nbsp;     * @return the &quot;from&quot; field of the message
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getFrom() {
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the text content of the message
+&nbsp;     * This method always returns null for the SendDataToClient class
+&nbsp;     *
+&nbsp;     * @return the text content of the message
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getText() {
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

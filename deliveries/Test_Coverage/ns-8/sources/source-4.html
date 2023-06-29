@@ -1,0 +1,196 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Message</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.network.messages</a>
+</div>
+
+<h1>Coverage Summary for Class: Message (it.polimi.ingsw.network.messages)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Message</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.network.messages;
+&nbsp;
+&nbsp;import it.polimi.ingsw.enums.State;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;
+&nbsp;/**
+&nbsp; * The Message interface represents a serializable message used for communication between clients and the server
+&nbsp; */
+&nbsp;public interface Message extends Serializable {
+&nbsp;    /**
+&nbsp;     * Gets the state information from the message
+&nbsp;     *
+&nbsp;     * @return the state information
+&nbsp;     */
+&nbsp;    State getInfo();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the nickname from the message
+&nbsp;     *
+&nbsp;     * @return the nickname
+&nbsp;     */
+&nbsp;    String getNickname();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the number of row action from the message
+&nbsp;     *
+&nbsp;     * @return the number of row action
+&nbsp;     */
+&nbsp;    int getNumRowAction();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the column position from the message
+&nbsp;     *
+&nbsp;     * @return the column position
+&nbsp;     */
+&nbsp;    int getColumnPos();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the confirmation status from the message
+&nbsp;     *
+&nbsp;     * @return true if confirmed, false otherwise
+&nbsp;     */
+&nbsp;    boolean getConfirm();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the message
+&nbsp;     */
+&nbsp;    void printMsg();
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the board information from the message
+&nbsp;     *
+&nbsp;     * @return the board information
+&nbsp;     */
+&nbsp;    String getBoard();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the first common goal from the message
+&nbsp;     *
+&nbsp;     * @return the first common goal
+&nbsp;     */
+&nbsp;    String getFirstCommon();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the second common goal from the message
+&nbsp;     *
+&nbsp;     * @return the second common goal
+&nbsp;     */
+&nbsp;    String getSecondCommon();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the personal goal from the message
+&nbsp;     *
+&nbsp;     * @return the personal goal
+&nbsp;     */
+&nbsp;    String getPersonal();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the selected tool card from the message
+&nbsp;     *
+&nbsp;     * @return the selected tool card
+&nbsp;     */
+&nbsp;    String getSelected();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the shelf information from the message
+&nbsp;     *
+&nbsp;     * @return the shelf information
+&nbsp;     */
+&nbsp;    String getShelf();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the ordered ranking information from the message
+&nbsp;     *
+&nbsp;     * @return the ordered ranking information
+&nbsp;     */
+&nbsp;    String getOrderedRanking();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the columns information from the message
+&nbsp;     *
+&nbsp;     * @return the columns information
+&nbsp;     */
+&nbsp;    String getColumns();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the recipient of the message
+&nbsp;     *
+&nbsp;     * @return the recipient of the message
+&nbsp;     */
+&nbsp;    String getTo();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the sender of the message
+&nbsp;     *
+&nbsp;     * @return the sender of the message
+&nbsp;     */
+&nbsp;    String getFrom();
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the text of the message
+&nbsp;     *
+&nbsp;     * @return the text of the message
+&nbsp;     */
+&nbsp;    String getText();
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

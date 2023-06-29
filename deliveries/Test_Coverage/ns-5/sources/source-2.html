@@ -1,0 +1,661 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Board</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Board (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Board</td>
+<td class="coverageStat">
+  <span class="percent">
+    95%
+  </span>
+  <span class="absValue">
+    (19/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88,4%
+  </span>
+  <span class="absValue">
+    (205/232)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Board$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    95,2%
+  </span>
+  <span class="absValue">
+    (20/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88,4%
+  </span>
+  <span class="absValue">
+    (206/233)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.model;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonIgnore;
+&nbsp;import com.fasterxml.jackson.annotation.JsonProperty;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;import it.polimi.ingsw.enums.Type;
+&nbsp;import it.polimi.ingsw.network.server.ServerImpl;
+&nbsp;import it.polimi.ingsw.tuples.Pair;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Board is the class that represents the board of the game
+&nbsp; * &lt;p&gt;
+&nbsp; * It contains the matrix of cells that represents the board, the set of items that are currently pending and the
+&nbsp; * methods to manage them
+&nbsp; */
+&nbsp;public class Board {
+&nbsp;
+&nbsp;    private Cell[][] disposition;
+<b class="fc">&nbsp;    private static Cell[][] emptyBoard = new Cell[9][9];</b>
+&nbsp;    @JsonIgnore private Set&lt;Pair&lt;Integer, Integer&gt;&gt; pendingCells;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructs a new Board based on the provided matrix.
+&nbsp;     *
+&nbsp;     * @param matrix The matrix representing the board, where each value represents the circumstance of a cell.
+&nbsp;     *               Use 0 for unusable, 2 for two players, etc.
+&nbsp;     */
+<b class="fc">&nbsp;    public Board(int[][] matrix) {</b>
+<b class="fc">&nbsp;        emptyBoard = new Cell[9][9];</b>
+&nbsp;
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 9; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; 9; j++) {</b>
+<b class="fc">&nbsp;                emptyBoard[i][j] = new Cell(matrix[i][j]);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructs a new Board object.
+&nbsp;     *
+&nbsp;     * If the initial emptyBoard is not initialized, it loads the board matrix from a JSON file.
+&nbsp;     * The matrix represents the board: for every cell, the value represents the circumstance (0 for unusable, 2 for two players, etc.).
+&nbsp;     * The disposition of the board is then initialized based on the emptyBoard matrix, and pendingCells are set to an empty HashSet.
+&nbsp;     */
+<b class="fc">&nbsp;    public Board() {</b>
+&nbsp;
+<b class="fc">&nbsp;        if (emptyBoard[0][0] == null) {</b>
+<b class="nc">&nbsp;            ObjectMapper mapper = new ObjectMapper();</b>
+&nbsp;
+<b class="nc">&nbsp;            int[][] board = new int[0][];</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                board = mapper.readValue(ServerImpl.class.getResourceAsStream(&quot;/json/livingroom.json&quot;), int[][].class);</b>
+<b class="nc">&nbsp;            } catch (IOException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            new Board(board);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // matrix represents the board: for every cell, the value represent the circumstance (0 for unusable, 2 for two
+&nbsp;        // players etc.)
+<b class="fc">&nbsp;        this.disposition = new Cell[9][9];</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 9; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; 9; j++) {</b>
+<b class="fc">&nbsp;                disposition[i][j] = new Cell(emptyBoard[i][j].getCircumstance());</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        pendingCells = new HashSet&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * setDisposition is used to set, in every cell of the board, an item
+&nbsp;     *
+&nbsp;     * @param disposition: a matrix of Cell that need to be filled
+&nbsp;     */
+&nbsp;    public void setDisposition(Cell[][] disposition) {
+<b class="fc">&nbsp;        this.disposition = disposition;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the disposition of the board based on the provided JSON representation.
+&nbsp;     *
+&nbsp;     * @param JSONdisposition The JSON representation of the board&#39;s disposition.
+&nbsp;     */
+&nbsp;    @JsonProperty(&quot;disposition&quot;)
+&nbsp;    public void setDisposition(Object[][] JSONdisposition) {
+<b class="nc">&nbsp;        this.disposition = new Cell[9][9];</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; 9; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; 9; j++) {</b>
+<b class="nc">&nbsp;                LinkedHashMap&lt;String, Object&gt; cell = (LinkedHashMap&lt;String, Object&gt;) JSONdisposition[i][j];</b>
+<b class="nc">&nbsp;                LinkedHashMap&lt;String, Object&gt; content = (LinkedHashMap&lt;String, Object&gt;) cell.get(&quot;content&quot;);</b>
+<b class="nc">&nbsp;                    disposition[i][j] = new Cell((int) cell.get(&quot;circumstance&quot;));</b>
+<b class="nc">&nbsp;                if (content == null) {</b>
+<b class="nc">&nbsp;                    disposition[i][j].setContent(null);</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                       disposition[i][j].setContent(new Item(Type.valueOf((String) content.get(&quot;type&quot;)), (int) content.get(&quot;variant&quot;)));</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getDisposition is used to get the disposition of a certain cell from the board
+&nbsp;     *
+&nbsp;     * @return a matrix of cell
+&nbsp;     */
+&nbsp;    public Cell[][] getDisposition() {
+<b class="fc">&nbsp;        return this.disposition;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retrieves the cell at the specified coordinates on the board.
+&nbsp;     * This method should only be used for testing purposes.
+&nbsp;     *
+&nbsp;     * @param x The x-coordinate of the cell.
+&nbsp;     * @param y The y-coordinate of the cell.
+&nbsp;     * @return The cell at the specified coordinates.
+&nbsp;     */
+&nbsp;    public Cell getCell(int x, int y) {
+<b class="fc">&nbsp;        return disposition[y][x];</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the specified cell on the board with the given item and circumstance.
+&nbsp;     * This method should only be used for testing purposes.
+&nbsp;     *
+&nbsp;     * @param x           The x-coordinate of the cell.
+&nbsp;     * @param y           The y-coordinate of the cell.
+&nbsp;     * @param item        The item to be set in the cell.
+&nbsp;     * @param circumstance The circumstance value to be set for the cell.
+&nbsp;     */
+&nbsp;    public void setCell(int x, int y, Item item, int circumstance) {
+<b class="fc">&nbsp;        this.disposition[y][x] = new Cell(circumstance);</b>
+<b class="fc">&nbsp;        disposition[y][x].setContent(item);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * setPendingCells is used to set, in pendingCells, max 3 items
+&nbsp;     *
+&nbsp;     * @param pendingCells: a set of pair(items) that need to be set in pendingCells
+&nbsp;     */
+&nbsp;    public void setPendingCells(Set&lt;Pair&lt;Integer, Integer&gt;&gt; pendingCells) {
+<b class="fc">&nbsp;        this.pendingCells = pendingCells;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getPendingCells is used to get a set of pair (x and y of a certain item) which are currently pending
+&nbsp;     *
+&nbsp;     * @return a set of pair(items)
+&nbsp;     */
+&nbsp;    public Set&lt;Pair&lt;Integer, Integer&gt;&gt; getPendingCells() {
+<b class="fc">&nbsp;        return this.pendingCells;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * select is used to add in pendingCells an item
+&nbsp;     *
+&nbsp;     * @param x: row of the selected cell
+&nbsp;     * @param y: column of the selected cell
+&nbsp;     * @return the current size (after select) of the set of items (pendingCells)
+&nbsp;     */
+&nbsp;    public int select(int x, int y) {
+<b class="fc">&nbsp;        boolean sameLineOrColumn = false;</b>
+<b class="fc">&nbsp;        Pair&lt;Integer, Integer&gt; selectedPair = new Pair&lt;&gt;(x, y);</b>
+<b class="fc">&nbsp;        int sizePending = pendingCells.size();</b>
+<b class="fc">&nbsp;        if (adjacencyCheck(x, y) &amp;&amp; sizePending &lt; 3) {</b>
+<b class="fc">&nbsp;            if (pendingCells.isEmpty()) {</b>
+<b class="fc">&nbsp;                pendingCells.add(selectedPair);</b>
+<b class="fc">&nbsp;            } else if (sizePending == 1) {</b>
+<b class="fc">&nbsp;                for (Pair&lt;Integer, Integer&gt; pair : pendingCells) {</b>
+<b class="fc">&nbsp;                    if ((selectedPair.getX().equals(pair.getX() + 1) &amp;&amp; selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX() - 1) &amp;&amp; selectedPair.getY().equals(pair.getY())) || (selectedPair.getX().equals(pair.getX()) &amp;&amp; selectedPair.getY().equals(pair.getY() + 1)) || (selectedPair.getX().equals(pair.getX()) &amp;&amp; selectedPair.getY().equals(pair.getY() - 1))) {</b>
+<b class="fc">&nbsp;                        sameLineOrColumn = true;</b>
+&nbsp;                    } else {
+<b class="fc">&nbsp;                        sameLineOrColumn = false;</b>
+&nbsp;
+&nbsp;                    }
+<b class="fc">&nbsp;                }</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                List&lt;Pair&lt;Integer, Integer&gt;&gt; newList = new ArrayList&lt;&gt;(pendingCells);</b>
+<b class="fc">&nbsp;                if ((newList.get(0).getX() &gt; newList.get(1).getX() &amp;&amp; newList.get(0).getY() == newList.get(1).getY()) || (newList.get(0).getX() == newList.get(1).getX() &amp;&amp; newList.get(0).getY() &gt; newList.get(1).getY())) {</b>
+<b class="fc">&nbsp;                    int indice1 = 0;</b>
+<b class="fc">&nbsp;                    int indice2 = 1;</b>
+<b class="fc">&nbsp;                    Pair&lt;Integer, Integer&gt; pair0 = newList.get(indice1);</b>
+<b class="fc">&nbsp;                    Pair&lt;Integer, Integer&gt; pair1 = newList.get(indice2);</b>
+<b class="fc">&nbsp;                    newList.set(indice1, pair1);</b>
+<b class="fc">&nbsp;                    newList.set(indice2, pair0);</b>
+&nbsp;                }
+<b class="fc">&nbsp;                if (((selectedPair.getX().equals(newList.get(0).getX() + 2) || selectedPair.getX().equals(newList.get(0).getX() - 1)) &amp;&amp; selectedPair.getY().equals(newList.get(0).getY()) &amp;&amp; (selectedPair.getX().equals(newList.get(1).getX() + 1) || selectedPair.getX().equals(newList.get(1).getX() - 2)) &amp;&amp; selectedPair.getY().equals(newList.get(1).getY())) || (selectedPair.getX().equals(newList.get(0).getX()) &amp;&amp; (selectedPair.getY().equals(newList.get(0).getY() + 2) || selectedPair.getY().equals(newList.get(0).getY() - 1)) &amp;&amp; selectedPair.getX().equals(newList.get(1).getX()) &amp;&amp; (selectedPair.getY().equals(newList.get(1).getY() + 1) || selectedPair.getY().equals(newList.get(1).getY() - 2)))) {</b>
+<b class="fc">&nbsp;                    sameLineOrColumn = true;</b>
+&nbsp;                } else {
+<b class="fc">&nbsp;                    sameLineOrColumn = false;</b>
+&nbsp;                }
+<b class="fc">&nbsp;                Set&lt;Pair&lt;Integer, Integer&gt;&gt; pC = new LinkedHashSet&lt;&gt;();</b>
+<b class="fc">&nbsp;                pC.addAll(newList);</b>
+<b class="fc">&nbsp;                setPendingCells(pC);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        if (sameLineOrColumn) {</b>
+<b class="fc">&nbsp;            pendingCells.add(selectedPair);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return pendingCells.size();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * deselect is used to eliminate an item from pendingCells
+&nbsp;     *
+&nbsp;     * @param x: row of the selected item
+&nbsp;     * @param y: column of the selected item
+&nbsp;     * @return the current size (after deselect) of the set of items (pendingCells)
+&nbsp;     */
+&nbsp;    public int deselect(int x, int y) {
+<b class="fc">&nbsp;        Pair&lt;Integer, Integer&gt; selectedPair = new Pair&lt;&gt;(x, y);</b>
+<b class="fc">&nbsp;        boolean contains = false;</b>
+&nbsp;        boolean swapped;
+<b class="fc">&nbsp;        for (Pair&lt;Integer, Integer&gt; tmp : getPendingCells()) {</b>
+<b class="fc">&nbsp;            if (tmp.getX().equals(selectedPair.getX()) &amp;&amp; tmp.getY().equals(selectedPair.getY())) {</b>
+<b class="fc">&nbsp;                contains = true;</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        if (contains) {</b>
+<b class="fc">&nbsp;            int size = getPendingCells().size();</b>
+<b class="fc">&nbsp;            List&lt;Pair&lt;Integer, Integer&gt;&gt; newList = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;            for (Pair&lt;Integer, Integer&gt; tmp : getPendingCells()) {</b>
+<b class="fc">&nbsp;                newList.add(tmp);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;            if (size == 1 || size == 2) {</b>
+<b class="fc">&nbsp;                for (int i = 0; i &lt; size; i++) {</b>
+<b class="fc">&nbsp;                    if (newList.get(i).getX() == x &amp;&amp; newList.get(i).getY() == y) {</b>
+<b class="fc">&nbsp;                        newList.remove(i);</b>
+<b class="fc">&nbsp;                        break;</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            } else {
+<b class="fc">&nbsp;                if (newList.get(0).getX().equals(newList.get(1).getX())) {</b>
+<b class="fc">&nbsp;                    int pairX = newList.get(0).getX();</b>
+<b class="fc">&nbsp;                    int[] array = new int[size];</b>
+<b class="fc">&nbsp;                    for (int i = 0; i &lt; size; i++) {</b>
+<b class="fc">&nbsp;                        array[i] = newList.get(i).getY();</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    for (int i = 0; i &lt; size - 1; i++) {</b>
+<b class="fc">&nbsp;                        swapped = false;</b>
+<b class="fc">&nbsp;                        for (int j = 0; j &lt; size - i - 1; j++) {</b>
+<b class="fc">&nbsp;                            if (array[j] &gt; array[j + 1]) {</b>
+<b class="fc">&nbsp;                                int temp = array[j];</b>
+<b class="fc">&nbsp;                                array[j] = array[j + 1];</b>
+<b class="fc">&nbsp;                                array[j + 1] = temp;</b>
+<b class="fc">&nbsp;                                swapped = true;</b>
+&nbsp;                            }
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (!swapped) {</b>
+<b class="fc">&nbsp;                            break;</b>
+&nbsp;                        }
+&nbsp;                    }
+<b class="fc">&nbsp;                    newList.clear();</b>
+<b class="fc">&nbsp;                    for (int i = 0; i &lt; size; i++) {</b>
+<b class="fc">&nbsp;                        Pair&lt;Integer, Integer&gt; pair = new Pair&lt;&gt;(pairX, array[i]);</b>
+<b class="fc">&nbsp;                        newList.add(pair);</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                } else if (newList.get(0).getY().equals(newList.get(1).getY())) {</b>
+<b class="fc">&nbsp;                    int pairY = newList.get(0).getY();</b>
+<b class="fc">&nbsp;                    int[] array = new int[size];</b>
+<b class="fc">&nbsp;                    for (int i = 0; i &lt; size; i++) {</b>
+<b class="fc">&nbsp;                        array[i] = newList.get(i).getX();</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    for (int i = 0; i &lt; size - 1; i++) {</b>
+<b class="fc">&nbsp;                        swapped = false;</b>
+<b class="fc">&nbsp;                        for (int j = 0; j &lt; size - i - 1; j++) {</b>
+<b class="fc">&nbsp;                            if (array[j] &gt; array[j + 1]) {</b>
+<b class="fc">&nbsp;                                int temp = array[j];</b>
+<b class="fc">&nbsp;                                array[j] = array[j + 1];</b>
+<b class="fc">&nbsp;                                array[j + 1] = temp;</b>
+<b class="fc">&nbsp;                                swapped = true;</b>
+&nbsp;                            }
+&nbsp;                        }
+<b class="fc">&nbsp;                        if (!swapped) {</b>
+<b class="fc">&nbsp;                            break;</b>
+&nbsp;                        }
+&nbsp;                    }
+<b class="fc">&nbsp;                    newList.clear();</b>
+<b class="fc">&nbsp;                    for (int i = 0; i &lt; size; i++) {</b>
+<b class="fc">&nbsp;                        Pair&lt;Integer, Integer&gt; pair = new Pair&lt;&gt;(array[i], pairY);</b>
+<b class="fc">&nbsp;                        newList.add(pair);</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="fc">&nbsp;                for (int i = 0; i &lt; size; i++) {</b>
+<b class="fc">&nbsp;                    if (newList.get(i).getX() == x &amp;&amp; newList.get(i).getY() == y &amp;&amp; i != 1) {</b>
+<b class="fc">&nbsp;                        newList.remove(i);</b>
+<b class="fc">&nbsp;                        break;</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            Set&lt;Pair&lt;Integer, Integer&gt;&gt; pC = new HashSet&lt;&gt;();</b>
+<b class="fc">&nbsp;            pC.addAll(newList);</b>
+<b class="fc">&nbsp;            setPendingCells(pC);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return pendingCells.size();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * fill is used to fill, at the start of any game, all cells on the board
+&nbsp;     *
+&nbsp;     * @param numPlayer: indicates how many players play the game
+&nbsp;     * @param bag:       bag from where the items to be inserted in the cells of the board will be taken
+&nbsp;     */
+&nbsp;    public void fill(int numPlayer, Bag bag) {
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 9; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; 9; j++) {</b>
+<b class="fc">&nbsp;                if (this.disposition[i][j].getContent() == null</b>
+<b class="fc">&nbsp;                        &amp;&amp; this.disposition[i][j].getCircumstance() != 0</b>
+<b class="fc">&nbsp;                        &amp;&amp; numPlayer &gt;= this.disposition[i][j].getCircumstance()) {</b>
+<b class="fc">&nbsp;                    this.disposition[i][j].setContent(bag.draw());</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * removePendingItems is used to clear the list of items which are currently pending
+&nbsp;     *
+&nbsp;     * @return a list of items that will be set in the shelf
+&nbsp;     */
+&nbsp;    public List&lt;Item&gt; removePendingItems() {
+<b class="fc">&nbsp;        List&lt;Item&gt; offPending = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (Pair&lt;Integer, Integer&gt; pair : pendingCells) {</b>
+<b class="fc">&nbsp;            int x = pair.getX();</b>
+<b class="fc">&nbsp;            int y = pair.getY();</b>
+<b class="fc">&nbsp;            offPending.add(disposition[x][y].getContent());</b>
+<b class="fc">&nbsp;            disposition[x][y].setContent(null);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        pendingCells.clear();</b>
+<b class="fc">&nbsp;        return offPending;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * needToRefill is used to check if the board needs a refill
+&nbsp;     *
+&nbsp;     * @return true if every element of the board has 4 free sides, false if not
+&nbsp;     */
+&nbsp;    public boolean needToRefill() {
+&nbsp;
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 9; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; 9; j++) {</b>
+<b class="fc">&nbsp;                Cell c = disposition[i][j];</b>
+<b class="fc">&nbsp;                if (c.getContent() != null) {</b>
+<b class="fc">&nbsp;                    if ((i != 0 &amp;&amp; disposition[i - 1][j].getContent() != null) ||</b>
+<b class="fc">&nbsp;                            (j != 0 &amp;&amp; disposition[i][j - 1].getContent() != null) ||</b>
+<b class="fc">&nbsp;                            (i != 8 &amp;&amp; disposition[i + 1][j].getContent() != null) ||</b>
+<b class="fc">&nbsp;                            (j != 8 &amp;&amp; disposition[i][j + 1].getContent() != null)</b>
+&nbsp;                    ) {
+<b class="fc">&nbsp;                        return false;</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * adjacencyCheck is used to check if  a certain item can be taken from a cell on the board
+&nbsp;     *
+&nbsp;     * @param x: row of the cell you want to check
+&nbsp;     * @param y: column of the cell you want to check
+&nbsp;     * @return true if the selected cell has at least one free side, false if not
+&nbsp;     */
+&nbsp;    private boolean adjacencyCheck(int x, int y) {
+<b class="fc">&nbsp;        if (disposition[x][y].getContent() != null) {</b>
+<b class="fc">&nbsp;            switch (x) {</b>
+&nbsp;                case 0:
+<b class="fc">&nbsp;                    if (disposition[x][y + 1].getContent() != null &amp;&amp; disposition[x][y - 1].getContent() != null &amp;&amp; disposition[x + 1][y].getContent() != null) {</b>
+<b class="nc">&nbsp;                        return false;</b>
+&nbsp;                    }
+&nbsp;                    break;
+&nbsp;                case 8:
+<b class="nc">&nbsp;                    if (disposition[x][y + 1].getContent() != null &amp;&amp; disposition[x][y - 1].getContent() != null &amp;&amp; disposition[x - 1][y].getContent() != null) {</b>
+<b class="nc">&nbsp;                        return false;</b>
+&nbsp;                    }
+&nbsp;                    break;
+&nbsp;                default:
+<b class="fc">&nbsp;                    switch (y) {</b>
+&nbsp;                        case 0:
+<b class="nc">&nbsp;                            if (disposition[x + 1][y].getContent() != null &amp;&amp; disposition[x - 1][y].getContent() != null &amp;&amp; disposition[x][y + 1].getContent() != null) {</b>
+<b class="nc">&nbsp;                                return false;</b>
+&nbsp;                            }
+&nbsp;                            break;
+&nbsp;                        case 8:
+<b class="nc">&nbsp;                            if (disposition[x + 1][y].getContent() != null &amp;&amp; disposition[x - 1][y].getContent() != null &amp;&amp; disposition[x][y - 1].getContent() != null) {</b>
+<b class="nc">&nbsp;                                return false;</b>
+&nbsp;                            }
+&nbsp;                            break;
+&nbsp;                        default:
+&nbsp;
+<b class="fc">&nbsp;                            if (disposition[x + 1][y].getContent() != null &amp;&amp; disposition[x - 1][y].getContent() != null &amp;&amp; disposition[x][y + 1].getContent() != null &amp;&amp; disposition[x][y - 1].getContent() != null) {</b>
+<b class="fc">&nbsp;                                return false;</b>
+&nbsp;
+&nbsp;                            }
+&nbsp;                            break;
+&nbsp;                    }
+&nbsp;                    break;
+&nbsp;            }
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * printBoard is used to print the board at any time
+&nbsp;     */
+&nbsp;    public void printBoard() {
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 9; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; 9; j++) {</b>
+<b class="fc">&nbsp;                if (disposition[i][j].getContent() != null) {</b>
+<b class="fc">&nbsp;                    System.out.print(disposition[i][j].getContent().getType().toString().charAt(0) + &quot; &quot;);</b>
+&nbsp;                } else {
+<b class="fc">&nbsp;                    System.out.print(disposition[i][j].getCircumstance() + &quot; &quot;);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates and returns a clone of the board.
+&nbsp;     *
+&nbsp;     * @return A clone of the board, with the same cell circumstances and item contents.
+&nbsp;     */
+&nbsp;    public Board clone() {
+<b class="fc">&nbsp;        Board clone = new Board();</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 9; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; 9; j++) {</b>
+<b class="fc">&nbsp;                clone.disposition[i][j] = new Cell(this.disposition[i][j].getCircumstance());</b>
+<b class="fc">&nbsp;                if (this.disposition[i][j].getContent() != null) {</b>
+<b class="fc">&nbsp;                    clone.disposition[i][j].setContent(this.disposition[i][j].getContent());</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return clone;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sendToString is used to have a representation of the board as a string
+&nbsp;     *
+&nbsp;     * @return The string representation of the send board, showing the items and their variants.
+&nbsp;     * */
+&nbsp;    public String sendToString() {
+<b class="fc">&nbsp;        StringBuilder board = new StringBuilder(&quot; &quot;);</b>
+<b class="fc">&nbsp;        boolean selected = false;</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 9; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; 9; j++) {</b>
+<b class="fc">&nbsp;                if (getDisposition()[j][i].getContent() != null) {</b>
+<b class="fc">&nbsp;                    for (Pair&lt;Integer, Integer&gt; item : getPendingCells()) {</b>
+<b class="fc">&nbsp;                        if (item.getX() == j &amp;&amp; item.getY() == i) {</b>
+<b class="fc">&nbsp;                            board.append(&quot;#&quot;).append(getDisposition()[j][i].getContent().getVariant()).append(&quot; &quot;);</b>
+<b class="fc">&nbsp;                            selected = true;</b>
+<b class="fc">&nbsp;                            break;</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                    }</b>
+<b class="fc">&nbsp;                    if (!selected) {</b>
+<b class="fc">&nbsp;                        switch (getDisposition()[j][i].getContent().getType()) {</b>
+&nbsp;                            case BOOK:
+<b class="fc">&nbsp;                                board.append(&quot;W&quot;).append(getDisposition()[j][i].getContent().getVariant()).append(&quot; &quot;);</b>
+<b class="fc">&nbsp;                                break;</b>
+&nbsp;                            case CAT:
+<b class="fc">&nbsp;                                board.append(&quot;G&quot;).append(getDisposition()[j][i].getContent().getVariant()).append(&quot; &quot;);</b>
+<b class="fc">&nbsp;                                break;</b>
+&nbsp;                            case FRAME:
+<b class="fc">&nbsp;                                board.append(&quot;B&quot;).append(getDisposition()[j][i].getContent().getVariant()).append(&quot; &quot;);</b>
+<b class="fc">&nbsp;                                break;</b>
+&nbsp;                            case GAME:
+<b class="fc">&nbsp;                                board.append(&quot;Y&quot;).append(getDisposition()[j][i].getContent().getVariant()).append(&quot; &quot;);</b>
+<b class="fc">&nbsp;                                break;</b>
+&nbsp;                            case PLANTS:
+<b class="fc">&nbsp;                                board.append(&quot;P&quot;).append(getDisposition()[j][i].getContent().getVariant()).append(&quot; &quot;);</b>
+<b class="fc">&nbsp;                                break;</b>
+&nbsp;                            case TROPHY:
+<b class="fc">&nbsp;                                board.append(&quot;L&quot;).append(getDisposition()[j][i].getContent().getVariant()).append(&quot; &quot;);</b>
+<b class="fc">&nbsp;                                break;</b>
+&nbsp;                            default:
+<b class="nc">&nbsp;                                System.out.println(&quot;Error&quot;);</b>
+<b class="nc">&nbsp;                                break;</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                } else
+<b class="fc">&nbsp;                    board.append(&#39;■&#39;).append(&quot; &quot;).append(&quot; &quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;                selected = false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            board.append(&quot;\n &quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        System.out.println(board);</b>
+<b class="fc">&nbsp;        return board.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * pendingToString is used to have a representation of pending cells ad a string
+&nbsp;     *
+&nbsp;     * @return a string representation of the pendindg cells, showing the items and their variants.
+&nbsp;     */
+&nbsp;    public String pendingToString() {
+<b class="fc">&nbsp;        StringBuilder pendingStr = new StringBuilder(&quot; &quot;);</b>
+<b class="fc">&nbsp;        for (Pair&lt;Integer, Integer&gt; p : getPendingCells()) {</b>
+<b class="fc">&nbsp;            switch (getDisposition()[p.getX()][p.getY()].getContent().getType()) {</b>
+&nbsp;                case BOOK:
+<b class="fc">&nbsp;                    pendingStr.append(&quot;W&quot;).append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(&quot; &quot;);</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                case CAT:
+<b class="fc">&nbsp;                    pendingStr.append(&quot;G&quot;).append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(&quot; &quot;);</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                case FRAME:
+<b class="fc">&nbsp;                    pendingStr.append(&quot;B&quot;).append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(&quot; &quot;);</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                case GAME:
+<b class="fc">&nbsp;                    pendingStr.append(&quot;Y&quot;).append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(&quot; &quot;);</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                case PLANTS:
+<b class="fc">&nbsp;                    pendingStr.append(&quot;P&quot;).append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(&quot; &quot;);</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                case TROPHY:
+<b class="fc">&nbsp;                    pendingStr.append(&quot;L&quot;).append(getDisposition()[p.getX()][p.getY()].getContent().getVariant()).append(&quot; &quot;);</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                default:
+<b class="nc">&nbsp;                    System.out.println(&quot;Error&quot;);</b>
+&nbsp;                    break;
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return pendingStr.toString();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

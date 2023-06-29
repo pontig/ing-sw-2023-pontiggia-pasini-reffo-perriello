@@ -1,0 +1,384 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ServerApp</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw</a>
+</div>
+
+<h1>Coverage Summary for Class: ServerApp (it.polimi.ingsw)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServerApp</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/112)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw;
+&nbsp;
+&nbsp;import it.polimi.ingsw.controller.GameController;
+&nbsp;import it.polimi.ingsw.model.Player;
+&nbsp;import it.polimi.ingsw.network.client.Client;
+&nbsp;import it.polimi.ingsw.network.messages.SendDataToServer;
+&nbsp;import it.polimi.ingsw.network.server.ClientSkeleton;
+&nbsp;import it.polimi.ingsw.network.server.Server;
+&nbsp;import it.polimi.ingsw.network.server.ServerImpl;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.*;
+&nbsp;import java.nio.channels.SocketChannel;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.registry.LocateRegistry;
+&nbsp;import java.rmi.registry.Registry;
+&nbsp;import java.rmi.server.UnicastRemoteObject;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.ExecutorService;
+&nbsp;import java.util.concurrent.Executors;
+&nbsp;
+&nbsp;import static it.polimi.ingsw.enums.State.CLIENT_DOWN;
+&nbsp;
+&nbsp;/** ServerApp class is the main class of the server side of the application. It contains the main method and the
+&nbsp; *  methods to start the server and to handle the connection with the clients.
+&nbsp; */
+&nbsp;public class ServerApp extends UnicastRemoteObject implements ServerAbst {
+&nbsp;    private static final long CHECK_INTERVAL = 60000; // Interval in milliseconds between connection checks
+<b class="nc">&nbsp;    private static ServerApp instance = null;</b>
+<b class="nc">&nbsp;    private static Server s = null;</b>
+<b class="nc">&nbsp;    private final ExecutorService executorService = Executors.newCachedThreadPool();</b>
+&nbsp;    private static String serverIP;
+&nbsp;    private boolean fromScratch;
+<b class="nc">&nbsp;    private List&lt;ClientSkeleton&gt; socketClients = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    protected ServerApp() throws RemoteException {</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static ServerApp getInstance() throws RemoteException {
+<b class="nc">&nbsp;        if (instance == null) {</b>
+<b class="nc">&nbsp;            instance = new ServerApp();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return instance;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** the Getter of the Server Interface
+&nbsp;     *
+&nbsp;     * @return the Server Interface
+&nbsp;     */
+&nbsp;    public Server getS() {
+<b class="nc">&nbsp;        return s;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** Main method of the ServerApp class. It starts the server and the RMI registry.
+&nbsp;     * It&#39;s possible to choose if start the server with RMI or Socket connection.
+&nbsp;     *
+&nbsp;     * It also handles the connection with the clients.
+&nbsp;     *
+&nbsp;     * @param args
+&nbsp;     * @throws InterruptedException
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    public static void main(String[] args) throws InterruptedException, IOException {
+&nbsp;
+&nbsp;        // iterate over the network interfaces known to java
+<b class="nc">&nbsp;        Enumeration&lt;NetworkInterface&gt; interfaces = NetworkInterface.getNetworkInterfaces();</b>
+&nbsp;        OUTER:
+<b class="nc">&nbsp;        for (NetworkInterface interface_ : Collections.list(interfaces)) {</b>
+&nbsp;            // we shouldn&#39;t care about loopback addresses
+<b class="nc">&nbsp;            if (interface_.isLoopback())</b>
+<b class="nc">&nbsp;                continue;</b>
+&nbsp;
+&nbsp;            // if you don&#39;t expect the interface to be up you can skip this
+&nbsp;            // though it would question the usability of the rest of the code
+<b class="nc">&nbsp;            if (!interface_.isUp())</b>
+<b class="nc">&nbsp;                continue;</b>
+&nbsp;
+&nbsp;            // iterate over the addresses associated with the interface
+<b class="nc">&nbsp;            Enumeration&lt;InetAddress&gt; addresses = interface_.getInetAddresses();</b>
+<b class="nc">&nbsp;            for (InetAddress address : Collections.list(addresses)) {</b>
+&nbsp;                // look only for ipv4 addresses
+<b class="nc">&nbsp;                if (address instanceof Inet6Address)</b>
+<b class="nc">&nbsp;                    continue;</b>
+&nbsp;
+&nbsp;                // use a timeout big enough for your needs
+<b class="nc">&nbsp;                if (!address.isReachable(3000))</b>
+<b class="nc">&nbsp;                    continue;</b>
+&nbsp;
+&nbsp;                // java 7&#39;s try-with-resources statement, so that
+&nbsp;                // we close the socket immediately after use
+&nbsp;                //try (SocketChannel socket = SocketChannel.open()) {
+&nbsp;                //    // again, use a big enough timeout
+&nbsp;                //    socket.socket().setSoTimeout(3000);
+&nbsp;                //
+&nbsp;                //    // bind the socket to your local interface
+&nbsp;                //    socket.bind(new InetSocketAddress(address, 8080));
+&nbsp;                //
+&nbsp;                //    // try to connect to *somewhere*
+&nbsp;                //    socket.connect(new InetSocketAddress(&quot;google.com&quot;, 80));
+&nbsp;                //} catch (IOException ex) {
+&nbsp;                //    ex.printStackTrace();
+&nbsp;                //    continue;
+&nbsp;                //}
+&nbsp;
+<b class="nc">&nbsp;                System.out.format(&quot;ni: %s, ia: %s\n&quot;, interface_, address);</b>
+<b class="nc">&nbsp;                serverIP = address.toString().substring(1);</b>
+&nbsp;
+&nbsp;                // stops at the first *working* solution
+<b class="nc">&nbsp;                break OUTER;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        Scanner terminal = new Scanner(System.in);</b>
+<b class="nc">&nbsp;        Integer port = 0;</b>
+&nbsp;        final int portRMI;
+&nbsp;        final int portSocket;
+<b class="nc">&nbsp;        System.out.print(&quot;\nInsert Server RMI port number - 4 digit only: &quot;);</b>
+&nbsp;        do {
+&nbsp;            try {
+<b class="nc">&nbsp;                port = Integer.parseInt(terminal.next());</b>
+<b class="nc">&nbsp;            } catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;It is not a valid number!!&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            if (port.toString().length() != 4)</b>
+<b class="nc">&nbsp;                System.out.print(&quot;Enter a 4 digit number only: &quot;);</b>
+<b class="nc">&nbsp;        } while (port.toString().length() != 4);</b>
+<b class="nc">&nbsp;        portRMI = port;</b>
+&nbsp;
+<b class="nc">&nbsp;        port = 0;</b>
+<b class="nc">&nbsp;        System.out.print(&quot;\nInsert Server Socket port number - 4 digit only: &quot;);</b>
+&nbsp;        do {
+&nbsp;            try {
+<b class="nc">&nbsp;                port = Integer.parseInt(terminal.next());</b>
+<b class="nc">&nbsp;            } catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;It is not a valid number!!&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            if (port.toString().length() != 4)</b>
+<b class="nc">&nbsp;                System.out.print(&quot;Enter a 4 digit number only: &quot;);</b>
+<b class="nc">&nbsp;        } while (port.toString().length() != 4);</b>
+<b class="nc">&nbsp;        portSocket = port;</b>
+&nbsp;        /* RMI */
+<b class="nc">&nbsp;        Thread rmiThread = new Thread(() -&gt; {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                startRMI(portRMI);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.err.println(&quot;Cannot start RMI. This protocol will be disabled.&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        });
+<b class="nc">&nbsp;        rmiThread.start();</b>
+&nbsp;        /* SOCKET */
+<b class="nc">&nbsp;        Thread socketThread = new Thread(() -&gt; {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                startSocket(portSocket);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                System.err.println(&quot;Cannot start socket. This protocol will be disabled.&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        });
+<b class="nc">&nbsp;        socketThread.start();</b>
+&nbsp;        //Connection RMI e Socket
+&nbsp;        try {
+<b class="nc">&nbsp;            rmiThread.join();</b>
+<b class="nc">&nbsp;            System.out.println(&quot;\nServer working on address &quot; + serverIP);</b>
+<b class="nc">&nbsp;            socketThread.join();</b>
+<b class="nc">&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;No connection protocol available. Exiting...&quot;);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //RMI start
+&nbsp;    /**
+&nbsp;     * Starts the RMI (Remote Method Invocation) server on the specified port.
+&nbsp;     * This method creates a registry, binds the server instance to a name, and sets the RMI server hostname.
+&nbsp;     *
+&nbsp;     * @param port The port number on which to start the RMI server.
+&nbsp;     * @throws RemoteException If a communication-related exception occurs during the RMI operation.
+&nbsp;     */
+&nbsp;    private static void startRMI(int port) throws RemoteException {
+<b class="nc">&nbsp;        System.out.println(&quot;RMI started&quot;);</b>
+&nbsp;        //Get the instance of the serverApp
+<b class="nc">&nbsp;        ServerApp instanceRMI = getInstance();</b>
+<b class="nc">&nbsp;        System.setProperty(&quot;java.rmi.server.hostname&quot;, serverIP);</b>
+&nbsp;        //Create the registry on the specified port
+<b class="nc">&nbsp;        Registry registry = LocateRegistry.createRegistry(port);</b>
+&nbsp;        // Bind the server instance to the &quot;server&quot; name in the registry
+<b class="nc">&nbsp;        registry.rebind(&quot;server&quot;, instanceRMI);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //SOCKET start
+&nbsp;    /**
+&nbsp;     * This method starts the socket server on the specified port.
+&nbsp;     * It creates a server socket, accepts incoming client connections, and handles client communication using separate threads.
+&nbsp;     *
+&nbsp;     * @param port The port number on which to start the socket server.
+&nbsp;     * @throws RemoteException If a communication-related exception occurs during the socket operation.
+&nbsp;     */
+&nbsp;    public static void startSocket(int port) throws RemoteException {
+<b class="nc">&nbsp;        System.out.println(&quot;Socket started&quot;);</b>
+&nbsp;         //Get the instance of the serverApp
+<b class="nc">&nbsp;        ServerApp instanceSocket = getInstance();</b>
+<b class="nc">&nbsp;        try (ServerSocket serverSocket = new ServerSocket(port)) {</b>
+&nbsp;            while (true) {
+<b class="nc">&nbsp;                Socket socket = serverSocket.accept();</b>
+<b class="nc">&nbsp;                instanceSocket.executorService.submit(() -&gt; {</b>
+<b class="nc">&nbsp;                    ClientSkeleton c = null;</b>
+&nbsp;                    boolean stopClient;
+&nbsp;                    try {
+<b class="nc">&nbsp;                        ClientSkeleton clientSkeleton = new ClientSkeleton(socket);</b>
+<b class="nc">&nbsp;                        Server server = getInstance().connect();</b>
+<b class="nc">&nbsp;                        stopClient = server.register(clientSkeleton);</b>
+<b class="nc">&nbsp;                        if(stopClient){</b>
+<b class="nc">&nbsp;                            c = clientSkeleton;</b>
+&nbsp;                            while (true) {
+<b class="nc">&nbsp;                                clientSkeleton.receive(server);</b>
+&nbsp;                            }
+&nbsp;                        } else {
+<b class="nc">&nbsp;                            System.out.println(&quot;No more players are required in this game, we are sorry, you will be disconnected&quot;);</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                    } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                        System.err.println(&quot;Cannot receive from client: &quot; + c + &quot;\nClosing the connection from server all the client will be disconnected&quot;);</b>
+<b class="nc">&nbsp;                        System.exit(1);</b>
+&nbsp;                    } finally {
+<b class="nc">&nbsp;                        try {</b>
+<b class="nc">&nbsp;                            socket.close();</b>
+<b class="nc">&nbsp;                        } catch (IOException e) {</b>
+<b class="nc">&nbsp;                            System.err.println(&quot;Cannot close socket&quot;);</b>
+<b class="nc">&nbsp;                        }</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                });
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RemoteException(&quot;Cannot start socket server&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    //Crea un server implementato
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method connects to the Server and returns an instance of the Server interface.
+&nbsp;     * If file status.json is empty or does not exist, it creates a new Server instance from scratch.
+&nbsp;     * A separate thread is created to monitor the connection status by pinging the client periodically.
+&nbsp;     * @return instance of the Server interface
+&nbsp;     * @throws RemoteException If a communication-related exception occurs during the socket operation.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Server connect() throws RemoteException {
+<b class="nc">&nbsp;        File f = new File(&quot;status.json&quot;);</b>
+<b class="nc">&nbsp;        boolean fromScratch = !f.exists() || f.length() == 0;</b>
+<b class="nc">&nbsp;        if (s == null) {</b>
+<b class="nc">&nbsp;            if (fromScratch)</b>
+<b class="nc">&nbsp;                s = new ServerImpl(true);</b>
+<b class="nc">&nbsp;            else s = new ServerImpl(false);</b>
+&nbsp;
+&nbsp;            // Create and start a separate thread for connection monitoring, it pings the client every minute to check the server status
+<b class="nc">&nbsp;            Thread connectionMonitorThread = new Thread(() -&gt; {</b>
+&nbsp;                while (true) {
+&nbsp;                    try {
+&nbsp;                        // Perform a simple operation to check the connection
+<b class="nc">&nbsp;                        s.ping();</b>
+&nbsp;                        //System.out.println(&quot;Connection is active.&quot;);
+<b class="nc">&nbsp;                    } catch (RemoteException e) {</b>
+&nbsp;                        // Connection lost, handle the situation accordingly
+<b class="nc">&nbsp;                        System.err.println(&quot;Cannot receive from client \nClosing the connection from server all the client will be disconnected&quot;);</b>
+&nbsp;                        // Terminate the client
+<b class="nc">&nbsp;                        System.exit(1);</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;
+&nbsp;                    try {
+<b class="nc">&nbsp;                        Thread.sleep(CHECK_INTERVAL);</b>
+<b class="nc">&nbsp;                    } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;                        e.printStackTrace();</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                }
+&nbsp;            });
+<b class="nc">&nbsp;            connectionMonitorThread.start();</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return s;</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

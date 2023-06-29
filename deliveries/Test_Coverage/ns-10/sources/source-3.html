@@ -1,0 +1,145 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > EndGameSceneController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view.gui.scene</a>
+</div>
+
+<h1>Coverage Summary for Class: EndGameSceneController (it.polimi.ingsw.view.gui.scene)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EndGameSceneController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.view.gui.scene;
+&nbsp;
+&nbsp;import it.polimi.ingsw.observer.ObservableView;
+&nbsp;import it.polimi.ingsw.tuples.Pair;
+&nbsp;import javafx.fxml.FXML;
+&nbsp;import javafx.scene.control.Label;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;
+<b class="nc">&nbsp;public class EndGameSceneController extends ObservableView implements GenericSceneController {</b>
+&nbsp;    @FXML
+&nbsp;    private Label firstRank, secondRank, thirdRank, fourthRank;
+&nbsp;    private Label[] podium;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Initializes the controller
+&nbsp;     */
+&nbsp;    @FXML
+&nbsp;    public void initialize() {
+<b class="nc">&nbsp;        podium = new Label[]{firstRank, secondRank, thirdRank, fourthRank};</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Assigns the ranks to the players
+&nbsp;     * @param model the model containing the results of the game
+&nbsp;     */
+&nbsp;    public void assignRanks(String model) {
+<b class="nc">&nbsp;        String results = model;</b>
+<b class="nc">&nbsp;        Pair[] ranks = Arrays.stream(results.split(&quot;\n&quot;))</b>
+<b class="nc">&nbsp;                .filter(e -&gt; !e.contains(&quot;MATCH RANKING&quot;))</b>
+<b class="nc">&nbsp;                .map(e -&gt; new Pair&lt;String, Integer&gt;(</b>
+<b class="nc">&nbsp;                        e.split(&quot;- &quot;)[1].split(&quot;   &quot;)[0],</b>
+<b class="nc">&nbsp;                        Integer.valueOf(e.split(&quot;Total score: &quot;)[1]))</b>
+&nbsp;                )
+<b class="nc">&nbsp;                .toArray(Pair[]::new);</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; ranks.length; i++) {</b>
+<b class="nc">&nbsp;            podium[i].setText(i + 1 + &quot;: &quot; + ranks[i].getX() + &quot; - &quot; + ranks[i].getY() + &quot; points&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

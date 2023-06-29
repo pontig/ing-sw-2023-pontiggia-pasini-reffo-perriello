@@ -1,0 +1,239 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TerminalServer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view.cliChat</a>
+</div>
+
+<h1>Coverage Summary for Class: TerminalServer (it.polimi.ingsw.view.cliChat)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TerminalServer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.view.cliChat;
+&nbsp;
+&nbsp;
+&nbsp;import it.polimi.ingsw.view.cliChat.Printer.PrintMsg;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.ServerSocket;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="nc">&nbsp;public class TerminalServer {</b>
+<b class="nc">&nbsp;    private static String players = &quot;&quot;;</b>
+<b class="nc">&nbsp;    private static final List&lt;Integer&gt; codes = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    private static boolean userIsWriting = false;</b>
+<b class="nc">&nbsp;    private static List&lt;String&gt; bufferMessages = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;    //getter
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method returns the string containing the list of players
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public static String getPlayers() {
+<b class="nc">&nbsp;        return players;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the flag indicating if the user is currently writing a message.
+&nbsp;     *
+&nbsp;     * @return True if the user is writing, false otherwise.
+&nbsp;     */
+&nbsp;    public static boolean getUserIsWriting() {
+<b class="nc">&nbsp;        return userIsWriting;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the Buffer of messages.
+&nbsp;     *
+&nbsp;     * @return The list of buffered messages.
+&nbsp;     */
+&nbsp;    public static List&lt;String&gt; getBufferMessages() {
+<b class="nc">&nbsp;        return bufferMessages;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //setter
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the list of players.
+&nbsp;     *
+&nbsp;     * @param listPlayers The list of players to set.
+&nbsp;     */
+&nbsp;
+&nbsp;    public static void setPlayers(String listPlayers) {
+<b class="nc">&nbsp;        players = listPlayers;</b>
+&nbsp;        //System.out.println(players);
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the list of players&#39; codes.
+&nbsp;     *
+&nbsp;     * @param listPlayers The list of players&#39; codes to set.
+&nbsp;     */
+&nbsp;    public static void setPlayersCode(String listPlayers) {
+<b class="nc">&nbsp;        String tmp = listPlayers.replace(&quot; &quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;        tmp = tmp.replace(&quot;\n&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;        String[] codesArr = tmp.split(&quot;-&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        int j = 0;</b>
+<b class="nc">&nbsp;        for(int i = 0; i &lt; codesArr.length; i++ ){</b>
+<b class="nc">&nbsp;            if(i == j*2){</b>
+<b class="nc">&nbsp;                codes.add(Integer.parseInt(codesArr[i]));</b>
+<b class="nc">&nbsp;                j++;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the flag indicating if the user is currently writing a message.
+&nbsp;     *
+&nbsp;     * @param isWriting The flag value to set.
+&nbsp;     */
+&nbsp;    public static void setUserIsWriting(Boolean isWriting) {
+<b class="nc">&nbsp;        userIsWriting = isWriting;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the buffer of messages.
+&nbsp;     *
+&nbsp;     * @param list The list of messages to set as the buffer.
+&nbsp;     */
+&nbsp;    public static void setBufferMessages(List&lt;String&gt; list) {
+<b class="nc">&nbsp;        bufferMessages = list;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if a given nickname is a valid code.
+&nbsp;     *
+&nbsp;     * @param nickname The nickname to check.
+&nbsp;     * @return True if the nickname is a valid code, false otherwise.
+&nbsp;     */
+&nbsp;    public static boolean isValidCode(int nickname) {
+<b class="nc">&nbsp;        for(int c: codes){</b>
+<b class="nc">&nbsp;            if(nickname == c)</b>
+<b class="nc">&nbsp;                return true;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //main function
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The main function of the program.
+&nbsp;     * It initializes the server socket with a free port, starts the ConnectionHandler and ThreadSend threads,
+&nbsp;     * and keeps accepting new connections indefinitely.
+&nbsp;     *
+&nbsp;     * @param args The command-line arguments.
+&nbsp;     * @throws IOException If an I/O error occurs.
+&nbsp;     */
+&nbsp;    public static void main(String[] args) throws IOException {
+&nbsp;        ConnectionHandler handler;
+&nbsp;        ThreadSend userInput;
+&nbsp;
+<b class="nc">&nbsp;        ServerSocket serverSocket = new ServerSocket(0);                                    //Create a socket with the first free port found by the system</b>
+<b class="nc">&nbsp;        int port = serverSocket.getLocalPort();                                                  //Get the port value</b>
+<b class="nc">&nbsp;        new PrintMsg().printMsgServer(&quot;Port: &quot; + port);</b>
+<b class="nc">&nbsp;        ConnectionHandler.setPort(0);</b>
+&nbsp;
+&nbsp;        while (true) {
+<b class="nc">&nbsp;            handler = new ConnectionHandler(serverSocket, port);</b>
+<b class="nc">&nbsp;            userInput = new ThreadSend(handler.getSocket());</b>
+&nbsp;
+<b class="nc">&nbsp;            handler.start();</b>
+<b class="nc">&nbsp;            userInput.start();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1118 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PlaySceneController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view.gui.scene</a>
+</div>
+
+<h1>Coverage Summary for Class: PlaySceneController (it.polimi.ingsw.view.gui.scene)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlaySceneController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/37)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/332)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PlaySceneController$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">PlaySceneController$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">PlaySceneController$3</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/42)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/338)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.view.gui.scene;
+&nbsp;
+&nbsp;import it.polimi.ingsw.enums.CommonGoalName;
+&nbsp;import it.polimi.ingsw.model.Shelf;
+&nbsp;import it.polimi.ingsw.model.commongoal.*;
+&nbsp;import it.polimi.ingsw.network.messages.Message;
+&nbsp;import it.polimi.ingsw.network.messages.SendChatMessage;
+&nbsp;import it.polimi.ingsw.network.messages.SendDataToServer;
+&nbsp;import it.polimi.ingsw.tuples.Pair;
+&nbsp;import it.polimi.ingsw.view.GUI;
+&nbsp;import it.polimi.ingsw.view.gui.SceneController;
+&nbsp;import javafx.fxml.FXML;
+&nbsp;import javafx.geometry.Pos;
+&nbsp;import javafx.scene.Cursor;
+&nbsp;import javafx.scene.Node;
+&nbsp;import javafx.scene.control.*;
+&nbsp;import javafx.scene.effect.ColorAdjust;
+&nbsp;import javafx.scene.image.Image;
+&nbsp;import javafx.scene.image.ImageView;
+&nbsp;import javafx.scene.input.KeyCode;
+&nbsp;import javafx.scene.input.KeyEvent;
+&nbsp;import javafx.scene.input.MouseEvent;
+&nbsp;import javafx.scene.layout.*;
+&nbsp;
+&nbsp;import javax.tools.Tool;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;import static it.polimi.ingsw.enums.State.*;
+&nbsp;
+<b class="nc">&nbsp;public class PlaySceneController extends GUI implements GenericSceneController {</b>
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private GridPane livingroomGrid;
+&nbsp;    @FXML
+&nbsp;    private GridPane shelfGrid;
+&nbsp;    @FXML
+&nbsp;    private VBox orderingBox;
+&nbsp;    @FXML
+&nbsp;    private ImageView unordered1, unordered2, unordered3;
+&nbsp;    @FXML
+&nbsp;    private ImageView ordered1, ordered2, ordered3;
+&nbsp;    private ImageView[] unordered;
+&nbsp;    private ImageView[] ordered;
+&nbsp;    private ImageView[][] orderingBoxChildren;
+&nbsp;    @FXML
+&nbsp;    private Button confirmInsertButton, confirmSelectButton;
+&nbsp;    @FXML
+&nbsp;    private Label title;
+&nbsp;    @FXML
+&nbsp;    private GridPane commonBox;
+&nbsp;    @FXML
+&nbsp;    private ImageView personalGoalCard;
+<b class="nc">&nbsp;    private boolean isThisFirst = false;</b>
+&nbsp;
+&nbsp;    // Livingroom grid cells
+&nbsp;    @FXML
+&nbsp;    private ImageView cell00, cell01, cell02, cell03, cell04, cell05, cell06, cell07, cell08;
+&nbsp;    @FXML
+&nbsp;    private ImageView cell10, cell11, cell12, cell13, cell14, cell15, cell16, cell17, cell18;
+&nbsp;    @FXML
+&nbsp;    private ImageView cell20, cell21, cell22, cell23, cell24, cell25, cell26, cell27, cell28;
+&nbsp;    @FXML
+&nbsp;    private ImageView cell30, cell31, cell32, cell33, cell34, cell35, cell36, cell37, cell38;
+&nbsp;    @FXML
+&nbsp;    private ImageView cell40, cell41, cell42, cell43, cell44, cell45, cell46, cell47, cell48;
+&nbsp;    @FXML
+&nbsp;    private ImageView cell50, cell51, cell52, cell53, cell54, cell55, cell56, cell57, cell58;
+&nbsp;    @FXML
+&nbsp;    private ImageView cell60, cell61, cell62, cell63, cell64, cell65, cell66, cell67, cell68;
+&nbsp;    @FXML
+&nbsp;    private ImageView cell70, cell71, cell72, cell73, cell74, cell75, cell76, cell77, cell78;
+&nbsp;    @FXML
+&nbsp;    private ImageView cell80, cell81, cell82, cell83, cell84, cell85, cell86, cell87, cell88;
+&nbsp;    private ImageView[][] livingroomGridCells;
+&nbsp;
+&nbsp;    // Shelf grid cells
+&nbsp;    @FXML
+&nbsp;    private ImageView chooseColumn0, chooseColumn1, chooseColumn2, chooseColumn3, chooseColumn4;
+&nbsp;    private ImageView[] chooseColumns;
+&nbsp;    @FXML
+&nbsp;    private ImageView shelfCell00, shelfCell01, shelfCell02, shelfCell03, shelfCell04, shelfCell05;
+&nbsp;    @FXML
+&nbsp;    private ImageView shelfCell10, shelfCell11, shelfCell12, shelfCell13, shelfCell14, shelfCell15;
+&nbsp;    @FXML
+&nbsp;    private ImageView shelfCell20, shelfCell21, shelfCell22, shelfCell23, shelfCell24, shelfCell25;
+&nbsp;    @FXML
+&nbsp;    private ImageView shelfCell30, shelfCell31, shelfCell32, shelfCell33, shelfCell34, shelfCell35;
+&nbsp;    @FXML
+&nbsp;    private ImageView shelfCell40, shelfCell41, shelfCell42, shelfCell43, shelfCell44, shelfCell45;
+&nbsp;    private ImageView[][] shelfGridCells;
+&nbsp;
+&nbsp;    // Common goals
+&nbsp;    @FXML
+&nbsp;    private ImageView firstCommonImg, secondCommonImg;
+&nbsp;    @FXML
+&nbsp;    private ImageView first2token, first4token, first6token, first8token;
+&nbsp;    @FXML
+&nbsp;    private ImageView second2token, second4token, second6token, second8token;
+&nbsp;    @FXML
+&nbsp;    private ImageView endGameTokenImg;
+&nbsp;    private ImageView[][] commonWrap;
+&nbsp;    @FXML
+&nbsp;    private ImageView firstCommonTokenTaken, secondCommonTokenTaken, endGameTokenTaken;
+&nbsp;    private ImageView[] commonTokensTaken;
+&nbsp;    @FXML
+&nbsp;    private HBox selectColumnBox;
+&nbsp;    @FXML
+&nbsp;    private ImageView customImg;
+<b class="nc">&nbsp;    private boolean initialized = false;</b>
+&nbsp;
+&nbsp;    @FXML
+&nbsp;    private ImageView shelfCell0014, shelfCell0013, shelfCell0012, shelfCell1014, shelfCell1013, shelfCell1012, shelfCell2014, shelfCell2013, shelfCell2012, shelfCell3014, shelfCell3013, shelfCell3012, shelfCell4014, shelfCell4013, shelfCell4012, shelfCell0114, shelfCell0113, shelfCell0112, shelfCell1114, shelfCell1113, shelfCell1112, shelfCell2114, shelfCell2113, shelfCell2112, shelfCell3114, shelfCell3113, shelfCell3112, shelfCell4114, shelfCell4113, shelfCell4112, shelfCell0214, shelfCell0213, shelfCell0212, shelfCell1214, shelfCell1213, shelfCell1212, shelfCell2214, shelfCell2213, shelfCell2212, shelfCell3214, shelfCell3213, shelfCell3212, shelfCell4214, shelfCell4213, shelfCell4212, shelfCell0314, shelfCell0313, shelfCell0312, shelfCell1314, shelfCell1313, shelfCell1312, shelfCell2314, shelfCell2313, shelfCell2312, shelfCell3314, shelfCell3313, shelfCell3312, shelfCell4314, shelfCell4313, shelfCell4312, shelfCell0414, shelfCell0413, shelfCell0412, shelfCell1414, shelfCell1413, shelfCell1412, shelfCell2414, shelfCell2413, shelfCell2412, shelfCell3414, shelfCell3413, shelfCell3412, shelfCell4414, shelfCell4413, shelfCell4412, shelfCell0514, shelfCell0513, shelfCell0512, shelfCell1514, shelfCell1513, shelfCell1512, shelfCell2514, shelfCell2513, shelfCell2512, shelfCell3514, shelfCell3513, shelfCell3512, shelfCell4514, shelfCell4513, shelfCell4512;
+&nbsp;    private ImageView[][] shelfGridCells2, shelfGridCells3, shelfGridCells4;
+<b class="nc">&nbsp;    private Set&lt;ImageView[][]&gt; otherShelfUsed = new HashSet&lt;&gt;();</b>
+&nbsp;    @FXML
+&nbsp;    private GridPane otherPlayerShelf1, otherPlayerShelf2, otherPlayerShelf3;
+&nbsp;    @FXML
+&nbsp;    private Label otherPlayerName1, otherPlayerName2, otherPlayerName3;
+&nbsp;    private Map&lt;String, Pair&lt;ImageView[][], Label&gt;&gt; otherPlayerShelves;
+&nbsp;    @FXML
+&nbsp;    private Label instructions;
+&nbsp;
+&nbsp;    // Chat
+&nbsp;    @FXML
+&nbsp;    private ChoiceBox&lt;String&gt; chatDest;
+&nbsp;    @FXML
+&nbsp;    private TextField chatMsg;
+&nbsp;    @FXML
+&nbsp;    private VBox chatList;
+&nbsp;    @FXML
+&nbsp;    private AnchorPane chatContainer;
+&nbsp;    @FXML
+&nbsp;    private AnchorPane screen;
+&nbsp;    @FXML
+&nbsp;    private ScrollPane chatScroll;
+&nbsp;    @FXML
+&nbsp;    private Label chatPopupText;
+&nbsp;    private String nickname;
+&nbsp;    @FXML
+&nbsp;    private StackPane bottomShelf1, bottomShelf2, bottomShelf3;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Initializes the controller class.
+&nbsp;     * adds every event handler to the grid cells
+&nbsp;     */
+&nbsp;    @FXML
+&nbsp;    public synchronized void initialize() {
+<b class="nc">&nbsp;        livingroomGrid.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onLivingroomGridClick);</b>
+<b class="nc">&nbsp;        livingroomGrid.setDisable(true);</b>
+&nbsp;
+<b class="nc">&nbsp;        livingroomGridCells = new ImageView[][]{{cell00, cell01, cell02, cell03, cell04, cell05, cell06, cell07, cell08},</b>
+&nbsp;                {cell10, cell11, cell12, cell13, cell14, cell15, cell16, cell17, cell18},
+&nbsp;                {cell20, cell21, cell22, cell23, cell24, cell25, cell26, cell27, cell28},
+&nbsp;                {cell30, cell31, cell32, cell33, cell34, cell35, cell36, cell37, cell38},
+&nbsp;                {cell40, cell41, cell42, cell43, cell44, cell45, cell46, cell47, cell48},
+&nbsp;                {cell50, cell51, cell52, cell53, cell54, cell55, cell56, cell57, cell58},
+&nbsp;                {cell60, cell61, cell62, cell63, cell64, cell65, cell66, cell67, cell68},
+&nbsp;                {cell70, cell71, cell72, cell73, cell74, cell75, cell76, cell77, cell78},
+&nbsp;                {cell80, cell81, cell82, cell83, cell84, cell85, cell86, cell87, cell88}};
+<b class="nc">&nbsp;        shelfGridCells = new ImageView[][]{{shelfCell00, shelfCell01, shelfCell02, shelfCell03, shelfCell04, shelfCell05},</b>
+&nbsp;                {shelfCell10, shelfCell11, shelfCell12, shelfCell13, shelfCell14, shelfCell15},
+&nbsp;                {shelfCell20, shelfCell21, shelfCell22, shelfCell23, shelfCell24, shelfCell25},
+&nbsp;                {shelfCell30, shelfCell31, shelfCell32, shelfCell33, shelfCell34, shelfCell35},
+&nbsp;                {shelfCell40, shelfCell41, shelfCell42, shelfCell43, shelfCell44, shelfCell45}};
+<b class="nc">&nbsp;        shelfGridCells2 = new ImageView[][]{{shelfCell0012, shelfCell0112, shelfCell0212, shelfCell0312, shelfCell0412, shelfCell0512},</b>
+&nbsp;                {shelfCell1012, shelfCell1112, shelfCell1212, shelfCell1312, shelfCell1412, shelfCell1512},
+&nbsp;                {shelfCell2012, shelfCell2112, shelfCell2212, shelfCell2312, shelfCell2412, shelfCell2512},
+&nbsp;                {shelfCell3012, shelfCell3112, shelfCell3212, shelfCell3312, shelfCell3412, shelfCell3512},
+&nbsp;                {shelfCell4012, shelfCell4112, shelfCell4212, shelfCell4312, shelfCell4412, shelfCell4512}};
+<b class="nc">&nbsp;        shelfGridCells3 = new ImageView[][]{{shelfCell0013, shelfCell0113, shelfCell0213, shelfCell0313, shelfCell0413, shelfCell0513},</b>
+&nbsp;                {shelfCell1013, shelfCell1113, shelfCell1213, shelfCell1313, shelfCell1413, shelfCell1513},
+&nbsp;                {shelfCell2013, shelfCell2113, shelfCell2213, shelfCell2313, shelfCell2413, shelfCell2513},
+&nbsp;                {shelfCell3013, shelfCell3113, shelfCell3213, shelfCell3313, shelfCell3413, shelfCell3513},
+&nbsp;                {shelfCell4013, shelfCell4113, shelfCell4213, shelfCell4313, shelfCell4413, shelfCell4513}};
+<b class="nc">&nbsp;        shelfGridCells4 = new ImageView[][]{{shelfCell0014, shelfCell0114, shelfCell0214, shelfCell0314, shelfCell0414, shelfCell0514},</b>
+&nbsp;                {shelfCell1014, shelfCell1114, shelfCell1214, shelfCell1314, shelfCell1414, shelfCell1514},
+&nbsp;                {shelfCell2014, shelfCell2114, shelfCell2214, shelfCell2314, shelfCell2414, shelfCell2514},
+&nbsp;                {shelfCell3014, shelfCell3114, shelfCell3214, shelfCell3314, shelfCell3414, shelfCell3514},
+&nbsp;                {shelfCell4014, shelfCell4114, shelfCell4214, shelfCell4314, shelfCell4414, shelfCell4514}};
+&nbsp;
+<b class="nc">&nbsp;        bottomShelf1.setVisible(false);</b>
+<b class="nc">&nbsp;        bottomShelf2.setVisible(false);</b>
+<b class="nc">&nbsp;        bottomShelf3.setVisible(false);</b>
+<b class="nc">&nbsp;        commonWrap = new ImageView[][]{{firstCommonImg, null, first2token, null, first4token, null, first6token, null, first8token},</b>
+&nbsp;                {secondCommonImg, null, second2token, null, second4token, null, second6token, null, second8token}};
+<b class="nc">&nbsp;        commonTokensTaken = new ImageView[]{firstCommonTokenTaken, secondCommonTokenTaken, endGameTokenTaken};</b>
+<b class="nc">&nbsp;        chooseColumns = new ImageView[]{chooseColumn0, chooseColumn1, chooseColumn2, chooseColumn3, chooseColumn4};</b>
+&nbsp;
+<b class="nc">&nbsp;        unordered = new ImageView[]{unordered1, unordered2, unordered3};</b>
+<b class="nc">&nbsp;        ordered = new ImageView[]{ordered1, ordered2, ordered3};</b>
+<b class="nc">&nbsp;        orderingBoxChildren = new ImageView[][]{unordered, ordered};</b>
+&nbsp;
+&nbsp;
+&nbsp;        //shelfGrid.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onShelfGridClick);
+<b class="nc">&nbsp;        for (int i = 0; i &lt; chooseColumns.length; i++) {</b>
+<b class="nc">&nbsp;            int finalI = i;</b>
+<b class="nc">&nbsp;            chooseColumns[i].addEventHandler(MouseEvent.MOUSE_PRESSED, event -&gt; onShelfGridClick(finalI));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        orderingBox.setVisible(false);</b>
+<b class="nc">&nbsp;        unordered1.addEventHandler(MouseEvent.MOUSE_PRESSED, event -&gt; onOrderingClick(1, 0));</b>
+<b class="nc">&nbsp;        unordered2.addEventHandler(MouseEvent.MOUSE_PRESSED, event -&gt; onOrderingClick(1, 1));</b>
+<b class="nc">&nbsp;        unordered3.addEventHandler(MouseEvent.MOUSE_PRESSED, event -&gt; onOrderingClick(1, 2));</b>
+<b class="nc">&nbsp;        ordered1.addEventHandler(MouseEvent.MOUSE_PRESSED, event -&gt; onOrderingClick(0, 0));</b>
+<b class="nc">&nbsp;        ordered2.addEventHandler(MouseEvent.MOUSE_PRESSED, event -&gt; onOrderingClick(0, 1));</b>
+<b class="nc">&nbsp;        ordered3.addEventHandler(MouseEvent.MOUSE_PRESSED, event -&gt; onOrderingClick(0, 2));</b>
+<b class="nc">&nbsp;        confirmSelectButton.addEventHandler(MouseEvent.MOUSE_PRESSED, event -&gt; this.onConfirmSelectClick());</b>
+<b class="nc">&nbsp;        confirmSelectButton.setVisible(false);</b>
+<b class="nc">&nbsp;        confirmInsertButton.addEventHandler(MouseEvent.MOUSE_PRESSED, event -&gt; this.onConfirmInsertClick());</b>
+<b class="nc">&nbsp;        confirmInsertButton.setVisible(false);</b>
+<b class="nc">&nbsp;        selectColumnBox.setVisible(false);</b>
+<b class="nc">&nbsp;        customImg.setVisible(false);</b>
+<b class="nc">&nbsp;        initialized = true;</b>
+&nbsp;
+<b class="nc">&nbsp;        otherPlayerShelves = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;        // Chat
+<b class="nc">&nbsp;        SceneController.getActiveScene().setOnKeyPressed(this::onKeyPressed);</b>
+<b class="nc">&nbsp;        screen.addEventHandler(MouseEvent.MOUSE_PRESSED, event -&gt; chatContainer.setVisible(true));</b>
+<b class="nc">&nbsp;        chatDest.getItems().add(&quot;Everyone&quot;);</b>
+<b class="nc">&nbsp;        chatContainer.setVisible(false);</b>
+<b class="nc">&nbsp;        screen.setVisible(false);</b>
+&nbsp;
+<b class="nc">&nbsp;        chatContainer.setCursor(Cursor.MOVE);</b>
+<b class="nc">&nbsp;        chatScroll.setCursor(Cursor.DEFAULT);</b>
+&nbsp;
+<b class="nc">&nbsp;        chatContainer.setOnMouseDragged(event -&gt; {</b>
+<b class="nc">&nbsp;            chatContainer.setTranslateX(event.getSceneX() - chatContainer.getWidth());</b>
+<b class="nc">&nbsp;            chatContainer.setTranslateY(event.getSceneY() - chatContainer.getHeight());</b>
+<b class="nc">&nbsp;            event.consume();</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method called when a player clicks on a shelf cell
+&nbsp;     *
+&nbsp;     * @param event the event that triggered the method
+&nbsp;     */
+&nbsp;    @FXML
+&nbsp;    public void onKeyPressed(KeyEvent event) {
+<b class="nc">&nbsp;        KeyCode pressed = event.getCode();</b>
+<b class="nc">&nbsp;        switch (pressed) {</b>
+&nbsp;            case T:
+<b class="nc">&nbsp;                if (chatContainer.isVisible()) break;</b>
+<b class="nc">&nbsp;                chatContainer.setVisible(true);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;
+&nbsp;            case ENTER:
+<b class="nc">&nbsp;                if (!chatMsg.getText().equals(&quot;&quot;) &amp;&amp; chatDest.getValue() != null) {</b>
+&nbsp;                    Message msg;
+<b class="nc">&nbsp;                    if (chatDest.getValue().equals(&quot;Everyone&quot;)) {</b>
+<b class="nc">&nbsp;                        msg = new SendChatMessage(CHAT_MESSAGE, this.nickname, null, chatMsg.getText());</b>
+&nbsp;                    } else {
+<b class="nc">&nbsp;                        msg = new SendChatMessage(CHAT_MESSAGE, this.nickname, chatDest.getValue(), chatMsg.getText());</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    setChangedView();</b>
+<b class="nc">&nbsp;                    notifyObserversView(msg);</b>
+<b class="nc">&nbsp;                    addMessage(&quot;you&quot;, chatDest.getValue(), chatMsg.getText());</b>
+<b class="nc">&nbsp;                    chatMsg.setText(&quot;&quot;);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;                break;
+&nbsp;
+&nbsp;            case ESCAPE:
+<b class="nc">&nbsp;                hideChat();</b>
+&nbsp;                break;
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the choice box for the destination of the message
+&nbsp;     *
+&nbsp;     * @param p the list of players&#39; nicknames
+&nbsp;     */
+&nbsp;    public void updatePlayerList(List&lt;String&gt; p) {
+<b class="nc">&nbsp;        chatDest.getItems().addAll(p);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Hides the chat box
+&nbsp;     */
+&nbsp;    private void hideChat() {
+<b class="nc">&nbsp;        chatContainer.setVisible(false);</b>
+<b class="nc">&nbsp;        screen.setVisible(false);</b>
+<b class="nc">&nbsp;        chatMsg.setText(&quot;&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method called when a player receives a message
+&nbsp;     *
+&nbsp;     * @param from the sender&#39;s nickname
+&nbsp;     * @param to   the receiver&#39;s nickname (you : everyone)
+&nbsp;     * @param msg  the message
+&nbsp;     */
+&nbsp;    public void newMessage(String from, String to, String msg) {
+<b class="nc">&nbsp;        popup(from + &quot;: &quot; + msg);</b>
+<b class="nc">&nbsp;        screen.setVisible(true);</b>
+<b class="nc">&nbsp;        addMessage(from, to, msg);</b>
+<b class="nc">&nbsp;        chatScroll.setVvalue(1);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows a popup in the bottom right corner that disappears in a few seconds
+&nbsp;     *
+&nbsp;     * @param info the text to display
+&nbsp;     */
+&nbsp;    private void popup(String info) {
+<b class="nc">&nbsp;        chatPopupText.setText(info);</b>
+<b class="nc">&nbsp;        chatPopupText.setWrapText(true);</b>
+<b class="nc">&nbsp;        screen.setVisible(true);</b>
+<b class="nc">&nbsp;        new java.util.Timer().schedule(</b>
+<b class="nc">&nbsp;                new java.util.TimerTask() {</b>
+&nbsp;                    @Override
+&nbsp;                    public void run() {
+<b class="nc">&nbsp;                        screen.setVisible(false);</b>
+&nbsp;                    }
+&nbsp;                },
+&nbsp;                5000
+&nbsp;        );
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds a message to the chat box
+&nbsp;     *
+&nbsp;     * @param from the sender&#39;s nickname
+&nbsp;     * @param to   the receiver&#39;s nickname (you : everyone)
+&nbsp;     * @param msg  the message
+&nbsp;     */
+&nbsp;    public void addMessage(String from, String to, String msg) {
+<b class="nc">&nbsp;        Label text = new Label();</b>
+<b class="nc">&nbsp;        text.setText(&quot;from &quot; + from + &quot; to &quot; + to + &quot;: &quot; + msg);</b>
+&nbsp;        //text.setMaxWidth(500);
+<b class="nc">&nbsp;        text.setWrapText(true);</b>
+<b class="nc">&nbsp;        HBox box = new HBox();</b>
+<b class="nc">&nbsp;        box.getChildren().add(text);</b>
+<b class="nc">&nbsp;        if (from.equals(&quot;you&quot;)) {</b>
+<b class="nc">&nbsp;            text.getStyleClass().add(&quot;chatMessageYou&quot;);</b>
+<b class="nc">&nbsp;            box.alignmentProperty().setValue(Pos.TOP_RIGHT);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            text.getStyleClass().add(&quot;chatMessage&quot;);</b>
+<b class="nc">&nbsp;            box.alignmentProperty().setValue(Pos.TOP_LEFT);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        chatList.getChildren().add(box);</b>
+<b class="nc">&nbsp;        new java.util.Timer().schedule(</b>
+<b class="nc">&nbsp;                new java.util.TimerTask() {</b>
+&nbsp;                    @Override
+&nbsp;                    public void run() {
+<b class="nc">&nbsp;                        chatScroll.setVvalue(1);</b>
+&nbsp;
+&nbsp;                    }
+&nbsp;                },
+&nbsp;                500
+&nbsp;        );
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that shows to the player what it&#39;s happening: if it is another player&#39;s turn or if it is his turn
+&nbsp;     *
+&nbsp;     * @param s the string to show
+&nbsp;     */
+&nbsp;    public void setInstructions(String s) {
+<b class="nc">&nbsp;        instructions.setText(s);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that let the player select the items to insert in the shelf
+&nbsp;     */
+&nbsp;    public void letSelectItemsOnBoard() {
+<b class="nc">&nbsp;        livingroomGrid.setDisable(false);</b>
+<b class="nc">&nbsp;        shelfGrid.setDisable(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that let the player select the column where to insert the items and order them
+&nbsp;     */
+&nbsp;    public void letOrderAndInsert(String unorderedString, String orderedString) {
+<b class="nc">&nbsp;        livingroomGrid.setDisable(true);</b>
+<b class="nc">&nbsp;        shelfGrid.setDisable(false);</b>
+<b class="nc">&nbsp;        orderingBox.setVisible(true);</b>
+<b class="nc">&nbsp;        confirmSelectButton.setVisible(false);</b>
+<b class="nc">&nbsp;        confirmInsertButton.setVisible(false);</b>
+<b class="nc">&nbsp;        selectColumnBox.setVisible(true);</b>
+<b class="nc">&nbsp;        String[] lists = {unorderedString, orderedString};</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; 2; i++) {</b>
+<b class="nc">&nbsp;            String actual = lists[i];</b>
+<b class="nc">&nbsp;            ImageView[] child = orderingBoxChildren[i];</b>
+<b class="nc">&nbsp;            if (actual.equals(&quot; &quot;)) continue;</b>
+&nbsp;
+<b class="nc">&nbsp;            actual = actual.substring(1);</b>
+<b class="nc">&nbsp;            String[] items = splitString(actual, 2);</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; items.length; j++) {</b>
+&nbsp;
+<b class="nc">&nbsp;                ImageView cell = child[j];</b>
+<b class="nc">&nbsp;                String cellValue = items[j];</b>
+<b class="nc">&nbsp;                StringBuilder url = new StringBuilder(&quot;/images/tiles/&quot;);</b>
+<b class="nc">&nbsp;                switch (cellValue.charAt(0)) {</b>
+&nbsp;                    case &#39;W&#39;:
+&nbsp;                        // Book
+<b class="nc">&nbsp;                        url.append(&quot;Libri&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;G&#39;:
+&nbsp;                        // Cat
+<b class="nc">&nbsp;                        url.append(&quot;Gatti&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;B&#39;:
+&nbsp;                        // Frame
+<b class="nc">&nbsp;                        url.append(&quot;Cornici&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;Y&#39;:
+&nbsp;                        // Game
+<b class="nc">&nbsp;                        url.append(&quot;Giochi&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;P&#39;:
+&nbsp;                        // Plant
+<b class="nc">&nbsp;                        url.append(&quot;Piante&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;L&#39;:
+&nbsp;                        // Trophy
+<b class="nc">&nbsp;                        url.append(&quot;Trofei&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    default:
+&nbsp;                        // Empty
+<b class="nc">&nbsp;                        url = null;</b>
+&nbsp;                        break;
+&nbsp;                }
+<b class="nc">&nbsp;                if (url != null) {</b>
+<b class="nc">&nbsp;                    url.append(&quot;1.&quot;).append(Character.getNumericValue(cellValue.charAt(1)) + 1).append(&quot;.png&quot;);</b>
+<b class="nc">&nbsp;                    cell.setImage(new Image(PlaySceneController.class.getResourceAsStream(url.toString())));</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    cell.setImage(null);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that let the player select the column where to insert the items, by not allowing him to select the other columns
+&nbsp;     *
+&nbsp;     * @param cols the string that contains the columns that can be selected
+&nbsp;     * @see Shelf#getInsertableColumns()
+&nbsp;     */
+&nbsp;    public void disableOthers(String cols) {
+<b class="nc">&nbsp;        Arrays.stream(chooseColumns).forEach(c -&gt; {</b>
+<b class="nc">&nbsp;            c.setImage(new Image(PlaySceneController.class.getResourceAsStream(&quot;/images/thisColumn.png&quot;)));</b>
+<b class="nc">&nbsp;            c.setOpacity(1);</b>
+<b class="nc">&nbsp;            c.setDisable(false);</b>
+&nbsp;        });
+<b class="nc">&nbsp;        for (int i = 0; i &lt; cols.length() / 2; i++) {</b>
+<b class="nc">&nbsp;            if (cols.charAt(i * 2 + 1) == &#39; &#39;) {</b>
+<b class="nc">&nbsp;                chooseColumns[i].setOpacity(0.5);</b>
+<b class="nc">&nbsp;                chooseColumns[i].setDisable(true);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that enlight the column chosen by the player and disable the others
+&nbsp;     *
+&nbsp;     * @param n the column to enlight
+&nbsp;     */
+&nbsp;    public void enlightColumn(int n) {
+<b class="nc">&nbsp;        Arrays.stream(chooseColumns).filter(c -&gt; c.getOpacity() == 1).forEach(c -&gt; {</b>
+<b class="nc">&nbsp;            c.setImage(new Image(PlaySceneController.class.getResourceAsStream(&quot;/images/thisColumn.png&quot;)));</b>
+<b class="nc">&nbsp;            c.setOpacity(1);</b>
+<b class="nc">&nbsp;            c.setDisable(false);</b>
+&nbsp;        });
+<b class="nc">&nbsp;        chooseColumns[n].setImage(new Image(PlaySceneController.class.getResourceAsStream(&quot;/images/thisColumnSelected.png&quot;)));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that let the player select the items selected on the board
+&nbsp;     */
+&nbsp;    public void letConfirm() {
+<b class="nc">&nbsp;        confirmSelectButton.setVisible(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that doesn&#39;t let the player select the items selected on the board
+&nbsp;     */
+&nbsp;    public void dontLetConfirm() {
+<b class="nc">&nbsp;        confirmSelectButton.setVisible(false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that let the player insert the items in the shelf
+&nbsp;     */
+&nbsp;    public void letInsert() {
+<b class="nc">&nbsp;        confirmInsertButton.setVisible(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that doesn&#39;t let the player insert the items in the shelf
+&nbsp;     */
+&nbsp;    public void dontLetInsert() {
+<b class="nc">&nbsp;        confirmInsertButton.setVisible(false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that handles the click on an item on the board
+&nbsp;     *
+&nbsp;     * @param event the mouse event that triggered the method
+&nbsp;     */
+&nbsp;    @FXML
+&nbsp;    private void onLivingroomGridClick(MouseEvent event) {
+<b class="nc">&nbsp;        System.out.println(&quot;Livingroom grid clicked&quot;);</b>
+<b class="nc">&nbsp;        Node clickedNode = event.getPickResult().getIntersectedNode();</b>
+<b class="nc">&nbsp;        if (clickedNode != livingroomGrid) {</b>
+&nbsp;            // click on descendant node
+<b class="nc">&nbsp;            Integer colIndex = GridPane.getColumnIndex(clickedNode);</b>
+<b class="nc">&nbsp;            Integer rowIndex = GridPane.getRowIndex(clickedNode);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Mouse clicked cell: &quot; + colIndex + &quot; &quot; + rowIndex);</b>
+<b class="nc">&nbsp;            Message msg = new SendDataToServer(SELECT_ITEM, null, rowIndex, colIndex, false);</b>
+<b class="nc">&nbsp;            setChangedView();</b>
+<b class="nc">&nbsp;            notifyObserversView(msg);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that handles the click on a column of the shelf
+&nbsp;     *
+&nbsp;     * @param colIndex the column clicked
+&nbsp;     */
+&nbsp;    @FXML
+&nbsp;    private void onShelfGridClick(int colIndex) {
+&nbsp;        // click on descendant node
+&nbsp;
+<b class="nc">&nbsp;        System.out.println(&quot;Mouse clicked column: &quot; + colIndex);</b>
+<b class="nc">&nbsp;        Message msg = new SendDataToServer(SELECT_COLUMN, null, 0, colIndex, false);</b>
+<b class="nc">&nbsp;        setChangedView();</b>
+<b class="nc">&nbsp;        notifyObserversView(msg);</b>
+&nbsp;        // Arrays.stream(chooseColumns).forEach(c -&gt; c.setImage(new Image(&quot;file:src/main/resources/images/thisColumn.png&quot;)));
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that handles the sort of the items to put in the shelf
+&nbsp;     *
+&nbsp;     * @param action the list from which the item is taken (ordered or unordered)
+&nbsp;     * @param pos    the position of the item in the list
+&nbsp;     */
+&nbsp;    @FXML
+&nbsp;    private void onOrderingClick(int action, int pos) {
+<b class="nc">&nbsp;        Message msg = new SendDataToServer(ORDER_ITEM, null, action, pos, false);</b>
+<b class="nc">&nbsp;        setChangedView();</b>
+<b class="nc">&nbsp;        notifyObserversView(msg);</b>
+&nbsp;
+<b class="nc">&nbsp;        ImageView[] from = action == 0 ? ordered : unordered;</b>
+<b class="nc">&nbsp;        ImageView[] to = action == 0 ? unordered : ordered;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; ; i++) {</b>
+<b class="nc">&nbsp;            if (to[i].getImage() == null) {</b>
+<b class="nc">&nbsp;                to[i].setImage(from[pos].getImage());</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        for (int i = pos; i &lt; 2; i++) {</b>
+<b class="nc">&nbsp;            from[i].setImage(from[i + 1].getImage());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        from[2].setImage(null);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that handles the click on the confirm button, confirming the insertion of the items in the shelf
+&nbsp;     */
+&nbsp;    @FXML
+&nbsp;    private void onConfirmInsertClick() {
+<b class="nc">&nbsp;        Message msg = new SendDataToServer(CONFIRM_INSERTION, null, 0, 0, true);</b>
+<b class="nc">&nbsp;        setChangedView();</b>
+<b class="nc">&nbsp;        notifyObserversView(msg);</b>
+<b class="nc">&nbsp;        confirmInsertButton.setVisible(false);</b>
+<b class="nc">&nbsp;        selectColumnBox.setVisible(false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that handles the click on the confirm button, confirming the selection of the items on the board
+&nbsp;     */
+&nbsp;    @FXML
+&nbsp;    private void onConfirmSelectClick() {
+<b class="nc">&nbsp;        Message msg = new SendDataToServer(CONFIRM_ITEMS, null, 0, 0, true);</b>
+<b class="nc">&nbsp;        setChangedView();</b>
+<b class="nc">&nbsp;        notifyObserversView(msg);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the model of the view
+&nbsp;     *
+&nbsp;     * @param nickname the nickname of the player owning this view
+&nbsp;     * @param model    the model to update the view with
+&nbsp;     */
+&nbsp;    public synchronized void updateModel(String nickname, Message model) {
+<b class="nc">&nbsp;        if (initialized) {</b>
+<b class="nc">&nbsp;            title.setText(nickname + &quot;&#39;s dashboard&quot;);</b>
+<b class="nc">&nbsp;            this.nickname = nickname;</b>
+&nbsp;
+&nbsp;            // Update board
+<b class="nc">&nbsp;            if (model.getBoard() != null) fillBoard(model);</b>
+&nbsp;
+&nbsp;            // Update shelf
+<b class="nc">&nbsp;            if (model.getShelf() != null) fillShelf(model.getShelf(), shelfGridCells);</b>
+&nbsp;
+&nbsp;            // Update commonGoals
+<b class="nc">&nbsp;            if (model.getFirstCommon() != null) fillCommonGoals(model);</b>
+&nbsp;
+<b class="nc">&nbsp;            if (model.getPersonal() != null) assignPersonalGoal(model);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Chooses the right image for the personal goal card
+&nbsp;     *
+&nbsp;     * @param model the full model of the game
+&nbsp;     */
+&nbsp;    public synchronized void assignPersonalGoal(Message model) {
+<b class="nc">&nbsp;        String pg = model.getPersonal();</b>
+<b class="nc">&nbsp;        int number = Integer.parseInt(pg.split(&quot;~&quot;)[1]);</b>
+<b class="nc">&nbsp;        String path = &quot;/images/personalGoals/Personal_Goals&quot; + number + &quot;.png&quot;;</b>
+<b class="nc">&nbsp;        personalGoalCard.setImage(new Image(PlaySceneController.class.getResourceAsStream(path)));</b>
+<b class="nc">&nbsp;        if (model.getConfirm()) {</b>
+<b class="nc">&nbsp;            setThisFirst();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Shows the first player&#39;s chair
+&nbsp;     */
+&nbsp;    public void setThisFirst() {
+<b class="nc">&nbsp;        isThisFirst = true;</b>
+<b class="nc">&nbsp;        customImg.setVisible(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Splits a string in chunks of a given size (used to render the model)
+&nbsp;     *
+&nbsp;     * @param input     the string to split
+&nbsp;     * @param chunkSize the size of the chunks
+&nbsp;     * @return an array of strings, each one representing a chunk of the input string
+&nbsp;     */
+&nbsp;    private String[] splitString(String input, int chunkSize) {
+<b class="nc">&nbsp;        if (input == null) return null;</b>
+<b class="nc">&nbsp;        int length = input.length();</b>
+<b class="nc">&nbsp;        int numOfChunks = (int) Math.ceil((double) length / chunkSize);</b>
+<b class="nc">&nbsp;        String[] chunks = new String[numOfChunks];</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; numOfChunks; i++) {</b>
+<b class="nc">&nbsp;            int start = i * chunkSize;</b>
+<b class="nc">&nbsp;            int end = Math.min(start + chunkSize, length);</b>
+<b class="nc">&nbsp;            chunks[i] = input.substring(start, end);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return chunks;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the board and the common goals when it&#39;s not this player&#39;s turn
+&nbsp;     *
+&nbsp;     * @param nickname the nickname of the player that is playing
+&nbsp;     * @param model    the full model of the game
+&nbsp;     */
+&nbsp;    public void updateNotMyTurn(String nickname, Message model) {
+<b class="nc">&nbsp;        if (initialized) {</b>
+<b class="nc">&nbsp;            fillBoard(model);</b>
+<b class="nc">&nbsp;            fillCommonGoals(model);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the board
+&nbsp;     *
+&nbsp;     * @param model the full model of the game
+&nbsp;     */
+&nbsp;    private void fillBoard(Message model) {
+<b class="nc">&nbsp;        String board = model.getBoard();</b>
+<b class="nc">&nbsp;        String[] boardRows = board.split(&quot;\n&quot;);</b>
+<b class="nc">&nbsp;        String[][] itemsToPutInBoard = Arrays.stream(boardRows).map(row -&gt; splitString(row, 3)).toArray(String[][]::new);</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int rowIndex = 0; rowIndex &lt; 9; rowIndex++) {</b>
+<b class="nc">&nbsp;            for (int colIndex = 0; colIndex &lt; 9; colIndex++) {</b>
+&nbsp;
+<b class="nc">&nbsp;                ImageView cell = livingroomGridCells[colIndex][rowIndex];</b>
+<b class="nc">&nbsp;                String cellValue = itemsToPutInBoard[rowIndex][colIndex];</b>
+<b class="nc">&nbsp;                StringBuilder url = new StringBuilder(&quot;/images/tiles/&quot;);</b>
+<b class="nc">&nbsp;                switch (cellValue.charAt(1)) {</b>
+&nbsp;                    case &#39;W&#39;:
+&nbsp;                        // Book
+<b class="nc">&nbsp;                        url.append(&quot;Libri&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;G&#39;:
+&nbsp;                        // Cat
+<b class="nc">&nbsp;                        url.append(&quot;Gatti&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;B&#39;:
+&nbsp;                        // Frame
+<b class="nc">&nbsp;                        url.append(&quot;Cornici&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;Y&#39;:
+&nbsp;                        // Game
+<b class="nc">&nbsp;                        url.append(&quot;Giochi&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;P&#39;:
+&nbsp;                        // Plant
+<b class="nc">&nbsp;                        url.append(&quot;Piante&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;L&#39;:
+&nbsp;                        // Trophy
+<b class="nc">&nbsp;                        url.append(&quot;Trofei&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;#&#39;:
+&nbsp;                        // Selected
+<b class="nc">&nbsp;                        url = null;</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;■&#39;:
+&nbsp;                    default:
+&nbsp;                        // Empty
+<b class="nc">&nbsp;                        url = null;</b>
+&nbsp;                        break;
+&nbsp;
+&nbsp;                }
+<b class="nc">&nbsp;                ColorAdjust selectedEffect = new ColorAdjust();</b>
+<b class="nc">&nbsp;                if (url != null) {</b>
+<b class="nc">&nbsp;                    url.append(&quot;1.&quot;).append(Character.getNumericValue(cellValue.charAt(2)) + 1).append(&quot;.png&quot;);</b>
+&nbsp;                    //cell.setImage(new Image(url.toString()));
+<b class="nc">&nbsp;                    cell.setImage(new Image(PlaySceneController.class.getResourceAsStream(url.toString())));</b>
+<b class="nc">&nbsp;                    cell.setEffect(null);</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    if (cellValue.charAt(1) == &#39;#&#39;) {</b>
+<b class="nc">&nbsp;                        selectedEffect.setBrightness(-0.5);</b>
+<b class="nc">&nbsp;                        cell.setEffect(selectedEffect);</b>
+&nbsp;                    } else
+<b class="nc">&nbsp;                        cell.setImage(null);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the shelf of a player
+&nbsp;     *
+&nbsp;     * @param shelf  the shelf to update
+&nbsp;     * @param target the grid of the shelf to update (could be another player&#39;s shelf)
+&nbsp;     */
+&nbsp;    private void fillShelf(String shelf, ImageView[][] target) {
+&nbsp;
+<b class="nc">&nbsp;        shelf = shelf.substring(1);</b>
+<b class="nc">&nbsp;        String[] shelfRows = shelf.split(&quot;\n &quot;);</b>
+<b class="nc">&nbsp;        String[][] itemsToPutInShelf = Arrays.stream(shelfRows).map(row -&gt; splitString(row, 2)).toArray(String[][]::new);</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int rowIndex = 0; rowIndex &lt; 6; rowIndex++) {</b>
+<b class="nc">&nbsp;            for (int colIndex = 0; colIndex &lt; 5; colIndex++) {</b>
+&nbsp;
+<b class="nc">&nbsp;                ImageView cell = target[colIndex][rowIndex];</b>
+<b class="nc">&nbsp;                String cellValue = itemsToPutInShelf[rowIndex][colIndex];</b>
+<b class="nc">&nbsp;                StringBuilder url = new StringBuilder(&quot;/images/tiles/&quot;);</b>
+<b class="nc">&nbsp;                switch (cellValue.charAt(0)) {</b>
+&nbsp;                    case &#39;W&#39;:
+&nbsp;                        // Book
+<b class="nc">&nbsp;                        url.append(&quot;Libri&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;G&#39;:
+&nbsp;                        // Cat
+<b class="nc">&nbsp;                        url.append(&quot;Gatti&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;B&#39;:
+&nbsp;                        // Frame
+<b class="nc">&nbsp;                        url.append(&quot;Cornici&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;Y&#39;:
+&nbsp;                        // Game
+<b class="nc">&nbsp;                        url.append(&quot;Giochi&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;P&#39;:
+&nbsp;                        // Plant
+<b class="nc">&nbsp;                        url.append(&quot;Piante&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;L&#39;:
+&nbsp;                        // Trophy
+<b class="nc">&nbsp;                        url.append(&quot;Trofei&quot;);</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    case &#39;■&#39;:
+&nbsp;                    default:
+&nbsp;                        // Empty
+<b class="nc">&nbsp;                        url = null;</b>
+&nbsp;                        break;
+&nbsp;                }
+<b class="nc">&nbsp;                if (url != null) {</b>
+<b class="nc">&nbsp;                    url.append(&quot;1.&quot;).append(Character.getNumericValue(cellValue.charAt(1)) + 1).append(&quot;.png&quot;);</b>
+<b class="nc">&nbsp;                    cell.setImage(new Image(PlaySceneController.class.getResourceAsStream(url.toString())));</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    cell.setImage(null);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the common goals
+&nbsp;     *
+&nbsp;     * @param model the full model of the game
+&nbsp;     */
+&nbsp;    private void fillCommonGoals(Message model) {
+<b class="nc">&nbsp;        String[] goals = {model.getFirstCommon(), model.getSecondCommon()};</b>
+<b class="nc">&nbsp;        Arrays.stream(commonWrap).flatMap(Arrays::stream).filter(Objects::nonNull).forEach(node -&gt; node.setVisible(false));</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; 2; i++) {</b>
+<b class="nc">&nbsp;            String goal = goals[i];</b>
+<b class="nc">&nbsp;            String name = goal.split(&quot;\n&quot;)[0];</b>
+<b class="nc">&nbsp;            String thisTooltip = null;</b>
+<b class="nc">&nbsp;            switch (CommonGoalName.valueOf(name)) {</b>
+&nbsp;                case FIVEX:
+<b class="nc">&nbsp;                    thisTooltip = &quot;Five tiles of the same type forming an X&quot;;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;
+&nbsp;                case FOURANGLES:
+<b class="nc">&nbsp;                    thisTooltip = &quot;Four tiles of the same type in the four corners of the bookshelf&quot;;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;
+&nbsp;                case SIXCOUPLES:
+<b class="nc">&nbsp;                    thisTooltip = &quot;Six groups each containing at least 2 tiles of the same type\n&quot; +</b>
+&nbsp;                            &quot; The tiles of one group can be different from those of another group&quot;;
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;
+&nbsp;                case FIVEDIAGONAL:
+<b class="nc">&nbsp;                    thisTooltip = &quot;Five tiles of the same type forming a diagonal&quot;;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;
+&nbsp;                case SQUARE2X2:
+<b class="nc">&nbsp;                    thisTooltip = &quot;Two groups each containing 4 tiles of the same type in a 2x2 square\n&quot; +</b>
+&nbsp;                            &quot; The tiles of one square has to be the same from those of the other square.&quot;;
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;
+&nbsp;                case FOURADJACENT:
+<b class="nc">&nbsp;                    thisTooltip = &quot;Four groups each containing at least 4 tiles of the same type\n&quot; +</b>
+&nbsp;                            &quot; The tiles of one group can be different from those of another group.&quot;;
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;
+&nbsp;                case EIGHTSAMETYPE:
+<b class="nc">&nbsp;                    thisTooltip = &quot;Eight tiles of the same type&quot;;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;
+&nbsp;                case FIVEDECRESING:
+<b class="nc">&nbsp;                    thisTooltip = &quot;Five columns of increasing or decreasing height: starting with the first column to the left or right,\n&quot; +</b>
+&nbsp;                            &quot; each subsequent column must consist of one more tile. Tiles can be of any type.&quot;;
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;
+&nbsp;                case ROW4ITEMS5:
+<b class="nc">&nbsp;                    thisTooltip = &quot;Four lines each formed by 5 tiles of maximum three different types.\n&quot; +</b>
+&nbsp;                            &quot;One line can show the same or a different combination of another line&quot;;
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;
+&nbsp;                case COLUMNS3ITEMS6:
+<b class="nc">&nbsp;                    thisTooltip = &quot;Three columns each formed by 6 tiles of maximum three different types.&quot; +</b>
+&nbsp;                            &quot; One column can show the same or a different combination of another column&quot;;
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;
+&nbsp;                case ROW2ITEMS5DIFFERENT:
+<b class="nc">&nbsp;                    thisTooltip = &quot;Two lines each formed by 5 different types of tiles.&quot; +</b>
+&nbsp;                            &quot;One line can show the same or a different combination of the other line&quot;;
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;
+&nbsp;                case COLUMNS2ITEMS6DIFFERENT:
+<b class="nc">&nbsp;                    thisTooltip = &quot;Two columns each formed by 6 different types of tiles&quot;;</b>
+&nbsp;                    break;
+&nbsp;
+&nbsp;            }
+<b class="nc">&nbsp;            int which = CommonGoalName.valueOf(name).ordinal() + 1;</b>
+<b class="nc">&nbsp;            String url = &quot;/images/commonGoals/&quot; + which + &quot;.jpg&quot;;</b>
+<b class="nc">&nbsp;            commonWrap[i][0].setImage(new Image(PlaySceneController.class.getResourceAsStream(url)));</b>
+<b class="nc">&nbsp;            commonWrap[i][0].setVisible(true);</b>
+<b class="nc">&nbsp;            Tooltip.install(commonWrap[i][0], new Tooltip(thisTooltip));</b>
+<b class="nc">&nbsp;            String[] exploded = goal.split(&quot;are: &quot;);</b>
+<b class="nc">&nbsp;            String[] tokenRemaining = exploded[1].split(&quot; &quot;);</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; tokenRemaining.length - 1; j++) {</b>
+<b class="nc">&nbsp;                String token = tokenRemaining[j];</b>
+<b class="nc">&nbsp;                commonWrap[i][Integer.parseInt(token)].setVisible(true);</b>
+<b class="nc">&nbsp;                Tooltip.install(commonWrap[i][Integer.parseInt(token)], new Tooltip(thisTooltip));</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Resets the view when a player has finished his turn
+&nbsp;     */
+&nbsp;    public void endTurn() {
+<b class="nc">&nbsp;        orderingBox.setVisible(false);</b>
+<b class="nc">&nbsp;        Arrays.stream(orderingBoxChildren).flatMap(Arrays::stream).forEach(node -&gt; node.setImage(null));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Assigns a common goal token to a player that earned it
+&nbsp;     *
+&nbsp;     * @param which  the index of the common goal
+&nbsp;     * @param points the points of the common goal
+&nbsp;     */
+&nbsp;    public void setCommon(int which, int points) {
+<b class="nc">&nbsp;        ImageView toShow = commonTokensTaken[which];</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Common goal &quot; + points + &quot; taken&quot;);</b>
+<b class="nc">&nbsp;        if (points == 0) {</b>
+<b class="nc">&nbsp;            toShow.setImage(null);</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        toShow.setImage(new Image(PlaySceneController.class.getResourceAsStream(&quot;/images/commonGoals/scores/scoring_&quot; + points + &quot;.jpg&quot;)));</b>
+<b class="nc">&nbsp;        if (which == 2) endGameTokenImg.setVisible(false);</b>
+<b class="nc">&nbsp;        popup(&quot;Oops! someone else took &quot; + points + &quot; from a common goal :(&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Assigns the end game token
+&nbsp;     */
+&nbsp;    public void endGameTaken() {
+<b class="nc">&nbsp;        endGameTokenImg.setVisible(false);</b>
+<b class="nc">&nbsp;        popup(&quot;Someone has completed his shelf!\nThis is gonna be the last round!&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates the shelf of the player that is not the current player when he has finished his turn
+&nbsp;     *
+&nbsp;     * @param nickname the nickname of the player
+&nbsp;     * @param shelf    the shelf of the player
+&nbsp;     */
+&nbsp;    public void updateOtherShelf(String nickname, String shelf) {
+&nbsp;        ImageView[][] shelfToUpdate;
+&nbsp;        //if (!chatDest.getItems().contains(nickname))
+&nbsp;        //    chatDest.getItems().add(nickname);
+<b class="nc">&nbsp;        if (otherPlayerShelves.containsKey(nickname)) {</b>
+<b class="nc">&nbsp;            shelfToUpdate = otherPlayerShelves.get(nickname).getX();</b>
+&nbsp;        } else {
+&nbsp;            Label lbl;
+<b class="nc">&nbsp;            if (!otherShelfUsed.contains(shelfGridCells2)) {</b>
+<b class="nc">&nbsp;                shelfToUpdate = shelfGridCells2;</b>
+<b class="nc">&nbsp;                lbl = otherPlayerName1;</b>
+<b class="nc">&nbsp;                bottomShelf1.setVisible(true);</b>
+<b class="nc">&nbsp;            } else if (!otherShelfUsed.contains(shelfGridCells3)) {</b>
+<b class="nc">&nbsp;                shelfToUpdate = shelfGridCells3;</b>
+<b class="nc">&nbsp;                lbl = otherPlayerName2;</b>
+<b class="nc">&nbsp;                bottomShelf2.setVisible(true);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                shelfToUpdate = shelfGridCells4;</b>
+<b class="nc">&nbsp;                lbl = otherPlayerName3;</b>
+<b class="nc">&nbsp;                bottomShelf3.setVisible(true);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            otherShelfUsed.add(shelfToUpdate);</b>
+<b class="nc">&nbsp;            lbl.setText(nickname);</b>
+<b class="nc">&nbsp;            otherPlayerShelves.put(nickname, new Pair&lt;&gt;(shelfToUpdate, lbl));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (!shelf.equals(&quot;&quot;))</b>
+<b class="nc">&nbsp;            fillShelf(shelf, shelfToUpdate);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

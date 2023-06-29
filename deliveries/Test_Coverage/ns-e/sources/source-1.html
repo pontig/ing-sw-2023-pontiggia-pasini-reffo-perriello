@@ -1,0 +1,166 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PrintMsg</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view.cliChat.Printer</a>
+</div>
+
+<h1>Coverage Summary for Class: PrintMsg (it.polimi.ingsw.view.cliChat.Printer)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PrintMsg</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.view.cliChat.Printer;
+&nbsp;
+&nbsp;/**
+&nbsp; * A utility class for printing messages with ANSI colors
+&nbsp; */
+<b class="nc">&nbsp;public class PrintMsg {</b>
+&nbsp;    //ANSI Colors
+&nbsp;    public static final String RESET = &quot;\033[0m&quot;;               //Reset to normal color
+&nbsp;    public static final String RED = &quot;\033[38;5;196m&quot;;          //Errors
+&nbsp;    public static final String GREEN = &quot;\033[38;5;83m&quot;;         //Messages from server
+&nbsp;    public static final String PINK = &quot;\033[38;5;164m&quot;;         //Messages from players
+&nbsp;    public static final String WHITE = &quot;\033[38;5;231m&quot;;        //Content of player message
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints an error message in red color
+&nbsp;     *
+&nbsp;     * @param error the error message to print
+&nbsp;     */
+&nbsp;    public void printError(String error){
+<b class="nc">&nbsp;        System.out.println(RED + error + RESET);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints a message from the server in green color
+&nbsp;     *
+&nbsp;     * @param msg the message to print
+&nbsp;     */
+&nbsp;    public void printMsgServer(String msg){
+<b class="nc">&nbsp;        System.out.println(GREEN + msg + RESET);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints a message from a player in pink color
+&nbsp;     *
+&nbsp;     * @param message the message to print (Type-From-Text-Type)
+&nbsp;     */
+&nbsp;    public void printMsgPlayers(String message){            //Type-From-Text-Type
+<b class="nc">&nbsp;        String[] msg = message.split(&quot;-&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (msg[0].equals(&quot;P&quot;))</b>
+<b class="nc">&nbsp;            System.out.print(PINK + &quot;Message from &quot; + msg[1] + &quot; to you -&gt; &quot; + WHITE +  msg[2] + &quot;\n&quot; + RESET);</b>
+<b class="nc">&nbsp;        else if (msg[0].equals(&quot;A&quot;))</b>
+<b class="nc">&nbsp;            System.out.print(PINK + &quot;Message from &quot; + msg[1] + &quot; to everybody -&gt; &quot; + WHITE +  msg[2] + &quot;\n&quot; + RESET);</b>
+&nbsp;        else
+<b class="nc">&nbsp;            printError(&quot;Message format is not accepted&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints a player&#39;s own message in pink color
+&nbsp;     *
+&nbsp;     * @param message the message to print (Type-From-To-Text-Type)
+&nbsp;     */
+&nbsp;    public void printOwnMsg(String message){            //Type-From-To-Text-Type
+<b class="nc">&nbsp;        String[] msg = message.split(&quot;-&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (msg[0].equals(&quot;P&quot;))</b>
+<b class="nc">&nbsp;            System.out.print(PINK + &quot;Message from &quot; + msg[1] + &quot; to &quot; + msg[2] + &quot; -&gt; &quot; + WHITE +  msg[3] + &quot;\n&quot; + RESET);</b>
+<b class="nc">&nbsp;        else if (msg[0].equals(&quot;A&quot;))</b>
+<b class="nc">&nbsp;            System.out.print(PINK + &quot;Message from &quot; + msg[1] + &quot; to everybody -&gt; &quot; + WHITE +  msg[2] + &quot;\n&quot; + RESET);</b>
+&nbsp;        else
+<b class="nc">&nbsp;            printError(&quot;Message format is not accepted&quot;);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

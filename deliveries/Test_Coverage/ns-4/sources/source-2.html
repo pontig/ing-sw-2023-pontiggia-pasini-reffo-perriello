@@ -1,0 +1,262 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > State</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.enums</a>
+</div>
+
+<h1>Coverage Summary for Class: State (it.polimi.ingsw.enums)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">State</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (37/37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.enums;
+&nbsp;
+&nbsp;/**
+&nbsp; * Purposes of the messages exchanged between client and server and vice versa
+&nbsp; */
+<b class="fc">&nbsp;public enum State {</b>
+&nbsp;    /* =================================================================================================================
+&nbsp;                                           ---CLIENT TO SERVER---
+&nbsp;    ================================================================================================================= */
+&nbsp;    /**
+&nbsp;     * The user has entered a username
+&nbsp;     */
+<b class="fc">&nbsp;    SET_NICKNAME,</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     *  The user has chosen a number of players for the game
+&nbsp;     */
+<b class="fc">&nbsp;    SET_NUMPLAYERS,</b>
+&nbsp;    /**
+&nbsp;     * Make the server check if the game is ready to start
+&nbsp;     */
+<b class="fc">&nbsp;    GAME_READY,</b>
+&nbsp;    /**
+&nbsp;     * The user has chosen an item on the board
+&nbsp;     */
+<b class="fc">&nbsp;    SELECT_ITEM,</b>
+&nbsp;    /**
+&nbsp;     *  The user has confirmed the items selected
+&nbsp;     */
+<b class="fc">&nbsp;    CONFIRM_ITEMS,</b>
+&nbsp;    /**
+&nbsp;     *  The user has modified the order of the items to put in the shelf
+&nbsp;     */
+<b class="fc">&nbsp;    ORDER_ITEM,</b>
+&nbsp;    /**
+&nbsp;     *  The user has chosen a column
+&nbsp;     */
+<b class="fc">&nbsp;    SELECT_COLUMN,</b>
+&nbsp;    /**
+&nbsp;     * The user has confirmed the insertion of the ordered items in a column
+&nbsp;     */
+<b class="fc">&nbsp;    CONFIRM_INSERTION,</b>
+&nbsp;
+&nbsp;    /* =================================================================================================================
+&nbsp;                                           ---SERVER TO CLIENT---
+&nbsp;    ================================================================================================================= */
+&nbsp;    /**
+&nbsp;     * The username chosen is confirmed for a specific client
+&nbsp;     */
+<b class="fc">&nbsp;    ACK_NICKNAME,</b>
+&nbsp;    /**
+&nbsp;     * The server wants to know the number of players for the next game
+&nbsp;     */
+<b class="fc">&nbsp;    ASK_NUMPLAYERS,</b>
+&nbsp;    /**
+&nbsp;     * A client has inserted a username already taken by another client
+&nbsp;     */
+<b class="fc">&nbsp;    SAME_NICKNAME,</b>
+&nbsp;    /**
+&nbsp;     * A client tried to connect while another game was going
+&nbsp;     */
+<b class="fc">&nbsp;    NACK_NICKNAME,</b>
+&nbsp;    /**
+&nbsp;     * The server accepted the number of players for the game
+&nbsp;     */
+<b class="fc">&nbsp;    ACK_NUMPLAYERS,</b>
+&nbsp;    /**
+&nbsp;     * The user has chosen a number of players but another player selected it earlier
+&nbsp;     */
+<b class="fc">&nbsp;    NACK_NUMPLAYERS,</b>
+&nbsp;    /**
+&nbsp;     * The user has inserted an out of bound number of players
+&nbsp;     */
+<b class="fc">&nbsp;    OUT_BOUND_NUMPLAYERS,</b>
+&nbsp;    /**
+&nbsp;     * Sends to the view the whole model
+&nbsp;     */
+<b class="fc">&nbsp;    SEND_MODEL,</b>
+&nbsp;    /**
+&nbsp;     * The item chosen is selectable and it is selected
+&nbsp;     */
+<b class="fc">&nbsp;    SELECTED,</b>
+&nbsp;    /**
+&nbsp;     * Lets the user chose a column and order the items to insert
+&nbsp;     */
+<b class="fc">&nbsp;    ORDER_n_COLUMN,</b>
+&nbsp;    /**
+&nbsp;     * The column chosen to insert into is eligible and it will be shown
+&nbsp;     */
+<b class="fc">&nbsp;    ACK_ORDER_n_COLUMN,</b>
+&nbsp;    /**
+&nbsp;     * The number of the column inserted isn&#39;t valid
+&nbsp;     */
+<b class="fc">&nbsp;    NACK_COLUMN,</b>
+&nbsp;    /**
+&nbsp;     * The player has inserted an invalid ordering sequence
+&nbsp;     */
+<b class="fc">&nbsp;    NACK_ORDER,</b>
+&nbsp;    /**
+&nbsp;     *  The turn has ended correctly
+&nbsp;     */
+<b class="fc">&nbsp;    INSERTION_DONE,</b>
+&nbsp;    /**
+&nbsp;     * One player has obtained the first common goal
+&nbsp;     */
+<b class="fc">&nbsp;    FIRSTCOMMONGOAL_TAKEN,</b>
+&nbsp;    /**
+&nbsp;     * One player has obtained the second common goal
+&nbsp;     */
+<b class="fc">&nbsp;    SECONDCOMMONGOAL_TAKEN,</b>
+&nbsp;    /**
+&nbsp;     * One player has completed the shelf before the others
+&nbsp;     */
+<b class="fc">&nbsp;    TOKEN_END_GAME,</b>
+&nbsp;    /**
+&nbsp;     * Sends the result of the game
+&nbsp;     */
+<b class="fc">&nbsp;    RESULTS,</b>
+&nbsp;    /**
+&nbsp;     *  Shelves of the other players
+&nbsp;     */
+<b class="fc">&nbsp;    SEND_OTHER_SHELF,</b>
+&nbsp;    /**
+&nbsp;     * A player has been reconnected from a previous game crashed
+&nbsp;     */
+<b class="fc">&nbsp;    RECONNECTED,</b>
+&nbsp;    /**
+&nbsp;     * A player wants to join but the server is waiting for the players in the crashed game
+&nbsp;     */
+<b class="fc">&nbsp;    NOT_IN_PREV_GAME,</b>
+&nbsp;    /**
+&nbsp;     * Another player obtained a token
+&nbsp;     */
+<b class="fc">&nbsp;    TOKENS_TAKEN,</b>
+&nbsp;    /**
+&nbsp;     * The player list for the select box in the GUI chat
+&nbsp;     */
+<b class="fc">&nbsp;    PLAYER_LIST,</b>
+&nbsp;    /**
+&nbsp;     * New message in the chat
+&nbsp;     */
+<b class="fc">&nbsp;    CHAT_MESSAGE,</b>
+&nbsp;    /**
+&nbsp;     * Send all the data about each player during the game
+&nbsp;     */
+<b class="fc">&nbsp;    IN_GAME,</b>
+&nbsp;    /**
+&nbsp;     * Notification that the client is disconnected
+&nbsp;     */
+<b class="fc">&nbsp;    CLIENT_DOWN,</b>
+&nbsp;    /**
+&nbsp;     *  Ping used to see if the server or the client is working in RMI
+&nbsp;     */
+<b class="fc">&nbsp;    PING,</b>
+&nbsp;    /**
+&nbsp;     * Close the connection if more client are in the game then the actual expected number
+&nbsp;     */
+<b class="fc">&nbsp;    TOO_MANY,</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

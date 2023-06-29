@@ -1,0 +1,148 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > AskNumPlayersSceneController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view.gui.scene</a>
+</div>
+
+<h1>Coverage Summary for Class: AskNumPlayersSceneController (it.polimi.ingsw.view.gui.scene)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AskNumPlayersSceneController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.view.gui.scene;
+&nbsp;
+&nbsp;import it.polimi.ingsw.network.messages.Message;
+&nbsp;import it.polimi.ingsw.network.messages.SendDataToServer;
+&nbsp;import it.polimi.ingsw.observer.ObservableView;
+&nbsp;import javafx.fxml.FXML;
+&nbsp;import javafx.scene.control.Button;
+&nbsp;
+&nbsp;import static it.polimi.ingsw.enums.State.SET_NUMPLAYERS;
+&nbsp;
+<b class="nc">&nbsp;public class AskNumPlayersSceneController extends ObservableView implements GenericSceneController  {</b>
+&nbsp;    @FXML
+&nbsp;    private Button twoPlayersButton, threePlayersButton, fourPlayersButton;
+&nbsp;    private String nickname;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Initializes the controller setting the event handler for the buttons
+&nbsp;     */
+&nbsp;    @FXML
+&nbsp;    public void initialize()  {
+<b class="nc">&nbsp;        twoPlayersButton.setOnAction(event -&gt; send(2));</b>
+<b class="nc">&nbsp;        threePlayersButton.setOnAction(event -&gt; send(3));</b>
+<b class="nc">&nbsp;        fourPlayersButton.setOnAction(event -&gt; send(4));</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends the number of players chosen by the user to the server
+&nbsp;     * @param n the number of players chosen by the user
+&nbsp;     */
+&nbsp;    private void send(int n) {
+<b class="nc">&nbsp;        Message msg = new SendDataToServer(SET_NUMPLAYERS,  nickname, n, 0, false);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;AskNumPlayersSceneController: &quot; + n + &quot; from &quot; + nickname);</b>
+<b class="nc">&nbsp;        setChangedView();</b>
+<b class="nc">&nbsp;        notifyObserversView(msg);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the nickname of the player
+&nbsp;     * @param nickname the nickname of the player
+&nbsp;     */
+&nbsp;    public void setNickname(String nickname) {
+<b class="nc">&nbsp;        this.nickname = nickname;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

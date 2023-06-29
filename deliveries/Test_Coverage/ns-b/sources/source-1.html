@@ -1,0 +1,154 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Pair</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.tuples</a>
+</div>
+
+<h1>Coverage Summary for Class: Pair (it.polimi.ingsw.tuples)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Pair</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85,7%
+  </span>
+  <span class="absValue">
+    (6/7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.tuples;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonCreator;
+&nbsp;import com.fasterxml.jackson.annotation.JsonProperty;
+&nbsp;
+&nbsp;/**
+&nbsp; * A generic class representing a pair of two values
+&nbsp; *
+&nbsp; * @param &lt;X&gt; the type of the first value in the pair
+&nbsp; * @param &lt;Y&gt; the type of the second value in the pair
+&nbsp; */
+&nbsp;public class Pair &lt;X, Y&gt;{
+&nbsp;    private X x;
+&nbsp;    private Y y;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructs a pair with the specified values
+&nbsp;     *
+&nbsp;     * @param x the first value of the pair
+&nbsp;     * @param y the second value of the pair
+&nbsp;     */
+&nbsp;    @JsonCreator
+<b class="fc">&nbsp;    public Pair(@JsonProperty(&quot;x&quot;) X x,@JsonProperty(&quot;y&quot;) Y y){</b>
+<b class="fc">&nbsp;        this.x = x;</b>
+<b class="fc">&nbsp;        this.y = y;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the first value of the pair
+&nbsp;     */
+<b class="fc">&nbsp;    public X getX() { return this.x; }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the second value of the pair
+&nbsp;     */
+<b class="fc">&nbsp;    public Y getY() { return this.y; }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the first value of the pair
+&nbsp;     *
+&nbsp;     * @param x the new first value of the pair
+&nbsp;     */
+<b class="nc">&nbsp;    public void setX(X x) { this.x = x; }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the second value of the pair
+&nbsp;     *
+&nbsp;     * @param y the new second value of the pair
+&nbsp;     */
+<b class="fc">&nbsp;    public void setY(Y y) { this.y = y;}</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

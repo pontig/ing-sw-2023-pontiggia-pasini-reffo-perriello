@@ -1,0 +1,1359 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Game</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Game (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Game</td>
+<td class="coverageStat">
+  <span class="percent">
+    88,2%
+  </span>
+  <span class="absValue">
+    (60/68)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    78,8%
+  </span>
+  <span class="absValue">
+    (372/472)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Game$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    88,4%
+  </span>
+  <span class="absValue">
+    (61/69)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    78,9%
+  </span>
+  <span class="absValue">
+    (374/474)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.model;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonIgnore;
+&nbsp;import com.fasterxml.jackson.annotation.JsonProperty;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;import it.polimi.ingsw.enums.*;
+&nbsp;import it.polimi.ingsw.model.commongoal.*;
+&nbsp;
+&nbsp;import it.polimi.ingsw.network.messages.*;
+&nbsp;import it.polimi.ingsw.observer.ObservableModel;
+&nbsp;import it.polimi.ingsw.tuples.Pair;
+&nbsp;import it.polimi.ingsw.tuples.Triplet;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;import static it.polimi.ingsw.enums.State.*;
+&nbsp;import static it.polimi.ingsw.enums.Type.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Game is a class that represents a game
+&nbsp; * it contains every method that modifies the model
+&nbsp; */
+&nbsp;public class Game extends ObservableModel&lt;Message&gt; {              //extends Observable
+&nbsp;    private List&lt;Player&gt; playerList;
+&nbsp;    private int numberOfPlayers;
+&nbsp;    @JsonIgnore
+&nbsp;    private List&lt;PersonalGoal&gt; personalGoals;
+&nbsp;    private StateTurn playerState;
+&nbsp;    private Player currentPlayer;
+&nbsp;    private List&lt;CommonGoalName&gt; commonGoals;
+&nbsp;    private String firstCommonGoalString, secondCommonGoalString;
+&nbsp;    private CommonGoalAbstract firstCommonGoal;
+&nbsp;    private CommonGoalAbstract secondCommonGoal;
+&nbsp;    private Board board;
+&nbsp;    private boolean endGame;
+&nbsp;    @JsonIgnore
+&nbsp;    private boolean canConfirmItem;
+&nbsp;    private boolean orderOK;
+&nbsp;    private boolean columnOK;
+&nbsp;    private int numPendingItems;
+<b class="fc">&nbsp;    @JsonIgnore</b>
+&nbsp;    private List&lt;Item&gt; confirmedItems = new ArrayList&lt;&gt;();
+<b class="fc">&nbsp;    @JsonIgnore</b>
+&nbsp;    private List&lt;Item&gt; tmpOrderedItems = new ArrayList&lt;&gt;();
+&nbsp;    private int columnChosen;
+&nbsp;    private List&lt;Pair&lt;String, Integer&gt;&gt; gameResult;
+&nbsp;    private Bag bag;
+<b class="fc">&nbsp;    private Message msg = null;</b>
+<b class="fc">&nbsp;    private boolean fromScratch = true;</b>
+<b class="fc">&nbsp;    private List&lt;Player&gt; playersToReconnect = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;    private int playerConnection = 0;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Game constructor
+&nbsp;     *
+&nbsp;     * @param board            the board of the game
+&nbsp;     * @param commonGoals      the common goals of the game
+&nbsp;     * @param personalGoalList the personal goals of the game
+&nbsp;     */
+<b class="fc">&nbsp;    public Game(Board board, List&lt;CommonGoalName&gt; commonGoals, List&lt;PersonalGoal&gt; personalGoalList) {</b>
+<b class="fc">&nbsp;        this.playerList = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.board = board;</b>
+<b class="fc">&nbsp;        this.bag = new Bag();</b>
+<b class="fc">&nbsp;        this.commonGoals = commonGoals;</b>
+<b class="fc">&nbsp;        this.personalGoals = personalGoalList;</b>
+<b class="fc">&nbsp;        this.endGame = false;</b>
+<b class="fc">&nbsp;        this.canConfirmItem = false;</b>
+<b class="fc">&nbsp;        this.orderOK = false;</b>
+<b class="fc">&nbsp;        this.columnOK = false;</b>
+<b class="fc">&nbsp;        this.numberOfPlayers = 0;</b>
+<b class="fc">&nbsp;        this.numPendingItems = 0;</b>
+<b class="fc">&nbsp;        this.confirmedItems = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.tmpOrderedItems = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.columnChosen = -1;</b>
+<b class="fc">&nbsp;        this.gameResult = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Game constructor for test purpose only
+&nbsp;     *
+&nbsp;     * @param nickName       the nickname of the player that creates the game
+&nbsp;     * @param numberOfPlayer the number of players of the game
+&nbsp;     * @param board          the board of the game
+&nbsp;     * @param commonGoals    the common goals of the game
+&nbsp;     */
+<b class="fc">&nbsp;    public Game(String nickName, int numberOfPlayer, Board board, List&lt;CommonGoalName&gt; commonGoals) {</b>
+<b class="fc">&nbsp;        this.playerList = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.numberOfPlayers = numberOfPlayer;</b>
+&nbsp;        // TODO: Da sistemare il passaggio di asset
+<b class="fc">&nbsp;        Set&lt;Triplet&lt;Integer, Integer, Type&gt;&gt; pG = new HashSet&lt;&gt;();</b>
+<b class="fc">&nbsp;        pG.add(new Triplet&lt;&gt;(4, 1, CAT));</b>
+<b class="fc">&nbsp;        pG.add(new Triplet&lt;&gt;(4, 1, BOOK));</b>
+<b class="fc">&nbsp;        pG.add(new Triplet&lt;&gt;(4, 1, GAME));</b>
+<b class="fc">&nbsp;        pG.add(new Triplet&lt;&gt;(2, 0, FRAME));</b>
+<b class="fc">&nbsp;        pG.add(new Triplet&lt;&gt;(2, 5, TROPHY));</b>
+<b class="fc">&nbsp;        pG.add(new Triplet&lt;&gt;(0, 0, PLANTS));</b>
+&nbsp;
+<b class="fc">&nbsp;        this.currentPlayer = new Player(nickName, new PersonalGoal(pG, -1));</b>
+<b class="fc">&nbsp;        this.playerList.add(this.currentPlayer);</b>
+<b class="fc">&nbsp;        this.board = board;</b>
+<b class="fc">&nbsp;        this.bag = new Bag();</b>
+<b class="fc">&nbsp;        if (board != null)</b>
+<b class="fc">&nbsp;            this.board.fill(this.numberOfPlayers, this.bag);</b>
+&nbsp;
+<b class="fc">&nbsp;        this.commonGoals = commonGoals;</b>
+<b class="fc">&nbsp;        if (this.commonGoals != null) {</b>
+<b class="fc">&nbsp;            this.firstCommonGoal = assignCommonGoal(1);</b>
+<b class="fc">&nbsp;            this.secondCommonGoal = assignCommonGoal(2);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        this.endGame = false;</b>
+<b class="fc">&nbsp;        this.canConfirmItem = false;</b>
+<b class="fc">&nbsp;        this.orderOK = false;</b>
+<b class="fc">&nbsp;        this.columnOK = false;</b>
+<b class="fc">&nbsp;        this.numPendingItems = 0;</b>
+<b class="fc">&nbsp;        this.confirmedItems = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.tmpOrderedItems = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.columnChosen = 0;</b>
+<b class="fc">&nbsp;        this.gameResult = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Draws random personal goal
+&nbsp;     *
+&nbsp;     * @return the personal goal drawn
+&nbsp;     */
+&nbsp;    private PersonalGoal assignPersonalGoal() {
+<b class="fc">&nbsp;        if (this.personalGoals == null) return null;</b>
+<b class="fc">&nbsp;                Random random = new Random();</b>
+&nbsp;        int randomInt;
+<b class="fc">&nbsp;        randomInt = random.nextInt(this.personalGoals.size());</b>
+<b class="fc">&nbsp;        return personalGoals.remove(randomInt);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Draws a common goal for the game
+&nbsp;     *
+&nbsp;     * @param which the number of the common goal (first or second)
+&nbsp;     * @return the common goal drawn
+&nbsp;     */
+&nbsp;    private CommonGoalAbstract assignCommonGoal(int which) {
+<b class="fc">&nbsp;        Random random = new Random();</b>
+<b class="fc">&nbsp;        int randomInt = random.nextInt(this.commonGoals.size());</b>
+<b class="fc">&nbsp;        CommonGoalName goal = commonGoals.remove(randomInt);</b>
+&nbsp;        CommonGoalAbstract c;
+<b class="fc">&nbsp;        switch (which) {</b>
+&nbsp;            case 1:
+<b class="fc">&nbsp;                firstCommonGoalString = goal.toString();</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            case 2:
+<b class="fc">&nbsp;                secondCommonGoalString = goal.toString();</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            default:
+&nbsp;                break;
+&nbsp;        }
+<b class="fc">&nbsp;        switch (goal) {</b>
+&nbsp;            case FIVEX:
+<b class="fc">&nbsp;                c = new FiveXGoal(this.numberOfPlayers);</b>
+<b class="fc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="fc">&nbsp;                return c;</b>
+&nbsp;
+&nbsp;            case FOURANGLES:
+<b class="fc">&nbsp;                c = new FourAnglesGoal(this.numberOfPlayers);</b>
+<b class="fc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="fc">&nbsp;                return c;</b>
+&nbsp;
+&nbsp;            case SIXCOUPLES:
+<b class="fc">&nbsp;                c = new SixCouplesGoal(this.numberOfPlayers);</b>
+<b class="fc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="fc">&nbsp;                return c;</b>
+&nbsp;
+&nbsp;            case FIVEDIAGONAL:
+<b class="fc">&nbsp;                c = new FiveDiagonalGoal(this.numberOfPlayers);</b>
+<b class="fc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="fc">&nbsp;                return c;</b>
+&nbsp;
+&nbsp;            case SQUARE2X2:
+<b class="fc">&nbsp;                c = new Square2x2Goal(this.numberOfPlayers);</b>
+<b class="fc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="fc">&nbsp;                return c;</b>
+&nbsp;
+&nbsp;            case FOURADJACENT:
+<b class="fc">&nbsp;                c = new FourAdjacentGoal(this.numberOfPlayers);</b>
+<b class="fc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="fc">&nbsp;                return c;</b>
+&nbsp;
+&nbsp;            case EIGHTSAMETYPE:
+<b class="fc">&nbsp;                c = new EightSameTypeGoal(this.numberOfPlayers);</b>
+<b class="fc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="fc">&nbsp;                return c;</b>
+&nbsp;
+&nbsp;            case FIVEDECRESING:
+<b class="fc">&nbsp;                c = new FiveDecreasingGoal(this.numberOfPlayers);</b>
+<b class="fc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="fc">&nbsp;                return c;</b>
+&nbsp;
+&nbsp;            case ROW4ITEMS5:
+<b class="fc">&nbsp;                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, &#39;h&#39;, 3, 4);</b>
+<b class="fc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="fc">&nbsp;                return c;</b>
+&nbsp;
+&nbsp;            case COLUMNS3ITEMS6:
+<b class="fc">&nbsp;                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, &#39;v&#39;, 3, 3);</b>
+<b class="fc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="fc">&nbsp;                return c;</b>
+&nbsp;
+&nbsp;            case ROW2ITEMS5DIFFERENT:
+<b class="fc">&nbsp;                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, &#39;h&#39;, 5, 2);</b>
+<b class="fc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="fc">&nbsp;                return c;</b>
+&nbsp;
+&nbsp;            case COLUMNS2ITEMS6DIFFERENT:
+<b class="fc">&nbsp;                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, &#39;v&#39;, 6, 2);</b>
+<b class="fc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="fc">&nbsp;                return c;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return new AdjacentDifferentItemsGoal(this.numberOfPlayers, &#39;v&#39;, 6, 2);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /*===========================================
+&nbsp;    =            Getters and Setters            =
+&nbsp;    ========================================== */
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter for the player list
+&nbsp;     *
+&nbsp;     * @return the player list
+&nbsp;     */
+&nbsp;    public List&lt;Player&gt; getPlayerList() {
+<b class="fc">&nbsp;        return playerList;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the state of the player
+&nbsp;     *
+&nbsp;     * @return the state of the player
+&nbsp;     */
+&nbsp;    public StateTurn getPlayerState() {
+<b class="fc">&nbsp;        return playerState;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the number of players
+&nbsp;     *
+&nbsp;     * @return the number of players
+&nbsp;     */
+&nbsp;    public int getNumberOfPlayers() {
+<b class="fc">&nbsp;        return numberOfPlayers;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the personal goals deck
+&nbsp;     *
+&nbsp;     * @return the personal goals deck
+&nbsp;     */
+&nbsp;    public List&lt;PersonalGoal&gt; getPersonalGoals() {
+<b class="nc">&nbsp;        return personalGoals;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the common goals deck
+&nbsp;     *
+&nbsp;     * @return the common goals deck
+&nbsp;     */
+&nbsp;    public List&lt;CommonGoalName&gt; getCommonGoals() {
+<b class="fc">&nbsp;        return commonGoals;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the current player
+&nbsp;     *
+&nbsp;     * @return the current player
+&nbsp;     */
+&nbsp;    public Player getCurrentPlayer() {
+<b class="fc">&nbsp;        return currentPlayer;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the first common goal
+&nbsp;     *
+&nbsp;     * @return the first common goal
+&nbsp;     */
+&nbsp;    public CommonGoalAbstract getFirstCommonGoal() {
+<b class="fc">&nbsp;        return firstCommonGoal;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the second common goal
+&nbsp;     *
+&nbsp;     * @return the second common goal
+&nbsp;     */
+&nbsp;    public CommonGoalAbstract getSecondCommonGoal() {
+<b class="fc">&nbsp;        return secondCommonGoal;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the board
+&nbsp;     *
+&nbsp;     * @return the board
+&nbsp;     */
+&nbsp;    public Board getBoard() {
+<b class="fc">&nbsp;        return board;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the end game token
+&nbsp;     *
+&nbsp;     * @return the end game token
+&nbsp;     */
+&nbsp;    public boolean getEndGame() {
+<b class="fc">&nbsp;        return endGame;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the confirmed items
+&nbsp;     *
+&nbsp;     * @return the confirmed items
+&nbsp;     */
+&nbsp;    @JsonIgnore
+&nbsp;    public boolean getCanConfirmItems() {
+<b class="fc">&nbsp;        return canConfirmItem;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter if the order of the items is correct
+&nbsp;     *
+&nbsp;     * @return true if the order is correct, false otherwise
+&nbsp;     */
+&nbsp;    public boolean getOrderOK() {
+<b class="fc">&nbsp;        return orderOK;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter if the column chosen is correct
+&nbsp;     *
+&nbsp;     * @return true if the column is correct, false otherwise
+&nbsp;     */
+&nbsp;    public boolean getColumnOK() {
+<b class="fc">&nbsp;        return columnOK;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the number of pending items
+&nbsp;     *
+&nbsp;     * @return the number of pending items
+&nbsp;     */
+&nbsp;    public int getNumPendingItems() {
+<b class="fc">&nbsp;        return numPendingItems;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the confirmed items
+&nbsp;     *
+&nbsp;     * @return the confirmed items
+&nbsp;     */
+&nbsp;    public List&lt;Item&gt; getConfirmedItems() {
+<b class="fc">&nbsp;        return confirmedItems;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the temporary ordered items
+&nbsp;     *
+&nbsp;     * @return the temporary ordered items
+&nbsp;     */
+&nbsp;    public List&lt;Item&gt; getTmpOrderedItems() {
+<b class="fc">&nbsp;        return tmpOrderedItems;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the column chosen
+&nbsp;     *
+&nbsp;     * @return the column chosen
+&nbsp;     */
+&nbsp;    public int getColumnChosen() {
+<b class="fc">&nbsp;        return columnChosen;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the game results
+&nbsp;     *
+&nbsp;     * @return the game results
+&nbsp;     */
+&nbsp;    public List&lt;Pair&lt;String, Integer&gt;&gt; getGameResult() {
+<b class="fc">&nbsp;        return gameResult;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the bag
+&nbsp;     *
+&nbsp;     * @return the bag
+&nbsp;     */
+&nbsp;    public Bag getBag() {
+<b class="fc">&nbsp;        return this.bag;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the first common goal in string format
+&nbsp;     *
+&nbsp;     * @return the first common goal in string format
+&nbsp;     */
+&nbsp;    public String getFirstCommonGoalString() {
+<b class="fc">&nbsp;        return this.firstCommonGoalString;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the integer playerConnection used during initial phase of the game
+&nbsp;     *
+&nbsp;     * @return the number of players that need to connect
+&nbsp;     */
+&nbsp;    public int getPlayerConnection(){
+<b class="fc">&nbsp;        return this.playerConnection;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter of the second common goal in string format
+&nbsp;     *
+&nbsp;     * @return the second common goal in string format
+&nbsp;     */
+&nbsp;    public String getSecondCommonGoalString() {
+<b class="fc">&nbsp;        return this.secondCommonGoalString;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Game constructor
+&nbsp;     */
+<b class="fc">&nbsp;    public Game() {</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the player list
+&nbsp;     *
+&nbsp;     * @param playerList the player list
+&nbsp;     */
+&nbsp;    @JsonProperty(&quot;playerList&quot;)
+&nbsp;    public void setPlayerList(List&lt;Player&gt; playerList) {
+<b class="fc">&nbsp;        this.playerList = new ArrayList&lt;&gt;(playerList);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the first common goal, restored from the json file
+&nbsp;     *
+&nbsp;     * @param ref the reference to the first common goal
+&nbsp;     */
+&nbsp;    @JsonProperty(&quot;firstCommonGoal&quot;)
+&nbsp;    public void restoreFirstCommon(Map&lt;String, Object&gt; ref) {
+<b class="nc">&nbsp;        restoreCommons(ref, 1);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the second common goal, restored from the json file
+&nbsp;     *
+&nbsp;     * @param ref the reference to the second common goal
+&nbsp;     */
+&nbsp;    @JsonProperty(&quot;secondCommonGoal&quot;)
+&nbsp;    public void restoreSecondCommon(Map&lt;String, Object&gt; ref) {
+<b class="nc">&nbsp;        restoreCommons(ref, 2);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Restores the common goals after the json file is loaded
+&nbsp;     *
+&nbsp;     * @param ref   the reference to the common goals
+&nbsp;     * @param which the number of the common goal (first or second)
+&nbsp;     */
+&nbsp;    private void restoreCommons(Map&lt;String, Object&gt; ref, int which) {
+<b class="nc">&nbsp;        String goal = which == 1 ? firstCommonGoalString : secondCommonGoalString;</b>
+&nbsp;        //CommonGoalAbstract d = which;
+&nbsp;        CommonGoalAbstract c;
+<b class="nc">&nbsp;        switch (goal) {</b>
+&nbsp;            case &quot;FIVEX&quot;:
+<b class="nc">&nbsp;                c = new FiveXGoal(this.numberOfPlayers);</b>
+<b class="nc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            case &quot;FOURANGLES&quot;:
+<b class="nc">&nbsp;                c = new FourAnglesGoal(this.numberOfPlayers);</b>
+<b class="nc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            case &quot;SIXCOUPLES&quot;:
+<b class="nc">&nbsp;                c = new SixCouplesGoal(this.numberOfPlayers);</b>
+<b class="nc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            case &quot;FIVEDIAGONAL&quot;:
+<b class="nc">&nbsp;                c = new FiveDiagonalGoal(this.numberOfPlayers);</b>
+<b class="nc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            case &quot;SQUARE2X2&quot;:
+<b class="nc">&nbsp;                c = new Square2x2Goal(this.numberOfPlayers);</b>
+<b class="nc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            case &quot;FOURADJACENT&quot;:
+<b class="nc">&nbsp;                c = new FourAdjacentGoal(this.numberOfPlayers);</b>
+<b class="nc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            case &quot;EIGHTSAMETYPE&quot;:
+<b class="nc">&nbsp;                c = new EightSameTypeGoal(this.numberOfPlayers);</b>
+<b class="nc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            case &quot;FIVEDECRESING&quot;:
+<b class="nc">&nbsp;                c = new FiveDecreasingGoal(this.numberOfPlayers);</b>
+<b class="nc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            case &quot;ROW4ITEMS5&quot;:
+<b class="nc">&nbsp;                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, &#39;h&#39;, 3, 4);</b>
+<b class="nc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            case &quot;COLUMNS3ITEMS6&quot;:
+<b class="nc">&nbsp;                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, &#39;v&#39;, 3, 3);</b>
+<b class="nc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            case &quot;ROW2ITEMS5DIFFERENT&quot;:
+<b class="nc">&nbsp;                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, &#39;h&#39;, 5, 2);</b>
+<b class="nc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            case &quot;COLUMNS2ITEMS6DIFFERENT&quot;:
+<b class="nc">&nbsp;                c = new AdjacentDifferentItemsGoal(this.numberOfPlayers, &#39;v&#39;, 6, 2);</b>
+<b class="nc">&nbsp;                c.setDescription(goal.toString());</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            default:
+&nbsp;                return;
+&nbsp;        }
+<b class="nc">&nbsp;        Stack&lt;Integer&gt; points = new Stack&lt;&gt;();</b>
+<b class="nc">&nbsp;        points.addAll(((ArrayList&lt;Integer&gt;) ref.get(&quot;points&quot;)));</b>
+<b class="nc">&nbsp;        c.setPoints(points);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (which == 1) firstCommonGoal = c;</b>
+<b class="nc">&nbsp;        else secondCommonGoal = c;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the state of the player
+&nbsp;     *
+&nbsp;     * @param playerState the state of the player
+&nbsp;     */
+&nbsp;    public void setPlayerState(StateTurn playerState) {
+<b class="nc">&nbsp;        this.playerState = playerState;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the personal goals
+&nbsp;     *
+&nbsp;     * @param personalGoals the personal goals
+&nbsp;     */
+&nbsp;    public void setPersonalGoals(List&lt;PersonalGoal&gt; personalGoals) {
+<b class="nc">&nbsp;        this.personalGoals = personalGoals;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the common goals
+&nbsp;     *
+&nbsp;     * @param commonGoals the common goals
+&nbsp;     */
+&nbsp;    public void setCommonGoals(List&lt;CommonGoalName&gt; commonGoals) {
+<b class="nc">&nbsp;        this.commonGoals = commonGoals;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the current player
+&nbsp;     *
+&nbsp;     * @param currentPlayer the current player
+&nbsp;     */
+&nbsp;    public void setCurrentPlayer(Player currentPlayer) {
+<b class="fc">&nbsp;        this.currentPlayer = currentPlayer;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the board
+&nbsp;     *
+&nbsp;     * @param board the board
+&nbsp;     */
+&nbsp;    public void setBoard(Board board) {
+<b class="fc">&nbsp;        this.board = board;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the end game token
+&nbsp;     *
+&nbsp;     * @param endGame the end game token
+&nbsp;     */
+&nbsp;    public void setEndGame(boolean endGame) {
+<b class="fc">&nbsp;        this.endGame = endGame;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the flag to confirm the items
+&nbsp;     *
+&nbsp;     * @param canConfirmItem the flag to confirm the items
+&nbsp;     */
+&nbsp;    public void setCanConfirmItem(boolean canConfirmItem) {
+<b class="fc">&nbsp;        this.canConfirmItem = canConfirmItem;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setters of the flag to confirm the order of the items
+&nbsp;     *
+&nbsp;     * @param orderOK the flag to confirm the order of the items
+&nbsp;     */
+&nbsp;    public void setOrderOK(boolean orderOK) {
+<b class="fc">&nbsp;        this.orderOK = orderOK;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the flag to confirm the column
+&nbsp;     *
+&nbsp;     * @param columnOK the flag to confirm the column
+&nbsp;     */
+&nbsp;    public void setColumnOK(boolean columnOK) {
+<b class="fc">&nbsp;        this.columnOK = columnOK;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the number of pending items
+&nbsp;     *
+&nbsp;     * @param numPendingItems the number of pending items
+&nbsp;     */
+&nbsp;    public void setNumPendingItems(int numPendingItems) {
+<b class="fc">&nbsp;        this.numPendingItems = numPendingItems;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the integer playerConnection used during initial phase of the game
+&nbsp;     *
+&nbsp;     * @param pCon number of players that need to connect
+&nbsp;     */
+&nbsp;    public void setPlayerConnection(int pCon){
+<b class="fc">&nbsp;        this.playerConnection = pCon;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the confirmed items
+&nbsp;     *
+&nbsp;     * @param confirmedItems the confirmed items
+&nbsp;     */
+&nbsp;    public void setConfirmedItems(List&lt;Item&gt; confirmedItems) {
+<b class="fc">&nbsp;        this.confirmedItems = confirmedItems;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the temporary ordered items
+&nbsp;     *
+&nbsp;     * @param tmpOrderedItems the temporary ordered items
+&nbsp;     */
+&nbsp;    public void setTmpOrderedItems(List&lt;Item&gt; tmpOrderedItems) {
+<b class="fc">&nbsp;        this.tmpOrderedItems = tmpOrderedItems;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the column chosen
+&nbsp;     *
+&nbsp;     * @param columnChosen the column chosen
+&nbsp;     */
+&nbsp;    public void setColumnChosen(int columnChosen) {
+<b class="fc">&nbsp;        this.columnChosen = columnChosen;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the game results
+&nbsp;     *
+&nbsp;     * @param gameResult the game results
+&nbsp;     */
+&nbsp;    public void setGameResult(List&lt;Pair&lt;String, Integer&gt;&gt; gameResult) {
+<b class="fc">&nbsp;        this.gameResult = gameResult;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setter of the bag
+&nbsp;     *
+&nbsp;     * @param bag the bag
+&nbsp;     */
+&nbsp;    public void setBag(Bag bag) {
+<b class="fc">&nbsp;        this.bag = bag;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Notifies that the game is resumed after a server crash
+&nbsp;     */
+&nbsp;    public void notFromScratch() {
+<b class="nc">&nbsp;        this.fromScratch = false;</b>
+<b class="nc">&nbsp;        this.playersToReconnect.addAll(playerList);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /*===========================================
+&nbsp;    =                 Game logic                =
+&nbsp;    ========================================== */
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Inserts a new player if the nickname isn&#39;t already taken
+&nbsp;     * &lt;p&gt;
+&nbsp;     * If the game isn&#39;t from scratch, handles the reconnection of the players
+&nbsp;     *
+&nbsp;     * @param nickname the nickname of the player to add
+&nbsp;     */
+&nbsp;    public void insertPlayer(String nickname) {
+<b class="fc">&nbsp;        if (fromScratch) {</b>
+<b class="fc">&nbsp;            boolean sameNickname = false;</b>
+<b class="fc">&nbsp;            for (Player p : getPlayerList()) {</b>
+<b class="fc">&nbsp;                if (p.getNickname().equals(nickname)) {</b>
+<b class="nc">&nbsp;                    sameNickname = true;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+&nbsp;
+<b class="fc">&nbsp;            if (sameNickname)</b>
+<b class="nc">&nbsp;                msg = new SendDataToClient(SAME_NICKNAME, nickname, null, null, null, null, null, null, false, null, null);</b>
+&nbsp;            else {
+<b class="fc">&nbsp;                if (getNumberOfPlayers() == 0 || getPlayerList() == null) {</b>
+<b class="fc">&nbsp;                    Player p = new Player(nickname, assignPersonalGoal());</b>
+<b class="fc">&nbsp;                    getPlayerList().add(p);</b>
+<b class="fc">&nbsp;                    msg = new SendDataToClient(ASK_NUMPLAYERS, null, null, null, null, null, null, null, false, null, null);</b>
+<b class="fc">&nbsp;                } else {</b>
+<b class="fc">&nbsp;                    if (getNumberOfPlayers() == getPlayerList().size()) {</b>
+<b class="nc">&nbsp;                        msg = new SendDataToClient(NACK_NICKNAME, nickname, null, null, null, null, null, null, false, null, null);</b>
+<b class="fc">&nbsp;                    } else if (getNumberOfPlayers() &gt; getPlayerList().size()) {</b>
+<b class="fc">&nbsp;                        Player p = new Player(nickname, assignPersonalGoal());</b>
+<b class="fc">&nbsp;                        getPlayerList().add(p);</b>
+<b class="fc">&nbsp;                        this.startGame();</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            setChangedAndNotifyObservers(msg);</b>
+<b class="fc">&nbsp;        } else {</b>
+<b class="nc">&nbsp;            boolean found = false;</b>
+<b class="nc">&nbsp;            for (Player p : playersToReconnect) {</b>
+<b class="nc">&nbsp;                if (p.getNickname().equals(nickname)) {</b>
+&nbsp;                    // A player reconnected correctly
+<b class="nc">&nbsp;                    msg = new SendDataToClient(RECONNECTED, null, null, null, null, null, null, null, false, null, null);</b>
+<b class="nc">&nbsp;                    setChangedAndNotifyObservers(msg);</b>
+<b class="nc">&nbsp;                    playersToReconnect.remove(p);</b>
+<b class="nc">&nbsp;                    found = true;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            if (!found) {</b>
+<b class="nc">&nbsp;                msg = new SendDataToClient(NOT_IN_PREV_GAME, nickname, null, null, null, null, null, null, false, null, null);</b>
+<b class="nc">&nbsp;                setChangedAndNotifyObservers(msg);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (playersToReconnect.isEmpty()) {</b>
+<b class="nc">&nbsp;                this.startGame();</b>
+<b class="nc">&nbsp;                for (Player p : getPlayerList()) {</b>
+<b class="nc">&nbsp;                    msg = new SendDataToClient(SEND_OTHER_SHELF, p.getNickname(), null, null, p.getShelf().toString(), null, null, null, false, null, null);</b>
+<b class="nc">&nbsp;                    setChangedAndNotifyObservers(msg);</b>
+<b class="nc">&nbsp;                    msg = new SendDataToClient(TOKENS_TAKEN, p.getNickname(), null, null, null, &quot;&quot; + p.getFirstCommonScore(), &quot;&quot; + p.getSecondCommonScore(), null, p.getEndGameToken() == 1, null, null);</b>
+<b class="nc">&nbsp;                    setChangedAndNotifyObservers(msg);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The first player logged in chooses the number of players of the game
+&nbsp;     *
+&nbsp;     * @param nickname        the players that selected the number of players
+&nbsp;     * @param numberOfPlayers the number of players
+&nbsp;     */
+&nbsp;    public void setNumberOfPlayers(String nickname, int numberOfPlayers) {
+<b class="fc">&nbsp;        if (getNumberOfPlayers() != 0) {</b>
+<b class="fc">&nbsp;            if (getNumberOfPlayers() == getPlayerList().size()) {</b>
+<b class="nc">&nbsp;                if (getPlayerConnection() &gt; 1) {</b>
+<b class="nc">&nbsp;                    msg = new SendDataToClient(ACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);</b>
+<b class="nc">&nbsp;                    setPlayerConnection(getPlayerConnection() - 1);</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    msg = new SendDataToClient(NACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);</b>
+<b class="nc">&nbsp;                    setPlayerConnection(0);</b>
+&nbsp;                }
+<b class="fc">&nbsp;            } else if (getNumberOfPlayers() &gt; getPlayerList().size())</b>
+<b class="fc">&nbsp;                msg = new SendDataToClient(ACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);</b>
+&nbsp;            else
+<b class="nc">&nbsp;                msg = new SendDataToClient(TOO_MANY, null, null, null, null, null, null, null, false, null, null);</b>
+&nbsp;
+&nbsp;        } else {
+<b class="fc">&nbsp;            if (numberOfPlayers &lt; 5 &amp;&amp; numberOfPlayers &gt; 1) {</b>
+<b class="fc">&nbsp;                this.numberOfPlayers = numberOfPlayers;</b>
+<b class="fc">&nbsp;                if (getBoard() != null) {</b>
+<b class="fc">&nbsp;                    getBoard().fill(numberOfPlayers, getBag());</b>
+<b class="fc">&nbsp;                    this.firstCommonGoal = assignCommonGoal(1);</b>
+<b class="fc">&nbsp;                    this.secondCommonGoal = assignCommonGoal(2);</b>
+<b class="fc">&nbsp;                    setCurrentPlayer(getPlayerList().get(0));</b>
+<b class="fc">&nbsp;                    setPlayerConnection(numberOfPlayers - 1);</b>
+&nbsp;                }
+<b class="fc">&nbsp;                msg = new SendDataToClient(ACK_NUMPLAYERS, nickname, null, null, null, null, null, null, false, null, null);</b>
+&nbsp;            } else
+<b class="nc">&nbsp;                msg = new SendDataToClient(OUT_BOUND_NUMPLAYERS, null, null, null, null, null, null, null, false, null, null);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        setChangedAndNotifyObservers(msg);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Starts the game and sends the initial data to the clients
+&nbsp;     */
+&nbsp;    public void startGame() {
+&nbsp;
+<b class="fc">&nbsp;        if (getNumberOfPlayers() == getPlayerList().size()) {</b>
+<b class="fc">&nbsp;            String p1 = null, p2 = null, p3 = null, p4 = null;</b>
+<b class="fc">&nbsp;            Collections.shuffle(getPlayerList());</b>
+<b class="fc">&nbsp;            this.currentPlayer = getPlayerList().get(0);</b>
+<b class="fc">&nbsp;            for (Player user : playerList) {</b>
+<b class="fc">&nbsp;                switch (getNumberOfPlayers()) {</b>
+&nbsp;                    case 4:
+<b class="nc">&nbsp;                        p4 = getPlayerList().get(3).getNickname();</b>
+&nbsp;                    case 3:
+<b class="nc">&nbsp;                        p3 = getPlayerList().get(2).getNickname();</b>
+&nbsp;                    case 2:
+<b class="fc">&nbsp;                        p2 = getPlayerList().get(1).getNickname();</b>
+<b class="fc">&nbsp;                        p1 = getPlayerList().get(0).getNickname();</b>
+<b class="fc">&nbsp;                        break;</b>
+&nbsp;                    default:
+&nbsp;                        break;
+&nbsp;                }
+<b class="fc">&nbsp;                msg = new SendDataToClient(GAME_READY, user.getNickname(), getBoard().sendToString(), user.getPersonalGoal().sendToString(), user.getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), getCurrentPlayer().getNickname(), user == getCurrentPlayer(), user.getNickname().equals(getPlayerList().get(0).getNickname()) ? &quot;1&quot; : null, null);</b>
+<b class="fc">&nbsp;                setChangedAndNotifyObservers(msg);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;            msg = new SendDataToClient(PLAYER_LIST, p1, p2, p3, p4, null, null, null, false, null, null);</b>
+<b class="fc">&nbsp;            setChangedAndNotifyObservers(msg);</b>
+<b class="fc">&nbsp;            msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().sendToString(), getCurrentPlayer().getPersonalGoal().sendToString(), getCurrentPlayer().getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);</b>
+<b class="fc">&nbsp;        } else {</b>
+<b class="fc">&nbsp;            msg = new SendDataToClient(ACK_NICKNAME, null, null, null, null, null, null, null, false, null, null);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        setChangedAndNotifyObservers(msg);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles the selection of an item
+&nbsp;     *
+&nbsp;     * @param x the x coordinate of the item
+&nbsp;     * @param y the y coordinate of the item
+&nbsp;     */
+&nbsp;    public void itemClick(int x, int y) {
+<b class="fc">&nbsp;        Pair&lt;Integer, Integer&gt; cell = new Pair&lt;&gt;(x, y);</b>
+<b class="fc">&nbsp;        boolean contains = false;</b>
+<b class="fc">&nbsp;        for (Pair&lt;Integer, Integer&gt; tmp : getBoard().getPendingCells()) {</b>
+<b class="fc">&nbsp;            if (tmp.getX().equals(cell.getX()) &amp;&amp; tmp.getY().equals(cell.getY())) {</b>
+<b class="fc">&nbsp;                contains = true;</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        if (getBoard().getDisposition()[x][y].getContent() != null) {</b>
+<b class="fc">&nbsp;            if (!contains) {</b>
+<b class="fc">&nbsp;                if (getCurrentPlayer().getShelf().getMaxFreeSpace() &gt; getNumPendingItems())</b>
+<b class="fc">&nbsp;                    setNumPendingItems(getBoard().select(x, y));</b>
+&nbsp;            } else
+<b class="fc">&nbsp;                setNumPendingItems(getBoard().deselect(x, y));</b>
+&nbsp;
+<b class="fc">&nbsp;            setCanConfirmItem(getNumPendingItems() &gt; 0);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        System.out.println(getNumPendingItems() + &quot; pending items&quot;);</b>
+<b class="fc">&nbsp;        for (Pair&lt;Integer, Integer&gt; p : getBoard().getPendingCells()) {</b>
+<b class="fc">&nbsp;            System.out.println(getBoard().getDisposition()[p.getX()][p.getY()].getContent().getType().toString());</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        msg = new SendDataToClient(SELECTED, getCurrentPlayer().getNickname(), getBoard().sendToString(), null, null, null, null, getBoard().pendingToString(), getCanConfirmItems(), null, null);</b>
+<b class="fc">&nbsp;        setChangedAndNotifyObservers(msg);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles the confirmation of the selected items
+&nbsp;     */
+&nbsp;    public void confirmItems() {
+<b class="fc">&nbsp;        setCanConfirmItem(false);</b>
+<b class="fc">&nbsp;        setConfirmedItems(getBoard().removePendingItems());</b>
+<b class="fc">&nbsp;        setNumPendingItems(getConfirmedItems().size());</b>
+<b class="fc">&nbsp;        getCurrentPlayer().getShelf().setInsertableColumns(getNumPendingItems());</b>
+<b class="fc">&nbsp;        msg = new SendDataToClient(ORDER_n_COLUMN, getCurrentPlayer().getNickname(), getBoard().sendToString(), getCurrentPlayer().getPersonalGoal().sendToString(), getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), false, orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(-1));</b>
+<b class="fc">&nbsp;        setChangedAndNotifyObservers(msg);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles the re-ordering of the selected items
+&nbsp;     *
+&nbsp;     * @param position the position of the item in the list
+&nbsp;     * @param action   0 from ordered to pending, 1 from pending to ordered
+&nbsp;     */
+&nbsp;    public void orderSelectedItem(int position, int action) {
+&nbsp;        Item tmpItem;
+&nbsp;
+<b class="fc">&nbsp;        if (action == 0) {</b>
+&nbsp;            // from ordered to pending
+<b class="fc">&nbsp;            if (getTmpOrderedItems() == null || getTmpOrderedItems().size() == 0) {</b>
+<b class="nc">&nbsp;                msg = new SendDataToClient(NACK_ORDER, getCurrentPlayer().getNickname(), null, null, null, null, null, null, false, null, null);</b>
+<b class="nc">&nbsp;                setChangedAndNotifyObservers(msg);</b>
+&nbsp;                return;
+&nbsp;            } else {
+<b class="fc">&nbsp;                if (position &gt;= getTmpOrderedItems().size()) {</b>
+<b class="nc">&nbsp;                    msg = new SendDataToClient(NACK_ORDER, getCurrentPlayer().getNickname(), null, null, null, null, null, null, false, null, null);</b>
+<b class="nc">&nbsp;                    setChangedAndNotifyObservers(msg);</b>
+&nbsp;                    return;
+&nbsp;                } else {
+&nbsp;                    // removes the item from the ordered list, filling the gap with the following items and adds it to the pending list
+<b class="fc">&nbsp;                    tmpItem = getTmpOrderedItems().remove(position);</b>
+<b class="fc">&nbsp;                    getConfirmedItems().add(tmpItem);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;        } else if (action == 1) {</b>
+&nbsp;            // from pending to ordered
+<b class="fc">&nbsp;            if (getConfirmedItems() == null || getConfirmedItems().size() == 0) {</b>
+<b class="fc">&nbsp;                msg = new SendDataToClient(NACK_ORDER, getCurrentPlayer().getNickname(), null, null, null, null, null, null, false, null, null);</b>
+<b class="fc">&nbsp;                setChangedAndNotifyObservers(msg);</b>
+&nbsp;                return;
+&nbsp;            } else {
+<b class="fc">&nbsp;                if (position &gt;= getConfirmedItems().size()) {</b>
+<b class="nc">&nbsp;                    msg = new SendDataToClient(NACK_ORDER, getCurrentPlayer().getNickname(), null, null, null, null, null, null, false, null, null);</b>
+<b class="nc">&nbsp;                    setChangedAndNotifyObservers(msg);</b>
+&nbsp;                    return;
+&nbsp;                } else {
+&nbsp;                    // removes the item from the pending list, filling the gap with the following items and adds it to the ordered list
+<b class="fc">&nbsp;                    tmpItem = getConfirmedItems().remove(position);</b>
+<b class="fc">&nbsp;                    getTmpOrderedItems().add(tmpItem);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        setOrderOK(getConfirmedItems().size() == 0 &amp;&amp; getTmpOrderedItems().size() == getNumPendingItems());</b>
+<b class="fc">&nbsp;        msg = new SendDataToClient(ACK_ORDER_n_COLUMN, getCurrentPlayer().getNickname(), null, getCurrentPlayer().getPersonalGoal().sendToString(), getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), getColumnOK() &amp;&amp; getOrderOK(), orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(getColumnChosen()));</b>
+<b class="fc">&nbsp;        setChangedAndNotifyObservers(msg);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles the selection of a column
+&nbsp;     *
+&nbsp;     * @param column the column to be selected
+&nbsp;     */
+&nbsp;    public void selectColumn(int column) {
+<b class="fc">&nbsp;        boolean columnFind = false;</b>
+<b class="fc">&nbsp;        for (int c : getCurrentPlayer().getShelf().getInsertableColumns()) {</b>
+<b class="fc">&nbsp;            if (c == column) {</b>
+<b class="fc">&nbsp;                setColumnChosen(column);</b>
+<b class="fc">&nbsp;                setColumnOK(getColumnChosen() &gt; -1);</b>
+<b class="fc">&nbsp;                msg = new SendDataToClient(ACK_ORDER_n_COLUMN, getCurrentPlayer().getNickname(), null, getCurrentPlayer().getPersonalGoal().sendToString(), getCurrentPlayer().getShelf().toString(), null, null, confirmedItemsToString(), getColumnOK() &amp;&amp; getOrderOK(), orderedItemsToString(), getCurrentPlayer().getShelf().columnsToString(column));</b>
+<b class="fc">&nbsp;                columnFind = true;</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        if (!columnFind)</b>
+<b class="fc">&nbsp;            msg = new SendDataToClient(NACK_COLUMN, getCurrentPlayer().getNickname(), null, null, null, null, null, null, false, null, null);</b>
+&nbsp;
+<b class="fc">&nbsp;        setChangedAndNotifyObservers(msg);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Inserts the selected items in the selected column in the correct order and notifies the clients
+&nbsp;     */
+&nbsp;    public void confirmInsertion() {
+<b class="fc">&nbsp;        setOrderOK(false);</b>
+<b class="fc">&nbsp;        setColumnOK(false);</b>
+<b class="fc">&nbsp;        getPlayerByNickname(getCurrentPlayer().getNickname()).getShelf().insertItems(getTmpOrderedItems(), columnChosen);</b>
+<b class="fc">&nbsp;        msg = new SendDataToClient(INSERTION_DONE, getCurrentPlayer().getNickname(), null, null, getPlayerByNickname(getCurrentPlayer().getNickname()).getShelf().toString(), null, null, null, false, null, null);</b>
+<b class="fc">&nbsp;        setChangedAndNotifyObservers(msg);</b>
+<b class="fc">&nbsp;        for (Player p : getPlayerList()) {</b>
+<b class="fc">&nbsp;            msg = new SendDataToClient(SEND_OTHER_SHELF, p.getNickname(), null, null, p.getShelf().toString(), null, null, null, false, null, null);</b>
+<b class="fc">&nbsp;            setChangedAndNotifyObservers(msg);</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Send shelf of &quot; + p.getNickname());</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Finds the player with the given nickname
+&nbsp;     *
+&nbsp;     * @param nickname the nickname of the player
+&nbsp;     * @return the player with the given nickname
+&nbsp;     */
+&nbsp;    private Player getPlayerByNickname(String nickname) {
+<b class="fc">&nbsp;        return getPlayerList().stream().filter(p -&gt; p.getNickname().equals(nickname)).findFirst().orElse(null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles the end of the turn, eventually re filling the board and checking if the game is over
+&nbsp;     *
+&nbsp;     * @return true if the game is over, false otherwise
+&nbsp;     */
+&nbsp;    public boolean endTurnCheck() {
+&nbsp;        boolean closeGame;
+<b class="fc">&nbsp;        getTmpOrderedItems().clear();</b>
+<b class="fc">&nbsp;        commonGoalCheck();</b>
+<b class="fc">&nbsp;        closeGame = endGameCheck();</b>
+<b class="fc">&nbsp;        if (closeGame)</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        else {
+<b class="fc">&nbsp;            refillBoard();</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks the common goals for the current player and update the client if one is taken
+&nbsp;     */
+&nbsp;    private void commonGoalCheck() {
+<b class="fc">&nbsp;        int oldC1 = getCurrentPlayer().getFirstCommonScore();</b>
+<b class="fc">&nbsp;        int oldC2 = getCurrentPlayer().getSecondCommonScore();</b>
+<b class="fc">&nbsp;        Integer c1 = null;</b>
+<b class="fc">&nbsp;        Integer c2 = null;</b>
+&nbsp;
+<b class="fc">&nbsp;        if (oldC1 == 0) {</b>
+<b class="fc">&nbsp;            if (getFirstCommonGoal().specificGoal(getCurrentPlayer().getShelf()))</b>
+<b class="fc">&nbsp;                getCurrentPlayer().setFirstCommonScore(getFirstCommonGoal().removePoint());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (oldC2 == 0) {</b>
+<b class="fc">&nbsp;            if (getSecondCommonGoal().specificGoal(getCurrentPlayer().getShelf()))</b>
+<b class="nc">&nbsp;                getCurrentPlayer().setSecondCommonScore(getSecondCommonGoal().removePoint());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        c1 = getCurrentPlayer().getFirstCommonScore();</b>
+<b class="fc">&nbsp;        c2 = getCurrentPlayer().getSecondCommonScore();</b>
+<b class="fc">&nbsp;        if (oldC1 == 0 &amp;&amp; c1 != 0) {</b>
+<b class="fc">&nbsp;            msg = new SendDataToClient(FIRSTCOMMONGOAL_TAKEN, getCurrentPlayer().getNickname(), null, null, null, c1.toString(), null, null, false, null, null);</b>
+<b class="fc">&nbsp;            setChangedAndNotifyObservers(msg);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (oldC2 == 0 &amp;&amp; c2 != 0) {</b>
+<b class="nc">&nbsp;            msg = new SendDataToClient(SECONDCOMMONGOAL_TAKEN, getCurrentPlayer().getNickname(), null, null, null, null, c2.toString(), null, false, null, null);</b>
+<b class="nc">&nbsp;            setChangedAndNotifyObservers(msg);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        System.out.println(&quot;Ho controllato i common goal di &quot; + getCurrentPlayer().getNickname() + &quot; --&gt; primo: &quot; + getCurrentPlayer().getFirstCommonScore() + &quot; secondo: &quot; + getCurrentPlayer().getSecondCommonScore());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if the game is over
+&nbsp;     *
+&nbsp;     * @return true if the game is over, false otherwise
+&nbsp;     */
+&nbsp;    private boolean endGameCheck() {
+<b class="fc">&nbsp;        if (!getEndGame()) {</b>
+<b class="fc">&nbsp;            if (getCurrentPlayer().getShelf().getMaxFreeSpace() == 0) {</b>
+&nbsp;                // The player has no more free space in his shelf
+<b class="fc">&nbsp;                getCurrentPlayer().setEndGameToken(1);</b>
+<b class="fc">&nbsp;                setEndGame(true);</b>
+<b class="fc">&nbsp;                msg = new SendDataToClient(TOKEN_END_GAME, getCurrentPlayer().getNickname(), null, null, null, null, null, null, false, null, null);       //mando il messaggio di fine gioco</b>
+<b class="fc">&nbsp;                setChangedAndNotifyObservers(msg);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        System.out.println(&quot;Fine gioco? &quot; + getEndGame() + &quot;and&quot; + getCurrentPlayer().equals(getPlayerList().get(getPlayerList().size() - 1)));</b>
+<b class="fc">&nbsp;        return getEndGame() &amp;&amp; getCurrentPlayer().equals(getPlayerList().get(getPlayerList().size() - 1));        //se true si va poi a endGame altrimenti se false a nextPlayer deciso dal controller</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Refills the board
+&nbsp;     */
+&nbsp;    private void refillBoard() {
+<b class="fc">&nbsp;        if (getBoard().needToRefill()) {</b>
+<b class="nc">&nbsp;            getBoard().fill(getPlayerList().size(), getBag());</b>
+<b class="nc">&nbsp;            System.out.println(&quot;board refillata&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Give the turn to the next player
+&nbsp;     */
+&nbsp;    public void nextPlayer() {
+<b class="fc">&nbsp;        int indexCurrentPlayer = -1;</b>
+&nbsp;
+<b class="fc">&nbsp;        for (Player p : getPlayerList())</b>
+<b class="fc">&nbsp;            if (p.getNickname().equals(getCurrentPlayer().getNickname()))</b>
+<b class="fc">&nbsp;                indexCurrentPlayer = getPlayerList().indexOf(p);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (indexCurrentPlayer == getPlayerList().size() - 1)</b>
+<b class="fc">&nbsp;            setCurrentPlayer(getPlayerList().get(0));</b>
+&nbsp;        else
+<b class="fc">&nbsp;            setCurrentPlayer(getPlayerList().get(indexCurrentPlayer + 1));</b>
+&nbsp;
+<b class="fc">&nbsp;        setNumPendingItems(0);</b>
+<b class="fc">&nbsp;        setColumnChosen(-1);</b>
+<b class="fc">&nbsp;        for (Player user : playerList) {</b>
+<b class="fc">&nbsp;            msg = new SendDataToClient(IN_GAME, user.getNickname(), getBoard().sendToString(), user.getPersonalGoal().sendToString(), user.getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), getCurrentPlayer().getNickname(), user == getCurrentPlayer(), null, null);</b>
+<b class="fc">&nbsp;            setChangedAndNotifyObservers(msg);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Current player: &quot; + getCurrentPlayer().getNickname());</b>
+&nbsp;
+&nbsp;        try {
+<b class="fc">&nbsp;            (new ObjectMapper()).writeValue(new File(&quot;status.json&quot;), this);</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        msg = new SendDataToClient(SEND_MODEL, getCurrentPlayer().getNickname(), getBoard().sendToString(), getCurrentPlayer().getPersonalGoal().sendToString(), getCurrentPlayer().getShelf().toString(), firstCommonGoal.toString(), secondCommonGoal.toString(), null, false, null, null);</b>
+<b class="fc">&nbsp;        setChangedAndNotifyObservers(msg);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ends the game and computes the final score
+&nbsp;     */
+&nbsp;    public void endGame() {
+<b class="fc">&nbsp;        (new File(&quot;status.json&quot;)).delete();</b>
+&nbsp;        Pair&lt;String, Integer&gt; partecipant;
+<b class="fc">&nbsp;        List&lt;Pair&lt;String, Integer&gt;&gt; tempResult = new ArrayList&lt;&gt;();</b>
+&nbsp;        int candidatePos;
+<b class="fc">&nbsp;        for (Player p : getPlayerList()) {</b>
+<b class="fc">&nbsp;            candidatePos = getGameResult().size();</b>
+<b class="fc">&nbsp;            partecipant = new Pair&lt;&gt;(p.getNickname(), p.computeFinalScore());</b>
+<b class="fc">&nbsp;            if (getGameResult().size() == 0) {</b>
+<b class="fc">&nbsp;                getGameResult().add(partecipant);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                for (int i = 0; i &lt; getGameResult().size(); i++) {</b>
+<b class="fc">&nbsp;                    if (getGameResult().get(i).getY() &lt; partecipant.getY()) {</b>
+<b class="fc">&nbsp;                        candidatePos = i;</b>
+<b class="fc">&nbsp;                        break;</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="fc">&nbsp;                for (int i = 0; i &lt; candidatePos; i++)</b>
+<b class="fc">&nbsp;                    tempResult.add(getGameResult().get(i));</b>
+&nbsp;
+<b class="fc">&nbsp;                tempResult.add(candidatePos, partecipant);</b>
+&nbsp;
+<b class="fc">&nbsp;                for (int i = candidatePos; i &lt; getGameResult().size(); i++)</b>
+<b class="fc">&nbsp;                    tempResult.add(getGameResult().get(i));</b>
+&nbsp;
+<b class="fc">&nbsp;                setGameResult(tempResult);</b>
+<b class="fc">&nbsp;                tempResult = new ArrayList&lt;&gt;();</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Final shelves:&quot;);</b>
+<b class="fc">&nbsp;        for (Player p : getPlayerList()) {</b>
+<b class="fc">&nbsp;            System.out.println(p.getNickname() + &quot;:\n&quot; + p.getShelf().toString());</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        for (Pair&lt;String, Integer&gt; p : getGameResult()) {</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Player &quot; + p.getX() + &quot; points &quot; + p.getY());</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        msg = new SendDataToClient(RESULTS, null, null, null, null, null, null, null, false, gameResultToString(), null);</b>
+<b class="fc">&nbsp;        setChangedAndNotifyObservers(msg);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Notifies the observers that the model has changed
+&nbsp;     *
+&nbsp;     * @param arg the message to send to the observers
+&nbsp;     */
+&nbsp;    private void setChangedAndNotifyObservers(Message arg) {
+<b class="fc">&nbsp;        setChangedModel();</b>
+<b class="fc">&nbsp;        System.out.println(&quot;\n\nMessaggio da server a client: &quot; + arg.getInfo());</b>
+<b class="fc">&nbsp;        notifyObserversModel(arg);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends the confirmed items to the client in a format printable by the cli
+&nbsp;     *
+&nbsp;     * @return the string to send to the client
+&nbsp;     */
+&nbsp;    private String confirmedItemsToString() {
+<b class="fc">&nbsp;        StringBuilder unordered = new StringBuilder(&quot; &quot;);</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; getConfirmedItems().size(); i++) {</b>
+<b class="fc">&nbsp;            switch (getConfirmedItems().get(i).getType()) {</b>
+&nbsp;                case BOOK:
+<b class="fc">&nbsp;                    unordered.append(&quot;W&quot;).append(getConfirmedItems().get(i).getVariant());</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                case CAT:
+<b class="fc">&nbsp;                    unordered.append(&quot;G&quot;).append(getConfirmedItems().get(i).getVariant());</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                case FRAME:
+<b class="fc">&nbsp;                    unordered.append(&quot;B&quot;).append(getConfirmedItems().get(i).getVariant());</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                case GAME:
+<b class="fc">&nbsp;                    unordered.append(&quot;Y&quot;).append(getConfirmedItems().get(i).getVariant());</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                case PLANTS:
+<b class="fc">&nbsp;                    unordered.append(&quot;P&quot;).append(getConfirmedItems().get(i).getVariant());</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                case TROPHY:
+<b class="fc">&nbsp;                    unordered.append(&quot;L&quot;).append(getConfirmedItems().get(i).getVariant());</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                default:
+<b class="nc">&nbsp;                    System.out.println(&quot;Error&quot;);</b>
+&nbsp;                    break;
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return unordered.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends the ordered items to the client in a format printable by the cli
+&nbsp;     *
+&nbsp;     * @return the string to send to the client
+&nbsp;     */
+&nbsp;    private String orderedItemsToString() {
+<b class="fc">&nbsp;        StringBuilder ordered = new StringBuilder(&quot; &quot;);</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; getTmpOrderedItems().size(); i++) {</b>
+<b class="fc">&nbsp;            switch (getTmpOrderedItems().get(i).getType()) {</b>
+&nbsp;                case BOOK:
+<b class="fc">&nbsp;                    ordered.append(&quot;W&quot;).append(getTmpOrderedItems().get(i).getVariant());</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                case CAT:
+<b class="fc">&nbsp;                    ordered.append(&quot;G&quot;).append(getTmpOrderedItems().get(i).getVariant());</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                case FRAME:
+<b class="fc">&nbsp;                    ordered.append(&quot;B&quot;).append(getTmpOrderedItems().get(i).getVariant());</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                case GAME:
+<b class="fc">&nbsp;                    ordered.append(&quot;Y&quot;).append(getTmpOrderedItems().get(i).getVariant());</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                case PLANTS:
+<b class="fc">&nbsp;                    ordered.append(&quot;P&quot;).append(getTmpOrderedItems().get(i).getVariant());</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                case TROPHY:
+<b class="fc">&nbsp;                    ordered.append(&quot;L&quot;).append(getTmpOrderedItems().get(i).getVariant());</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                default:
+<b class="nc">&nbsp;                    System.out.println(&quot;Error&quot;);</b>
+&nbsp;                    break;
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return ordered.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sends the game result to the client in a format printable by the cli
+&nbsp;     *
+&nbsp;     * @return the string to send to the client
+&nbsp;     */
+&nbsp;    private String gameResultToString() {
+<b class="fc">&nbsp;        StringBuilder ranking = new StringBuilder(&quot;MATCH RANKING: \n&quot;);</b>
+<b class="fc">&nbsp;        int i = 1;</b>
+<b class="fc">&nbsp;        for (Pair&lt;String, Integer&gt; p : getGameResult()) {</b>
+<b class="fc">&nbsp;            ranking.append(i).append(&quot; - &quot;);</b>
+<b class="fc">&nbsp;            ranking.append(p.getX()).append(&quot;   Total score: &quot;).append(p.getY()).append(&quot;\n&quot;);</b>
+<b class="fc">&nbsp;            i++;</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return ranking.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Hendles the chat message
+&nbsp;     *
+&nbsp;     * @param from the sender
+&nbsp;     * @param to   the receiver
+&nbsp;     * @param text the text of the message
+&nbsp;     */
+&nbsp;    public void sendChat(String from, String to, String text) {
+<b class="fc">&nbsp;        Message msg = new SendChatMessage(CHAT_MESSAGE, from, to, text);</b>
+<b class="fc">&nbsp;        setChangedAndNotifyObservers(msg);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>

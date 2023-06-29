@@ -1,0 +1,86 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Client</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.network.client</a>
+</div>
+
+<h1>Coverage Summary for Class: Client (it.polimi.ingsw.network.client)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Client</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.network.client;
+&nbsp;
+&nbsp;import it.polimi.ingsw.network.messages.Message;
+&nbsp;import it.polimi.ingsw.network.server.Server;
+&nbsp;
+&nbsp;import java.rmi.Remote;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;
+&nbsp;public interface Client extends Remote {
+&nbsp;    /**
+&nbsp;     * Notify the client of a model change
+&nbsp;     *
+&nbsp;     * @param arg   The causing event
+&nbsp;     */
+&nbsp;    void updateView(Server o, Message arg) throws RemoteException;    //Messaggio o =&gt; dati del model per la view
+&nbsp;
+&nbsp;    //ModelChanged =&gt; Cosa è cambiato nel model
+&nbsp;                                                                            //&quot;o&quot; ha getter, in base ad &quot;arg&quot; si chiama il getter corretto di &quot;o&quot;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-29 17:12</div>
+</div>
+</body>
+</html>
