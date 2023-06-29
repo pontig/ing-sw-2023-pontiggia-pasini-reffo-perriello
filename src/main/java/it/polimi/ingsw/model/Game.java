@@ -821,7 +821,6 @@ public class Game extends ObservableModel<Message> {              //extends Obse
             msg = new SendDataToClient(ACK_NICKNAME, null, null, null, null, null, null, null, false, null, null);
         }
         setChangedAndNotifyObservers(msg);
-
     }
 
     /**
