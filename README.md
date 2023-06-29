@@ -6,7 +6,7 @@
 
 ## Description
 
-The project consists of implementing a distributed system composed of a single server capable of handling only one game and multiple connected clients (from 2 to 4). 
+The project consists of implementing a distributed system, in Java, composed of a single server capable of handling only one game and multiple connected clients (from 2 to 4). 
 Each client can participate in only one game at a time, but the same computer can host multiple clients simultaneously. 
 The MVC (Model-View-Controller) design pattern has been used, and the network connection is managed through both Socket and RMI (Remote Method Invocation). 
 Clients can independently choose to use either of them as games between different technologies are supported. 
@@ -56,8 +56,8 @@ Legend:
 
 ## Documentation
 **UML - (Unified Modeling Language)**
-- [Class Diagram](deliveries/UML)                 //Need to update the folder
-- [Sequance Diagram](deliveries/UML)              //Need to update the folder
+- [Class Diagram](deliveries/UML/Class_Diagram)                 
+- [Sequance Diagram](deliveries/UML/Sequence_Diagram)              
 
 **JavaDOC**
 
