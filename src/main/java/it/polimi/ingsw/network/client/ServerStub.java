@@ -44,7 +44,6 @@ public class ServerStub implements Server {
      */
     @Override
     public boolean register(Client client) throws RemoteException {
-        //TODO - sistemare riconnessione con socket
         /*System.out.println("Match: ");
         if((game != null && (game.getNumberOfPlayers() > 0 || game.getNumberOfPlayers() <= game.getPlayerList().size()))){
             return false;
@@ -65,7 +64,7 @@ public class ServerStub implements Server {
             } catch (IOException e) {
                 throw new RemoteException("Unable to connect to server" + e.getMessage());
             }
-            System.out.println("Sono nel serverstub");
+            //System.out.println("Sono nel serverstub");
             return true;
       /*  } else {
             return false;

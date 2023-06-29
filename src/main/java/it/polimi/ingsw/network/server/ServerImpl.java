@@ -73,9 +73,8 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
             System.out.println("Game e controller creati da " + client);
         }
 
-        System.out.print("Controllo match - ");
+        //System.out.print("Controllo match - ");
 
-        //TODO - da sistemare l'accesso di altr utenti alla riconnessione e con socket anche su serverstub
         if(match.getNumberOfPlayers() == 0 || match.getNumberOfPlayers() > match.getPlayerList().size() || (!fromScratch && countClient < match.getNumberOfPlayers())) {
             //System.out.println("true");
             //System.out.println("Player lsit size" + match.getPlayerList().size());
@@ -158,7 +157,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
      * @param arg the message containing the action details
      */
     public void updateModel(Client client, Message arg) {     //ViewChange invia già modifiche e dati forse un messaggio?
-        //TODO -- aggiunto questo
         if(arg.getInfo() == State.SET_NICKNAME) {
             if(match.getNumberOfPlayers() == 0 || match.getNumberOfPlayers() > clientList.size()){
                 //System.out.println("Numero player: " + match.getNumberOfPlayers()  + " Client list: " + clientList.size());
@@ -179,7 +177,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
      *
      * @throws RemoteException if an error occurs during remote method invocation
      */
-    //TODO - aggiunto questo
     public void ping() throws RemoteException {
             if (clientList != null || !clientList.isEmpty()) {
                 for (Client c : clientList) {
