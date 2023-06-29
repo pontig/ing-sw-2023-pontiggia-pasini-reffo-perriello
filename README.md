@@ -64,9 +64,10 @@ Legend:
 The documentation includes descriptions for the majority of the utilized classes and methods, following Java's documentation techniques. 
 It can be accessed either by generating it from the code or by visiting [JavaDOC](deliveries/JavaDoc)       
 
-**Test Coverage** - (Server side)
-- [Model Test](src/test/java/it/polimi/ingsw/model) - X %
-- [Controller Test](src/test/java/it/polimi/ingsw/controller) - X %                            //Need to update the folder
+**[Test Coverage](deliveries/Test_Coverage/coverage.png)** - (Server side)
+- [Model Test](src/test/java/it/polimi/ingsw/model)
+- [Controller Test](src/test/java/it/polimi/ingsw/controller)
+- [Tool generated report](deliveries/Test_Coverage)
 
 **Libraries and Plugins** 
 | Library/Plugin                     | Description                                                            |
@@ -144,11 +145,11 @@ java --module-path <Name of SDK folder>/lib --add-modules javafx.controls,javafx
 - [Video rules](https://www.youtube.com/watch?v=BNzV1NHd-To&t=75s) - [ITA]
 - When using GUI version:
   -  To open the chat terminal press on the keyboard:`
-     ``bash
+     ```bash
      T
      ```
   - To close the chat terminal press on the keyboard:`
-     ``bash
+     ```bash
      esc
      ```
 
