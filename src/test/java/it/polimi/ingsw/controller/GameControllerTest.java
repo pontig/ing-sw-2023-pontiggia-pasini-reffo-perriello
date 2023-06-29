@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.messages.SendChatMessage;
 import it.polimi.ingsw.network.messages.SendDataToServer;
 import it.polimi.ingsw.network.server.ServerImpl;
+import it.polimi.ingsw.tuples.Pair;
 import it.polimi.ingsw.tuples.Triplet;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.enums.State.*;
 import static it.polimi.ingsw.enums.Type.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GameControllerTest {
 
@@ -91,9 +92,14 @@ class GameControllerTest {
         boardGame.fill(3, bag);
         Game game = new Game("Test", 3, boardGame, null);
         GameController gameController = new GameController(game, null);
-        int x = 0;
+        Set<Pair<Integer, Integer>> pendingCells = new HashSet<>();
+        Pair<Integer, Integer> a = new Pair<>(1,4);
+        pendingCells.add(a);
+        game.getBoard().setPendingCells(pendingCells);
+        int x = 1;
         int y = 4;
         gameController.onItemClick(x, y);
+        assertFalse(gameController.getGame().getBoard().getPendingCells().contains(a));
     }
 
     @Test
@@ -112,7 +118,12 @@ class GameControllerTest {
         boardGame.fill(3, bag);
         Game game = new Game("Test", 3, boardGame, null);
         GameController gameController = new GameController(game, null);
+        Set<Pair<Integer, Integer>> pendingCells = new HashSet<>();
+        Pair<Integer, Integer> a = new Pair<>(1,4);
+        pendingCells.add(a);
+        game.getBoard().setPendingCells(pendingCells);
         gameController.onConfirmItems();
+        assertTrue(gameController.getGame().getBoard().getPendingCells().isEmpty());
     }
 
     @Test
