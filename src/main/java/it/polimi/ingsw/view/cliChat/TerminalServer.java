@@ -17,7 +17,7 @@ public class TerminalServer {
     //getter
 
     /**
-     * This method returns the
+     * This method returns the string containing the list of players
      * @return
      */
     public static String getPlayers() {

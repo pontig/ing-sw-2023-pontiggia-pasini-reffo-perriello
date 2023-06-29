@@ -85,7 +85,16 @@ class GameControllerTest {
 
     @Test
     void onOrderItem() {
-
+        Game game = new Game("Test", 3, null, null);
+        GameController gameController = new GameController(game, null);
+        Item a = new Item(Type.BOOK, 1);
+        Item b = new Item(Type.PLANTS, 2);
+        List<Item> tmp = new ArrayList<>();
+        tmp.add(a);
+        tmp.add(b);
+        game.setTmpOrderedItems(tmp);
+        gameController.onOrderItem(1,0);
+        assertEquals(b, game.getConfirmedItems().get(0));
     }
 
     @Test
