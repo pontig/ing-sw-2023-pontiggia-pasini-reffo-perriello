@@ -62,7 +62,7 @@ Legend:
 **JavaDOC**
 
 The documentation includes descriptions for the majority of the utilized classes and methods, following Java's documentation techniques. 
-It can be accessed either by generating it from the code or by visiting [JavaDOC](deliveries/JavaDoc)       //Need to update the folder
+It can be accessed either by generating it from the code or by visiting [JavaDOC](deliveries/JavaDoc)       
 
 **Test Coverage** - (Server side)
 - [Model Test](src/test/java/it/polimi/ingsw/model) - X %
@@ -117,8 +117,9 @@ java -jar Server.jar
 
 &emsp;&ensp; Now you can start the client by typing:
 ```bash
-java --module-path <Name of SDK folder>/lib --add-modules javafx.controls,javafx.fxml -jar Client.jar 
-
+java --module-path <Name of SDK folder>/lib --add-modules javafx.controls,javafx.fxml -jar Client.jar
+```
+```bash
 #Remember to change <Name of SDK folder> (it should be something like 'javafx-sdk-20.0.1')
 ```
 
