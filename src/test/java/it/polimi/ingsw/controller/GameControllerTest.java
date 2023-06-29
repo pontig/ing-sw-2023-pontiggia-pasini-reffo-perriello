@@ -12,6 +12,7 @@ import it.polimi.ingsw.network.server.ServerImpl;
 import it.polimi.ingsw.tuples.Triplet;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,7 +22,6 @@ import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.enums.State.*;
 import static it.polimi.ingsw.enums.Type.*;
-import static it.polimi.ingsw.enums.Type.PLANTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GameControllerTest {
@@ -55,17 +55,17 @@ class GameControllerTest {
     }
     @Test
     void setNumPlayers() {
-        Game game = new Game();
+        Game game = new Game("Test", 3, null, null);
         GameController gameController = new GameController(game, null);
-        String nickname = "nickname";
-        int numPlayers = 2;
+        String nickname = "nickname1";
+        int numPlayers = 3;
         gameController.setNumPlayers(nickname, numPlayers);
         assertEquals(numPlayers, gameController.getGame().getNumberOfPlayers());
     }
     @Test
     void gameReadyToStart() {
         Game game = new Game("Test", 3, null, null);
-        GameController gameController = new GameController(game, null);      //chiedi agli altri
+        GameController gameController = new GameController(game, null);               //Chiedi agli altri
         String nickname = "test2";
         gameController.setPlayer(nickname);
         List<Player> expected = new ArrayList<>();
@@ -77,10 +77,42 @@ class GameControllerTest {
 
     @Test
     void onItemClick() {
+        ObjectMapper mapper = new ObjectMapper();
+
+        int[][] board = new int[0][];
+        try {
+            board = mapper.readValue(new File("src/main/resources/json/livingroom.json"), int[][].class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        new Board(board);
+        Board boardGame = new Board();
+        Bag bag = new Bag();
+        boardGame.fill(3, bag);
+        Game game = new Game("Test", 3, boardGame, null);
+        GameController gameController = new GameController(game, null);
+        int x = 0;
+        int y = 4;
+        gameController.onItemClick(x, y);
     }
 
     @Test
     void onConfirmItems() {
+        ObjectMapper mapper = new ObjectMapper();
+
+        int[][] board = new int[0][];
+        try {
+            board = mapper.readValue(new File("src/main/resources/json/livingroom.json"), int[][].class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        new Board(board);
+        Board boardGame = new Board();
+        Bag bag = new Bag();
+        boardGame.fill(3, bag);
+        Game game = new Game("Test", 3, boardGame, null);
+        GameController gameController = new GameController(game, null);
+        gameController.onConfirmItems();
     }
 
     @Test
