@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller;
+/*package it.polimi.ingsw.controller;
 
 // TODO: is this class really needed?
 public enum StateGame {
@@ -10,3 +10,4 @@ public enum StateGame {
 
     ENDGAME
 }
+*/

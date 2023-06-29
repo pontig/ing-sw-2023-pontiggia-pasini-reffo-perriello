@@ -1,5 +1,8 @@
 package it.polimi.ingsw.tuples;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * A generic class representing a pair of two values
  *
@@ -16,7 +19,8 @@ public class Pair <X, Y>{
      * @param x the first value of the pair
      * @param y the second value of the pair
      */
-    public Pair(X x, Y y){
+    @JsonCreator
+    public Pair(@JsonProperty("x") X x,@JsonProperty("y") Y y){
         this.x = x;
         this.y = y;
     }

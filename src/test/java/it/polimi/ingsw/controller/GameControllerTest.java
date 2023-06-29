@@ -137,30 +137,13 @@ class GameControllerTest {
     void onConfirmInsertion() throws IOException {
         Game game = new Game(new Board(), getCommons(), getPersonals());
         GameController gameController = new GameController(game, null);      //chiedi agli altri
-        Item a = new Item(Type.BOOK, 1);
-        Item b = new Item(Type.PLANTS, 2);
-        List<Item> tmp = new ArrayList<>();
-        tmp.add(a);
-        tmp.add(b);
-        game.setTmpOrderedItems(tmp);
-        int column = 2;
-        game.setColumnChosen(column);
-
-        Set<Triplet<Integer, Integer, Type>> pG = new HashSet<>();
-        pG.add(new Triplet<>(4, 1, CAT));
-        pG.add(new Triplet<>(4, 1, BOOK));
-        pG.add(new Triplet<>(4, 1, GAME));
-        pG.add(new Triplet<>(2, 0, FRAME));
-        pG.add(new Triplet<>(2, 5, TROPHY));
-        pG.add(new Triplet<>(0, 0, PLANTS));
-
-        Player test = new Player("test", new PersonalGoal(pG, -1));
-        List<Player> pList = new ArrayList<>();
-        pList.add(test);
-
-        game.setPlayerList(pList);
-        game.setCurrentPlayer(test);
-
+        game.insertPlayer("test1");
+        game.setNumberOfPlayers("test1", 2);
+        game.insertPlayer("test2");
+        game.itemClick(4,1);
+        game.confirmItems();
+        game.orderSelectedItem(0,1);
+        game.selectColumn(2);
         gameController.onConfirmInsertion();
     }
 
