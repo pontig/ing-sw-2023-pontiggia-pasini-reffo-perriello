@@ -62,7 +62,7 @@ Legend:
 **JavaDOC**
 
 The documentation includes descriptions for the majority of the utilized classes and methods, following Java's documentation techniques. 
-It can be accessed either by generating it from the code or by visiting [JavaDOC]()       //Need to update the folder
+It can be accessed either by generating it from the code or by visiting [JavaDOC](deliveries/JavaDoc)       //Need to update the folder
 
 **Test Coverage** - (Server side)
 - [Model Test](src/test/java/it/polimi/ingsw/model) - X %
@@ -140,6 +140,15 @@ java --module-path <Name of SDK folder>/lib --add-modules javafx.controls,javafx
 ## How to play
 - [Written rules](game_materials/rules)
 - [Video rules](https://www.youtube.com/watch?v=BNzV1NHd-To&t=75s) - [ITA]
+- When using GUI version:
+  -  To open the chat terminal press on the keyboard:`
+     ``bash
+     T
+     ```
+  - To close the chat terminal press on the keyboard:`
+     ``bash
+     esc
+     ```
 
 ## Other info
 - Supervisor: [Prof. G. Cugola](https://cugola.faculty.polimi.it/)
