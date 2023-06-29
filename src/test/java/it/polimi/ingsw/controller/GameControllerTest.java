@@ -15,10 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.enums.State.*;
@@ -140,7 +137,15 @@ class GameControllerTest {
     }
 
     @Test
-    void onColumnSelection() {
+    void onColumnSelection()  {
+        Game game = new Game("Test", 3, null, null);
+        GameController gameController = new GameController(game, null);
+        Player player = new Player("test", null);
+        game.insertPlayer("test");
+        game.setCurrentPlayer(player);
+        Shelf shelf = player.getShelf();
+        player.getShelf().setInsertableColumns(3);
+        gameController.onColumnSelection(1);
     }
 
     @Test
