@@ -2,12 +2,9 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.enums.State;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.SendChatMessage;
-
-import java.util.List;
 
 public class GameController {                                                                   //extends Observer
     private Game game;
@@ -206,6 +203,7 @@ public class GameController {                                                   
                 arg.printMsg();
                 onOrderItem(arg.getColumnPos(), arg.getNumRowAction());
                 break;
+
             case CONFIRM_INSERTION:
                 arg.printMsg();
                 onConfirmInsertion();
