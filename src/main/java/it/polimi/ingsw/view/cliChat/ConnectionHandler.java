@@ -100,7 +100,6 @@ public class ConnectionHandler extends Thread {
             }
         }
 
-        //TODO - Sistemare problemi con più port aperti
         //Writing the port number on port.txt
         if(exist){
             //Add port value to the existing file

@@ -62,12 +62,12 @@ Legend:
 **JavaDOC**
 
 The documentation includes descriptions for the majority of the utilized classes and methods, following Java's documentation techniques. 
-It can be accessed either by generating it from the code or by visiting [JavaDOC](deliveries/JavaDoc)       
+It can be accessed either by generating it from the code or by visiting [JavaDOC](https://pontig.github.io/ing-sw-2023-pontiggia-pasini-reffo-perriello/deliveries/JavaDoc)       
 
 **[Test Coverage](deliveries/Test_Coverage/coverage.png)** - (Server side)
 - [Model Test](src/test/java/it/polimi/ingsw/model)
 - [Controller Test](src/test/java/it/polimi/ingsw/controller)
-- [Tool generated report](deliveries/Test_Coverage)
+- [Tool generated report](https://pontig.github.io/ing-sw-2023-pontiggia-pasini-reffo-perriello/deliveries/Test_Coverage)
 
 **Libraries and Plugins** 
 | Library/Plugin                     | Description                                                            |

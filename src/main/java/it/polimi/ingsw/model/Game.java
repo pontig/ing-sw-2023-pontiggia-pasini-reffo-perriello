@@ -27,8 +27,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     private int numberOfPlayers;
     @JsonIgnore
     private List<PersonalGoal> personalGoals;
-    private StateTurn playerState;
-    private Player currentPlayer;
+    private Player currentPlayer = null;
     private List<CommonGoalName> commonGoals;
     private String firstCommonGoalString, secondCommonGoalString;
     private CommonGoalAbstract firstCommonGoal;
@@ -90,7 +89,6 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     public Game(String nickName, int numberOfPlayer, Board board, List<CommonGoalName> commonGoals) {
         this.playerList = new ArrayList<>();
         this.numberOfPlayers = numberOfPlayer;
-        // TODO: Da sistemare il passaggio di asset
         Set<Triplet<Integer, Integer, Type>> pG = new HashSet<>();
         pG.add(new Triplet<>(4, 1, CAT));
         pG.add(new Triplet<>(4, 1, BOOK));
@@ -130,7 +128,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
      */
     private PersonalGoal assignPersonalGoal() {
         if (this.personalGoals == null) return null;
-                Random random = new Random();
+        Random random = new Random();
         int randomInt;
         randomInt = random.nextInt(this.personalGoals.size());
         return personalGoals.remove(randomInt);
@@ -232,15 +230,6 @@ public class Game extends ObservableModel<Message> {              //extends Obse
      */
     public List<Player> getPlayerList() {
         return playerList;
-    }
-
-    /**
-     * Getter of the state of the player
-     *
-     * @return the state of the player
-     */
-    public StateTurn getPlayerState() {
-        return playerState;
     }
 
     /**
@@ -411,7 +400,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
      *
      * @return the number of players that need to connect
      */
-    public int getPlayerConnection(){
+    public int getPlayerConnection() {
         return this.playerConnection;
     }
 
@@ -531,15 +520,6 @@ public class Game extends ObservableModel<Message> {              //extends Obse
     }
 
     /**
-     * Setter of the state of the player
-     *
-     * @param playerState the state of the player
-     */
-    public void setPlayerState(StateTurn playerState) {
-        this.playerState = playerState;
-    }
-
-    /**
      * Setter of the personal goals
      *
      * @param personalGoals the personal goals
@@ -625,7 +605,7 @@ public class Game extends ObservableModel<Message> {              //extends Obse
      *
      * @param pCon number of players that need to connect
      */
-    public void setPlayerConnection(int pCon){
+    public void setPlayerConnection(int pCon) {
         this.playerConnection = pCon;
     }
 
@@ -797,7 +777,8 @@ public class Game extends ObservableModel<Message> {              //extends Obse
         if (getNumberOfPlayers() == getPlayerList().size()) {
             String p1 = null, p2 = null, p3 = null, p4 = null;
             Collections.shuffle(getPlayerList());
-            this.currentPlayer = getPlayerList().get(0);
+            if (this.currentPlayer == null)
+                this.currentPlayer = getPlayerList().get(0);
             for (Player user : playerList) {
                 switch (getNumberOfPlayers()) {
                     case 4:

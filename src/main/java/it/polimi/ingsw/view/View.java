@@ -27,7 +27,6 @@ public abstract class View extends ObservableView<Message> implements Runnable {
      */
     public abstract void update(Server o, Message arg);
 
-    // TODO: dont'know what to say in the javadocs
     public void setNetwork(int networkClient) {
     }
 

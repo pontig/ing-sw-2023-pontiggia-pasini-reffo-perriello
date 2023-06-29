@@ -11,7 +11,6 @@ public enum State {
      * The user has entered a username
      */
     SET_NICKNAME,
-
     /**
      *  The user has chosen a number of players for the game
      */
