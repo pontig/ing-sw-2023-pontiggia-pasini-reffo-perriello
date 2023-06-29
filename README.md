@@ -43,7 +43,7 @@ Here you can find the complete specifications: [Project Requirements](game_mater
 | GUI                                 | ![#2EFF00](https://placehold.co/15x15/2EFF00/2EFF00.png) |
 | Chat                                | ![#2EFF00](https://placehold.co/15x15/2EFF00/2EFF00.png) |
 | Server persistence                  | ![#2EFF00](https://placehold.co/15x15/2EFF00/2EFF00.png) |
-| Resilience to client disconnections | ![#FFFB00](https://placehold.co/15x15/FFFB00/FFFB00.png) |
+| Resilience to client disconnections | ![#FF0000](https://placehold.co/15x15/f03c15/FF0000.png) |
 | Multiple parallel matches           | ![#FF0000](https://placehold.co/15x15/f03c15/FF0000.png) |
 
 Legend:
@@ -66,7 +66,7 @@ It can be accessed either by generating it from the code or by visiting [JavaDOC
 
 **Test Coverage** - (Server side)
 - [Model Test](src/test/java/it/polimi/ingsw/model) - X %
-- [Controller Test](src/test/java/it/polimi/ingsw) - X %                            //Need to update the folder
+- [Controller Test](src/test/java/it/polimi/ingsw/controller) - X %                            //Need to update the folder
 
 **Libraries and Plugins** 
 | Library/Plugin                     | Description                                                            |
@@ -82,6 +82,7 @@ It can be accessed either by generating it from the code or by visiting [JavaDOC
 To run the game you need a runtime environment for applications written in the Java language:
 
 - [_Install Java Runtime Environment (JRE)_](https://www.java.com/it/download/manual.jsp) - Choose the right version for your Operating System
+- [_Install Java Development Kit (JDK)_](https://www.oracle.com/java/technologies/downloads/) - Choose the right version for your Operating System
 
 Upon successfully installing Java Runtime Environment (JRE) on your personal computer, you can verify its proper installation by entering the following command in the terminal:
 ```bash
