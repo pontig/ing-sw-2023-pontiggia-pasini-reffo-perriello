@@ -146,7 +146,6 @@ class GameControllerTest {
         Shelf shelf = player.getShelf();
         player.getShelf().setInsertableColumns(3);
         gameController.onColumnSelection(1);
-
     }
 
     @Test
