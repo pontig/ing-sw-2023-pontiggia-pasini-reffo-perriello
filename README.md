@@ -124,6 +124,7 @@ java -jar Client.jar
 
 &emsp; *In all the following operating systems*
 Inside the folder 'MyShelfie' created before, insert:
+
 &emsp;&nbsp;i. The SDK folder can be downloaded following the instruction in the previous section (unzip it if necessary)
 
 &emsp; **My Shelfie Server:**
