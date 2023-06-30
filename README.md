@@ -96,13 +96,11 @@ To visualize the graphical user interface (GUI) properly, you need command-line 
 
 - [_Download JavaFX Software Development Kit (SDK)_](https://gluonhq.com/products/javafx/) - Choose the right version for your Operating System
 
-**3. Run locally**
+**3. Run locally** - (Should work on Windows for sure)
 
 Create a folder called 'MyShelfie' and put inside:
 
-&emsp;&nbsp;i. The SDK folder previously dowloaded (unzip it if necessary)
-
-&emsp;ii. The JAR file from the [artifacts' folder](artifacts)               
+&emsp; i. The JAR file from the [artifacts' folder](artifacts)               
 
 &emsp; **My Shelfie Server:**
 
@@ -115,7 +113,26 @@ java -jar Server.jar
 
 &emsp; **My Shelfie Client:**
 
-&emsp;&ensp; Open a second terminal and change directory till you are in MyShelfie folder
+&emsp;&ensp; Open a second terminal and change the directory till you are in MyShelfie folder
+
+&emsp;&ensp; Now you can start the client by typing:
+```bash
+java -jar Client.jar
+```
+
+**Issues you could encounter**
+
+&emsp; *In all the following operating systems*
+Inside the folder 'MyShelfie' created before, insert:
+&emsp;&nbsp;i. The SDK folder can be downloaded following the instruction in the previous section (unzip it if necessary)
+
+&emsp; **My Shelfie Server:**
+
+&emsp;&ensp; Run it as before
+
+&emsp; **My Shelfie Client:**
+
+&emsp;&ensp; Open a second terminal and change the directory till you are in MyShelfie folder
 
 &emsp;&ensp; Now you can start the client by typing:
 ```bash
@@ -124,8 +141,6 @@ java --module-path <Name of SDK folder>/lib --add-modules javafx.controls,javafx
 ```bash
 #Remember to change <Name of SDK folder> (it should be something like 'javafx-sdk-20.0.1')
 ```
-
-**Issues you could encounter**
 
 &emsp; *A -* Windows
 - If you are utilizing Windows 10 or a later version, you may encounter difficulties in properly rendering ANSI colors when using the command-line interface (CLI). To resolve this issue, please execute the following command in the terminal:
@@ -152,6 +167,12 @@ java --module-path <Name of SDK folder>/lib --add-modules javafx.controls,javafx
      ```bash
      esc
      ```
+- To use the 'Server persistence Functionality' on a server crash:
+  - If you want to reload the game:
+    1. Start the server again
+    2. Start the client and enter the same nicknames as the previous match
+  - Otherwise:
+    1. Delete file 'status.json' from MyShelfie folder 
 
 ## Other info
 - Supervisor: [Prof. G. Cugola](https://cugola.faculty.polimi.it/)
