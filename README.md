@@ -85,28 +85,26 @@ To run the game you need a runtime environment for applications written in the J
 - [_Install Java Runtime Environment (JRE)_](https://www.java.com/it/download/manual.jsp) - Choose the right version for your Operating System
 - [_Install Java Development Kit (JDK)_](https://www.oracle.com/java/technologies/downloads/) - Choose the right version for your Operating System
 
-Upon successfully installing Java Runtime Environment (JRE) on your personal computer, you can verify its proper installation by entering the following command in the terminal:
+Upon successfully installing Java Runtime Environment (JRE) and Java Development Kit (JDK) on your personal computer, you can verify its proper installation by entering the following command in the terminal:
 ```bash
 java -version
 ```
 
 **2. JavaFX**
 
-To visualize the graphical user interface (GUI) properly, you need command-line tools and technologies that allow you to develop expressive content for applications deployed to browsers, desktops, and mobile devices:
+To visualize the graphical user interface (GUI) properly, you could need command-line tools and technologies that allow you to develop expressive content for applications deployed to browsers, desktops, and mobile devices:
 
 - [_Download JavaFX Software Development Kit (SDK)_](https://gluonhq.com/products/javafx/) - Choose the right version for your Operating System
 
-**3. Run locally**
+**3. Run locally** - (Work on Windows for sure)
 
 Create a folder called 'MyShelfie' and put inside:
 
-&emsp;&nbsp;i. The SDK folder previously dowloaded (unzip it if necessary)
-
-&emsp;ii. The JAR file from the [artifacts' folder](artifacts)               
+&emsp; i. The JAR file from the [artifacts' folder](artifacts)               
 
 &emsp; **My Shelfie Server:**
 
-&emsp;&ensp; Open a terminal and change directory till you are in MyShelfie folder
+&emsp;&ensp; Open a terminal and change directory till you are in MyShelfie folder.
 
 &emsp;&ensp; Now you can start the server by typing:
 ```bash
@@ -115,7 +113,28 @@ java -jar Server.jar
 
 &emsp; **My Shelfie Client:**
 
-&emsp;&ensp; Open a second terminal and change directory till you are in MyShelfie folder
+&emsp;&ensp; Open a second terminal and change the directory till you are in MyShelfie folder.
+
+&emsp;&ensp; Now you can start the client by typing:
+```bash
+java -jar Client.jar
+```
+
+**Issues you could encounter**
+
+&emsp; *In all the operating systems* - If you can not visualize correctly the images when playing on GUI
+
+Inside the folder 'MyShelfie' created before, insert:
+
+&emsp;&nbsp;i. The SDK folder that can be downloaded following the instruction in the previous section (unzip it if necessary)
+
+&emsp; **My Shelfie Server:**
+
+&emsp;&ensp; Run it as before
+
+&emsp; **My Shelfie Client:**
+
+&emsp;&ensp; Open a second terminal and change the directory till you are in MyShelfie folder.
 
 &emsp;&ensp; Now you can start the client by typing:
 ```bash
@@ -125,14 +144,25 @@ java --module-path <Name of SDK folder>/lib --add-modules javafx.controls,javafx
 #Remember to change <Name of SDK folder> (it should be something like 'javafx-sdk-20.0.1')
 ```
 
-**Issues you could encounter**
-
 &emsp; *A -* Windows
-- If you are utilizing Windows 10 or a later version, you may encounter difficulties in properly rendering ANSI colors when using the command-line interface (CLI). To resolve this issue, please execute the following command in the terminal:
+- If you are utilizing Windows 10 or a later version, you may encounter difficulties in properly rendering ANSI colors when using the command-line interface (CLI).
+  To resolve this issue, please execute the following command in the terminal:
   
   ```bash
   reg add HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1
   ```
+- If you want to open multiple client on the same machine, and more then one playing through CLI, before starting each 'Client.jar', you must open and additional terminal for each of them that will use CLI and follow this:
+  
+  &ensp; **My Shelfie Client Chat on CLI:**
+  
+  &ensp; In the second terminal change the directory till you are in MyShelfie folder.
+
+  &ensp; Now you can start the client chat by typing:
+  ```bash
+  java -jar TerminalServer.jar
+  ```
+  &ensp; In the file 'port.txt' in 'MyShelfie' folder you must press enter key after the port number, before starting a new 'TerminalServer.jar'
+  
 
 &emsp; *B -* Linux
 - No issues found yet
@@ -152,6 +182,12 @@ java --module-path <Name of SDK folder>/lib --add-modules javafx.controls,javafx
      ```bash
      esc
      ```
+- To use the 'Server persistence Functionality' on a server crash:
+  - If you want to reload the game:
+    1. Start the server again
+    2. Start the client and enter the same nicknames as the previous match
+  - Otherwise:
+    1. Delete file 'status.json' from MyShelfie folder
 
 ## Other info
 - Supervisor: [Prof. G. Cugola](https://cugola.faculty.polimi.it/)
