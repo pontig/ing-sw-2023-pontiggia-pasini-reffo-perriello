@@ -191,4 +191,4 @@ java --module-path <Name of SDK folder>/lib --add-modules javafx.controls,javafx
 
 ## Other info
 - Supervisor: [Prof. G. Cugola](https://cugola.faculty.polimi.it/)
-- Grade: - / 30 cum laude
+- Grade: 29 / 30 cum laude
